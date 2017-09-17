@@ -1,0 +1,18 @@
+<section>
+    <ul id="all-taxonomies">
+    {{ range $taxonomyname, $taxonomy := .Site.Taxonomies }}
+    <li><a href="{{ "/" | relLangURL}}{{ $taxonomyname | urlize }}">{{ $taxonomyname }}</a>
+        <ul>
+        {{ range $key, $value := $taxonomy }}
+    <li> {{ $key }} </li>
+        <ul>
+        {{ range $value.Pages }}
+    <li hugo-nav="{{ .RelPermalink}}"><a href="{{ .Permalink}}"> {{ .LinkTitle }} </a> </li>
+    {{ end }}
+    </ul>
+    {{ end }}
+    </ul>
+        </li>
+        {{ end }}
+    </ul>
+        </section>

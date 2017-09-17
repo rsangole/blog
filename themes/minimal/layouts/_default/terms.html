@@ -1,0 +1,24 @@
+{{ partial "header" . }}
+
+<main>
+
+    <h2>{{ .Title }}</h2>
+
+    <!--
+    {{ range (.Paginator 5).Pages }} {{ partial "list-item" . }} {{ end }}
+    -->
+
+
+        {{ range $key, $value := .Data.Terms.ByCount }}
+
+            <a href="{{ $value.Name | urlize }}">{{ $value.Name }}</a>
+            ( {{ $value.Count }} )
+            <br>
+        {{ end }}
+
+
+</main>
+
+<!--{{ partial "paginator" . }}-->
+
+{{ partial "footer" . }}
