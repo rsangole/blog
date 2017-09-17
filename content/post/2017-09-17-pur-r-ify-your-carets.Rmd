@@ -9,6 +9,9 @@ tags:
   - R
   - purrr
   - caret
+output: 
+  html_document: 
+    toc: yes
 ---
 
 
