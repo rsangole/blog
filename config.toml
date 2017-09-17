@@ -2,7 +2,7 @@ baseURL = "http://rsangole.github.io/"
 languageCode = "en-us"
 title = "Rahul Sangole"
 theme = "minimal"
-disqusShortname = "rsangole" # delete this to disable disqus comments
+disqusShortname = "rsangole-netlify-com" # delete this to disable disqus comments
 googleAnalytics = ""
 
 [params]
