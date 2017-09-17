@@ -1,0 +1,237 @@
+---
+title: Pur(r)ify Your Carets
+author: Rahul Sangole
+date: '2017-09-17'
+slug: pur-r-ify-your-carets
+draft: true
+categories:
+  - R
+tags:
+  - R
+  - purrr
+  - caret
+---
+
+
+
+<div id="the-motivation" class="section level3">
+<h3>The motivation</h3>
+<p>I want to write a quick blogpost on two phenomenal pieces of code written by Kuhn et al, and Wickham et al, namely - <a href="https://cran.r-project.org/web/packages/purrr/index.html">purrr</a>, <a href="https://cran.r-project.org/web/packages/caret/index.html">caret</a>. These play so well with the <a href="https://cran.r-project.org/web/packages/tidyverse/index.html">tidyverse</a> that they have become an indispensible part of my repertoire.</p>
+<p>tl;dr :</p>
+<p>In any datascience project, I want to investigate the effect of various combinations of:</p>
+<ul>
+<li>Variable transformations</li>
+<li>Variable selection</li>
+<li>Grouped vs ungrouped categorical variables</li>
+<li>Models of different types</li>
+<li>Different hyperparameter tuning methods</li>
+</ul>
+<p>For each of the various combinations possible, I want to quantify model performance using common performance metrics like AIC or SBC. Commonly, I’ll select the model that has the ‘best’ possible performance among all such models.</p>
+<p>Traditionally, I end up with many R objects: one for each new combination of transformation-model_type-tuning_method. For example, <code>boostFit</code>, <code>xgbFit</code>, <code>glmFit</code>, <code>elastinetFit</code> for untransformed variables. If I have any transformations, I might also have <code>boostFit.xform</code>, <code>xgbFit.xform</code>, <code>glmFit.xform</code> etc. Add to that, investigation of grouped vs ungrouped variables… <code>boostFit.xform.grouped</code>, <code>xgbFit.xform.ungrouped</code> etc. You get the idea.</p>
+<p>The challenge with this approach is that the data and the models remain separated, there’s a lot of repeat code for object management, manipulation and plotting, and in order to compare all the models together, we have to somehow stitch the results together. (For the last point, <code>resamples()</code> in <code>caret</code> works beautifully, but requires the same number of resamples in each model.)</p>
+<p>The approach I’m presenting below is a combination of a few approaches I learnt through the <a href="http://appliedpredictivemodeling.com/">APM</a> book, the <code>caret</code> documentation, grammar and verbage in <code>tidyverse</code>, as well as a couple of useful talks in the 2017 R Studio conferenence in Orlando [Notably ones on <a href="https://www.rstudio.com/resources/videos/happy-r-users-purrr/">purrr</a> and <a href="https://www.rstudio.com/resources/videos/using-list-cols-in-your-dataframe/">list-cols</a>]. What you’ll also see is that the code is extremely succint, which is simply a joy to write and read.</p>
+</div>
+<div id="the-objective" class="section level3">
+<h3>The objective</h3>
+</div>
+<div id="an-example" class="section level3">
+<h3>An example</h3>
+<div id="load-the-libraries-data" class="section level4">
+<h4>Load the libraries &amp; data</h4>
+<p>The libraries I’m using here are <code>tidyr</code>, <code>dplyr</code>, <code>magrittr</code>, <code>purrr</code>, and <code>caret</code>. The dataset is from <code>mlbench</code>.</p>
+<pre class="r"><code>library(tidyr)
+library(dplyr)
+library(magrittr)
+library(purrr)
+library(caret)
+library(mlbench)
+data(&quot;BostonHousing&quot;)</code></pre>
+</div>
+<div id="create-new-variables" class="section level4">
+<h4>Create new variables</h4>
+<p>For the purposes of this demonstration, I’ll simply create two new sets variables using a Box-Cox transformation - <code>caret</code>’s <code>preProcess()</code> makes this easy - and the squared values of the originals. Save each new variable-set in a new character vector which follows the naming convention <code>predictors.xxxx</code>. This makes it super easy to find all such variable sets quickly using <code>ls(pattern = 'predictors')</code>.</p>
+<pre class="r"><code># The originals
+response &lt;- &#39;medv&#39;
+predictors.original &lt;- colnames(BostonHousing[,1:13])
+
+# Box-Cox transformation
+prepTrain &lt;- preProcess(x = BostonHousing[,predictors.original], method = c(&#39;BoxCox&#39;))
+boxcoxed &lt;- predict(prepTrain,newdata = BostonHousing[,predictors.original])
+colnames(boxcoxed) &lt;- paste0(colnames(boxcoxed),&#39;.boxed&#39;)
+predictors.boxcoxed &lt;- colnames(boxcoxed)
+
+# Squaring
+squared &lt;- (BostonHousing[,c(1:3,5:13)])^2
+colnames(squared) &lt;- paste0(colnames(squared),&#39;.sq&#39;)
+predictors.sq &lt;- colnames(squared)
+
+# All together now...
+BostonHousing %&lt;&gt;% 
+  cbind(boxcoxed,squared)
+
+# Make sure everything is a numerical (for xgboost to work), and also NOT a tibble (some caret functions have trouble with tibbles)
+BostonHousing %&lt;&gt;% 
+  map_df(.f = ~as.numeric(.x)) %&gt;% as.data.frame()
+
+glimpse(BostonHousing)</code></pre>
+<pre><code>## Observations: 506
+## Variables: 39
+## $ crim          &lt;dbl&gt; 0.00632, 0.02731, 0.02729, 0.03237, 0.06905, 0.0...
+## $ zn            &lt;dbl&gt; 18.0, 0.0, 0.0, 0.0, 0.0, 0.0, 12.5, 12.5, 12.5,...
+## $ indus         &lt;dbl&gt; 2.31, 7.07, 7.07, 2.18, 2.18, 2.18, 7.87, 7.87, ...
+## $ chas          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...
+## $ nox           &lt;dbl&gt; 0.538, 0.469, 0.469, 0.458, 0.458, 0.458, 0.524,...
+## $ rm            &lt;dbl&gt; 6.575, 6.421, 7.185, 6.998, 7.147, 6.430, 6.012,...
+## $ age           &lt;dbl&gt; 65.2, 78.9, 61.1, 45.8, 54.2, 58.7, 66.6, 96.1, ...
+## $ dis           &lt;dbl&gt; 4.0900, 4.9671, 4.9671, 6.0622, 6.0622, 6.0622, ...
+## $ rad           &lt;dbl&gt; 1, 2, 2, 3, 3, 3, 5, 5, 5, 5, 5, 5, 5, 4, 4, 4, ...
+## $ tax           &lt;dbl&gt; 296, 242, 242, 222, 222, 222, 311, 311, 311, 311...
+## $ ptratio       &lt;dbl&gt; 15.3, 17.8, 17.8, 18.7, 18.7, 18.7, 15.2, 15.2, ...
+## $ b             &lt;dbl&gt; 396.90, 396.90, 392.83, 394.63, 396.90, 394.12, ...
+## $ lstat         &lt;dbl&gt; 4.98, 9.14, 4.03, 2.94, 5.33, 5.21, 12.43, 19.15...
+## $ medv          &lt;dbl&gt; 24.0, 21.6, 34.7, 33.4, 36.2, 28.7, 22.9, 27.1, ...
+## $ crim.boxed    &lt;dbl&gt; -5.06403607, -3.60050234, -3.60123494, -3.430523...
+## $ zn.boxed      &lt;dbl&gt; 18.0, 0.0, 0.0, 0.0, 0.0, 0.0, 12.5, 12.5, 12.5,...
+## $ indus.boxed   &lt;dbl&gt; 0.9944980, 2.9664801, 2.9664801, 0.9144645, 0.91...
+## $ chas.boxed    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...
+## $ nox.boxed     &lt;dbl&gt; -0.8300136, -1.0852408, -1.0852408, -1.1326600, ...
+## $ rm.boxed      &lt;dbl&gt; 2.810046, 2.759943, 3.001875, 2.944144, 2.990217...
+## $ age.boxed     &lt;dbl&gt; 174.85261, 224.26923, 160.63326, 110.19468, 137....
+## $ dis.boxed     &lt;dbl&gt; 1.408545, 1.602836, 1.602836, 1.802073, 1.802073...
+## $ rad.boxed     &lt;dbl&gt; 0.0000000, 0.6931472, 0.6931472, 1.0986123, 1.09...
+## $ tax.boxed     &lt;dbl&gt; 1.883752, 1.871435, 1.871435, 1.865769, 1.865769...
+## $ ptratio.boxed &lt;dbl&gt; 116.545, 157.920, 157.920, 174.345, 174.345, 174...
+## $ b.boxed       &lt;dbl&gt; 78764.30, 78764.30, 77157.20, 77865.92, 78764.30...
+## $ lstat.boxed   &lt;dbl&gt; 1.893121, 2.783219, 1.607406, 1.203538, 1.987397...
+## $ crim.sq       &lt;dbl&gt; 0.0000399424, 0.0007458361, 0.0007447441, 0.0010...
+## $ zn.sq         &lt;dbl&gt; 324.00, 0.00, 0.00, 0.00, 0.00, 0.00, 156.25, 15...
+## $ indus.sq      &lt;dbl&gt; 5.3361, 49.9849, 49.9849, 4.7524, 4.7524, 4.7524...
+## $ nox.sq        &lt;dbl&gt; 0.289444, 0.219961, 0.219961, 0.209764, 0.209764...
+## $ rm.sq         &lt;dbl&gt; 43.23063, 41.22924, 51.62422, 48.97200, 51.07961...
+## $ age.sq        &lt;dbl&gt; 4251.04, 6225.21, 3733.21, 2097.64, 2937.64, 344...
+## $ dis.sq        &lt;dbl&gt; 16.72810, 24.67208, 24.67208, 36.75027, 36.75027...
+## $ rad.sq        &lt;dbl&gt; 1, 4, 4, 9, 9, 9, 25, 25, 25, 25, 25, 25, 25, 16...
+## $ tax.sq        &lt;dbl&gt; 87616, 58564, 58564, 49284, 49284, 49284, 96721,...
+## $ ptratio.sq    &lt;dbl&gt; 234.09, 316.84, 316.84, 349.69, 349.69, 349.69, ...
+## $ b.sq          &lt;dbl&gt; 157529.61, 157529.61, 154315.41, 155732.84, 1575...
+## $ lstat.sq      &lt;dbl&gt; 24.8004, 83.5396, 16.2409, 8.6436, 28.4089, 27.1...</code></pre>
+<p>Here’s our new predictor var-sets:</p>
+<pre class="r"><code>columnNames &lt;- ls(pattern = &#39;predictors&#39;)
+print(columnNames)</code></pre>
+<pre><code>## [1] &quot;predictors.boxcoxed&quot; &quot;predictors.original&quot; &quot;predictors.sq&quot;</code></pre>
+</div>
+<div id="create-a-starter-dataframe" class="section level4">
+<h4>Create a starter dataframe</h4>
+<pre class="r"><code>no_of_varselect &lt;- length(columnNames)
+list(BostonHousing) %&gt;% 
+    rep(no_of_varselect) %&gt;% 
+    enframe(name = &#39;id&#39;, value = &#39;data&#39;) %&gt;% 
+    mutate(columnNames = columnNames) -&gt; starter_df</code></pre>
+<pre class="r"><code>rpartModel &lt;- function(X, Y) {
+    ctrl &lt;- trainControl(
+        ## 5-fold CV
+        method = &quot;repeatedcv&quot;,
+        number = 5
+    )
+    train(
+        x = X,
+        y = Y,
+        method = &#39;rpart2&#39;,
+        trControl = ctrl,
+        tuneGrid = data.frame(maxdepth=c(2,3,4,5)),
+        preProc = c(&#39;center&#39;, &#39;scale&#39;)
+    )
+}
+xgbTreeModel &lt;- function(X,Y){
+    ctrl &lt;- trainControl(
+        ## 5-fold CV
+        method = &quot;repeatedcv&quot;,
+        number = 5
+    )
+    train(
+        x=X,
+        y=Y,
+        method = &#39;xgbTree&#39;,
+        trControl = ctrl,
+        tuneGrid = expand.grid(nrounds = c(200), 
+                              max_depth = c(2) ,
+                              eta = c(0.1),
+                              gamma = 1, 
+                              colsample_bytree = 1, 
+                              min_child_weight = 1, 
+                              subsample = 1),
+        preProc = c(&#39;center&#39;, &#39;scale&#39;)
+    )
+}
+
+model_list &lt;- list(rpartModel=rpartModel,
+                   xgbModel=xgbTreeModel) %&gt;%
+    enframe(name = &#39;modelName&#39;,value = &#39;model&#39;)
+
+model_list</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##    modelName  model
+##        &lt;chr&gt; &lt;list&gt;
+## 1 rpartModel  &lt;fun&gt;
+## 2   xgbModel  &lt;fun&gt;</code></pre>
+<pre class="r"><code>df.train &lt;-
+    starter_df[rep(1:nrow(starter_df),nrow(model_list)),]
+
+df.train &lt;- df.train %&gt;%
+    bind_cols(
+        model_list[rep(1:nrow(model_list),nrow(starter_df)),] %&gt;% arrange(modelName)
+    ) %&gt;%
+    mutate(id=1:nrow(.))</code></pre>
+<pre class="r"><code>filterColumns &lt;- function(x,y){
+    x[,(colnames(x) %in% eval(parse(text=y)))]
+}
+
+df.train %&lt;&gt;%
+  mutate(
+  train.X = map2(data, columnNames,  ~ filterColumns(.x, .y)),
+  train.Y = map(data, ~ .x$medv)
+  ) %&gt;%
+  dplyr::select(-data) %&gt;%
+  mutate(params = map2(train.X, train.Y,  ~ list(X = .x, Y = .y)))
+  
+df.train %&lt;&gt;% 
+    mutate(
+        modelFits=invoke_map(model,params),
+        RMSE=map_dbl(modelFits,~max(.x$results$RMSE)),
+        RMSESD=map_dbl(modelFits,~max(.x$results$RMSESD)),
+        Rsq=map_dbl(modelFits,~max(.x$results$Rsquared)),
+        bestTune=map(modelFits,~.x$bestTune)
+    )</code></pre>
+<pre><code>## 
+## Attaching package: &#39;xgboost&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     slice</code></pre>
+<pre><code>## -------------------------------------------------------------------------</code></pre>
+<pre><code>## You have loaded plyr after dplyr - this is likely to cause problems.
+## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
+## library(plyr); library(dplyr)</code></pre>
+<pre><code>## -------------------------------------------------------------------------</code></pre>
+<pre><code>## 
+## Attaching package: &#39;plyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     arrange, count, desc, failwith, id, mutate, rename, summarise,
+##     summarize</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     compact</code></pre>
+<pre class="r"><code>df.train</code></pre>
+<pre><code>## # A tibble: 6 x 12
+##      id         columnNames  modelName  model                 train.X
+##   &lt;int&gt;               &lt;chr&gt;      &lt;chr&gt; &lt;list&gt;                  &lt;list&gt;
+## 1     1 predictors.boxcoxed rpartModel  &lt;fun&gt; &lt;data.frame [506 x 13]&gt;
+## 2     2 predictors.original rpartModel  &lt;fun&gt; &lt;data.frame [506 x 13]&gt;
+## 3     3       predictors.sq rpartModel  &lt;fun&gt; &lt;data.frame [506 x 12]&gt;
+## 4     4 predictors.boxcoxed   xgbModel  &lt;fun&gt; &lt;data.frame [506 x 13]&gt;
+## 5     5 predictors.original   xgbModel  &lt;fun&gt; &lt;data.frame [506 x 13]&gt;
+## 6     6       predictors.sq   xgbModel  &lt;fun&gt; &lt;data.frame [506 x 12]&gt;
+## # ... with 7 more variables: train.Y &lt;list&gt;, params &lt;list&gt;,
+## #   modelFits &lt;list&gt;, RMSE &lt;dbl&gt;, RMSESD &lt;dbl&gt;, Rsq &lt;dbl&gt;, bestTune &lt;list&gt;</code></pre>
+</div>
+</div>
