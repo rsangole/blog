@@ -1,9 +1,11 @@
         <footer>
 
+
+            <!-- COPYRIGHT -->
             <p class="copyright text-muted">{{ .Site.Params.copyright | default "&copy; R Sangole" | markdownify }}</p>
 
-<!--        {{ template "_internal/google_analytics.html" . }} -->
-<!-- Global Site Tag (gtag.js) - Google Analytics -->
+        <!--        {{ template "_internal/google_analytics.html" . }} -->
+        <!-- Global Site Tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ .Site.GoogleAnalytics }}"></script>
         <script>
           window.dataLayer = window.dataLayer || [];
@@ -11,6 +13,18 @@
           gtag('js', new Date());
           gtag('config', '{{ .Site.GoogleAnalytics }}');
         </script>
+        <!-- END GOOGLE ANALYTICS -->
+
+
+        <!-- highlight.js script from https://bookdown.org/yihui/blogdown/templates.html -->
+        <script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+
+        <script>
+        hljs.configure({languages: []});
+        hljs.initHighlightingOnLoad();
+        </script>
+        <!-- END highlight.js -->
 
 
         </footer>

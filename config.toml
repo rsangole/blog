@@ -14,13 +14,11 @@ googleAnalytics = "UA-106573867-1"
     backgroundColor = "white"
     font = "Raleway" # should match the name on Google Fonts!
     highlight = true
-    #highlightStyle = "solarized-dark"
-    #highlightLanguages = ["go", "haskell", "kotlin", "scala", "swift","python","ruby"]
-
+    highlightStyle = "solarized-dark"
+    highlightLanguages = ["r"]
     highlightjsVersion = "9.12.0"
     highlightjsCDN = "//cdn.bootcss.com"
     highlightjslang = ["r"]
-    highlightStyle = "zenburn"
 
 [[menu.main]]
     url = "/"
