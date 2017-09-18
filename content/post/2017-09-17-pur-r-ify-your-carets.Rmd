@@ -42,7 +42,7 @@ The approach I'm presenting below is a combination of a few approaches I learnt 
 
 The libraries I'm using here are `tidyr`, `dplyr`, `magrittr`, `purrr`, and `caret`. The dataset is from `mlbench`. 
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(tidyr)
 library(tibble)
 library(dplyr)
@@ -55,25 +55,25 @@ data("BostonHousing")
 
 #### Transformations on Xs
 
-For the purposes of this demonstration, I'll simply create two new sets variables using a Box-Cox transformation - `caret`'s `preProcess()` makes this easy - and the squared values of the originals. Save each new variable-set in a new character vector which follows the naming convention `predictors.xxxx`.[^1]
+For the purposes of this demonstration, I'll simply create two new sets variables using a Box-Cox transformation - `caret`'s `preProcess()` makes this easy - and the squared values of the originals. Save each new variable-set in a new character vector which follows the naming convention `preds.xxxx`.[^1]
 
 [^1]: This makes it super easy to find all such variable sets quickly using `ls(pattern = 'predictors')` and store it in a character vector.
 
 ```{r}
 # The originals
 response <- 'medv'
-predictors.original <- colnames(BostonHousing[,1:13])
+preds.original <- colnames(BostonHousing[,1:13])
 
 # Box-Cox transformation
-prepTrain <- preProcess(x = BostonHousing[,predictors.original], method = c('BoxCox'))
-boxcoxed <- predict(prepTrain,newdata = BostonHousing[,predictors.original])
+prepTrain <- preProcess(x = BostonHousing[,preds.original], method = c('BoxCox'))
+boxcoxed <- predict(prepTrain,newdata = BostonHousing[,preds.original])
 colnames(boxcoxed) <- paste0(colnames(boxcoxed),'.boxed')
-predictors.boxcoxed <- colnames(boxcoxed)
+preds.boxcoxed <- colnames(boxcoxed)
 
 # Squaring
 squared <- (BostonHousing[,c(1:3,5:13)])^2
 colnames(squared) <- paste0(colnames(squared),'.sq')
-predictors.sq <- colnames(squared)
+preds.sq <- colnames(squared)
 
 # All together now...
 BostonHousing %<>% 
@@ -88,7 +88,7 @@ str(BostonHousing)
 
 Here's our new predictor variable sets:
 ```{r}
-pred_varsets <- ls(pattern = 'predictors')
+pred_varsets <- ls(pattern = 'preds')
 print(pred_varsets)
 ```
 
@@ -109,7 +109,7 @@ Now, I split the raw data into `train.X` column which houses data only for those
 
 I also create a `train.Y` for the response variable here.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 # Function to select columns in the raw data
 filterColumns <- function(x,y){
     x[,(colnames(x) %in% eval(parse(text=y)))]
@@ -173,9 +173,9 @@ xgbTreeModel <- function(X,Y){
         y=Y,
         method = 'xgbTree',
         trControl = ctrl,
-        tuneGrid = expand.grid(nrounds = c(200), 
-                              max_depth = c(2) ,
-                              eta = c(0.1),
+        tuneGrid = expand.grid(nrounds = c(100,300,500), 
+                              max_depth = c(2,4,6) ,
+                              eta = 0.1,
                               gamma = 1, 
                               colsample_bytree = 1, 
                               min_child_weight = 1, 
@@ -237,9 +237,28 @@ train_df %<>%
         Rsq=map_dbl(modelFits,~max(.x$results$Rsquared)),
         bestTune=map(modelFits,~.x$bestTune)
     )
-train_df
+train_df %>% dplyr::select(-train.X,-train.Y,-params,-modelFits)
 ```
+
+This allows us to very quickly visualize the results using `lattice` or `ggplot` *across all models*.
+
+```{r}
+lattice::dotplot(Rsq~pred_varsets|modelName,train_df)
+train_df %>% 
+    ggplot(aes(x=pred_varsets,color=modelName))+
+    geom_point(aes(y=RMSE),size=2)+
+    geom_errorbar(aes(ymin = RMSE-RMSESD,ymax= RMSE+RMSESD),size=.5,width=.15)
+```
+
+Since the model fit objects themselves are embedded, I can still look at each model's internals. For example, to plot the results of the 5-fold CV on the grid search for the xgboost model:
+
+```{r}
+plot(train_df$modelFits[train_df$modelName=='xgbModel' & train_df$pred_varsets=='preds.original'][[1]])
+```
+
 
 ### To conclude
 
-These packages make investigating a large number of datasets and models easy. Remember that the data set doesn't have to be the same either, so you could leverage this methodology for a train-validate-test approach, or resampled training sets. Really depends on your creativity.
+These packages make investigating a *very* large number of datasets and models easy. With just a few lines of code, I ran a total of 6 different models - and for each model: a 5-fold cross validation, and for the xgboost models: a grid search across two tuning parameters - to select the best model on any number of performance criteria. Yet, everything remains neatly arranged in one dataframe, which can be saved as .RData and retrived later.
+
+Also remember that the raw data replicated in the `data` column of `starter_df` doesn't have to be the exact same dataset for each row either. so you could leverage this methodology for a train-validate-test approach, or for resampled training sets, where each row has completely different datasets embedded within. Really depends on your creativity and how you write subsequent code.
