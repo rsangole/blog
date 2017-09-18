@@ -18,14 +18,21 @@ output:
 <div id="TOC">
 <ul>
 <li><a href="#the-motivation">The motivation</a></li>
-<li><a href="#an-example-using-bostonhousing-data">An example using <code>BostonHousing</code> data</a></li>
-<li><a href="#to-conclude">To conclude</a></li>
+<li><a href="#an-example-using-bostonhousing-data">An example using <code>BostonHousing</code> data</a><ul>
+<li><a href="#load-libs-data">Load libs &amp; data</a></li>
+<li><a href="#create-a-starter-dataframe">Create a starter dataframe</a></li>
+<li><a href="#select-the-models">Select the models</a></li>
+<li><a href="#create-data-model-combinations">Create data-model combinations</a></li>
+<li><a href="#solve-the-models">Solve the models</a></li>
+<li><a href="#extract-results">Extract results</a></li>
+</ul></li>
+<li><a href="#in-conclusion">In conclusion</a></li>
 </ul>
 </div>
 
-<p><em>tl;dr:</em> <code>purrr</code>, <code>caret</code> and <code>list-cols</code> can be used to create hundreds to data-model combinations, extract results and store everything neatly in one tibble.</p>
-<div id="the-motivation" class="section level3">
-<h3>The motivation</h3>
+<p><strong>tl;dr</strong>: You’ll learn how to use <code>purrr</code>, <code>caret</code> and <code>list-cols</code> to quickly create hundreds of dataset + model combinations, store data &amp; model objects neatly in one tibble, and post process programatically. These tools enable succinct functional programming in which a lot gets done with just a few lines of code.</p>
+<div id="the-motivation" class="section level2">
+<h2>The motivation</h2>
 <p>I want to write a quick blogpost on two phenomenal pieces of code written by Kuhn et al, and Wickham et al, namely - <a href="https://cran.r-project.org/web/packages/purrr/index.html">purrr</a>, <a href="https://cran.r-project.org/web/packages/caret/index.html">caret</a>. These play so well with the <a href="https://cran.r-project.org/web/packages/tidyverse/index.html">tidyverse</a> that they have become an indispensible part of my repertoire.</p>
 <p>In any datascience project, I want to investigate the effect of various combinations of:</p>
 <ul>
@@ -40,11 +47,11 @@ output:
 <p>The challenge with this approach is that the data and the models remain separated, there’s a lot of repeat code for object management, manipulation and plotting, and in order to compare all the models together, we have to somehow stitch the results together. (For the last point, <code>resamples()</code> in <code>caret</code> works beautifully, but requires the same number of resamples in each model.)</p>
 <p>The approach I’m presenting below is a combination of a few approaches I learnt through the <a href="http://appliedpredictivemodeling.com/">APM</a> book, the <code>caret</code> documentation, grammar and verbage in <code>tidyverse</code>, as well as a couple of useful talks in the 2017 R Studio conferenence in Orlando [Notably ones on <a href="https://www.rstudio.com/resources/videos/happy-r-users-purrr/">purrr</a> and <a href="https://www.rstudio.com/resources/videos/using-list-cols-in-your-dataframe/">list-cols</a>]. What you’ll also see is that the code is extremely succint, which is simply a joy to write and read.</p>
 </div>
-<div id="an-example-using-bostonhousing-data" class="section level3">
-<h3>An example using <code>BostonHousing</code> data</h3>
-<div id="load-libs-data" class="section level4">
-<h4>Load libs &amp; data</h4>
-<p>The libraries I’m using here are <code>tidyr</code>, <code>dplyr</code>, <code>magrittr</code>, <code>purrr</code>, and <code>caret</code>. The dataset is from <code>mlbench</code>.</p>
+<div id="an-example-using-bostonhousing-data" class="section level2">
+<h2>An example using <code>BostonHousing</code> data</h2>
+<div id="load-libs-data" class="section level3">
+<h3>Load libs &amp; data</h3>
+<p>The libraries I’m using here are <code>tidyr</code>, <code>tibble</code>, <code>dplyr</code>, <code>magrittr</code>, <code>purrr</code>, and <code>caret</code>. The dataset is from <code>mlbench</code>.</p>
 <pre class="r"><code>library(tidyr)
 library(tibble)
 library(dplyr)
@@ -53,7 +60,7 @@ library(purrr)
 library(caret)
 library(mlbench)
 data(&quot;BostonHousing&quot;)</code></pre>
-</div>
+<hr />
 <div id="transformations-on-xs" class="section level4">
 <h4>Transformations on Xs</h4>
 <p>For the purposes of this demonstration, I’ll simply create two new sets variables using a Box-Cox transformation - <code>caret</code>’s <code>preProcess()</code> makes this easy - and the squared values of the originals. Save each new variable-set in a new character vector which follows the naming convention <code>preds.xxxx</code>.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
@@ -123,24 +130,26 @@ str(BostonHousing)</code></pre>
 ##  $ lstat.sq     : num  24.8 83.54 16.24 8.64 28.41 ...</code></pre>
 <p>Here’s our new predictor variable sets:</p>
 <pre class="r"><code>pred_varsets &lt;- ls(pattern = &#39;preds&#39;)
-print(pred_varsets)</code></pre>
+pred_varsets</code></pre>
 <pre><code>## [1] &quot;preds.boxcoxed&quot; &quot;preds.original&quot; &quot;preds.sq&quot;</code></pre>
+<hr />
 </div>
-<div id="create-a-starter-dataframe" class="section level4">
-<h4>Create a starter dataframe</h4>
-<p>I first create a starter dataframe where the input data is repeated as many times as the number of predictor variable sets.</p>
+</div>
+<div id="create-a-starter-dataframe" class="section level3">
+<h3>Create a starter dataframe</h3>
+<p>I first create a starter dataframe where the input data is repeated as many times as the number of predictor variable sets. <code>enframe()</code> allows us to embed objects a dataframe column.</p>
 <pre class="r"><code>num_var_select &lt;- length(pred_varsets)
 list(BostonHousing) %&gt;% 
     rep(num_var_select) %&gt;% 
-    enframe(name = &#39;id&#39;, value = &#39;data&#39;) %&gt;% 
+    enframe(name = &#39;id&#39;, value = &#39;rawdata&#39;) %&gt;% 
     mutate(pred_varsets = pred_varsets) -&gt; starter_df
 starter_df</code></pre>
 <pre><code>## # A tibble: 3 x 3
-##      id                    data   pred_varsets
+##      id                 rawdata   pred_varsets
 ##   &lt;int&gt;                  &lt;list&gt;          &lt;chr&gt;
-## 1     1 &lt;data.frame [506 x 39]&gt; preds.boxcoxed
-## 2     2 &lt;data.frame [506 x 39]&gt; preds.original
-## 3     3 &lt;data.frame [506 x 39]&gt;       preds.sq</code></pre>
+## 1     1 &lt;data.frame [506 x 14]&gt; preds.boxcoxed
+## 2     2 &lt;data.frame [506 x 14]&gt; preds.original
+## 3     3 &lt;data.frame [506 x 14]&gt;       preds.sq</code></pre>
 <p>Now, I split the raw data into <code>train.X</code> column which houses data only for those predictor variables identified in the <code>pred_varsets</code> column. <code>map2</code> is a great function which allows a mapping to be done over two variables and passed to a function.</p>
 <p>I also create a <code>train.Y</code> for the response variable here.</p>
 <pre class="r"><code># Function to select columns in the raw data
@@ -153,20 +162,21 @@ starter_df %&lt;&gt;%
   transmute(
   id,
   pred_varsets,
-  train.X = map2(data, pred_varsets,  ~ filterColumns(.x, .y)),
-  train.Y = map(data, ~ .x$medv)
+  train.X = map2(rawdata, pred_varsets,  ~ filterColumns(.x, .y)),
+  train.Y = map(rawdata, ~ .x$medv)
   )
 
 starter_df</code></pre>
 <pre><code>## # A tibble: 3 x 4
 ##      id   pred_varsets                 train.X     train.Y
 ##   &lt;int&gt;          &lt;chr&gt;                  &lt;list&gt;      &lt;list&gt;
-## 1     1 preds.boxcoxed &lt;data.frame [506 x 13]&gt; &lt;dbl [506]&gt;
+## 1     1 preds.boxcoxed  &lt;data.frame [506 x 0]&gt; &lt;dbl [506]&gt;
 ## 2     2 preds.original &lt;data.frame [506 x 13]&gt; &lt;dbl [506]&gt;
-## 3     3       preds.sq &lt;data.frame [506 x 12]&gt; &lt;dbl [506]&gt;</code></pre>
+## 3     3       preds.sq  &lt;data.frame [506 x 0]&gt; &lt;dbl [506]&gt;</code></pre>
+<hr />
 </div>
-<div id="select-the-models" class="section level4">
-<h4>Select the models</h4>
+<div id="select-the-models" class="section level3">
+<h3>Select the models</h3>
 <p>This is where I can select which models I want in the analysis. Each model should be in a function of this style:</p>
 <pre><code>modelName &lt;- function(X, Y){
     ctrl &lt;- trainControl(
@@ -228,9 +238,10 @@ model_list</code></pre>
 ##        &lt;chr&gt; &lt;list&gt;
 ## 1 rpartModel  &lt;fun&gt;
 ## 2   xgbModel  &lt;fun&gt;</code></pre>
+<hr />
 </div>
-<div id="create-data-model-combinations" class="section level4">
-<h4>Create data-model combinations</h4>
+<div id="create-data-model-combinations" class="section level3">
+<h3>Create data-model combinations</h3>
 <p>Now, we’re ready to combine the two together. <code>train_df</code> has all the predictor varset combinations, <code>model_list</code> has the list of all models. I’m assuming I want to run each combination of the two; so if I have 3 variable sets, and 2 models, I have a total of 6 models to run. This code sets that up:</p>
 <pre class="r"><code>train_df &lt;-
     starter_df[rep(1:nrow(starter_df),nrow(model_list)),]
@@ -251,9 +262,10 @@ train_df</code></pre>
 ## 5     5 preds.original &lt;data.frame [506 x 13]&gt; &lt;dbl [506]&gt;   xgbModel
 ## 6     6       preds.sq &lt;data.frame [506 x 12]&gt; &lt;dbl [506]&gt;   xgbModel
 ## # ... with 1 more variables: model &lt;list&gt;</code></pre>
+<hr />
 </div>
-<div id="solve-the-models" class="section level4">
-<h4>Solve the models</h4>
+<div id="solve-the-models" class="section level3">
+<h3>Solve the models</h3>
 <p>The data is almost all setup now. <code>invoke_map()</code> is a function which can call functions and pass it arguments. Since we need to pass both <code>train.X</code> and <code>train.Y</code> together, there’s an intermediate call to <code>map2()</code> to “listify” these first into <code>params</code>.</p>
 <p>All them models solve, and their results (the model object itself) is stored in <code>modelFits</code>.</p>
 <pre class="r"><code>train_df %&lt;&gt;%
@@ -270,9 +282,10 @@ train_df %&gt;% dplyr::select(pred_varsets,modelName,params,modelFits)</code></p
 ## 4 preds.boxcoxed   xgbModel &lt;list [2]&gt; &lt;S3: train&gt;
 ## 5 preds.original   xgbModel &lt;list [2]&gt; &lt;S3: train&gt;
 ## 6       preds.sq   xgbModel &lt;list [2]&gt; &lt;S3: train&gt;</code></pre>
+<hr />
 </div>
-<div id="extract-results" class="section level4">
-<h4>Extract results</h4>
+<div id="extract-results" class="section level3">
+<h3>Extract results</h3>
 <p>Now, I can extract pretty much any model performance or hypertuning parameter using <code>purrr</code>. Since <code>caret</code> is so lovingly standardized, it doesn’t matter if I’m using a glm, xgboost, rpart2, or ann - the code remains the same.</p>
 <pre class="r"><code>train_df %&lt;&gt;% 
     mutate(
@@ -285,12 +298,12 @@ train_df %&gt;% dplyr::select(-train.X,-train.Y,-params,-modelFits)</code></pre>
 <pre><code>## # A tibble: 6 x 8
 ##      id   pred_varsets  modelName  model     RMSE    RMSESD       Rsq
 ##   &lt;int&gt;          &lt;chr&gt;      &lt;chr&gt; &lt;list&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-## 1     1 preds.boxcoxed rpartModel  &lt;fun&gt; 6.212364 0.6722209 0.7295434
-## 2     2 preds.original rpartModel  &lt;fun&gt; 6.000737 0.5460110 0.7249624
-## 3     3       preds.sq rpartModel  &lt;fun&gt; 5.830481 0.8331561 0.7327487
-## 4     4 preds.boxcoxed   xgbModel  &lt;fun&gt; 3.462057 0.4755363 0.8983367
-## 5     5 preds.original   xgbModel  &lt;fun&gt; 3.420316 0.6576453 0.8814918
-## 6     6       preds.sq   xgbModel  &lt;fun&gt; 3.374213 0.4049072 0.8971899
+## 1     1 preds.boxcoxed rpartModel  &lt;fun&gt; 5.934659 0.6962721 0.7473779
+## 2     2 preds.original rpartModel  &lt;fun&gt; 6.098708 0.8898782 0.7373222
+## 3     3       preds.sq rpartModel  &lt;fun&gt; 6.438545 1.2966672 0.7008793
+## 4     4 preds.boxcoxed   xgbModel  &lt;fun&gt; 3.405298 0.3950785 0.8946855
+## 5     5 preds.original   xgbModel  &lt;fun&gt; 3.327867 0.5043939 0.9014258
+## 6     6       preds.sq   xgbModel  &lt;fun&gt; 3.512237 0.5828038 0.8752944
 ## # ... with 1 more variables: bestTune &lt;list&gt;</code></pre>
 <p>This allows us to very quickly visualize the results using <code>lattice</code> or <code>ggplot</code> <em>across all models</em>.</p>
 <pre class="r"><code>lattice::dotplot(Rsq~pred_varsets|modelName,train_df)</code></pre>
@@ -300,13 +313,13 @@ train_df %&gt;% dplyr::select(-train.X,-train.Y,-params,-modelFits)</code></pre>
     geom_point(aes(y=RMSE),size=2)+
     geom_errorbar(aes(ymin = RMSE-RMSESD,ymax= RMSE+RMSESD),size=.5,width=.15)</code></pre>
 <p><img src="/post/2017-09-17-pur-r-ify-your-carets_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
-<p>Since the model fit objects themselves are embedded, I can still look at each model’s internals. For example, to plot the results of the 5-fold CV on the grid search for the xgboost model:</p>
+<p>Since the model fit objects themselves are embedded, I can still look <em>at each model’s</em> internals. For example, to plot the results of the 5-fold CV on the grid search for the xgboost model:</p>
 <pre class="r"><code>plot(train_df$modelFits[train_df$modelName==&#39;xgbModel&#39; &amp; train_df$pred_varsets==&#39;preds.original&#39;][[1]])</code></pre>
 <p><img src="/post/2017-09-17-pur-r-ify-your-carets_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 </div>
-<div id="to-conclude" class="section level3">
-<h3>To conclude</h3>
+<div id="in-conclusion" class="section level2">
+<h2>In conclusion</h2>
 <p>These packages make investigating a <em>very</em> large number of datasets and models easy. With just a few lines of code, I ran a total of 6 different models - and for each model: a 5-fold cross validation, and for the xgboost models: a grid search across two tuning parameters - to select the best model on any number of performance criteria. Yet, everything remains neatly arranged in one dataframe, which can be saved as .RData and retrived later.</p>
 <p>Also remember that the raw data replicated in the <code>data</code> column of <code>starter_df</code> doesn’t have to be the exact same dataset for each row either. so you could leverage this methodology for a train-validate-test approach, or for resampled training sets, where each row has completely different datasets embedded within. Really depends on your creativity and how you write subsequent code.</p>
 </div>

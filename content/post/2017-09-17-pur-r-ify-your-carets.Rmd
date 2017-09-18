@@ -13,10 +13,13 @@ output:
   blogdown::html_page:
     toc: true
 ---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
 
-*tl;dr:* `purrr`, `caret` and `list-cols` can be used to create hundreds to data-model combinations, extract results and store everything neatly in one tibble.
+**tl;dr**: You'll learn how to use `purrr`, `caret` and `list-cols` to quickly create hundreds of dataset + model combinations, store data & model objects neatly in one tibble, and post process programatically. These tools enable succinct functional programming in which a lot gets done with just a few lines of code.
 
-### The motivation
+## The motivation
 
 I want to write a quick blogpost on two phenomenal pieces of code written by Kuhn et al, and Wickham et al, namely - [purrr](https://cran.r-project.org/web/packages/purrr/index.html), [caret](https://cran.r-project.org/web/packages/caret/index.html). These play so well with the [tidyverse](https://cran.r-project.org/web/packages/tidyverse/index.html) that they have become an indispensible part of my repertoire. 
 
@@ -36,11 +39,13 @@ The challenge with this approach is that the data and the models remain separate
 
 The approach I'm presenting below is a combination of a few approaches I learnt through the [APM](http://appliedpredictivemodeling.com/) book, the `caret` documentation,  grammar and verbage in `tidyverse`, as well as a couple of useful talks in the 2017 R Studio conferenence in Orlando [Notably ones on [purrr](https://www.rstudio.com/resources/videos/happy-r-users-purrr/) and  [list-cols](https://www.rstudio.com/resources/videos/using-list-cols-in-your-dataframe/)]. What you'll also see is that the code is extremely succint, which is simply a joy to write and read.
 
-### An example using `BostonHousing` data
+  
+## An example using `BostonHousing` data
+  
+  
+### Load libs & data
 
-#### Load libs & data
-
-The libraries I'm using here are `tidyr`, `dplyr`, `magrittr`, `purrr`, and `caret`. The dataset is from `mlbench`. 
+The libraries I'm using here are `tidyr`, `tibble`, `dplyr`, `magrittr`, `purrr`, and `caret`. The dataset is from `mlbench`. 
 
 ```{r message=FALSE, warning=FALSE}
 library(tidyr)
@@ -52,7 +57,8 @@ library(caret)
 library(mlbench)
 data("BostonHousing")
 ```
-
+***
+  
 #### Transformations on Xs
 
 For the purposes of this demonstration, I'll simply create two new sets variables using a Box-Cox transformation - `caret`'s `preProcess()` makes this easy - and the squared values of the originals. Save each new variable-set in a new character vector which follows the naming convention `preds.xxxx`.[^1]
@@ -89,18 +95,18 @@ str(BostonHousing)
 Here's our new predictor variable sets:
 ```{r}
 pred_varsets <- ls(pattern = 'preds')
-print(pred_varsets)
+pred_varsets
 ```
+***
+### Create a starter dataframe
 
-#### Create a starter dataframe
-
-I first create a starter dataframe where the input data is repeated as many times as the number of predictor variable sets. 
+I first create a starter dataframe where the input data is repeated as many times as the number of predictor variable sets. `enframe()` allows us to embed objects a dataframe column.
 
 ```{r}
 num_var_select <- length(pred_varsets)
 list(BostonHousing) %>% 
     rep(num_var_select) %>% 
-    enframe(name = 'id', value = 'data') %>% 
+    enframe(name = 'id', value = 'rawdata') %>% 
     mutate(pred_varsets = pred_varsets) -> starter_df
 starter_df
 ```
@@ -120,14 +126,14 @@ starter_df %<>%
   transmute(
   id,
   pred_varsets,
-  train.X = map2(data, pred_varsets,  ~ filterColumns(.x, .y)),
-  train.Y = map(data, ~ .x$medv)
+  train.X = map2(rawdata, pred_varsets,  ~ filterColumns(.x, .y)),
+  train.Y = map(rawdata, ~ .x$medv)
   )
 
 starter_df
 ```
-
-#### Select the models
+***
+### Select the models
 
 This is where I can select which models I want in the analysis. Each model should be in a function of this style:
 
@@ -194,8 +200,8 @@ model_list <- list(rpartModel=rpartModel,
 
 model_list
 ```
-
-#### Create data-model combinations
+***
+### Create data-model combinations
 
 Now, we're ready to combine the two together. `train_df` has all the predictor varset combinations, `model_list` has the list of all models. I'm assuming I want to run each combination of the two; so if I have 3 variable sets, and 2 models, I have a total of 6 models to run. This code sets that up:
 
@@ -210,8 +216,8 @@ train_df %<>%
     mutate(id=1:nrow(.))
 train_df
 ```
-
-#### Solve the models
+***
+### Solve the models
 
 The data is almost all setup now. `invoke_map()` is a function which can call functions and pass it arguments. Since we need to pass both `train.X` and `train.Y` together, there's an intermediate call to `map2()` to "listify" these first into `params`.
 
@@ -224,8 +230,8 @@ train_df %<>%
          )
 train_df %>% dplyr::select(pred_varsets,modelName,params,modelFits)
 ```
-
-#### Extract results
+***
+### Extract results
 
 Now, I can extract pretty much any model performance or hypertuning parameter using `purrr`. Since `caret` is so lovingly standardized, it doesn't matter if I'm using a glm, xgboost, rpart2, or ann - the code remains the same. 
 
@@ -250,14 +256,14 @@ train_df %>%
     geom_errorbar(aes(ymin = RMSE-RMSESD,ymax= RMSE+RMSESD),size=.5,width=.15)
 ```
 
-Since the model fit objects themselves are embedded, I can still look at each model's internals. For example, to plot the results of the 5-fold CV on the grid search for the xgboost model:
+Since the model fit objects themselves are embedded, I can still look *at each model's* internals. For example, to plot the results of the 5-fold CV on the grid search for the xgboost model:
 
 ```{r}
 plot(train_df$modelFits[train_df$modelName=='xgbModel' & train_df$pred_varsets=='preds.original'][[1]])
 ```
 
 
-### To conclude
+## In conclusion
 
 These packages make investigating a *very* large number of datasets and models easy. With just a few lines of code, I ran a total of 6 different models - and for each model: a 5-fold cross validation, and for the xgboost models: a grid search across two tuning parameters - to select the best model on any number of performance criteria. Yet, everything remains neatly arranged in one dataframe, which can be saved as .RData and retrived later.
 
