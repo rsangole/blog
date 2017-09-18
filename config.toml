@@ -5,6 +5,7 @@ theme = "minimal"
 disqusShortname = "rsangole-netlify-com" # delete this to disable disqus comments
 googleAnalytics = "UA-106573867-1"
 toc = "true"
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [params]
     author = "Rahul sangole"
