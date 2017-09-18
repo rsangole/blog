@@ -9,13 +9,20 @@ tags:
   - R
   - purrr
   - caret
-output: 
-  html_document: 
-    toc: yes
-    code_folding: show
+output:
+  blogdown::html_page:
+    toc: true
 ---
 
 
+<div id="TOC">
+<ul>
+<li><a href="#the-motivation">The motivation</a></li>
+<li><a href="#the-objective">The objective</a></li>
+<li><a href="#an-example">An example</a></li>
+<li><a href="#building-the-models">Building the models</a></li>
+</ul>
+</div>
 
 <div id="the-motivation" class="section level3">
 <h3>The motivation</h3>
@@ -185,6 +192,10 @@ df.train &lt;- df.train %&gt;%
         model_list[rep(1:nrow(model_list),nrow(starter_df)),] %&gt;% arrange(modelName)
     ) %&gt;%
     mutate(id=1:nrow(.))</code></pre>
+</div>
+</div>
+<div id="building-the-models" class="section level3">
+<h3>Building the models</h3>
 <pre class="r"><code>filterColumns &lt;- function(x,y){
     x[,(colnames(x) %in% eval(parse(text=y)))]
 }
@@ -204,27 +215,9 @@ df.train %&lt;&gt;%
         RMSESD=map_dbl(modelFits,~max(.x$results$RMSESD)),
         Rsq=map_dbl(modelFits,~max(.x$results$Rsquared)),
         bestTune=map(modelFits,~.x$bestTune)
-    )</code></pre>
-<pre><code>## 
-## Attaching package: &#39;xgboost&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     slice</code></pre>
-<pre><code>## -------------------------------------------------------------------------</code></pre>
-<pre><code>## You have loaded plyr after dplyr - this is likely to cause problems.
-## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-## library(plyr); library(dplyr)</code></pre>
-<pre><code>## -------------------------------------------------------------------------</code></pre>
-<pre><code>## 
-## Attaching package: &#39;plyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
-## 
-##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-##     summarize</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     compact</code></pre>
-<pre class="r"><code>df.train</code></pre>
+    )
+
+df.train</code></pre>
 <pre><code>## # A tibble: 6 x 12
 ##      id         columnNames  modelName  model                 train.X
 ##   &lt;int&gt;               &lt;chr&gt;      &lt;chr&gt; &lt;list&gt;                  &lt;list&gt;
@@ -236,5 +229,4 @@ df.train %&lt;&gt;%
 ## 6     6       predictors.sq   xgbModel  &lt;fun&gt; &lt;data.frame [506 x 12]&gt;
 ## # ... with 7 more variables: train.Y &lt;list&gt;, params &lt;list&gt;,
 ## #   modelFits &lt;list&gt;, RMSE &lt;dbl&gt;, RMSESD &lt;dbl&gt;, Rsq &lt;dbl&gt;, bestTune &lt;list&gt;</code></pre>
-</div>
 </div>

@@ -9,10 +9,9 @@ tags:
   - R
   - purrr
   - caret
-output: 
-  html_document: 
-    toc: yes
-    code_folding: show
+output:
+  blogdown::html_page:
+    toc: true
 ---
 
 
@@ -102,7 +101,6 @@ print(columnNames)
 
 #### Create a starter dataframe
 
-
 ```{r}
 no_of_varselect <- length(columnNames)
 list(BostonHousing) %>% 
@@ -112,7 +110,7 @@ list(BostonHousing) %>%
 
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 rpartModel <- function(X, Y) {
     ctrl <- trainControl(
         ## 5-fold CV
@@ -171,8 +169,9 @@ df.train <- df.train %>%
 ```
 
 
+### Building the models
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 filterColumns <- function(x,y){
     x[,(colnames(x) %in% eval(parse(text=y)))]
 }
