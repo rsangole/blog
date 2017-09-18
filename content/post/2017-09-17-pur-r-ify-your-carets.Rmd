@@ -14,19 +14,11 @@ output:
     toc: true
 ---
 
+*tl;dr:* `purrr`, `caret` and `list-cols` can be used to create hundreds to data-model combinations, extract results and store everything neatly in one tibble.
 
-```{r, include=FALSE}
-library(tidyverse)
-library(magrittr)
-library(purrr)
-library(caret)
-library(mlbench)
-```
 ### The motivation
 
 I want to write a quick blogpost on two phenomenal pieces of code written by Kuhn et al, and Wickham et al, namely - [purrr](https://cran.r-project.org/web/packages/purrr/index.html), [caret](https://cran.r-project.org/web/packages/caret/index.html). These play so well with the [tidyverse](https://cran.r-project.org/web/packages/tidyverse/index.html) that they have become an indispensible part of my repertoire. 
-
-tl;dr : 
 
 In any datascience project, I want to investigate the effect of various combinations of:
 
@@ -44,16 +36,15 @@ The challenge with this approach is that the data and the models remain separate
 
 The approach I'm presenting below is a combination of a few approaches I learnt through the [APM](http://appliedpredictivemodeling.com/) book, the `caret` documentation,  grammar and verbage in `tidyverse`, as well as a couple of useful talks in the 2017 R Studio conferenence in Orlando [Notably ones on [purrr](https://www.rstudio.com/resources/videos/happy-r-users-purrr/) and  [list-cols](https://www.rstudio.com/resources/videos/using-list-cols-in-your-dataframe/)]. What you'll also see is that the code is extremely succint, which is simply a joy to write and read.
 
-### The objective
+### An example using `BostonHousing` data
 
-### An example
-
-#### Load the libraries & data
+#### Load libs & data
 
 The libraries I'm using here are `tidyr`, `dplyr`, `magrittr`, `purrr`, and `caret`. The dataset is from `mlbench`. 
 
 ```{r}
 library(tidyr)
+library(tibble)
 library(dplyr)
 library(magrittr)
 library(purrr)
@@ -62,9 +53,11 @@ library(mlbench)
 data("BostonHousing")
 ```
 
-#### Create new variables
+#### Transformations on Xs
 
-For the purposes of this demonstration, I'll simply create two new sets variables using a Box-Cox transformation - `caret`'s `preProcess()` makes this easy - and the squared values of the originals. Save each new variable-set in a new character vector which follows the naming convention `predictors.xxxx`. This makes it super easy to find all such variable sets quickly using `ls(pattern = 'predictors')`.
+For the purposes of this demonstration, I'll simply create two new sets variables using a Box-Cox transformation - `caret`'s `preProcess()` makes this easy - and the squared values of the originals. Save each new variable-set in a new character vector which follows the naming convention `predictors.xxxx`.[^1]
+
+[^1]: This makes it super easy to find all such variable sets quickly using `ls(pattern = 'predictors')` and store it in a character vector.
 
 ```{r}
 # The originals
@@ -90,25 +83,68 @@ BostonHousing %<>%
 BostonHousing %<>% 
   map_df(.f = ~as.numeric(.x)) %>% as.data.frame()
 
-glimpse(BostonHousing)
+str(BostonHousing)
 ```
 
-Here's our new predictor var-sets:
+Here's our new predictor variable sets:
 ```{r}
-columnNames <- ls(pattern = 'predictors')
-print(columnNames)
+pred_varsets <- ls(pattern = 'predictors')
+print(pred_varsets)
 ```
 
 #### Create a starter dataframe
 
-```{r}
-no_of_varselect <- length(columnNames)
-list(BostonHousing) %>% 
-    rep(no_of_varselect) %>% 
-    enframe(name = 'id', value = 'data') %>% 
-    mutate(columnNames = columnNames) -> starter_df
+I first create a starter dataframe where the input data is repeated as many times as the number of predictor variable sets. 
 
+```{r}
+num_var_select <- length(pred_varsets)
+list(BostonHousing) %>% 
+    rep(num_var_select) %>% 
+    enframe(name = 'id', value = 'data') %>% 
+    mutate(pred_varsets = pred_varsets) -> starter_df
+starter_df
 ```
+
+Now, I split the raw data into `train.X` column which houses data only for those predictor variables identified in the `pred_varsets` column. `map2` is a great function which allows a mapping to be done over two variables and passed to a function.  
+
+I also create a `train.Y` for the response variable here.
+
+```{r}
+# Function to select columns in the raw data
+filterColumns <- function(x,y){
+    x[,(colnames(x) %in% eval(parse(text=y)))]
+}
+
+# Create X and Y columns
+starter_df %<>% 
+  transmute(
+  id,
+  pred_varsets,
+  train.X = map2(data, pred_varsets,  ~ filterColumns(.x, .y)),
+  train.Y = map(data, ~ .x$medv)
+  )
+
+starter_df
+```
+
+#### Select the models
+
+This is where I can select which models I want in the analysis. Each model should be in a function of this style:
+
+    modelName <- function(X, Y){
+        ctrl <- trainControl(
+            ...
+        )
+        train(
+            x = X,
+            y = Y,
+            trContrl = ctrl,
+            method = '## modelname ##',
+            ...
+        )
+    }
+
+I'm using `caret` exclusively, so each function needs a `trainControl()` and a `train()`. Learn more about `caret` [here](http://topepo.github.io/caret/index.html).
 
 ```{r message=FALSE, warning=FALSE}
 rpartModel <- function(X, Y) {
@@ -147,7 +183,11 @@ xgbTreeModel <- function(X,Y){
         preProc = c('center', 'scale')
     )
 }
+```
 
+Once these functions are setup, `enframe` these into a dataframe.
+
+```{r}
 model_list <- list(rpartModel=rpartModel,
                    xgbModel=xgbTreeModel) %>%
     enframe(name = 'modelName',value = 'model')
@@ -155,43 +195,51 @@ model_list <- list(rpartModel=rpartModel,
 model_list
 ```
 
+#### Create data-model combinations
+
+Now, we're ready to combine the two together. `train_df` has all the predictor varset combinations, `model_list` has the list of all models. I'm assuming I want to run each combination of the two; so if I have 3 variable sets, and 2 models, I have a total of 6 models to run. This code sets that up:
 
 ```{r}
-df.train <-
+train_df <-
     starter_df[rep(1:nrow(starter_df),nrow(model_list)),]
 
-df.train <- df.train %>%
+train_df %<>%
     bind_cols(
         model_list[rep(1:nrow(model_list),nrow(starter_df)),] %>% arrange(modelName)
     ) %>%
     mutate(id=1:nrow(.))
-
+train_df
 ```
 
+#### Solve the models
 
-### Building the models
+The data is almost all setup now. `invoke_map()` is a function which can call functions and pass it arguments. Since we need to pass both `train.X` and `train.Y` together, there's an intermediate call to `map2()` to "listify" these first into `params`.
+
+All them models solve, and their results (the model object itself) is stored in `modelFits`.
 
 ```{r message=FALSE, warning=FALSE}
-filterColumns <- function(x,y){
-    x[,(colnames(x) %in% eval(parse(text=y)))]
-}
+train_df %<>%
+  mutate(params = map2(train.X, train.Y,  ~ list(X = .x, Y = .y)),
+                 modelFits=invoke_map(model,params)
+         )
+train_df %>% dplyr::select(pred_varsets,modelName,params,modelFits)
+```
 
-df.train %<>%
-  mutate(
-  train.X = map2(data, columnNames,  ~ filterColumns(.x, .y)),
-  train.Y = map(data, ~ .x$medv)
-  ) %>%
-  dplyr::select(-data) %>%
-  mutate(params = map2(train.X, train.Y,  ~ list(X = .x, Y = .y)))
-  
-df.train %<>% 
+#### Extract results
+
+Now, I can extract pretty much any model performance or hypertuning parameter using `purrr`. Since `caret` is so lovingly standardized, it doesn't matter if I'm using a glm, xgboost, rpart2, or ann - the code remains the same. 
+
+```{r}
+train_df %<>% 
     mutate(
-        modelFits=invoke_map(model,params),
         RMSE=map_dbl(modelFits,~max(.x$results$RMSE)),
         RMSESD=map_dbl(modelFits,~max(.x$results$RMSESD)),
         Rsq=map_dbl(modelFits,~max(.x$results$Rsquared)),
         bestTune=map(modelFits,~.x$bestTune)
     )
-
-df.train
+train_df
 ```
+
+### To conclude
+
+These packages make investigating a large number of datasets and models easy. Remember that the data set doesn't have to be the same either, so you could leverage this methodology for a train-validate-test approach, or resampled training sets. Really depends on your creativity.
