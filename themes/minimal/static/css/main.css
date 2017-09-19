@@ -92,3 +92,13 @@ footer {
 img {
     max-width: 100%;
 }
+
+code { background: #f9f9f9;}
+
+pre {
+  border: 1px solid #ddd;
+  box-shadow: 3px 3px 3px #eee;
+  padding: 0.2em;
+  overflow-x: auto;
+}
+pre code { background: none; }

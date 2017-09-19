@@ -12,11 +12,18 @@
 
 </style>
 
-<!-- main -->
-<link rel="stylesheet" href="/css/main.css">
-
 <!-- custom -->
 {{ range .Site.Params.css }} <link rel="stylesheet" href="{{ . }}"> {{ end }}
+
+<!-- bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- main -->
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/fonts.css">
+
+<!-- font awesome -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
 <!-- google fonts -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family={{ .Site.Params.font }}">
@@ -24,8 +31,6 @@
 <!-- highlight.js -->
 {{ if .Site.Params.highlight | default false }} <link rel="stylesheet" href="//{{ .Site.Params.highlightjsCDN}}/highlight.js/{{ .Site.Params.highlightjsVersion}}/styles/{{ .Site.Params.highlightStyle | default "default" }}.min.css"> {{ end }}
 
-<!-- bootstrap -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- font awesome -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<!-- solar-dark bootstrap
+<link rel="stylesheet" href="https://bootswatch.com/solar/bootstrap.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+-->
