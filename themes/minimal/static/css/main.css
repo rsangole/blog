@@ -100,5 +100,6 @@ pre {
   box-shadow: 3px 3px 3px #eee;
   padding: 0.2em;
   overflow-x: auto;
+  text-align: left;
 }
 pre code { background: none; }
