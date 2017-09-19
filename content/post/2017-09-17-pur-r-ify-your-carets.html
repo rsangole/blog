@@ -147,9 +147,9 @@ starter_df</code></pre>
 <pre><code>## # A tibble: 3 x 3
 ##      id                 rawdata   pred_varsets
 ##   &lt;int&gt;                  &lt;list&gt;          &lt;chr&gt;
-## 1     1 &lt;data.frame [506 x 14]&gt; preds.boxcoxed
-## 2     2 &lt;data.frame [506 x 14]&gt; preds.original
-## 3     3 &lt;data.frame [506 x 14]&gt;       preds.sq</code></pre>
+## 1     1 &lt;data.frame [506 x 39]&gt; preds.boxcoxed
+## 2     2 &lt;data.frame [506 x 39]&gt; preds.original
+## 3     3 &lt;data.frame [506 x 39]&gt;       preds.sq</code></pre>
 <p>Now, I split the raw data into <code>train.X</code> column which houses data only for those predictor variables identified in the <code>pred_varsets</code> column. <code>map2</code> is a great function which allows a mapping to be done over two variables and passed to a function.</p>
 <p>I also create a <code>train.Y</code> for the response variable here.</p>
 <pre class="r"><code># Function to select columns in the raw data
@@ -170,9 +170,9 @@ starter_df</code></pre>
 <pre><code>## # A tibble: 3 x 4
 ##      id   pred_varsets                 train.X     train.Y
 ##   &lt;int&gt;          &lt;chr&gt;                  &lt;list&gt;      &lt;list&gt;
-## 1     1 preds.boxcoxed  &lt;data.frame [506 x 0]&gt; &lt;dbl [506]&gt;
+## 1     1 preds.boxcoxed &lt;data.frame [506 x 13]&gt; &lt;dbl [506]&gt;
 ## 2     2 preds.original &lt;data.frame [506 x 13]&gt; &lt;dbl [506]&gt;
-## 3     3       preds.sq  &lt;data.frame [506 x 0]&gt; &lt;dbl [506]&gt;</code></pre>
+## 3     3       preds.sq &lt;data.frame [506 x 12]&gt; &lt;dbl [506]&gt;</code></pre>
 <hr />
 </div>
 <div id="select-the-models" class="section level3">
@@ -298,12 +298,12 @@ train_df %&gt;% dplyr::select(-train.X,-train.Y,-params,-modelFits)</code></pre>
 <pre><code>## # A tibble: 6 x 8
 ##      id   pred_varsets  modelName  model     RMSE    RMSESD       Rsq
 ##   &lt;int&gt;          &lt;chr&gt;      &lt;chr&gt; &lt;list&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-## 1     1 preds.boxcoxed rpartModel  &lt;fun&gt; 5.934659 0.6962721 0.7473779
-## 2     2 preds.original rpartModel  &lt;fun&gt; 6.098708 0.8898782 0.7373222
-## 3     3       preds.sq rpartModel  &lt;fun&gt; 6.438545 1.2966672 0.7008793
-## 4     4 preds.boxcoxed   xgbModel  &lt;fun&gt; 3.405298 0.3950785 0.8946855
-## 5     5 preds.original   xgbModel  &lt;fun&gt; 3.327867 0.5043939 0.9014258
-## 6     6       preds.sq   xgbModel  &lt;fun&gt; 3.512237 0.5828038 0.8752944
+## 1     1 preds.boxcoxed rpartModel  &lt;fun&gt; 5.757858 1.0320396 0.7517200
+## 2     2 preds.original rpartModel  &lt;fun&gt; 6.218392 1.0548366 0.7007499
+## 3     3       preds.sq rpartModel  &lt;fun&gt; 5.820171 0.8113143 0.7397611
+## 4     4 preds.boxcoxed   xgbModel  &lt;fun&gt; 3.389804 0.4167671 0.8864316
+## 5     5 preds.original   xgbModel  &lt;fun&gt; 3.372281 0.4943425 0.9000574
+## 6     6       preds.sq   xgbModel  &lt;fun&gt; 3.608456 0.8137075 0.8781208
 ## # ... with 1 more variables: bestTune &lt;list&gt;</code></pre>
 <p>This allows us to very quickly visualize the results using <code>lattice</code> or <code>ggplot</code> <em>across all models</em>.</p>
 <pre class="r"><code>lattice::dotplot(Rsq~pred_varsets|modelName,train_df)</code></pre>

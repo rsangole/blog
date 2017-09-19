@@ -1,0 +1,130 @@
+---
+title: Factor Analysis of Personality Traits
+author: Rahul Sangole
+date: '2016-09-03'
+slug: factor-analysis-of-personality-traits
+categories:
+  - R
+tags:
+  - R
+  - factor analysis
+  - multivariate
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#background">Background</a></li>
+<li><a href="#objective">Objective</a></li>
+<li><a href="#duplication-of-the-survey">Duplication of the Survey</a></li>
+<li><a href="#results">Results</a></li>
+<li><a href="#what-does-the-factor-analysis-tell-us">What does the factor analysis tell us?</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#how-many-factors-to-select">How many factors to select?</a></li>
+<li><a href="#wheres-the-r-code">Where’s the R code?</a></li>
+</ul>
+</div>
+
+<div id="background" class="section level3">
+<h3>Background</h3>
+<p>In the course <a href="http://sps.northwestern.edu/program-areas/graduate/predictive-analytics/program-courses.php?course_id=2809&amp;term=4640">Predict-410</a>: Linear Regression &amp; Multivariate Analyses, taught by the excellent <a href="http://www.syamalasrinivasan.com/">Prof Srinivasan</a>, we were taught Factor Analysis (FA). FA is a technique used to identify ‘latent’ or ‘hidden’ factors common to a larger pool of observable or measurable variables. These factors would cause the measurable variables to behave the way they do. Typically, the aim is to identify a smaller set of factors (k) compared to the number of variables (n), i.e. k&lt;&lt;&lt;n. We expect a smaller set of common factors to cause the variances in the measured variables. This is a useful method of dimension reduction.</p>
+<p>In course of learning about factor analysis, I found a few good resources on the subject. One of them, <a href="http://web.stanford.edu/class/psych253/tutorials/FactorAnalysis.html">here</a>, applies factor analysis to a data set collected by Prof Malle of Brown University. <a href="https://www.brown.edu/Departments/CLPS/people/bertram-malle">Prof Malle</a> collected data on 32 personality traits, as reported via a self-evaluation of 240 participants.</p>
+</div>
+<div id="objective" class="section level3">
+<h3>Objective</h3>
+<p>The objective of the original study, as stated by the article: ‘… it’s unlikely there are actually 32 different dimensions of personality; rather people probably vary along a small number of dimensions…’.</p>
+<p>My objective:</p>
+<ol style="list-style-type: decimal">
+<li>Recreate this study and see for myself: Can I replicate the results?</li>
+<li>How many factors will I need to account for most of the variation?</li>
+<li>How would I interpret the factors I find? How would these align to my expectations about overall personality traits and align ?</li>
+</ol>
+</div>
+<div id="duplication-of-the-survey" class="section level3">
+<h3>Duplication of the Survey</h3>
+<p>I re-created a version of Prof Malle’s survey on <a href="https://www.surveymonkey.com/r/MN82SJ7">survey monkey</a>. The survey is still open, so feel free to take it. At the point of writing this post, I had a total of 61 responses from my Facebook friends. It would be nice to match Prof Malle’s sample size of 240.</p>
+<p>The survey asks:</p>
+<ul>
+<li><p>“How strongly do the following personality traits describe you?</p></li>
+<li><p>Distant, Talkative, Careless, Hardworking, Anxious, Agreeable, Tense, Kind, Relaxed, Disorganised, Outgoing, Approving, Shy, Disciplined, Harsh, Perseverant, Friendly, Worrying, Responsible, Contradictory, Sociable, Lazy, Cooperative, Quiet, Organized, Critical, Lax, Laidback, Withdrawn, Give up easily, Easy going.&quot;</p></li>
+</ul>
+</div>
+<div id="results" class="section level3">
+<h3>Results</h3>
+<div id="how-do-the-traits-relate-to-one-another" class="section level4">
+<h4>How do the traits relate to one another?</h4>
+<p>A correlation plot with the 32 traits ordered using hierarchical clustering using <a href="https://arxiv.org/pdf/1111.6285.pdf">Ward’s minimum variance agglomeration method</a>. The <a href="https://cran.r-project.org/web/packages/corrplot/corrplot.pdf">corrplot</a> package in R implements this method.</p>
+<p>The X and Y axes of this plot are the 32 traits sorted according to Ward’s method. The sorting results in very intelligent grouping. The intensity of the colour and size of the colored square in each cell indicates the strength of Pearson’s correlation coefficient between each pair.</p>
+<p>I have highlighted 8 <strong>black</strong> rectangles which show grouping between <strong>similar</strong> traits. For example, the first box contains <em>Worrying</em>, <em>Anxious</em>, and <em>Tense</em>, traits very similar to one another. The third box contains <em>Disciplined</em>, <em>Organized</em>, <em>Hardworking</em>, and <em>Responsible.</em></p>
+<p>Three <strong>red</strong> boxes highlight dissimilar or opposite traits. Take the first red box (top mid). On the X axis, we have <em>Easy Going</em>, <em>Relaxed</em> and <em>Laidback</em>, while on the Y axis, we have <em>Worrying</em>, <em>Anxious</em>, and <em>Tense</em>.</p>
+<div class="figure">
+<img src="/project/fa_traits/corrplot.png" width="500" />
+
+</div>
+<p>The groupings in the correlation plot &amp; their magnitudes agree very well with Prof Malle’s findings.</p>
+</div>
+</div>
+<div id="what-does-the-factor-analysis-tell-us" class="section level3">
+<h3>What does the factor analysis tell us?</h3>
+<p>Again, the objective here is: are there a few “factors” that explain personalities well as measured by the 32 personality traits? After <a href="http://sites.stat.psu.edu/~ajw13/stat505/fa06/17_factor/13_factor_varimax.html">varimax rotations</a> on the factors, the factor plots show wonderful results!</p>
+<p>To read the graphs, read the personality trait labels at the very extremes of the X and Y axes. These represent the traits with the highest loadings for each factor. The rotated factor plots were surprisingly intuitive to read.</p>
+<p>Factor 1 is Introvert/Extrovert. Factor 2 is the propensity to worry, or Anxiety Level.</p>
+<div class="figure">
+<img src="/project/fa_traits/f1vsf2nf9.png" width="450" />
+
+</div>
+<p>Factor 3 seems to be Friendliness (or Approachable vs Reserved).</p>
+<div class="figure">
+<img src="/project/fa_traits/f2vsf3nf9.png" width="450" />
+
+</div>
+<p>Factor 4 clearly is Organized vs Disorganized.</p>
+<div class="figure">
+<img src="/project/fa_traits/f3vsf4nf9.png" width="450" />
+
+</div>
+<p>Factor 5 can be defined as Conscientiousness, or the willingness to be perseverant, to do hard work.</p>
+<div class="figure">
+<img src="/project/fa_traits/f4vsf5nf9.png" width="450" />
+
+</div>
+</div>
+<div id="conclusion" class="section level3">
+<h3>Conclusion</h3>
+<ul>
+<li>We have been able to reduce 32 personality traits into 5 common traits:
+<ul>
+<li>Introvert/Extrovert</li>
+<li>Propensity for Anxiety</li>
+<li>Friendliness</li>
+<li>Organized/Disorganized</li>
+<li>Conscientiousness</li>
+</ul></li>
+<li>I was pleased to find that my result agreed very well with Prof Malle’s study. All in all, the factors extracted make intuitive sense when one thinks about overarching personality traits.</li>
+</ul>
+<p>How exciting is factor analysis? :D</p>
+</div>
+<div id="how-many-factors-to-select" class="section level3">
+<h3>How many factors to select?</h3>
+<p>There are a couple of methods to select the number of factors to keep. A scree plot plots the eigenvalues of the correlation matrix of the manifest variables against the factor number. The <a href="https://cran.r-project.org/web/packages/nFactors/nFactors.pdf">nscree package</a> can help get Scree plots.</p>
+<div class="figure">
+<img src="/project/fa_traits/scree.png" width="500" />
+
+</div>
+<ol style="list-style-type: decimal">
+<li>Kaiser rule (select factors with eigenvalues &gt; 1 for corr matrices) results in 9 factors to be selected.</li>
+<li>Visual inspection of the scree plot: The knee in the plot is at 4 factors. This is numerically computed as the Acceleration Factor (AF).</li>
+<li>Optimal Coordinates (OC) results in selection of 5 factors.</li>
+</ol>
+<p>Another way to test the number of factors required is to look at the results of the chi-square test for the hypothesis test:</p>
+<p>H0: ‘n’ factors are sufficient Ha: More factors are needed</p>
+<p>For the 5 factor model, the chi square statistic is 403.6 for 320 degrees of freedom. The p-value is 0.00104, so we can strongly reject the null hypothesis that 5 factors are sufficient. Increasing to the 9 factor model, the chi square statistic is 241 on 222 degrees of freedom. P-value is 0.18, so we fail to reject the null hypothesis.</p>
+<p>I’ve tested using 5 factors as well as 9 factors. The order of the factors and their interpretation change depending on how many factors are selected. This is unlike a PCA. Also, for the 9 factor case, the plots really do not reveal anything interesting beyond 5 factors.</p>
+</div>
+<div id="wheres-the-r-code" class="section level3">
+<h3>Where’s the R code?</h3>
+<p>The raw data and the R code is stored on <a href="https://github.com/rsangole/PersonalityTraitFactorAnalysis">Github</a>.</p>
+</div>
