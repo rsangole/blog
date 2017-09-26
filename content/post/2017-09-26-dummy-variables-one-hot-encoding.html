@@ -1,0 +1,62 @@
+---
+title: Dummy Variables & One Hot Encoding
+author: Rahul Sangole
+date: '2017-09-26'
+slug: dummy-variables-one-hot-encoding
+draft: true
+categories:
+  - R
+tags:
+  - R
+  - dummy variables
+  - one-hot encoding
+  - caret
+output:
+  blogdown::html_page:
+    toc: true
+
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#motivation">Motivation</a></li>
+<li><a href="#why-dummy-variables-need-to-be-created">Why dummy variables need to be created?</a></li>
+<li><a href="#ways-to-create-dummy-variables-in-r">Ways to create dummy variables in R</a></li>
+<li><a href="#performance-comparison">Performance comparison</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+
+<div id="motivation" class="section level1">
+<h1>Motivation</h1>
+</div>
+<div id="why-dummy-variables-need-to-be-created" class="section level1">
+<h1>Why dummy variables need to be created?</h1>
+</div>
+<div id="ways-to-create-dummy-variables-in-r" class="section level1">
+<h1>Ways to create dummy variables in R</h1>
+<pre class="r"><code># library(dummies)
+# dummy.data.frame(data = data.frame(df),sep=&quot;_&quot;)
+# 
+# 
+# dummy::dummy(data.frame(df))
+# dummy::categories(df)
+# 
+# 
+# model.matrix(mpg~.,df,)
+# 
+# 
+# 
+# contrasts(df$cyl)
+# 
+# 
+# 
+# caret::dummyVars()</code></pre>
+</div>
+<div id="performance-comparison" class="section level1">
+<h1>Performance comparison</h1>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+</div>

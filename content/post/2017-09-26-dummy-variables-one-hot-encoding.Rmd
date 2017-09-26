@@ -1,0 +1,48 @@
+---
+title: Dummy Variables & One Hot Encoding
+author: Rahul Sangole
+date: '2017-09-26'
+slug: dummy-variables-one-hot-encoding
+draft: true
+categories:
+  - R
+tags:
+  - R
+  - dummy variables
+  - one-hot encoding
+  - caret
+output:
+  blogdown::html_page:
+    toc: true
+
+---
+
+# Motivation
+
+# Why dummy variables need to be created?
+
+# Ways to create dummy variables in R
+```{r}
+# library(dummies)
+# dummy.data.frame(data = data.frame(df),sep="_")
+# 
+# 
+# dummy::dummy(data.frame(df))
+# dummy::categories(df)
+# 
+# 
+# model.matrix(mpg~.,df,)
+# 
+# 
+# 
+# contrasts(df$cyl)
+# 
+# 
+# 
+# caret::dummyVars()
+
+```
+
+# Performance comparison
+
+# References
