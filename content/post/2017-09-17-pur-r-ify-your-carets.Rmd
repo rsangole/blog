@@ -63,7 +63,7 @@ data("BostonHousing")
 
 For the purposes of this demonstration, I'll simply create two new sets variables using a Box-Cox transformation - `caret`'s `preProcess()` makes this easy - and the squared values of the originals. Save each new variable-set in a new character vector which follows the naming convention `preds.xxxx`.[^1]
 
-[^1]: This makes it super easy to find all such variable sets quickly using `ls(pattern = 'predictors')` and store it in a character vector.
+[^1]: This makes it super easy to find all such variable sets quickly using `ls(pattern = 'preds')` and store it in a character vector.
 
 ```{r}
 # The originals
