@@ -1,20 +1,17 @@
 ---
-title: Dummy Variables & One Hot Encoding
+title: Performance Benchmarking for Dummy Variable Creation
 author: Rahul Sangole
-date: '2017-09-26'
+date: '2017-09-27'
 slug: dummy-variables-one-hot-encoding
-draft: true
 categories:
   - R
 tags:
   - R
   - dummy variables
-  - one-hot encoding
-  - caret
+  - benchmarking
 output:
   blogdown::html_page:
     toc: true
-
 ---
 
 
@@ -28,11 +25,12 @@ output:
 <li><a href="#dummy-package"><code>dummy</code> package</a></li>
 <li><a href="#caret-package"><code>caret</code> package</a></li>
 </ul></li>
-<li><a href="#performance-comparison">Performance comparison</a></li>
-<li><a href="#performance-comparison---large-datasets">Performance comparison - Large datasets</a></li>
-<li><a href="#feature-comparison">Feature comparison</a></li>
+<li><a href="#performance-comparison">Performance comparison</a><ul>
+<li><a href="#smaller-datasets">Smaller datasets</a></li>
+<li><a href="#large-datasets">Large datasets</a></li>
+</ul></li>
 <li><a href="#conclusion">Conclusion</a></li>
-<li><a href="#references">References</a></li>
+<li><a href="#qs">Qs</a></li>
 </ul>
 </div>
 
@@ -47,7 +45,7 @@ output:
 </div>
 <div id="ways-to-create-dummy-variables-in-r" class="section level2">
 <h2>Ways to create dummy variables in R</h2>
-<p>These are the methods I’ve found to create dummy variables in R:</p>
+<p>These are the methods I’ve found to create dummy variables in R. I’ve explored each of these</p>
 <ul>
 <li>stats::model.matrix()</li>
 <li>dummies::dummy.data.frame()</li>
@@ -69,136 +67,83 @@ glimpse(HairEyeColor)</code></pre>
 ## $ Sex  &lt;chr&gt; &quot;Male&quot;, &quot;Male&quot;, &quot;Male&quot;, &quot;Male&quot;, &quot;Male&quot;, &quot;Male&quot;, &quot;Male&quot;, &quot;...
 ## $ n    &lt;dbl&gt; 32, 53, 10, 3, 11, 50, 10, 30, 10, 25, 7, 5, 3, 15, 7, 8,...
 ## $ Y    &lt;fctr&gt; Yes, Yes, No, No, No, No, No, No, Yes, Yes, No, No, No, ...</code></pre>
+<p>Let’s look at each package:</p>
 <div id="stats-package" class="section level3">
 <h3><code>stats</code> package</h3>
-<p>need to remove intercept works with tibbles need to add Y back into the mix</p>
-<pre class="r"><code>head(model.matrix(Y~.,HairEyeColor))</code></pre>
+<p>The <code>stats</code> package has a function called <code>model.matrix</code> which converts factor variables to dummy variables. It also drops the response variable.</p>
+<p><em>Some pros</em></p>
+<ul>
+<li>Works with tibbles</li>
+<li>Really fast</li>
+<li>Retains numerical columns as is</li>
+<li>Formula interface allows one to specify what <code>Y</code> is</li>
+</ul>
+<p><em>Some cons</em></p>
+<ul>
+<li>Need to remove the intercept column (all 1s)</li>
+<li>Need to add the response <code>Y</code> back into the mix, if we need it</li>
+</ul>
+<pre class="r"><code>head(model.matrix(Y~.,HairEyeColor),3)</code></pre>
 <pre><code>##   (Intercept) HairBlond HairBrown HairRed EyeBrown EyeGreen EyeHazel
 ## 1           1         0         0       0        1        0        0
 ## 2           1         0         1       0        1        0        0
 ## 3           1         0         0       1        1        0        0
-## 4           1         1         0       0        1        0        0
-## 5           1         0         0       0        0        0        0
-## 6           1         0         1       0        0        0        0
 ##   SexMale  n
 ## 1       1 32
 ## 2       1 53
-## 3       1 10
-## 4       1  3
-## 5       1 11
-## 6       1 50</code></pre>
+## 3       1 10</code></pre>
 </div>
 <div id="dummies-package" class="section level3">
 <h3><code>dummies</code> package</h3>
-<p>doesn’t work with tibbles can create based on numerics doesn’t have formula based interface</p>
-<pre class="r"><code>library(dummies)</code></pre>
-<pre><code>## dummies-1.5.6 provided by Decision Patterns</code></pre>
-<pre class="r"><code>head(dummy.data.frame(data = HairEyeColor,sep=&quot;_&quot;))</code></pre>
-<pre><code>##    Hair   Eye  Sex  n   Y
-## 1 Black Brown Male 32 Yes
-## 2 Brown Brown Male 53 Yes
-## 3   Red Brown Male 10  No
-## 4 Blond Brown Male  3  No
-## 5 Black  Blue Male 11  No
-## 6 Brown  Blue Male 50  No</code></pre>
-<pre class="r"><code>head(dummy.data.frame(data = as.data.frame(HairEyeColor),sep=&quot;.&quot;))</code></pre>
+<p><code>dummies</code> has a command called <code>dummy.data.frame</code> which does the needful.</p>
+<p><em>Some pros</em></p>
+<ul>
+<li>Retains numerical columns as is</li>
+<li>Can create based dummy variables for numeric columns too</li>
+</ul>
+<p><em>Some cons</em></p>
+<ul>
+<li>Doesn’t work with tibbles</li>
+<li>Doesn’t have a formula interface to specify what <code>Y</code> is. Need to manually remove response variable from dataframe</li>
+</ul>
+<pre class="r"><code>library(dummies)
+head(dummy.data.frame(data = as.data.frame(HairEyeColor),sep=&quot;.&quot;),3)</code></pre>
 <pre><code>##   Hair.Black Hair.Blond Hair.Brown Hair.Red Eye.Blue Eye.Brown Eye.Green
 ## 1          1          0          0        0        0         1         0
 ## 2          0          0          1        0        0         1         0
 ## 3          0          0          0        1        0         1         0
-## 4          0          1          0        0        0         1         0
-## 5          1          0          0        0        1         0         0
-## 6          0          0          1        0        1         0         0
 ##   Eye.Hazel Sex.Female Sex.Male  n Y.No Y.Yes
 ## 1         0          0        1 32    0     1
 ## 2         0          0        1 53    0     1
-## 3         0          0        1 10    1     0
-## 4         0          0        1  3    1     0
-## 5         0          0        1 11    1     0
-## 6         0          0        1 50    1     0</code></pre>
+## 3         0          0        1 10    1     0</code></pre>
 </div>
 <div id="dummy-package" class="section level3">
 <h3><code>dummy</code> package</h3>
-<p>dummy creates dummy variables of all the factors and character vectors in a data frame. It also supports settings in which the user only wants to compute dummies for the categorical values that were present in another data set. This is especially useful in the context of predictive modeling, in which the new (test) data has more or other categories than the training data.</p>
-<p><code>p</code> is used to select terms in terms of freq</p>
-<p>can grab only those vars in a training set</p>
-<p>remove Y manually.. no formula interface</p>
-<p>int or factor both</p>
-<pre class="r"><code>library(dummy)</code></pre>
-<pre><code>## dummy 0.1.3</code></pre>
-<pre><code>## dummyNews()</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dummy&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:dummies&#39;:
-## 
-##     dummy</code></pre>
-<pre class="r"><code>dummy(HairEyeColor)</code></pre>
-<pre><code>##    Hair_Black Hair_Blond Hair_Brown Hair_Red Eye_Blue Eye_Brown Eye_Green
-## 1           1          0          0        0        0         1         0
-## 2           0          0          1        0        0         1         0
-## 3           0          0          0        1        0         1         0
-## 4           0          1          0        0        0         1         0
-## 5           1          0          0        0        1         0         0
-## 6           0          0          1        0        1         0         0
-## 7           0          0          0        1        1         0         0
-## 8           0          1          0        0        1         0         0
-## 9           1          0          0        0        0         0         0
-## 10          0          0          1        0        0         0         0
-## 11          0          0          0        1        0         0         0
-## 12          0          1          0        0        0         0         0
-## 13          1          0          0        0        0         0         1
-## 14          0          0          1        0        0         0         1
-## 15          0          0          0        1        0         0         1
-## 16          0          1          0        0        0         0         1
-## 17          1          0          0        0        0         1         0
-## 18          0          0          1        0        0         1         0
-## 19          0          0          0        1        0         1         0
-## 20          0          1          0        0        0         1         0
-## 21          1          0          0        0        1         0         0
-## 22          0          0          1        0        1         0         0
-## 23          0          0          0        1        1         0         0
-## 24          0          1          0        0        1         0         0
-## 25          1          0          0        0        0         0         0
-## 26          0          0          1        0        0         0         0
-## 27          0          0          0        1        0         0         0
-## 28          0          1          0        0        0         0         0
-## 29          1          0          0        0        0         0         1
-## 30          0          0          1        0        0         0         1
-## 31          0          0          0        1        0         0         1
-## 32          0          1          0        0        0         0         1
-##    Eye_Hazel Sex_Female Sex_Male Y_No Y_Yes
-## 1          0          0        1    0     1
-## 2          0          0        1    0     1
-## 3          0          0        1    1     0
-## 4          0          0        1    1     0
-## 5          0          0        1    1     0
-## 6          0          0        1    1     0
-## 7          0          0        1    1     0
-## 8          0          0        1    1     0
-## 9          1          0        1    0     1
-## 10         1          0        1    0     1
-## 11         1          0        1    1     0
-## 12         1          0        1    1     0
-## 13         0          0        1    1     0
-## 14         0          0        1    0     1
-## 15         0          0        1    0     1
-## 16         0          0        1    1     0
-## 17         0          1        0    1     0
-## 18         0          1        0    0     1
-## 19         0          1        0    0     1
-## 20         0          1        0    0     1
-## 21         0          1        0    1     0
-## 22         0          1        0    1     0
-## 23         0          1        0    0     1
-## 24         0          1        0    1     0
-## 25         1          1        0    0     1
-## 26         1          1        0    0     1
-## 27         1          1        0    1     0
-## 28         1          1        0    1     0
-## 29         0          1        0    1     0
-## 30         0          1        0    0     1
-## 31         0          1        0    0     1
-## 32         0          1        0    1     0</code></pre>
+<p><code>dummy</code> creates dummy variables of all the factors and character vectors in a data frame. It also supports settings in which the user only wants to compute dummies for the categorical values that were present in another data set. This is especially useful in the context of predictive modeling, in which the new (test) data has more or other categories than the training data. <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<p><em>Some pros</em></p>
+<ul>
+<li>Works with tibbles</li>
+<li>Retains numerical columns as is</li>
+<li>Can create based dummy variables for numeric columns too</li>
+<li><code>p</code> parameter can select terms in terms of frequency</li>
+<li>Can grab only those variables in a separate dataframe</li>
+<li>Can create based dummy variables for numeric columns too</li>
+</ul>
+<p><em>Some cons</em></p>
+<ul>
+<li>Doesn’t have a formula interface to specify what <code>Y</code> is. Need to manually remove response variable from dataframe</li>
+</ul>
+<pre class="r"><code>library(dummy)
+head(dummy(HairEyeColor),3)</code></pre>
+<pre><code>##   Hair_Black Hair_Blond Hair_Brown Hair_Red Eye_Blue Eye_Brown Eye_Green
+## 1          1          0          0        0        0         1         0
+## 2          0          0          1        0        0         1         0
+## 3          0          0          0        1        0         1         0
+##   Eye_Hazel Sex_Female Sex_Male Y_No Y_Yes
+## 1         0          0        1    0     1
+## 2         0          0        1    0     1
+## 3         0          0        1    1     0</code></pre>
+<p><em>Side note:</em> there’s a useful feature to grab all the categories in a factor variable.</p>
 <pre class="r"><code>categories(HairEyeColor)</code></pre>
 <pre><code>## $Hair
 ## [1] &quot;Black&quot; &quot;Blond&quot; &quot;Brown&quot; &quot;Red&quot;  
@@ -214,16 +159,21 @@ glimpse(HairEyeColor)</code></pre>
 </div>
 <div id="caret-package" class="section level3">
 <h3><code>caret</code> package</h3>
-<p>full rank &amp; less than full rank levels only direct sparse Y needs a factor</p>
-<pre class="r"><code>library(caret)</code></pre>
-<pre><code>## Warning: package &#39;caret&#39; was built under R version 3.4.1</code></pre>
-<pre><code>## Loading required package: lattice</code></pre>
-<pre><code>## 
-## Attaching package: &#39;caret&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     lift</code></pre>
-<pre class="r"><code>HairEyeColor$Hair &lt;- as.factor(HairEyeColor$Hair)
+<p>Lastly, there’s the <code>caret</code> package’s <code>dummyVars()</code>. This follows a different paradigm. First, we create reciepe of sorts, which just creates an object that specifies how the dataframe gets dummy-fied. Then, use the <code>predict()</code> to make the actual conversions.</p>
+<p><em>Some pros</em></p>
+<ul>
+<li>Works on creating full rank &amp; less than full rank matrix post-conversion</li>
+<li>Has a feature to keep only the level names in the final dummy columns</li>
+<li>Can directly create a sparse matrix</li>
+<li>Retains numerical columns as is</li>
+</ul>
+<p><em>Some cons</em></p>
+<ul>
+<li><code>Y</code> needs a factor</li>
+<li>If the cateogical variables aren’t factors, you can’t use the <code>sep=' '</code> feature</li>
+</ul>
+<pre class="r"><code>library(caret)
+HairEyeColor$Hair &lt;- as.factor(HairEyeColor$Hair)
 HairEyeColor$Eye &lt;- as.factor(HairEyeColor$Eye)
 HairEyeColor$Sex &lt;- as.factor(HairEyeColor$Sex)
 dV &lt;- dummyVars(formula = Y~.,data = HairEyeColor)
@@ -234,28 +184,32 @@ dV</code></pre>
 ## 5 variables, 4 factors
 ## Variables and levels will be separated by &#39;.&#39;
 ## A less than full rank encoding is used</code></pre>
-<pre class="r"><code># HairEyeColor$Y &lt;- factor(HairEyeColor$Y)
-head(predict(object = dV, newdata = HairEyeColor))</code></pre>
-<pre><code>## Warning in model.frame.default(Terms, newdata, na.action = na.action, xlev
-## = object$lvls): variable &#39;Y&#39; is not a factor</code></pre>
+<pre class="r"><code>head(predict(object = dV, newdata = HairEyeColor),3)</code></pre>
 <pre><code>##   Hair.Black Hair.Blond Hair.Brown Hair.Red Eye.Blue Eye.Brown Eye.Green
 ## 1          1          0          0        0        0         1         0
 ## 2          0          0          1        0        0         1         0
 ## 3          0          0          0        1        0         1         0
-## 4          0          1          0        0        0         1         0
-## 5          1          0          0        0        1         0         0
-## 6          0          0          1        0        1         0         0
 ##   Eye.Hazel Sex.Female Sex.Male  n
 ## 1         0          0        1 32
 ## 2         0          0        1 53
-## 3         0          0        1 10
-## 4         0          0        1  3
-## 5         0          0        1 11
-## 6         0          0        1 50</code></pre>
+## 3         0          0        1 10</code></pre>
 </div>
 </div>
 <div id="performance-comparison" class="section level2">
 <h2>Performance comparison</h2>
+<p>I’ve run these benchmarks on my Macbook Pro with these specs:</p>
+<ul>
+<li>Processor Name: Intel Core i5</li>
+<li>Processor Speed: 2.4 GHz</li>
+<li>Number of Processors: 1</li>
+<li>Total Number of Cores: 2</li>
+<li>L2 Cache (per Core): 256 KB</li>
+<li>L3 Cache: 3 MB</li>
+<li>Memory: 8 GB</li>
+</ul>
+<div id="smaller-datasets" class="section level3">
+<h3>Smaller datasets</h3>
+<p>The first dataset used is the <code>HairEyeColor</code>. 32 rows, 1 numeric var, 3 categorical var. All the resulting dataframes are as similar as possible… they all retain the <code>Y</code> variable at the end.</p>
 <pre class="r"><code>library(microbenchmark)
 HairEyeColor_df &lt;- as.data.frame(HairEyeColor)
 
@@ -276,24 +230,27 @@ dummy_fn &lt;- function(D){
 
 caret_fn &lt;- function(D){
     dV &lt;- caret::dummyVars(formula = Y~.,data = D)
-    predict(object = dV, newdata = D)
+    predict(object = dV, newdata = D) %&gt;% 
+        cbind(D$Y)
     }
 
 microbenchmark::microbenchmark(
     stats = stats_fn(D = HairEyeColor),
-    dummies = dummies_fn(HairEyeColor_df),
+    dummies = dummies_fn(D = HairEyeColor_df),
     dummy = dummy_fn(D = HairEyeColor),
     caret = caret_fn(D = HairEyeColor),
     times = 1000L,
-    control = list(order = &#39;block&#39;)
-    ) -&gt; benchmarks</code></pre>
-<pre class="r"><code>autoplot(benchmarks)</code></pre>
+    control = list(order = &#39;block&#39;),
+    unit = &#39;s&#39;
+    ) -&gt; benchmarks
+
+autoplot(benchmarks)</code></pre>
 <p><img src="/post/2017-09-26-dummy-variables-one-hot-encoding_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>The results speak for themself. The <code>stats</code> is clearly the fastest with <code>dummies</code> and <code>caret</code> being a more distant 2nd &amp; 3rd.</p>
 </div>
-<div id="performance-comparison---large-datasets" class="section level2">
-<h2>Performance comparison - Large datasets</h2>
-<p>I’ve run these benchmarks on my Macbook Pro with these specs: * Processor Name: Intel Core i5 * Processor Speed: 2.4 GHz * Number of Processors: 1 * Total Number of Cores: 2 * L2 Cache (per Core): 256 KB * L3 Cache: 3 MB * Memory: 8 GB</p>
-<p>To leverage a large dataset for this analysis, I’m using the <a href="https://www.kaggle.com/daveianhickey/2000-16-traffic-flow-england-scotland-wales/data">Accident &amp; Traffic Flow</a> dataset, which is fairly big - 570,011 rows and 33 columns. I’ve narrowed down to 7 categorical variables to test the packages.</p>
+<div id="large-datasets" class="section level3">
+<h3>Large datasets</h3>
+<p>To leverage a large dataset for this analysis, I’m using the <a href="https://www.kaggle.com/daveianhickey/2000-16-traffic-flow-england-scotland-wales/data">Accident &amp; Traffic Flow</a> dataset, which is fairly big - 570,011 rows and 33 columns. I’ve narrowed down to 7 categorical variables to test the packages, and I’ve created a fake response variable as well.</p>
 <pre class="r"><code>data &lt;- read_csv(&#39;/Users/Rahul/Documents/Data Science/Blog/accidents_2005_to_2007.csv&#39;,progress = F)
 data %&lt;&gt;%
     transmute(
@@ -310,12 +267,13 @@ data %&lt;&gt;%
     )
 dim(data)</code></pre>
 <pre><code>## [1] 570011      8</code></pre>
-<p>In total, there will be 39 dummy variable columns created for these 7 factor variables.</p>
+<p>In total, there will be 39 dummy variable columns created for these 7 factor variables, as we can see here:</p>
 <pre class="r"><code>map_int(data,~length(levels(.x)))</code></pre>
 <pre><code>## Day_of_Week   Road_Type     Weather RoadSurface       PedHC       PedPF 
 ##           7           6           9           5           3           6 
 ##        Year           Y 
 ##           3           2</code></pre>
+<p>Now for the benchmarks:</p>
 <pre class="r"><code>data_df &lt;- as.data.frame(data)
 stats_fn &lt;- function(D){
     stats::model.matrix(Y~.,D)[,-1] %&gt;% 
@@ -334,27 +292,42 @@ dummy_fn &lt;- function(D){
 
 caret_fn &lt;- function(D){
     dV &lt;- caret::dummyVars(formula = Y~.,data = D)
-    predict(object = dV, newdata = D)
+    predict(object = dV, newdata = D) %&gt;% 
+        cbind(D$Y)
     }
 
 microbenchmark::microbenchmark(
     stats = stats_fn(D = data),
-    dummies = dummies_fn(data_df),
+    dummies = dummies_fn(D = data_df),
     dummy = dummy_fn(D = data),
     caret = caret_fn(D = data),
-    times = 10L,
+    times = 30L,
     control = list(order = &#39;block&#39;)
-    ) -&gt; benchmarks</code></pre>
-<pre class="r"><code>autoplot(benchmarks)</code></pre>
-<p><img src="/post/2017-09-26-dummy-variables-one-hot-encoding_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+    ) -&gt; benchmarks
+
+autoplot(benchmarks)</code></pre>
+<p><img src="/post/2017-09-26-dummy-variables-one-hot-encoding_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Just like before, <code>stats</code> is clerly the fastest.</p>
 </div>
-<div id="feature-comparison" class="section level2">
-<h2>Feature comparison</h2>
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
-<p>Are there other packages you recommend for dummy variable creation? If yes, please let me know in the comments.</p>
+<ul>
+<li>Stick to <code>stats::model.matrix()</code>. It works with tibbles, it’s fast, and it takes a formula.</li>
+<li>If you like the <code>caret</code> package and it’s interface, it’s the 2nd best choice.</li>
+<li><code>dummy</code> or <code>dummies</code> doesn’t seem to offer any advantages to these packages.</li>
+</ul>
 </div>
-<div id="references" class="section level2">
-<h2>References</h2>
+<div id="qs" class="section level2">
+<h2>Qs</h2>
+<ul>
+<li>Are there other packages you recommend for dummy variable creation? If yes, please let me know in the comments.</li>
+<li>Could you run the bench marks on more powerful machines and larger datasets, and share your results? I’d like to append them here.</li>
+</ul>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Straight from the <code>dummy</code> <a href="https://cran.r-project.org/web/packages/dummy/dummy.pdf">help file</a><a href="#fnref1">↩</a></p></li>
+</ol>
 </div>
