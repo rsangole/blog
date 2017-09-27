@@ -4,6 +4,7 @@ title = "Rahul Sangole"
 theme = "minimal"
 disqusShortname = "rsangole-netlify-com" # delete this to disable disqus comments
 googleAnalytics = "UA-106573867-1"
+RSSLink = "true"
 toc = "true"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
@@ -66,7 +67,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     name = "linkedin"
     weight = 4
 
-#[[menu.icon]]
-#    url = "https://www.stackoverflow.com/rsangole/"
-#    name = "stack-overflow"
-#    weight = 5
+[[menu.icon]]
+    url = "/index.xml"
+    name = "rss"
+    weight = 5
