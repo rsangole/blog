@@ -83,15 +83,15 @@ glimpse(HairEyeColor)</code></pre>
 <li>Need to remove the intercept column (all 1s)</li>
 <li>Need to add the response <code>Y</code> back into the mix, if we need it</li>
 </ul>
-<pre class="r"><code>head(model.matrix(Y~.,HairEyeColor),3)</code></pre>
-<pre><code>##   (Intercept) HairBlond HairBrown HairRed EyeBrown EyeGreen EyeHazel
-## 1           1         0         0       0        1        0        0
-## 2           1         0         1       0        1        0        0
-## 3           1         0         0       1        1        0        0
-##   SexMale  n
-## 1       1 32
-## 2       1 53
-## 3       1 10</code></pre>
+<pre class="r"><code>head(model.matrix(Y~.-1,HairEyeColor),3)</code></pre>
+<pre><code>##   HairBlack HairBlond HairBrown HairRed EyeBrown EyeGreen EyeHazel SexMale
+## 1         1         0         0       0        1        0        0       1
+## 2         0         0         1       0        1        0        0       1
+## 3         0         0         0       1        1        0        0       1
+##    n
+## 1 32
+## 2 53
+## 3 10</code></pre>
 </div>
 <div id="dummies-package" class="section level3">
 <h3><code>dummies</code> package</h3>

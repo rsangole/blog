@@ -62,11 +62,10 @@ The `stats` package has a function called `model.matrix` which converts factor v
 
 *Some cons*
 
-+ Need to remove the intercept column (all 1s)
 + Need to add the response `Y` back into the mix, if we need it
 
 ```{r}
-head(model.matrix(Y~.,HairEyeColor),3)
+head(model.matrix(Y~.-1,HairEyeColor),3)
 ```
 
 ### `dummies` package
@@ -171,7 +170,7 @@ library(microbenchmark)
 HairEyeColor_df <- as.data.frame(HairEyeColor)
 
 stats_fn <- function(D){
-    stats::model.matrix(Y~.,D)[,-1] %>% 
+    stats::model.matrix(Y~.-1,D) %>% 
         cbind(D$Y)
 }
 
@@ -237,7 +236,7 @@ Now for the benchmarks:
 ```{r message=FALSE, warning=FALSE}
 data_df <- as.data.frame(data)
 stats_fn <- function(D){
-    stats::model.matrix(Y~.,D)[,-1] %>% 
+    stats::model.matrix(Y~.-1,D) %>% 
         cbind(D$Y)
 }
 
