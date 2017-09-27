@@ -5,11 +5,12 @@
     {{ partial "list-item" . }}
 
     {{ if and (gt .WordCount 200 ) (ne .Params.toc "false") }}
-        <div class="text-justify">
+    <div class="text-justify">
             <aside>
-            {{ .TableOfContents }}
+                    <div class = "toc_noUL">{{ .TableOfContents }}
+                    </div>
             </aside>
-        </div>
+            </div>
     {{ end }}
 
     <br>

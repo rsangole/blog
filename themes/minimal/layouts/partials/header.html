@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ .Title }}</title>
+
         {{ partial "css" . }} {{ partial "js" . }} {{ .Hugo.Generator }}
 
         {{ if .RSSLink }}
@@ -33,11 +34,17 @@
                 <div class="collapse navbar-collapse">
 
                     {{ if .Site.Menus.main }}
+                                    <div class = "link_noUL_navbar">
                         <ul class="nav navbar-nav">
                             {{ range sort .Site.Menus.main }}
-                                <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+                                <li>
+                                    <a href="{{ .URL }}">
+                                        {{ .Name }}
+                                    </a>
+                                    </li>
                             {{ end }}
                         </ul>
+                                    </div>
                     {{ end }}
 
                     {{ if .Site.Menus.icon }}

@@ -16,17 +16,21 @@
     {{ .Date.Format (.Site.Params.dateFormat | default "January 2, 2006") | $.Scratch.Set "subtitle" }}
     {{ with .Description }} {{ $.Scratch.Set "subtitle" . }} {{ end }}
 
-    <h4><a href="{{ .Scratch.Get "link" }}">{{ .Title }}</a></h4>
+    <h4>
+        <div class = "link_noUL">
+        <a href="{{ .Scratch.Get "link" }}">{{ .Title }}</a>
+        </div>
+    </h4>
 
     <h5>{{ $.Scratch.Get "subtitle" }}</h5>
 
 <!--   {{ range .Params.tags }} <kbd class="item-tag">{{ . }}</kbd> {{ end }}  -->
 
+      <div class = "link_noUL">
     {{ if isset .Params "tags" }}
       {{ range .Params.tags }}
-        <a class="tag" href="{{ ($.Site.GetPage "taxonomyTerm" "tags").Permalink }}{{ . | urlize }}"> <kbd class="item-tag">{{ . }}</kbd> </a>
-
+          <a class="tag" href="{{ ($.Site.GetPage "taxonomyTerm" "tags").Permalink }}{{ . | urlize }}"> <kbd class="item-tag">{{ . }}</kbd> </a>
       {{ end }}
     {{ end }}
-
+    </div>
 </div>

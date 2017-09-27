@@ -42,6 +42,7 @@ main {
 
 a:link, a:visited {
     color: var(--accent);
+    text-decoration: underline;
 }
 
 a.icon:hover {
@@ -50,6 +51,10 @@ a.icon:hover {
 
 a:hover {
     color: var(--accent) !important;
+}
+
+.link_noUL a {
+    text-decoration:none !important;
 }
 
 /*paginator at bottom of list view*/
@@ -77,6 +82,8 @@ a:hover {
 .navbar-icon {
     font-size: 125%;
     display: inline-block !important;
+    text-decoration: none;
+
 }
 
 /*coloured borders at top and bottom of the page*/
@@ -84,6 +91,11 @@ a:hover {
 .navbar.navbar-default {
     border-top: var(--border-width) solid var(--accent);
 }
+.link_noUL_navbar a {
+    text-decoration:none;
+}
+
+
 
 footer {
     border-bottom: var(--border-width) solid var(--accent);
