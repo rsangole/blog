@@ -16,33 +16,215 @@ output:
     toc: true
 
 ---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+## Motivation
 
-# Motivation
+Very recently, at work, we got into a discussion about creation of dummy variables in R code. We were dealing with a fairly large dataset of roughly 500,000 observations for roughly 120 predictor variables. Almost all of them were categorical variables, many of them with a fairly large number of factor levels (think 20-100). The types of models we needed to investigate required creation of dummy variables (think [xgboost](http://xgboost.readthedocs.io)). There are a few ways to convert categoricals into dummy variables in R. However, I did not find any comparison of performance for large datasets.
 
-# Why dummy variables need to be created?
+So here it goes.
 
-# Ways to create dummy variables in R
-```{r}
-# library(dummies)
-# dummy.data.frame(data = data.frame(df),sep="_")
-# 
-# 
-# dummy::dummy(data.frame(df))
-# dummy::categories(df)
-# 
-# 
-# model.matrix(mpg~.,df,)
-# 
-# 
-# 
-# contrasts(df$cyl)
-# 
-# 
-# 
-# caret::dummyVars()
+## Why do we need dummy variables?
 
+I won't say any more here. Plenty of good resources on the web: [here](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faqwhat-is-dummy-coding/), [here](http://www.sjsu.edu/people/edward.cohen/courses/c2/s1/Week_14_dummy_variable_slides.pdf), and  [here](http://www.polsci.ucsb.edu/faculty/glasgow/ps15/ps15lect15.pdf).
+
+## Ways to create dummy variables in R
+
+These are the methods I've found to create dummy variables in R:
+
+* stats::model.matrix()
+* dummies::dummy.data.frame() 
+* dummy::dummy()  
+* caret::dummyVars()
+
+Prepping some data to try these out. Using the `HairEyeColor` dataset as an example. It consists of 3 categorical vars and 1 numerical var. Perfect to try things out. Adding a response variable `Y` too.
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(magrittr)
+data("HairEyeColor")
+HairEyeColor %<>% tbl_df()
+HairEyeColor$Y = sample(c(0,1),dim(HairEyeColor)[1],replace = T) %>% factor(levels = c(0,1),labels = c('No','Yes'))
+glimpse(HairEyeColor)
 ```
 
-# Performance comparison
+### `stats` package
 
-# References
+need to remove intercept
+works with tibbles
+need to add Y back into the mix
+
+```{r}
+head(model.matrix(Y~.,HairEyeColor))
+```
+
+### `dummies` package
+
+doesn't work with tibbles
+can create based on numerics
+doesn't have formula based interface
+```{r}
+library(dummies)
+head(dummy.data.frame(data = HairEyeColor,sep="_"))
+head(dummy.data.frame(data = as.data.frame(HairEyeColor),sep="."))
+```
+
+### `dummy` package
+
+dummy creates dummy variables of all the factors and character vectors in a data frame. It also supports settings in which the user only wants to compute dummies for the categorical values that were present in another data set. This is especially useful in the context of predictive modeling, in which the new (test) data has more or other categories than the training data.
+
+`p` is used to select terms in terms of freq
+
+can grab only those vars in a training set
+
+remove Y manually.. no formula interface
+
+int or factor both
+
+
+
+```{r}
+library(dummy)
+dummy(HairEyeColor)
+categories(HairEyeColor)
+```
+
+### `caret` package
+
+full rank & less than full rank
+levels only
+direct sparse
+Y needs a factor
+
+```{r}
+library(caret)
+HairEyeColor$Hair <- as.factor(HairEyeColor$Hair)
+HairEyeColor$Eye <- as.factor(HairEyeColor$Eye)
+HairEyeColor$Sex <- as.factor(HairEyeColor$Sex)
+dV <- dummyVars(formula = Y~.,data = HairEyeColor)
+dV
+```
+```{r}
+# HairEyeColor$Y <- factor(HairEyeColor$Y)
+head(predict(object = dV, newdata = HairEyeColor))
+```
+
+## Performance comparison
+
+```{r message=FALSE, warning=FALSE}
+library(microbenchmark)
+HairEyeColor_df <- as.data.frame(HairEyeColor)
+
+stats_fn <- function(D){
+    stats::model.matrix(Y~.,D)[,-1] %>% 
+        cbind(D$Y)
+}
+
+dummies_fn <- function(D){
+    dummies::dummy.data.frame(D[,-5]) %>% 
+        cbind(D$Y)
+}
+
+dummy_fn <- function(D){
+    dummy::dummy(D[,-5]) %>% 
+        cbind(D$Y)
+}
+
+caret_fn <- function(D){
+    dV <- caret::dummyVars(formula = Y~.,data = D)
+    predict(object = dV, newdata = D)
+    }
+
+microbenchmark::microbenchmark(
+    stats = stats_fn(D = HairEyeColor),
+    dummies = dummies_fn(HairEyeColor_df),
+    dummy = dummy_fn(D = HairEyeColor),
+    caret = caret_fn(D = HairEyeColor),
+    times = 1000L,
+    control = list(order = 'block')
+    ) -> benchmarks
+```
+```{r}
+autoplot(benchmarks)
+```
+
+## Performance comparison - Large datasets
+
+I've run these benchmarks on my Macbook Pro with these specs:
+    *  Processor Name:	Intel Core i5
+    *  Processor Speed:	2.4 GHz
+    *  Number of Processors:	1
+    *  Total Number of Cores:	2
+    *  L2 Cache (per Core):	256 KB
+    *  L3 Cache:	3 MB
+    *  Memory:	8 GB
+
+To leverage a large dataset for this analysis, I'm using the [Accident & Traffic Flow](https://www.kaggle.com/daveianhickey/2000-16-traffic-flow-england-scotland-wales/data) dataset, which is fairly big - 570,011 rows and 33 columns. I've narrowed down to 7 categorical variables to test the packages. 
+
+```{r message=FALSE, warning=FALSE}
+data <- read_csv('/Users/Rahul/Documents/Data Science/Blog/accidents_2005_to_2007.csv',progress = F)
+data %<>%
+    transmute(
+        Day_of_Week = as.factor(Day_of_Week),
+        Road_Type = Road_Type %>% stringr::str_replace_all('[()/ ]','.') %>% as.factor,
+        Weather = Weather_Conditions %>% stringr::str_replace_all('[()/ ]','.') %>% as.factor,
+        RoadSurface = Road_Surface_Conditions %>% stringr::str_replace_all('[()/ ]','.') %>% as.factor,
+        PedHC =  `Pedestrian_Crossing-Human_Control` %>% stringr::str_replace_all('[()/ ]','.') %>% as.factor,
+        PedPF =  `Pedestrian_Crossing-Physical_Facilities` %>% stringr::str_replace_all('[()/ ]','.') %>% as.factor,
+        Year =  as.factor(Year)
+    ) %>% 
+    mutate(
+        Y = sample(c(0,1),dim(data)[1],replace = T) %>% factor(levels = c(0,1),labels = c('No','Yes'))
+    )
+dim(data)
+```
+In total, there will be 39 dummy variable columns created for these 7 factor variables.
+```{r}
+map_int(data,~length(levels(.x)))
+```
+
+```{r message=FALSE, warning=FALSE}
+data_df <- as.data.frame(data)
+stats_fn <- function(D){
+    stats::model.matrix(Y~.,D)[,-1] %>% 
+        cbind(D$Y)
+}
+
+dummies_fn <- function(D){
+    dummies::dummy.data.frame(D[,-8]) %>% 
+        cbind(D$Y)
+}
+
+dummy_fn <- function(D){
+    dummy::dummy(D[,-8]) %>% 
+        cbind(D$Y)
+}
+
+caret_fn <- function(D){
+    dV <- caret::dummyVars(formula = Y~.,data = D)
+    predict(object = dV, newdata = D)
+    }
+
+microbenchmark::microbenchmark(
+    stats = stats_fn(D = data),
+    dummies = dummies_fn(data_df),
+    dummy = dummy_fn(D = data),
+    caret = caret_fn(D = data),
+    times = 10L,
+    control = list(order = 'block')
+    ) -> benchmarks
+```
+```{r}
+autoplot(benchmarks)
+```
+
+
+## Feature comparison
+
+
+## Conclusion
+
+Are there other packages you recommend for dummy variable creation? If yes, please let me know in the comments.
+
+## References
