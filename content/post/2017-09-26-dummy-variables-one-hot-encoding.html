@@ -80,7 +80,6 @@ glimpse(HairEyeColor)</code></pre>
 </ul>
 <p><em>Some cons</em></p>
 <ul>
-<li>Need to remove the intercept column (all 1s)</li>
 <li>Need to add the response <code>Y</code> back into the mix, if we need it</li>
 </ul>
 <pre class="r"><code>head(model.matrix(Y~.-1,HairEyeColor),3)</code></pre>
@@ -214,7 +213,7 @@ dV</code></pre>
 HairEyeColor_df &lt;- as.data.frame(HairEyeColor)
 
 stats_fn &lt;- function(D){
-    stats::model.matrix(Y~.,D)[,-1] %&gt;% 
+    stats::model.matrix(Y~.-1,D) %&gt;% 
         cbind(D$Y)
 }
 
@@ -276,7 +275,7 @@ dim(data)</code></pre>
 <p>Now for the benchmarks:</p>
 <pre class="r"><code>data_df &lt;- as.data.frame(data)
 stats_fn &lt;- function(D){
-    stats::model.matrix(Y~.,D)[,-1] %&gt;% 
+    stats::model.matrix(Y~.-1,D) %&gt;% 
         cbind(D$Y)
 }
 
