@@ -43,6 +43,7 @@ main {
 a:link, a:visited {
     color: var(--accent);
     text-decoration: underline;
+
 }
 
 a.icon:hover {
@@ -91,11 +92,10 @@ a:hover {
 .navbar.navbar-default {
     border-top: var(--border-width) solid var(--accent);
 }
+
 .link_noUL_navbar a {
     text-decoration:none;
 }
-
-
 
 footer {
     border-bottom: var(--border-width) solid var(--accent);
@@ -109,8 +109,8 @@ code { background: #f9f9f9;}
 
 pre {
   border: 1px solid #ddd;
-  box-shadow: 3px 3px 3px #eee;
-  padding: 0.2em;
+  box-shadow: 2px 2px 2px #eee;
+  padding: 0em;
   overflow-x: auto;
   text-align: left;
 }
