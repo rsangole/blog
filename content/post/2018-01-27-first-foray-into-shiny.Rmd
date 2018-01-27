@@ -1,6 +1,6 @@
 ---
 title: First foray into Shiny
-author: Rahul
+author: Rahul Sangole
 date: '2018-01-27'
 slug: first-foray-into-shiny
 categories:
@@ -8,25 +8,29 @@ categories:
 tags:
   - shiny
   - visualization
+output:
+    blogdown::html_page:
+        toc: true
 ---
 
 [Shiny](https://shiny.rstudio.com/) had interested me for a while for it's power to quickly communicate and vizualise data and models. I hadn't delved into it due to lack of time to do so, until now.
 
-Two quick visualizations I've created as my 1st foray into R Shiny.
+Two quick visualizations I've created as my 1st foray into R Shiny. Nothing earth shattering, but was helpful to learn the tool.
 
-## Visualising distributions
+### Visualising Distributions
 
-* Hosted on shinyapps for free, at **[link](https://rsangole.shinyapps.io/Distributions/).**
-* Github code [here](https://github.com/rsangole/r_shiny_visuals).
-
-![Screenshot](/img/shiny_foray/Poisson_Distribution_and_Distributions_Visuals.png)
-
-
-
-## Visualising Linear Discriminant Analysis
-
-* Hosted on shinyapps for free, at **[link](https://rsangole.shinyapps.io/LDA_Visual/
-)**
+* Hosted on shinyapps for free, at [link](https://rsangole.shinyapps.io/Distributions/)
 * Github code [here](https://github.com/rsangole/r_shiny_visuals)
 
-![Screenshot](/img/shiny_foray/LDA_Discriminant_Line_Projections.png)
+[![](/img/shiny_foray/Poisson_Distribution_and_Distributions_Visuals.png)](https://rsangole.shinyapps.io/Distributions/)
+
+***
+
+### Visualising Linear Discriminant Analysis
+
+* Hosted on shinyapps for free, at [link](https://rsangole.shinyapps.io/LDA_Visual/
+)
+* Github code [here](https://github.com/rsangole/r_shiny_visuals)
+
+[![](/img/shiny_foray/LDA_Discriminant_Line_Projections.png)](https://rsangole.shinyapps.io/LDA_Visual/
+)
