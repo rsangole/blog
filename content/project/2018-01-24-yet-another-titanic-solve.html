@@ -1,0 +1,635 @@
+---
+title: Yet Another Titanic Solve
+author: Rahul Sangole
+date: '2018-01-24'
+slug: yet-another-titanic-solve
+draft: yes
+categories:
+  - R
+tags:
+  - caret
+  - R
+---
+
+
+
+<!-- # Objectives -->
+<!-- 1. End to end analysis using R -->
+<!-- 2. Learn the caret package for ML -->
+<!-- 3. Learn to present the case using R Notebooks -->
+<!-- *** -->
+<!-- # Read in the dataset -->
+<!-- I stored the raw files on Github, so I used [RCurl](https://cran.r-project.org/web/packages/RCurl/index.html) with [Wehrley's method](https://github.com/wehrley/wehrley.github.io/blob/master/SOUPTONUTS.md) that utilizes read.csv to the fullest. It's one of the best ways I've found to read in data and also set data-types at the same time. He's done a great job on that function. The dataset contains one ID variable, one response variable and ten predictor variables. -->
+<!-- ```{r, message=FALSE, warning=FALSE} -->
+<!-- library(RCurl,quietly = T) -->
+<!-- library(tidyverse,quietly = T) -->
+<!-- library(ggplot2,quietly = T) -->
+<!-- library(gridExtra,quietly = T) -->
+<!-- # library(Amelia,quietly = T) -->
+<!-- library(beanplot,quietly = T) -->
+<!-- library(caret,quietly = T) -->
+<!-- library(stringr,quietly = T) -->
+<!-- library(party, quietly = T) -->
+<!-- library(xgboost, quietly = T) -->
+<!-- readData <- function(path.name, file.name, column.types, missing.types) { -->
+<!--     gurl <- paste(path.name,file.name,sep="") -->
+<!--     download.file(gurl,file.name,method="curl",quiet = T) -->
+<!--     tbl_df(read.csv(file.name,colClasses=column.types, -->
+<!--              na.strings=missing.types)) -->
+<!-- } -->
+<!-- Titanic.path <- "https://raw.githubusercontent.com/rsangole/Titanic/master/" -->
+<!-- train.data.file <- "train.csv" -->
+<!-- test.data.file <- "test.csv" -->
+<!-- missing.types <- c("NA", "") -->
+<!-- train.column.types <- c('integer',   # PassengerId -->
+<!--                         'factor',    # Survived -->
+<!--                         'factor',    # Pclass -->
+<!--                         'character', # Name -->
+<!--                         'factor',    # Sex -->
+<!--                         'numeric',   # Age -->
+<!--                         'integer',   # SibSp -->
+<!--                         'integer',   # Parch -->
+<!--                         'character', # Ticket -->
+<!--                         'numeric',   # Fare -->
+<!--                         'character', # Cabin -->
+<!--                         'factor'     # Embarked -->
+<!-- ) -->
+<!-- test.column.types <- train.column.types[-2]     # # no Survived column in test.csv -->
+<!-- train.raw <- readData(Titanic.path, train.data.file,train.column.types,missing.types) -->
+<!-- test.raw <- readData(Titanic.path, test.data.file,test.column.types,missing.types) -->
+<!-- prep_data <- function(D) { -->
+<!--     if (!is.null(D$Survived)) { -->
+<!--         D$Survived <- factor(D$Survived, -->
+<!--                              levels = c(1, 0), -->
+<!--                              labels = c('Survived', 'Dead')) -->
+<!--         } -->
+<!--     D$Pclass <- factor(D$Pclass, -->
+<!--                        levels = c(1, 2, 3), -->
+<!--                        labels = c('P1', 'P2', 'P3')) -->
+<!--     D$PassengerId <- NULL -->
+<!--     D -->
+<!-- } -->
+<!-- train.raw <- prep_data(train.raw) -->
+<!-- test.raw <- prep_data(test.raw) -->
+<!-- str(train.raw) -->
+<!-- ``` -->
+<!-- *** -->
+<!-- # Missing values analysis -->
+<!-- Quick investigation of missing values can be done using the `complete.cases()`, and more thorough graphical summary can be done using Amelia. Overall, 79% of the observations have *some* missing data. -->
+<!-- ```{r} -->
+<!-- #Complete cases (percentages) -->
+<!-- round(prop.table(table(complete.cases(train.raw))),2) -->
+<!-- ``` -->
+<!-- Amelia lets us graphically investigate which variables have missing data. `purr::map_xxx()` gives this same information numerically in a succint fashion. -->
+<!-- ```{r, message=FALSE, warning=FALSE} -->
+<!-- Amelia::missmap(train.raw, main='Missing Values Analysis using Amelia ordered by % missing', col=c('red', 'gray'),legend = F,rank.order = T) -->
+<!-- #Missing cases (numbers): -->
+<!-- map_int(train.raw,~sum(is.na(.x))) -->
+<!-- #Missing cases (percentages): -->
+<!-- round(map_dbl(train.raw,~sum(is.na(.x))/length(.x)),2) -->
+<!-- ``` -->
+<!-- Cabin has a large number of missing values (77% missing). Imputing this variable may prove challenging or even useless. Age (19.9% missing) and Embarked (0.2%) missing are much more managable. -->
+<!-- *** -->
+<!-- # EDA -->
+<!-- The first step in the analysis is to explore the data numerically and graphically. I always split up my EDA investigation as follows: -->
+<!-- * Target Variable -->
+<!-- * Predictor Variables -->
+<!--     + Univariate -->
+<!--     + Bivariate -->
+<!--     + Multivariate -->
+<!-- This gives me a structured approach towards larger datasets. My [professor](http://www.syamalasrinivasan.com/) at Northwestern taught me to always complete a thorough intimate numeric & graphical EDA on the data, no matter how large the data [^1]. [Anscombe](http://www.jstor.org/stable/2682899) (1973) clearly shows the importance of graphical analyses. -->
+<!-- [^1]: I think this approach depends on the academic background and the industry of the analyst. Prof Srinivasan, and my mentor at work both have strong statistical academic backgrounds, and both believe in thorough EDA of the data. I've also noticed this approach from individuals in the banking & insurance industry - perhaps due to regulatory requirements. On the other hand, folks trained in computer science and algorithmic data science tend to underplay the importance of thorough EDA. -->
+<!-- ## Target Variable -->
+<!-- `Survived` is the response variable. As we can see, a large majority of the passengers did not survive the accident. The response variable is a False/True boolean variable. Thus, the analysis techniques used later will be those appropriate for classification problems. -->
+<!-- ```{r} -->
+<!-- round(prop.table(table(train.raw$Survived)),2) -->
+<!-- ``` -->
+<!-- *** -->
+<!-- ## Predictor Variables {.tabset .tabset-fade} -->
+<!-- ### Univariate & Bivariate -->
+<!-- The first step is to look at every variable available. I prefer using the `ggplot2` framework for all the visuals. -->
+<!-- #### Continuous Variables -->
+<!-- * `Age` seems to have a bimodal distribution - very young children, and then directly young adults to mid-age persons. The 2nd mode is right skewed with no obvious outliers. -->
+<!-- * `Fare` certainly shows many outliers beyond the ~$200 level. A majority of the fares are <$50, which makes sense since a majority of the travelers are bound to be in the 3rd passenger class. -->
+<!-- ```{r, message=FALSE, warning=FALSE} -->
+<!-- p1 <- ggplot(data=train.raw,aes(x=Age))+geom_histogram(bins = 40) -->
+<!-- p2 <- ggplot(data=train.raw,aes(x=Fare))+geom_histogram(bins = 40) -->
+<!-- grid.arrange(p1,p2) -->
+<!-- ``` -->
+<!-- As we can see, the median fare is $14.5, the mean is $32, but the max is $512. We'll investigate winzorising this variable in the latter part. Perhaps a transformation will also help? -->
+<!-- ```{r} -->
+<!-- summary(train.raw$Fare) -->
+<!-- ``` -->
+<!-- #### Categorical Variables -->
+<!-- A ggplot command is iterated over for the categorical variables.[^2] -->
+<!-- [^2]: To iterate variable names in ggplot, use `ggplot(...)+aes_string(...)` in place of `ggplot(...,aes(...))`. -->
+<!-- Key takeways for the categorical variables: -->
+<!-- 1. `Pclass`: If you were traveling 1st class, you have the highest chance of survival. Could be indicative of preferential treatment to those who paid more, a less politically correct class-stratified society, as well as the fact that the 1st class passengers had cabins at the very top of the ship. -->
+<!-- 2. `Pclass`: Persons traveling 3rd class had the highest fatality rate. 3rd class passengers had cabins deep in the ship. With the reasons give in (1), this could have contributed to the low survival rate. -->
+<!-- 3. `Sex`: Males have a very high fatality rate. Seems like the 'women and children' first policy was followed during evacuation. -->
+<!-- 4. `SibSp` & `Parch`: What's interesting here is, for both these variables, at level 0, the fatality rate is higher. At levels 1+, the chances of survival are much better. Again, this could point to the 'women *and children*' policy being followed. (Or perhaps there weren't as many families with children on board!) -->
+<!-- 6. `Embarked`: Southampton has a higher fatality rate than Cherbourg or Queenstown. A cross-tabulation between `Embarked` and `Pclass` shows that 72% of the 3rd class passengers and 89% of the 2nd class passengers boarded at Southampton. This jives with the observation that 2nd and 3rd class passengers have higher fatality rates. -->
+<!-- ```{r, message=FALSE, warning=FALSE} -->
+<!-- get_legend<-function(myggplot){ -->
+<!--   tmp <- ggplot_gtable(ggplot_build(myggplot)) -->
+<!--   leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box") -->
+<!--   legend <- tmp$grobs[[leg]] -->
+<!--   return(legend) -->
+<!-- } -->
+<!-- p <- lapply(X = c('Pclass','Sex','SibSp','Parch','Embarked'), -->
+<!--             FUN = function(x) ggplot(data = train.raw)+ -->
+<!--                 aes_string(x=x,fill='Survived')+ -->
+<!--                 geom_bar(position="dodge")+ -->
+<!--                 theme(legend.position="none")) -->
+<!-- legend <- get_legend(ggplot(data = train.raw,aes(x=Pclass,fill=Survived))+geom_bar()) -->
+<!-- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],legend,layout_matrix = -->
+<!--                  cbind(c(1,2,3),c(4,5,NA),c(6,6,6)),widths=c(3,3,1)) -->
+<!-- # round(prop.table(table(train.raw$Embarked,train.raw$Pclass),margin = 2),2) -->
+<!-- ``` -->
+<!-- ### Multivariate Analyses -->
+<!-- Grouped boxplots are a common method of comparing distributions grouped by categorical variables. I find [beanplots](https://cran.r-project.org/web/packages/beanplot/beanplot.pdf) to be excellent complementary plots to boxplots (and in some cases, even better). They're a bit tricky to read at first - since they are so underutilized - but just through one plot, a wealth of information can be extracted.[^3] -->
+<!-- Here is a comparison of the same information between a boxplot and a beanplot. What can we infer from the bean plot better? -->
+<!-- 1. The beanplot allows us to visualize the density function of the parameter, in this case: Age. Furthermore, the length of each beanline is cumulative to the number of datapoints that exist. Rightaway, we can tell that Pclass=3 has the most data in the set, with sparser data at Pclass=1. -->
+<!-- 2. The mean values for 1st class is higher than that for 2nd and 3rd class. The distributions of deceased and survived for 1st class are fairly similar. -->
+<!-- 3. For 2nd and 3rd class, the survived data shows a bimodal distribution. Bumps at the 0-10 age show that children were evacuated first. This is also the reason the mean values for survived is lower. -->
+<!-- 4. For 2nd and 3rd class, the deceased data shows a fairly normal distribution. -->
+<!-- 5. The individual measurements (represented by black lines) represent each observation and help identify outliers much more easily than a boxplot does. -->
+<!-- [^3]: Read more about beanplots here: https://cran.r-project.org/web/packages/beanplot/vignettes/beanplot.pdf -->
+<!-- ```{r, fig.height=3, fig.width=5, message=FALSE, warning=FALSE} -->
+<!-- ggplot(train.raw,aes(y=Age,x=Pclass))+geom_boxplot(aes(fill=Survived))+theme_bw() -->
+<!-- beanplot(Age~Survived*Pclass,side='b',train.raw,col=list('yellow','orange'), -->
+<!--          border = c('yellow2','darkorange'),ll = 0.05,boxwex = .5, -->
+<!--          main='Passenger survival by pclass and Age',xlab='Passenger Class',ylab='Age') -->
+<!-- legend('topright', fill = c('yellow','orange'), legend = c("Dead", "Survived"),bty = 'n',cex = .8) -->
+<!-- ``` -->
+<!-- A look into the `SibSp` and `Parch` variables shows something interesting. There are three regions one can identify: -->
+<!-- * The probability of survival is minimal for number of parents/children aboard > 3. -->
+<!-- * The probability of survival is minimal for number of siblings/spouses aboard > 3. -->
+<!-- * For `SibSp`<=3 and `Parch`<=3, there are better chances for survival. -->
+<!-- The grouping by `Pclass` reveals that all the large families were 3rd class travelers. Worse access to help... lowest chance for survival. -->
+<!-- These could be simple rules either hard coded during model building: something along the lines of: *IF (SibSp>3 OR Parch >3) THEN prediction = 0*, or some derived variables can be created. -->
+<!-- ```{r} -->
+<!-- ggplot(train.raw,aes(y=SibSp,x=Parch))+ -->
+<!--     geom_jitter(aes(color=Survived,shape=Pclass))+ -->
+<!--     theme_bw()+ -->
+<!--     scale_shape(solid=F)+ -->
+<!--     geom_vline(xintercept = 3,color='darkblue',lty=3)+ -->
+<!--     geom_hline(yintercept = 3,color='darkblue',lty=3) -->
+<!-- ``` -->
+<!-- *** -->
+<!-- # Data Preparation -->
+<!-- ## Missing Values Imputation -->
+<!-- Starting with the easier one first: -->
+<!-- **Embarked**: The largest portion of the passengers embared at Southhampton. I'm replacing the NAs with the same. First, I create a new imputed training dataset. -->
+<!-- ```{r} -->
+<!-- summary(train.raw$Embarked) -->
+<!-- train.imp <- train.raw -->
+<!-- train.imp$Embarked[is.na(train.imp$Embarked)] <- 'S' -->
+<!-- ``` -->
+<!-- **Names, Titles & Age**: -->
+<!-- The names have titles embedded in the strings. I can extract these using regex. Master, Miss, Mr and Mrs are the most popular - no surprise there, with lots of other titles.  Here's the distribution of the titles by age. These can be used to impute the missing age values. -->
+<!-- ```{r, message=FALSE, warning=FALSE} -->
+<!-- train.imp$title <- str_extract(pattern = '[a-zA-Z]+(?=\\.)',string = train.imp$Name) -->
+<!-- train.imp$title <- as.factor(train.imp$title) -->
+<!-- train.imp %>% -->
+<!--     na.omit() %>% -->
+<!--     group_by(title) %>% -->
+<!--     dplyr::summarise(Count=n(), Median_Age=round(median(Age),0)) %>% -->
+<!--     arrange(-Median_Age) -->
+<!-- ``` -->
+<!-- ```{r, message=FALSE, warning=FALSE} -->
+<!-- ggplot(train.imp,aes(x=title,y=Age))+ -->
+<!--     stat_summary(aes(y = Age,group=1), fun.y=median, colour="red", geom="point",group=1)+ -->
+<!--     geom_jitter(shape=21,alpha=.6,col='blue')+ -->
+<!--     theme_bw()+ -->
+<!--     theme(axis.text.x = element_text(angle = 45, hjust = 1),legend.position="none")+ -->
+<!--     labs(caption='Red points are median values') -->
+<!-- ``` -->
+<!-- Grouping similar titles together, I've kept a few titles - Officer, Royalty, Mr, Mrs and Miss. -->
+<!-- ```{r} -->
+<!-- train.imp$title <- as.character(train.imp$title) -->
+<!-- train.imp$title[train.imp$title %in% c('Col','Major')] <- 'Officer' -->
+<!-- train.imp$title[train.imp$title %in% c('Don','Dr','Rev','Sir','Jonkheer','Countess','Lady','Dona')] <- 'Royalty' -->
+<!-- train.imp$title[train.imp$title %in% c('Mrs','Mme')] <- 'Mrs' -->
+<!-- train.imp$title[train.imp$title %in% c('Ms','Mlle')] <- 'Miss' -->
+<!-- train.imp$title <- as.factor(train.imp$title) -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- ggplot(train.imp,aes(x=title,y=Age))+ -->
+<!--     geom_jitter(color='blue',shape=21,alpha=.7)+ -->
+<!--     stat_summary(aes(y = Age,group=1), fun.y=median, colour="red", geom="point",group=1)+ -->
+<!--     theme_bw()+ -->
+<!--     theme(axis.text.x = element_text(angle = 45, hjust = 1))+ -->
+<!--     labs(caption='Red points are median values') -->
+<!-- ``` -->
+<!-- Now for the missing Age values. I'm trying out two strategies to impute age, just for kicks. First, a regression tree using the `rpart` method. 5-repeat 10-fold cross validation across a tuning grid of 20 values of `maxdepth`. RMSE stablizes at a depth of 14, with a value of 12.2. -->
+<!-- ```{r} -->
+<!-- age.predictors <- train.imp %>% -->
+<!--     dplyr::select(-Survived,-Cabin,-Ticket,-Name) %>% -->
+<!--     filter(complete.cases(.)) -->
+<!-- set.seed(1234) -->
+<!-- ctrl <- trainControl(method = "boot", -->
+<!--                      repeats = 5, -->
+<!--                      number = 200 -->
+<!--                      ) -->
+<!-- rpartGrid <- data.frame(maxdepth = seq(4,20,2)) -->
+<!-- rpartFit <- train(Age~., -->
+<!--                   data=age.predictors, -->
+<!--                   method='rpart2', -->
+<!--                   trControl = ctrl, -->
+<!--                   tuneGrid = rpartGrid -->
+<!--                   ) -->
+<!-- rpartFit -->
+<!-- plot(rpartFit) -->
+<!-- plot(rpartFit$finalModel,margin=0.02) -->
+<!-- text(rpartFit$finalModel,cex=0.8) -->
+<!-- ``` -->
+<!-- Another way is to run a randomforest with a search over values of `mtry` using 5-repeat 10-fold cross validation. As we can see mtry=4 is the optimal value which results in the lowest RMSE of 11.4; much better than the rpart model. -->
+<!-- ```{r} -->
+<!-- set.seed(1234) -->
+<!-- rfGrid <- data.frame(mtry=seq(1,6,1)) -->
+<!-- ctrl <- trainControl(method = "repeatedcv", -->
+<!--                      repeats = 5 -->
+<!--                      ) -->
+<!-- rfFit <- train(Age~., -->
+<!--                   data=age.predictors, -->
+<!--                   method='rf', -->
+<!--                   trControl = ctrl, -->
+<!--                   tuneGrid = rfGrid) -->
+<!-- rfFit -->
+<!-- plot(rfFit) -->
+<!-- ``` -->
+<!-- I'm going to use the randomForest model. Using the `predict.train()` to predict values of age and plug them back into the imputed data. You can see the blue points which are the imputed values of `Age`. What I noticed is that for all the titles, the imputed Age value seems to be distributed fairly well, except Master. For Master, the three imputed are definitely outliers. I'm going to force these to the median Age. -->
+<!-- ```{r} -->
+<!-- missing.age <- train.imp %>% filter(is.na(Age)) -->
+<!-- age.predicted <- predict(rfFit, newdata = missing.age) -->
+<!-- train.imp %>% -->
+<!--     mutate(AgeMissing = is.na(Age), -->
+<!--            Age = ifelse(AgeMissing,age.predicted,Age)) %>% -->
+<!--     ggplot(aes(x=title,y=Age))+ -->
+<!--     stat_summary(aes(y = Age,group=1), fun.y=median, colour="red", geom="point",group=1)+ -->
+<!--     geom_jitter(aes(y=Age,col=AgeMissing),shape=2)+ -->
+<!--     theme_bw()+ -->
+<!--     theme(axis.text.x = element_text(angle = 45, hjust = 1),legend.position="none")+ -->
+<!--     labs(caption='Red points are median values') -->
+<!-- train.imp$Age[is.na(train.imp$Age)] <- age.predicted -->
+<!-- train.imp$Age[train.imp$title=='Master' & train.imp$Age > 20] <- median(train.imp$Age[train.imp$title=='Master'],na.rm = T) -->
+<!-- ``` -->
+<!-- ## Derived Variables -->
+<!-- **Child?:** Trying out two engineered variables here - is the passenger a child or not? Using Age=18 as a threshold. And is s/he close enough to be considered a adult by chance? Those between 16 and 18 could be mistaken for not being children. (My way of incorporating a fudge factor in the decision process of ladies & children first.) -->
+<!-- ```{r} -->
+<!-- train.imp$child <- 0 -->
+<!-- train.imp$child[train.imp$Age<18] <- 1 -->
+<!-- train.imp$almostadult <- as.numeric(between(train.imp$Age,16,18)) -->
+<!-- ``` -->
+<!-- **Really young, or really old?:** Really young ones and older folks would get priority perhaps. Creating two categorical binary variables for these conditions. -->
+<!-- ```{r} -->
+<!-- train.imp$Young <- ifelse(train.imp$Age<10,1,0) -->
+<!-- train.imp$Seniors <- ifelse(train.imp$Age>60,1,0) -->
+<!-- ``` -->
+<!-- **Family related:** Let's also create some variables that talk about family sizes. What's the total family size -- continous variable `TotalFam`. Is the person single, part of a couple or a large family? Three categorical variables for these. -->
+<!-- ```{r} -->
+<!-- train.imp$TotalFam <- train.imp$SibSp + train.imp$Parch + 1 -->
+<!-- train.imp$LargeParCh <- as.numeric(train.imp$Parch>=3) -->
+<!-- train.imp$LargeSibSp <- as.numeric(train.imp$SibSp>=3) -->
+<!-- train.imp$Single <- ifelse(train.imp$TotalFam==1,1,0) -->
+<!-- train.imp$Couple <- ifelse(train.imp$TotalFam==2,1,0) -->
+<!-- train.imp$Family <- ifelse(train.imp$TotalFam>4,1,0) -->
+<!-- train.imp$Name <- NULL -->
+<!-- ``` -->
+<!-- **Cabin related:** Extracting the cabin alphabet and number from the cabin variable. Since the cabin numbers could be ordered from left to right or top to bottom on the boat, perhaps only the 1st digit is significant. Also, some folks have more than 1 cabin. Wonder if that's important. Since lots of unknowns in the `Cabin` variable, all NA values are replaced by 'U'. Refering to the deck diagram, the topmost decks are A and B, which are closest to the lifeboats. Perhaps that's important too. Here, I create a bunch of categorical variables based off the original `Cabin`, and then remove it from the dataset. -->
+<!-- ```{r} -->
+<!-- train.imp$CabinMissing <- as.numeric(is.na(train.raw$Cabin)) -->
+<!-- train.imp$CabinCode <- map_chr(train.raw$Cabin,~str_split(string = .x,pattern = '')[[1]][1]) -->
+<!-- train.imp$CabinCode[is.na(train.imp$CabinCode)] <- 'U' -->
+<!-- train.imp$CabinNum <- as.numeric(map_chr(train.raw$Cabin,~str_split(string = .x,pattern = '[a-zA-Z]')[[1]][2])) -->
+<!-- train.imp$CabinNum <- map_int(train.imp$CabinNum, ~as.integer(str_split(.x,pattern = '',simplify = T)[1][1])) -->
+<!-- train.imp$CabinNum[is.na(train.imp$CabinNum)] <- 0 -->
+<!-- train.imp$TopDeck <- ifelse(train.imp$CabinCode %in% c('A','B'),1,0) -->
+<!-- train.imp$MidDeck <- ifelse(train.imp$CabinCode %in% c('C','D'),1,0) -->
+<!-- train.imp$LowerDeck <- ifelse(train.imp$TopDeck==0 & train.imp$MidDeck ==0 ,1,0) -->
+<!-- train.imp$NumberofCabins <- map_int(train.raw$Cabin,~str_split(string = .x,pattern = ' ')[[1]] %>% length) -->
+<!-- train.imp$Cabin <- NULL -->
+<!-- ``` -->
+<!-- **Ticket:** Lastly, the `ticket` variable. I'm not sure what to make of it, so I'm keeping it for now, after cleaning it up a bit. A majority (80%) of the rows have unique (one) ticket. 14% rows have a duplicate ticket, perhaps indicating a family. A small number of rows have 3+ duplicates of the tickets. -->
+<!-- ```{r} -->
+<!-- train.imp$Ticket %>% table() %>% as.numeric() %>% table() -->
+<!-- ``` -->
+<!-- There seems to be a bit of a pattern here. Tickets starting with 1 are mostly 1st class, those starting with 2 are 2nd class, and 3 - 3rd class. But, I feel it's a very loose association. -->
+<!-- ```{r} -->
+<!-- train.imp %>% group_by(Pclass) %>% dplyr::select(Ticket,Pclass) %>% sample_n(5) -->
+<!-- ``` -->
+<!-- What I'm going to do is clean up the columns (remove special characters, spaces etc), then split the `Ticket` column into four: `TicketChar`, `TicketNum`,`TicketNumLength`, `TicketNumStart`.  (Upon running the script a few times, I've decided to get rid of `TicketNum`, but I'm commenting the code for future ref). The `TicketChar` variable as this distribution: -->
+<!-- ```{r} -->
+<!-- train.imp %<>% -->
+<!--     mutate( -->
+<!--         Ticket = str_to_upper(Ticket) %>% -->
+<!--             str_replace_all(pattern = regex(pattern = '[.\\/]'),replacement = ''), -->
+<!--         TicketNum = str_extract(Ticket,pattern = regex('([0-9]){3,}')), -->
+<!--         TicketNumStart = map_int(TicketNum,~as.integer(str_split(.x,pattern = '',simplify = T)[1])), -->
+<!--         TicketNumLen = map_int(TicketNum,~dim(str_split(.x,pattern = '',simplify = T))[2]), -->
+<!--         TicketChar = str_extract(Ticket,pattern = regex('^[a-zA-Z/\\.]+'))  -->
+<!--         ) %>% -->
+<!--      mutate( -->
+<!--          TicketChar = map_chr(.x=TicketChar, -->
+<!--                               .f=~str_split(string=.x, pattern = '',simplify = T)[1]) -->
+<!--          ) %>%      -->
+<!--     mutate( -->
+<!--         TicketChar = ifelse(is.na(TicketChar),'U',TicketChar), -->
+<!--         TicketNumStart = ifelse(is.na(TicketNumStart),0,TicketNumStart), -->
+<!--         TicketNumLen = ifelse(is.na(TicketNumLen),0,TicketNumLen), -->
+<!--     ) -->
+<!-- train.imp$Ticket <- NULL -->
+<!-- train.imp$TicketNum <- NULL -->
+<!-- table(train.imp$TicketChar,dnn ='TicketChar') -->
+<!-- table(train.imp$TicketNumLen,dnn='TicketNumLen') -->
+<!-- table(train.imp$TicketNumStart,dnn='TicketNumStart') -->
+<!-- ``` -->
+<!-- ## Winzoring Variables -->
+<!-- The `fare` variable has one massive outlier. Winzorising this variable using the 95th percentile value as the cutoff. -->
+<!-- ```{r} -->
+<!-- # ggplot(train.imp,aes(x=Fare,fill=Pclass))+geom_histogram()+facet_grid(Pclass~.) -->
+<!-- # quantile(train.imp$Fare[train.imp$Pclass=='P1'],probs = c(.1,.25,.5,.75,.95)) -->
+<!-- # train.imp$Fare[train.imp$Fare>232] <- 232 -->
+<!-- ``` -->
+<!-- ## Final Data Review -->
+<!-- The dataset is now prepared for modeling. Here's a quick review of the data so far. 29 variables in total. -->
+<!-- ```{r} -->
+<!-- train.imp %>% glimpse() -->
+<!-- ``` -->
+<!-- *** -->
+<!-- # Modeling -->
+<!-- I'm experimenting with a few modeling techniques, mainly [xgboost](http://xgboost.readthedocs.io/en/latest/), [gbm](https://cran.r-project.org/web/packages/gbm/index.html), and penalized models using [glmnet](https://cran.r-project.org/web/packages/glmnet/index.html). I've implemented all these models using [caret](http://topepo.github.io/caret/index.html) which I find an absolutely indispensible toolkit to prep, build, tune and explore numerous models using very few lines of code. -->
+<!-- For all models, I'm using a 5-repeat 10-fold cross validation technique on the training dataset. Thus, I have not split the training dataset further into test-train sets, given the small number of observations in the dataset.  -->
+<!-- Furthermore, given the 80:20 class-imbalance, I'm also trying out [smote](https://www.jair.org/media/953/live-953-2037-jair.pdf) as an class balancing technique for a few models.  -->
+<!-- Tuning parameter searches (aka hypertuning) is performed using the `tuneGrid` parameter in the `train()` call. The best model is selected using the AUC of the ROC. Here are the models and a few intermediate results for each model. At the end, I've compared the performance of all the models together. -->
+<!-- ## Extreme Gradient Boosting (xgboost - 5repeat-10fold-cv) -->
+<!-- ```{r echo=TRUE, message=FALSE} -->
+<!-- ctrl <- trainControl(method = "repeatedcv", -->
+<!--                      repeats = 5, -->
+<!--                      verboseIter = T, -->
+<!--                      classProbs = TRUE, -->
+<!--                      summaryFunction = twoClassSummary -->
+<!--                      ) -->
+<!-- set.seed(1) -->
+<!-- xgbGrid <- expand.grid( -->
+<!--     nrounds=c(2,3,4,5,6,7), -->
+<!--     max_depth=c(2,3,4,5,6,7), -->
+<!--     eta=c(0.3,0.5), -->
+<!--     gamma=1, -->
+<!--     colsample_bytree=1, -->
+<!--     min_child_weight=1, -->
+<!--     subsample=1 -->
+<!-- ) -->
+<!-- dumV <- dummyVars(formula = Survived~.,data = train.imp) -->
+<!-- Dtrain <- predict(dumV,train.imp) -->
+<!-- xgbFit <- train( -->
+<!--     x=Dtrain, -->
+<!--     y=train.imp$Survived, -->
+<!--     method = 'xgbTree', -->
+<!--     trControl = ctrl, -->
+<!--     # metric = "Kappa", -->
+<!--     tuneGrid = xgbGrid, -->
+<!--     verbose = TRUE -->
+<!-- ) -->
+<!-- save(xgbFit,file = 'xgbFit') -->
+<!-- xgbFit -->
+<!-- plot(xgbFit) -->
+<!-- xgb.importance(feature_names = colnames(Dtrain),model = xgbFit$finalModel) %>% -->
+<!--     xgb.ggplot.importance() -->
+<!-- densityplot(xgbFit,pch='|') -->
+<!-- predict(xgbFit,type = 'prob') -> train.Probs -->
+<!-- histogram(~Survived+Dead,train.Probs) -->
+<!-- ``` -->
+<!-- ## Extreme Gradient Boosting (xgboost) - SMOTE Sampling -->
+<!-- ```{r} -->
+<!-- ctrl <- trainControl(method = "repeatedcv", -->
+<!--                      repeats = 5, -->
+<!--                      verboseIter = T, -->
+<!--                      classProbs = TRUE, -->
+<!--                      summaryFunction = twoClassSummary, -->
+<!--                      sampling = 'smote' -->
+<!--                      ) -->
+<!-- xgbGrid <- expand.grid( -->
+<!--     nrounds=c(2,3,4,5,6,7), -->
+<!--     max_depth=c(2,3,4,5,6,7), -->
+<!--     eta=c(0.3,0.5), -->
+<!--     gamma=1, -->
+<!--     colsample_bytree=1, -->
+<!--     min_child_weight=1, -->
+<!--     subsample=1 -->
+<!-- ) -->
+<!-- dumV <- dummyVars(formula = Survived~.,data = train.imp) -->
+<!-- Dtrain <- predict(dumV,train.imp) -->
+<!-- set.seed(1) -->
+<!-- xgbsmoteFit <- train( -->
+<!--     x=Dtrain, -->
+<!--     y=train.imp$Survived, -->
+<!--     method = 'xgbTree', -->
+<!--     trControl = ctrl, -->
+<!--     # metric = "Kappa", -->
+<!--     tuneGrid = xgbGrid, -->
+<!--     verbose = TRUE -->
+<!-- ) -->
+<!-- save(xgbsmoteFit,file = 'xgbsmoteFit') -->
+<!-- xgbsmoteFit -->
+<!-- plot(xgbsmoteFit) -->
+<!-- xgb.importance(feature_names = colnames(Dtrain),model = xgbsmoteFit$finalModel) -->
+<!-- xgb.importance(feature_names = colnames(Dtrain),model = xgbsmoteFit$finalModel) %>% -->
+<!-- xgb.ggplot.importance() -->
+<!-- densityplot(xgbsmoteFit,pch='|') -->
+<!-- predict(xgbsmoteFit,type = 'raw') -> train.Class -->
+<!-- predict(xgbsmoteFit,type = 'prob') -> train.Probs -->
+<!-- histogram(~Survived+Dead,train.Probs) -->
+<!-- ``` -->
+<!-- ## Elastinet -->
+<!-- ```{r} -->
+<!-- ctrl <- trainControl(method = "repeatedcv", -->
+<!--                      repeats = 5, -->
+<!--                      verboseIter = T, -->
+<!--                      classProbs = TRUE, -->
+<!--                      summaryFunction = twoClassSummary, -->
+<!--                      sampling = 'smote' -->
+<!--                      ) -->
+<!-- glmnetGrid <- expand.grid(.alpha = c(0,.1,.2,.4,.6,.8,1), -->
+<!--                           .lambda = seq(0.01,0.2,length.out = 40)) -->
+<!-- set.seed(1) -->
+<!-- dumV <- dummyVars(formula = Survived~.,data = train.imp) -->
+<!-- Dtrain <- predict(dumV,train.imp) -->
+<!-- glmnetFit <- train( -->
+<!--     x = Dtrain, -->
+<!--     y = train.imp$Survived, -->
+<!--     trControl=ctrl, -->
+<!--     method='glmnet', -->
+<!--     tuneGrid=glmnetGrid -->
+<!-- ) -->
+<!-- save(glmnetFit,file = 'glmnetFit') -->
+<!-- glmnetFit -->
+<!-- plot(glmnetFit,plotType='level') -->
+<!-- plot(varImp(glmnetFit)) -->
+<!-- densityplot(glmnetFit,pch='|') -->
+<!-- predict(glmnetFit,type = 'prob') -> train.glmnet.Probs -->
+<!-- histogram(~Survived+Dead,train.glmnet.Probs) -->
+<!-- ``` -->
+<!-- # Compare models -->
+<!-- ```{r} -->
+<!-- re <- -->
+<!--     resamples( -->
+<!--     x = list( -->
+<!--     xgb = xgbFit, -->
+<!--     xgbsmote = xgbsmoteFit, -->
+<!--     # xgbdown = xgbdownFit, -->
+<!--     # xgbsmall = xgbsmallFit, -->
+<!--     # xgbLGOCV = xgbFit.LGOCV, -->
+<!--     # rf = rfFit.y, -->
+<!--     # rfsmote = rfsmoteFit.y, -->
+<!--     # gbm = boostFit, -->
+<!--     elastinet=glmnetFit -->
+<!--     # crf = crfFit, -->
+<!--     # crfFit_class= crfFit_class, -->
+<!--     # xgbsmall=xgbsmallFit, -->
+<!--     # cforest=cforestFit -->
+<!--     ) -->
+<!--     ) -->
+<!-- # summary(re) -->
+<!-- bwplot(re) -->
+<!-- dotplot(re) -->
+<!-- # summary(diff(re)) -->
+<!-- ``` -->
+<!-- ## Calibration curves -->
+<!-- ```{r} -->
+<!-- simulatedTrain <- data.frame(Class = train.imp$Survived) -->
+<!-- # simulatedTrain$rf = predict(rfFit.y,type = 'prob')[[1]] -->
+<!-- # simulatedTrain$rfsmote = predict(rfsmoteFit.y,type = 'prob')[[1]] -->
+<!-- simulatedTrain$xgb = predict(xgbFit,type = 'prob')[[1]] -->
+<!-- simulatedTrain$xgbsmote = predict(xgbsmoteFit,type = 'prob')[[1]] -->
+<!-- # simulatedTrain$boost = predict(boostFit,type = 'prob')[[1]] -->
+<!-- simulatedTrain$glmnet = predict(glmnetFit,type = 'prob')[[1]] -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- calCurve <- calibration(x = Class~xgb+xgbsmote+glmnet,data = simulatedTrain) -->
+<!-- xyplot(calCurve,auto.key=list(columns=3)) -->
+<!-- ``` -->
+<!-- # Calibrating probabilities -->
+<!-- ```{r} -->
+<!-- xgbsmotesigmoidCal <- glm(relevel(Class,ref='Dead')~xgbsmote,simulatedTrain,family = 'binomial') -->
+<!-- coef(summary(xgbsmotesigmoidCal)) -->
+<!-- simulatedTrain$xgbsmoteSig = predict(xgbsmotesigmoidCal,type = 'response') -->
+<!-- calibration(x = Class~xgbsmote+xgbsmoteSig,data = simulatedTrain) %>% -->
+<!--     xyplot(auto.key=list(columns=2)) -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- glmnetsigmoidCal <- glm(relevel(Class,ref='Dead')~glmnet,simulatedTrain,family = 'binomial') -->
+<!-- coef(summary(glmnetsigmoidCal)) -->
+<!-- simulatedTrain$glmnetSig = predict(glmnetsigmoidCal,type = 'response') -->
+<!-- calibration(x = Class~glmnet+glmnetSig,data = simulatedTrain) %>% -->
+<!--     xyplot(auto.key=list(columns=2)) -->
+<!-- ``` -->
+<!-- # Test Set Evaluation -->
+<!-- ## Create test set -->
+<!-- ```{r} -->
+<!-- test.imp <- test.raw -->
+<!-- #Embarked -->
+<!-- test.imp$Embarked[is.na(test.imp$Embarked)]='S' -->
+<!-- #Title -->
+<!-- test.raw$title <- str_extract(pattern = '[a-zA-Z]+(?=\\.)',string = test.raw$Name) -->
+<!-- #test.raw$title <- as.factor(test.raw$title) -->
+<!-- test.imp$title <- as.character(test.raw$title) -->
+<!-- test.imp$title[test.imp$title %in% c('Col','Major')] <- 'Officer' -->
+<!-- test.imp$title[test.imp$title %in% c('Don','Dr','Rev','Sir','Jonkheer','Countess','Lady','Dona')] <- 'Royalty' -->
+<!-- test.imp$title[test.imp$title %in% c('Mrs','Mme')] <- 'Mrs' -->
+<!-- test.imp$title[test.imp$title %in% c('Ms','Mlle')] <- 'Miss' -->
+<!-- test.imp$title <- as.factor(test.imp$title) -->
+<!-- #Missing age -->
+<!-- missing.age <- test.imp %>% filter(is.na(Age)) -->
+<!-- age.predicted <- predict(rfFit, newdata = missing.age) -->
+<!-- test.imp$Age[is.na(test.imp$Age)] <- age.predicted -->
+<!-- test.imp$Age[test.imp$title=='Master' & test.imp$Age > 20] <- 4 -->
+<!-- #Child -->
+<!-- test.imp$child <- 0 -->
+<!-- test.imp$child[test.imp$Age<18] <- 1 -->
+<!-- test.imp$almostadult <- as.numeric(between(test.imp$Age,16,18)) -->
+<!-- #Young/old -->
+<!-- test.imp$Young <- ifelse(test.imp$Age<10,1,0) -->
+<!-- test.imp$Seniors <- ifelse(test.imp$Age>60,1,0) -->
+<!-- #Family Related -->
+<!-- test.imp$TotalFam <- test.imp$SibSp + test.imp$Parch + 1 -->
+<!-- test.imp$Name <- NULL -->
+<!-- test.imp$LargeParCh <- as.numeric(test.imp$Parch>=3) -->
+<!-- test.imp$LargeSibSp <- as.numeric(test.imp$SibSp>=3) -->
+<!-- test.imp$Single <- ifelse(test.imp$TotalFam==1,1,0) -->
+<!-- test.imp$Couple <- ifelse(test.imp$TotalFam==2,1,0) -->
+<!-- test.imp$Family <- ifelse(test.imp$TotalFam>4,1,0) -->
+<!-- #Cabin & Deck -->
+<!-- test.imp$CabinMissing <- as.numeric(is.na(test.raw$Cabin)) -->
+<!-- test.imp$CabinCode <- map_chr(test.raw$Cabin,~str_split(string = .x,pattern = '')[[1]][1]) -->
+<!-- test.imp$CabinCode[is.na(test.imp$CabinCode)] <- 'U' -->
+<!-- test.imp$CabinNum <- as.numeric(map_chr(test.raw$Cabin,~str_split(string = .x,pattern = '[a-zA-Z]')[[1]][2])) -->
+<!-- test.imp$CabinNum <- map_int(test.imp$CabinNum, ~as.integer(str_split(.x,pattern = '',simplify = T)[1][1])) -->
+<!-- test.imp$CabinNum[is.na(test.imp$CabinNum)] <- 0 -->
+<!-- test.imp$CabinCode <- factor( -->
+<!--     x = test.imp$CabinCode, -->
+<!--     levels = unique(train.imp$CabinCode) -->
+<!-- ) -->
+<!-- test.imp$TopDeck <- ifelse(test.imp$CabinCode %in% c('A','B'),1,0) -->
+<!-- test.imp$MidDeck <- ifelse(test.imp$CabinCode %in% c('C','D'),1,0) -->
+<!-- test.imp$LowerDeck <- ifelse(test.imp$TopDeck==0 & test.imp$MidDeck ==0 ,1,0) -->
+<!-- test.imp$NumberofCabins <- map_int(test.raw$Cabin,~str_split(string = .x,pattern = ' ')[[1]] %>% length) -->
+<!-- test.imp$Cabin <- NULL -->
+<!-- # Ticket -->
+<!-- test.imp %<>% -->
+<!--     mutate( -->
+<!--       Ticket = str_to_upper(Ticket) %>% -->
+<!--           str_replace_all(pattern = regex(pattern = '[.\\/]'),replacement = ''), -->
+<!--       TicketNum = str_extract(Ticket,pattern = regex('([0-9]){3,}')), -->
+<!--       TicketNumStart = map_int(TicketNum,~as.integer(str_split(.x,pattern = '',simplify = T)[1])), -->
+<!--       TicketNumLen = map_int(TicketNum,~dim(str_split(.x,pattern = '',simplify = T))[2]), -->
+<!--       TicketChar = str_extract(Ticket,pattern = regex('^[a-zA-Z/\\.]+')) -->
+<!--       ) %>% -->
+<!--     mutate( -->
+<!--         TicketChar = map_chr(.x=TicketChar, -->
+<!--                              .f=~str_split(string=.x, pattern = '',simplify = T)[1]) -->
+<!--         ) %>%   -->
+<!--     mutate( -->
+<!--       TicketChar = ifelse(is.na(TicketChar),'U',TicketChar), -->
+<!--       TicketNumStart = ifelse(is.na(TicketNumStart),0,TicketNumStart), -->
+<!--       TicketNumLen = ifelse(is.na(TicketNumLen),0,TicketNumLen), -->
+<!--     ) -->
+<!-- test.imp$Ticket <- NULL -->
+<!-- test.imp$TicketNum <- NULL -->
+<!-- #Fare -->
+<!-- test.imp$Fare[is.na(test.imp$Fare)] <- 14.4542 -->
+<!-- # test.imp$Fare[test.imp$Fare>232] <- 232 -->
+<!-- ``` -->
+<!-- ## Predict test results -->
+<!-- ```{r} -->
+<!-- dumV <- dummyVars(formula = ~.,data = test.imp) -->
+<!-- Dtest <- predict(dumV,test.imp) -->
+<!-- # boostPred <- ifelse(predict(boostFit$finalModel,newdata = Dtest,n.trees = boostFit$bestTune$n.trees,type = 'response')>0.5,1,2) -->
+<!-- xgbPred <- predict(object = xgbFit, newdata = Dtest) -->
+<!-- xgbsmotePred <- predict(object = xgbsmoteFit, newdata = Dtest) -->
+<!-- # rfPred <- predict(object = rfFit.y, newdata = test.imp) -->
+<!-- # rfsmotePred <- predict(object = rfsmoteFit.y, newdata = test.imp) -->
+<!-- # boostProb <- data.frame(boost=predict(boostFit$finalModel,newdata = Dtest,n.trees = boostFit$bestTune$n.trees,type = 'response')) -->
+<!-- # boostSigPred <- predict(object = boostsigmoidCal,newdata = boostProb,type = 'response') -->
+<!-- # boostSigPred <- ifelse(boostSigPred>=0.5,1,2) -->
+<!-- # xgbsmotesigmoidCal -->
+<!-- # xgbProb <- data.frame(xgbsmote=predict(object = xgbsmoteFit, newdata = Dtest,type = 'prob')[[1]]) -->
+<!-- # xgbsmoteSigPred <- predict(object = xgbsmotesigmoidCal,newdata = xgbProb,type = 'response') -->
+<!-- # xgbsmoteSigPred <- ifelse(xgbsmoteSigPred>0.5,1,2) -->
+<!-- # crfPred <- predict(crfFit,newdata = test.imp) -->
+<!-- # crfClassPred <- predict(crfFit_class,newdata = test.imp) -->
+<!-- #  -->
+<!-- # xgbdownPred <- predict(xgbdownFit,newdata = Dtest) -->
+<!-- ``` -->
+<!-- Combined data... ensemble voting model... -->
+<!-- ```{r} -->
+<!-- d <- data.frame(xgbPred,xgbsmotePred) -->
+<!-- map_df(d,~as.numeric(.x)*-1+2) -> d -->
+<!-- d %<>%  -->
+<!--     mutate(Avg=rowMeans(.), -->
+<!--            Sums = rowSums(.), -->
+<!--            EnsembleVote = as.numeric(Sums>4)) -->
+<!-- ensemblePred <- -1*(d$EnsembleVote-2) -->
+<!-- ensemblePred -->
+<!-- ``` -->

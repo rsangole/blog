@@ -13,6 +13,9 @@ output:
   blogdown::html_page:
     toc: true
 ---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
 
 This page replicates the codes written by Grun & Leish (2007) in ['FlexMix: An R package for finite mixture modelling', University of Wollongong, Australia.](http://ro.uow.edu.au/cgi/viewcontent.cgi?article=3410&context=commpapers) My intent here was to learn the flexmix package by replicating the results by the authors.
 

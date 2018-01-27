@@ -1,0 +1,23 @@
+---
+title: The beauty of Lattice
+author: Rahul Sangole
+date: '2018-01-30'
+slug: the-beauty-of-lattice
+draft: yes
+categories:
+  - R
+tags:
+  - R
+  - lattice
+  - ggplot
+  - visualization
+output:
+    blogdown::html_page:
+        toc: true
+---
+**tl;dr**: I've come to love `lattice` over `ggplot` in the past few months working with large datasets. Some of the reasons why are listed here.
+
+# Plots I really like
+
+# Performance comparison
+
