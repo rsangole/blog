@@ -17,7 +17,26 @@ output:
 ---
 **tl;dr**: I've come to love `lattice` over `ggplot` in the past few months working with large datasets. Some of the reasons why are listed here.
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+```{r}
+library(lattice)
+library(caret)
+data("Sacramento")
+```
+
 # Plots I really like
 
 # Performance comparison
+
+```{r}
+histogram(price~sqft|type,Sacramento)
+```
+
+```{r}
+ggplot(Sacramento, aes(x=sqft, fill=type))+
+    geom_histogram()
+```
 

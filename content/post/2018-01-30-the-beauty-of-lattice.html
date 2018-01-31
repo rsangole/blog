@@ -25,9 +25,20 @@ output:
 </div>
 
 <p><strong>tl;dr</strong>: I’ve come to love <code>lattice</code> over <code>ggplot</code> in the past few months working with large datasets. Some of the reasons why are listed here.</p>
+<pre class="r"><code>library(lattice)
+library(caret)</code></pre>
+<pre><code>## Warning: package &#39;caret&#39; was built under R version 3.4.3</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre class="r"><code>data(&quot;Sacramento&quot;)</code></pre>
 <div id="plots-i-really-like" class="section level1">
 <h1>Plots I really like</h1>
 </div>
 <div id="performance-comparison" class="section level1">
 <h1>Performance comparison</h1>
+<pre class="r"><code>histogram(price~sqft|type,Sacramento)</code></pre>
+<p><img src="/post/2018-01-30-the-beauty-of-lattice_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(Sacramento, aes(x=sqft, fill=type))+
+    geom_histogram()</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="/post/2018-01-30-the-beauty-of-lattice_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>

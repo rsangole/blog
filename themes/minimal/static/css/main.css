@@ -84,13 +84,12 @@ a:hover {
     font-size: 125%;
     display: inline-block !important;
     text-decoration: none;
-
 }
 
 /*coloured borders at top and bottom of the page*/
 
 .navbar.navbar-default {
-    border-top: var(--border-width) solid var(--accent);
+    border-top: var(--border-width) solid var(--line_accent);
 }
 
 .link_noUL_navbar a {
@@ -98,7 +97,7 @@ a:hover {
 }
 
 footer {
-    border-bottom: var(--border-width) solid var(--accent);
+    border-bottom: var(--border-width) solid var(--line_accent);
 }
 
 img {

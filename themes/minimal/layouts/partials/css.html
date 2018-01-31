@@ -7,6 +7,7 @@
 
     :root {
         --accent: {{ .Site.Params.accent | default "#2196F3" }};
+        --line_accent: {{ .Site.Params.line_accent | default "#2196F3" }};
         --border-width: {{ if .Site.Params.showBorder | default false }} 5px {{ else }} 0 {{ end }};
     }
 
@@ -15,13 +16,11 @@
 <!-- custom -->
 {{ range .Site.Params.css }} <link rel="stylesheet" href="{{ . }}"> {{ end }}
 
-<!-- bootstrap - light theme
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
-
 <!-- solar-dark bootstrap
-<link rel="stylesheet" href="https://bootswatch.com/4/solar/bootstrap.css">
+<link rel="stylesheet" href=https://bootswatch.com/3/superhero/bootstrap.css>
 -->
-<link rel="stylesheet" href=https://bootswatch.com/3/lumen/bootstrap.css>
+<link rel="stylesheet" href="https://bootswatch.com/3/lumen/bootstrap.css">
+
 
 <!-- main -->
 <link rel="stylesheet" href="/css/main.css">

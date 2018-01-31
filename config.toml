@@ -9,10 +9,11 @@ toc = "true"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [params]
-    author = "Rahul sangole"
+    author = "Rahul Sangole"
     description = "hacking my way through stats and ml"
     githubUsername = "rsangole"
     accent = "gray"
+    line_accent = "#2196F3"
     showBorder = true
     backgroundColor = "white"
     font = "Raleway" # should match the name on Google Fonts!
