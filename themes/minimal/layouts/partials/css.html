@@ -1,7 +1,27 @@
+<!-- custom
+{{ range .Site.Params.css }} <link rel="stylesheet" href="{{ . }}"> {{ end }}
+-->
+
+<!-- solar-dark bootstrap
+<link rel="stylesheet" href=https://bootswatch.com/3/superhero/bootstrap.css>
+-->
+
+<link rel="stylesheet" href="https://bootswatch.com/3/lumen/bootstrap.css">
+
+<!-- main -->
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/fonts.css">
+
+<!-- font awesome -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<!-- google fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+
 <style>
 
     html body {
-        font-family: {{ .Site.Params.font }}, sans-serif;
+        font-family: 'Open Sans', serif;
         background-color: {{ .Site.Params.backgroundColor | default "white" }};
     }
 
@@ -12,25 +32,3 @@
     }
 
 </style>
-
-<!-- custom -->
-{{ range .Site.Params.css }} <link rel="stylesheet" href="{{ . }}"> {{ end }}
-
-<!-- solar-dark bootstrap
-<link rel="stylesheet" href=https://bootswatch.com/3/superhero/bootstrap.css>
--->
-<link rel="stylesheet" href="https://bootswatch.com/3/lumen/bootstrap.css">
-
-
-<!-- main -->
-<link rel="stylesheet" href="/css/main.css">
-<link rel="stylesheet" href="/css/fonts.css">
-
-<!-- font awesome -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
-<!-- google fonts -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family={{ .Site.Params.font }}">
-
-<!-- highlight.js -->
-{{ if .Site.Params.highlight | default false }} <link rel="stylesheet" href="//{{ .Site.Params.highlightjsCDN}}/highlight.js/{{ .Site.Params.highlightjsVersion}}/styles/{{ .Site.Params.highlightStyle | default "default" }}.min.css"> {{ end }}

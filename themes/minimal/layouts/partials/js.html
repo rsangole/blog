@@ -1,17 +1,9 @@
-<!-- highlight.js
-{{ if .Site.Params.highlight | default false }}
+<link href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/solarized-dark.min.css" rel=stylesheet>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-
-    {{ range .Site.Params.highlightLanguages }} <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/{{ . }}.min.js"></script> {{ end }}
-
-    <script>hljs.initHighlightingOnLoad();</script>
-
-{{ end }}
+<!-- custom
+{{ range .Site.Params.js }}
+<script src="{{ . }}"></script> {{ end }}
 -->
-
-<!-- custom -->
-{{ range .Site.Params.js }} <script src="{{ . }}"></script> {{ end }}
 
 <!-- jquery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -20,4 +12,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- dismiss expanded navigation bar with click -->
-<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+<script> $(document).on('click', function() { $('.collapse').collapse('hide'); }) </script>
+
+<script src="/js/custom.r.min.js"></script>

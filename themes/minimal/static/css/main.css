@@ -43,7 +43,6 @@ main {
 a:link, a:visited {
     color: var(--accent);
     text-decoration: underline;
-
 }
 
 a.icon:hover {
@@ -56,7 +55,13 @@ a:hover {
 
 .link_noUL a {
     text-decoration:none !important;
+    color:'red';
 }
+
+.toc_noUL a {
+    text-decoration:none !important;
+}
+
 
 /*paginator at bottom of list view*/
 
@@ -104,7 +109,8 @@ img {
     max-width: 100%;
 }
 
-code { background: #f9f9f9;}
+code { background: #f9f9f9;
+}
 
 pre {
   border: 1px solid #ddd;
@@ -114,3 +120,15 @@ pre {
   text-align: left;
 }
 pre code { background: none; }
+
+/* Set colour for function parameters */
+.hljs-fun-param {
+    color: #ff4000;
+    font-weight: bold;
+
+}
+
+/* Make the pipe and assign operator bold */
+.hljs-pipe, .hljs-assign {
+    font-weight: bold;
+}

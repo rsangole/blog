@@ -2,15 +2,16 @@
 
 <main>
 
-    {{ partial "list-item" . }}
+    {{ partial "single_page_header" . }}
 
     {{ if and (gt .WordCount 200 ) (ne .Params.toc "false") }}
-    <div class="text-justify">
-            <aside>
-                    <div class = "toc_noUL">{{ .TableOfContents }}
-                    </div>
-            </aside>
-            </div>
+        <div class="text-justify">
+                <aside>
+                        <div class = "toc_noUL">
+                            {{ .TableOfContents }}
+                        </div>
+                </aside>
+                </div>
     {{ end }}
 
     <br>
