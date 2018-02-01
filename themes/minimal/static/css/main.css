@@ -54,8 +54,7 @@ a:hover {
 }
 
 .link_noUL a {
-    text-decoration:none !important;
-    color:'red';
+    text-decoration:none !important;;
 }
 
 .toc_noUL a {
