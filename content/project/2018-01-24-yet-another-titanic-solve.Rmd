@@ -39,6 +39,7 @@ library(party, quietly = T)
 library(xgboost, quietly = T)
 library(skimr, quietly = T)
 library(alluvial, quietly = T)
+library(pROC, quietly = T)
 
 readData <- function(path.name, file.name, column.types, missing.types) {
     gurl <- paste(path.name,file.name,sep="")
@@ -485,7 +486,8 @@ ctrl <- trainControl(method = "repeatedcv",
                      verboseIter = T,
                      classProbs = TRUE,
                      summaryFunction = twoClassSummary,
-                     sampling = 'down'
+                     sampling = 'down',
+                     savePredictions = T
                      )
 xgbGrid <- expand.grid(
     nrounds=seq(6,16,2),
@@ -522,7 +524,8 @@ ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
                      verboseIter = T,
                      classProbs = TRUE,
-                     summaryFunction = twoClassSummary
+                     summaryFunction = twoClassSummary,
+                     savePredictions = T
                      )
 xgbGrid <- expand.grid(
     nrounds=seq(6,16,2),
@@ -542,11 +545,13 @@ xgbFit.red <- train(
     verbose = TRUE
 )
 save(xgbFit.red,file = 'xgbFit.red')
+xgb.red.ROC <- roc(response = xgbFit.red$pred$obs, predictor = xgbFit.red$pred$Survived)
 xgbFit.red
 plot(xgbFit.red)
 densityplot(xgbFit.red,pch='|')
 predict(xgbFit.red,type = 'prob') -> train.Probs
 histogram(~Survived+Dead,train.Probs)
+ROCplot(xgb.red.ROC)
 ```
 
 ## Elastinet
@@ -558,20 +563,31 @@ ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
                      verboseIter = T,
                      classProbs = TRUE,
-                     summaryFunction = twoClassSummary
+                     summaryFunction = twoClassSummary,
+                     savePredictions = T
                      # sampling = 'down'
                      )
-#glmnetGrid <- expand.grid(.alpha = c(0,.1,.2,.4,.6,.8,1),
-                          # .lambda = seq(0.01,0.2,length.out = 40))
+glmnetGrid <- expand.grid(.alpha = c(0,.2,.4,.6,.8,1),
+                          .lambda = seq(10^-10,10^-1,0.01))
 glmnetFit <- train(
     Survived~.,
     train.imp,
     trControl=ctrl,
-    method='glmnet'
+    method='glmnet',
+    tuneGrid = glmnetGrid
 )
 save(glmnetFit,file = 'glmnetFit')
+# glmnetROC <- roc(response = glmnetFit$pred$obs, predictor = glmnetFit$pred$Survived)
 glmnetFit
-plot(glmnetFit,plotType='level')
+glmnPlot <- plot(glmnetFit,
+                 plotType = "level",
+                 cuts = 15,
+                 scales = list(x = list(rot = 90, cex = .65)))
+update(glmnPlot,
+       ylab = "Mixing Percentage\nRidge <---------> Lasso",
+       sub = "",
+       main = "Area Under the ROC Curve",
+       xlab = "Amount of Regularization")
 plot(varImp(glmnetFit),20)
 densityplot(glmnetFit,pch='|')
 predict(glmnetFit,type = 'prob') -> train.glmnet.Probs
@@ -585,7 +601,8 @@ ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
                      verboseIter = T,
                      classProbs = TRUE,
-                     summaryFunction = twoClassSummary
+                     summaryFunction = twoClassSummary,
+                     savePredictions = T
                      # sampling = 'down'
                      )
 knnGrid <- expand.grid(k=seq(3,23,2))
@@ -611,7 +628,8 @@ ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
                      verboseIter = T,
                      classProbs = TRUE,
-                     summaryFunction = twoClassSummary
+                     summaryFunction = twoClassSummary,
+                     savePredictions = T
                      # sampling = 'down'
                      )
 svmFit <- train(
@@ -619,7 +637,7 @@ svmFit <- train(
     train.imp,
     method = 'svmRadial',
     trControl = ctrl,
-    tuneGrid = expand.grid(C=c(0.5,0.8,1.2,1.5), sigma=c(0.2,0.4,0.6))
+    tuneGrid = expand.grid(C=c(0.5,0.8,1.2,1.5), sigma=c(0.05,0.1,0.2))
 )
 save(svmFit,file = 'svmFit')
 svmFit
@@ -635,8 +653,8 @@ ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
                      verboseIter = T,
                      classProbs = TRUE,
-                     summaryFunction = twoClassSummary
-                     # sampling = 'down'
+                     summaryFunction = twoClassSummary,
+                     savePredictions = T
                      )
 c5Fit <- train(
     Survived~.,
@@ -686,7 +704,6 @@ re <-
 # summary(re)
 bwplot(re)
 dotplot(re)
-# summary(diff(re))
 ```
 
 ```{r}
@@ -842,5 +859,9 @@ xyplot(kappa~F1,compiled_results,
 ```{r}
 plot(varImp(glmnetFit),15,main='Elastinet Model')
 plot(varImp(xgbFit.red),15,main='XGBoost, Reduced Variables')
+```
+
+```{r}
+elastinetCM
 ```
 
