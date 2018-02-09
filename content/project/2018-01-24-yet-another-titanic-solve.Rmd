@@ -485,19 +485,19 @@ For all models, I'm using a 5-repeat 10-fold cross validation technique on the t
 
 
 ## Extreme Gradient Boosting
-```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
+```{r echo=TRUE, fig.align='center', fig.show='hold', message=FALSE}
 ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
                      verboseIter = F,
                      classProbs = TRUE,
                      summaryFunction = twoClassSummary,
-                     sampling = 'down',
+                     # sampling = 'down',
                      savePredictions = T
                      )
 xgbGrid <- expand.grid(
-    nrounds=seq(6,16,2),
-    max_depth=seq(2,10,2),
-    eta=0.2,
+    nrounds=seq(10,20,2),
+    max_depth=seq(2,6,2),
+    eta=c(0.1, 0.2, 0.3),
     gamma=1,
     colsample_bytree=1,
     min_child_weight=1,
@@ -511,6 +511,8 @@ xgbFit <- train(
     tuneGrid = xgbGrid
 )
 save(xgbFit,file = 'xgbFit')
+```
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
 xgbFit
 plot(xgbFit)
 xgb.importance(feature_names = colnames(train.imp), 
@@ -521,39 +523,6 @@ predict(xgbFit,type = 'prob') -> train.Probs
 histogram(~Survived+Dead,train.Probs)
 ```
 
-
-## Extreme Gradient Boosting - Reduced Variables
-```{r echo=TRUE, message=FALSE}
-ctrl <- trainControl(method = "repeatedcv",
-                     repeats = 5,
-                     verboseIter = F,
-                     classProbs = TRUE,
-                     summaryFunction = twoClassSummary,
-                     savePredictions = T
-                     )
-xgbGrid <- expand.grid(
-    nrounds=seq(6,16,2),
-    max_depth=seq(2,10,2),
-    eta=0.2,
-    gamma=1,
-    colsample_bytree=1,
-    min_child_weight=1,
-    subsample=1
-)
-xgbFit.red <- train(
-    Survived~.,
-    train.imp %>% dplyr::select(Survived, xgb.importance(feature_names = colnames(train.imp), model = xgbFit$finalModel)$Feature),
-    method = 'xgbTree',
-    trControl = ctrl,
-    tuneGrid = xgbGrid
-)
-save(xgbFit.red,file = 'xgbFit.red')
-xgbFit.red
-plot(xgbFit.red)
-densityplot(xgbFit.red,pch='|')
-predict(xgbFit.red,type = 'prob') -> train.Probs
-histogram(~Survived+Dead,train.Probs)
-```
 
 ## Elastinet
 
@@ -705,7 +674,6 @@ re <-
     knn = knnFit,
     elastinet = glmnetFit,
     C50 = c5Fit,
-    xgb_reduced = xgbFit.red,
     svm = svmFit,
     avgNNet = avNnetFit
     ))
@@ -723,7 +691,7 @@ dotplot(difValues)
 
 ```{r}
 plot(varImp(glmnetFit),15,main='Elastinet Model')
-plot(varImp(xgbFit.red),15,main='XGBoost, Reduced Variables')
+plot(varImp(xgbFit),15,main='XGBoost')
 ```
 
 
@@ -821,7 +789,6 @@ test.imp$TicketNum <- NULL
 ## Predict test results
 ```{r}
 xgbPred <- predict(object = xgbFit, newdata = test.imp)
-xgbPred_red <- predict(object = xgbFit.red, newdata = test.imp)
 elastinetPred <- predict(object = glmnetFit, newdata = test.imp)
 c5Pred <- predict(object = c5Fit, newdata = test.imp)
 knnPred <- predict(object = knnFit, newdata = test.imp)
@@ -830,9 +797,6 @@ avNNPred <- predict(object = avNnetFit, newdata = test.imp)
 
 xtab <- table(xgbPred,test.imp$Survived)
 xgbCM <- caret::confusionMatrix(xtab)
-
-xtab <- table(xgbPred_red,test.imp$Survived)
-xgbredCM <- caret::confusionMatrix(xtab)
 
 xtab <- table(elastinetPred,test.imp$Survived)
 elastinetCM <- caret::confusionMatrix(xtab)
@@ -849,10 +813,10 @@ svmCM <-caret::confusionMatrix(xtab)
 xtab <- table(avNNPred,test.imp$Survived)
 avNNCM <-caret::confusionMatrix(xtab)
 
-CM_list <- list(xgbCM, xgbredCM, elastinetCM, c5CM, knnCM, svmCM, avNNCM)
+CM_list <- list(xgbCM, elastinetCM, c5CM, knnCM, svmCM, avNNCM)
 
 compiled_results <- tibble(
-    models = c('xgb','xgb_reduced','elastinet','C5.0','knn','svm', 'avgNN'),
+    models = c('xgb','elastinet','C5.0','knn','svm', 'avgNN'),
     accuracy = map_dbl(CM_list,~.x$overall[1]),
     kappa = map_dbl(CM_list,~.x$overall[2]),
     sensitivity = map_dbl(CM_list,~.x$byClass[1]),
@@ -863,12 +827,13 @@ compiled_results %>% arrange(accuracy,kappa)
 ```
 
 ```{r}
-dotplot(reorder(models,accuracy)~accuracy,compiled_results)
+dotplot(reorder(models,accuracy)~accuracy,compiled_results, main = 'Accuracy (Test Set Performance)')
 xyplot(kappa~F1,compiled_results,
        panel = function(...){
            panel.xyplot(...)
            ltext(...,labels=compiled_results$models,
-                 pos=1, cex=.8, offset = .6,col='darkblue')
-       })
+                 pos=4, cex=.9, offset = .6,col='darkblue')
+       }, xlim=seq(0.6,0.9,0.05), type=c('p','g','r'), col.line='gray',
+       lty = 2, main = 'Kappa vs F1 (Test Set Performance)')
 ```
 
