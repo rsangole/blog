@@ -10,11 +10,16 @@ tags:
   - caret
   - R
   - kaggle
+output:
+    blogdown::html_page:
+        toc: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(cache=TRUE)
 ```
+
+**tl;dr:** 
 
 # Objectives
 
@@ -94,6 +99,7 @@ kaggletest.raw <- prep_data(kaggletest.raw)
 ```
 
 ***
+
 # Train-Test Split
 
 Here, I'm splitting up the `train` dataset into a training and a testing dataset. Right now, I don't intend to upload any results back into Kaggle, so I'm just going to evaluate my models on my testing split.
@@ -226,7 +232,7 @@ Here is a comparison of the same information between a boxplot and a beanplot. W
 
 [^3]: Read more about beanplots here: https://cran.r-project.org/web/packages/beanplot/vignettes/beanplot.pdf
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, fig.show='hold',fig.align='center'}
 ggplot(train.raw,aes(y=Age,x=Pclass))+geom_boxplot(aes(fill=Survived))+theme_bw()
 beanplot(Age~Survived*Pclass,side='b',train.raw,col=list('yellow','orange'),
          border = c('yellow2','darkorange'),ll = 0.05,boxwex = .5,
@@ -287,9 +293,7 @@ train.imp <- train.raw
 train.imp$Embarked[is.na(train.imp$Embarked)] <- 'S'
 ```
 
-**Names, Titles & Age**:
-
-The names have titles embedded in the strings. I can extract these using regex. Master, Miss, Mr and Mrs are the most popular - no surprise there, with lots of other titles.  Here's the distribution of the titles by age. These can be used to impute the missing age values.
+**Names, Titles & Age**: The names have titles embedded in the strings. I can extract these using regex. Master, Miss, Mr and Mrs are the most popular - no surprise there, with lots of other titles.  Here's the distribution of the titles by age. These can be used to impute the missing age values.
 
 ```{r, message=FALSE, warning=FALSE}
 train.imp$title <- str_extract(pattern = '[a-zA-Z]+(?=\\.)',string = train.imp$Name)
@@ -304,7 +308,7 @@ ggplot(train.imp,aes(x=title,y=Age))+
 
 Grouping similar titles together, I've kept a few titles - Officer, Royalty, Mr, Mrs and Miss.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 train.imp$title <- as.character(train.imp$title)
 train.imp$title[train.imp$title %in% c('Capt','Col','Major')] <- 'Officer'
 train.imp$title[train.imp$title %in% c('Don','Dr','Rev','Sir','Jonkheer','Countess','Lady','Dona')] <- 'Royalty'
@@ -321,7 +325,7 @@ ggplot(train.imp,aes(x=title,y=Age))+
 
 Now for the missing Age values. I'm trying out two strategies to impute age, just for kicks. First, a regression tree using the `rpart` method. 5-repeat 10-fold cross validation across a tuning grid of 20 values of `maxdepth`. RMSE stablizes at a depth of 14, with a value of 12.2.
 
-```{r}
+```{r message=FALSE, warning=FALSE, fig.show='hold',fig.align='center'}
 age.predictors <- train.imp %>%
     dplyr::select(-Survived,-Cabin,-Ticket,-Name) %>%
     dplyr::filter(complete.cases(.))
@@ -390,6 +394,7 @@ train.imp$CabinMissing <- as.numeric(is.na(train.raw$Cabin))
 
 train.imp$CabinCode <- map_chr(train.raw$Cabin,~str_split(string = .x,pattern = '')[[1]][1])
 train.imp$CabinCode[is.na(train.imp$CabinCode)] <- 'U'
+train.imp$CabinCode <- as.factor(train.imp$CabinCode)
 
 train.imp$CabinNum <- as.numeric(map_chr(train.raw$Cabin,~str_split(string = .x,pattern = '[a-zA-Z]')[[1]][2]))
 train.imp$CabinNum <- map_int(train.imp$CabinNum, ~as.integer(str_split(.x,pattern = '',simplify = T)[1][1]))
@@ -464,7 +469,7 @@ table(train.imp$NumberofCabins)
 
 ## Final Data Review
 
-The dataset is now prepared for modeling. Here's a quick review of the data so far. 29 variables in total.
+The dataset is now prepared for modeling. Here's a quick review of the data so far. 23 variables in total.
 
 ```{r}
 train.imp %>% glimpse()
@@ -480,10 +485,10 @@ For all models, I'm using a 5-repeat 10-fold cross validation technique on the t
 
 
 ## Extreme Gradient Boosting
-```{r echo=TRUE, message=FALSE}
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
 ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
-                     verboseIter = T,
+                     verboseIter = F,
                      classProbs = TRUE,
                      summaryFunction = twoClassSummary,
                      sampling = 'down',
@@ -503,8 +508,7 @@ xgbFit <- train(
     train.imp,
     method = 'xgbTree',
     trControl = ctrl,
-    tuneGrid = xgbGrid,
-    verbose = TRUE
+    tuneGrid = xgbGrid
 )
 save(xgbFit,file = 'xgbFit')
 xgbFit
@@ -522,7 +526,7 @@ histogram(~Survived+Dead,train.Probs)
 ```{r echo=TRUE, message=FALSE}
 ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
-                     verboseIter = T,
+                     verboseIter = F,
                      classProbs = TRUE,
                      summaryFunction = twoClassSummary,
                      savePredictions = T
@@ -541,27 +545,24 @@ xgbFit.red <- train(
     train.imp %>% dplyr::select(Survived, xgb.importance(feature_names = colnames(train.imp), model = xgbFit$finalModel)$Feature),
     method = 'xgbTree',
     trControl = ctrl,
-    tuneGrid = xgbGrid,
-    verbose = TRUE
+    tuneGrid = xgbGrid
 )
 save(xgbFit.red,file = 'xgbFit.red')
-xgb.red.ROC <- roc(response = xgbFit.red$pred$obs, predictor = xgbFit.red$pred$Survived)
 xgbFit.red
 plot(xgbFit.red)
 densityplot(xgbFit.red,pch='|')
 predict(xgbFit.red,type = 'prob') -> train.Probs
 histogram(~Survived+Dead,train.Probs)
-ROCplot(xgb.red.ROC)
 ```
 
 ## Elastinet
 
 non-down sampling worked better
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
-                     verboseIter = T,
+                     verboseIter = F,
                      classProbs = TRUE,
                      summaryFunction = twoClassSummary,
                      savePredictions = T
@@ -577,7 +578,6 @@ glmnetFit <- train(
     tuneGrid = glmnetGrid
 )
 save(glmnetFit,file = 'glmnetFit')
-# glmnetROC <- roc(response = glmnetFit$pred$obs, predictor = glmnetFit$pred$Survived)
 glmnetFit
 glmnPlot <- plot(glmnetFit,
                  plotType = "level",
@@ -588,7 +588,6 @@ update(glmnPlot,
        sub = "",
        main = "Area Under the ROC Curve",
        xlab = "Amount of Regularization")
-plot(varImp(glmnetFit),20)
 densityplot(glmnetFit,pch='|')
 predict(glmnetFit,type = 'prob') -> train.glmnet.Probs
 histogram(~Survived+Dead,train.glmnet.Probs)
@@ -599,7 +598,7 @@ histogram(~Survived+Dead,train.glmnet.Probs)
 ```{r echo=TRUE, message=FALSE}
 ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
-                     verboseIter = T,
+                     verboseIter = F,
                      classProbs = TRUE,
                      summaryFunction = twoClassSummary,
                      savePredictions = T
@@ -626,7 +625,7 @@ histogram(~Survived+Dead,train.Probs)
 ```{r echo=TRUE, message=FALSE}
 ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
-                     verboseIter = T,
+                     verboseIter = F,
                      classProbs = TRUE,
                      summaryFunction = twoClassSummary,
                      savePredictions = T
@@ -637,7 +636,7 @@ svmFit <- train(
     train.imp,
     method = 'svmRadial',
     trControl = ctrl,
-    tuneGrid = expand.grid(C=c(0.5,0.8,1.2,1.5), sigma=c(0.05,0.1,0.2))
+    tuneGrid = expand.grid(C=c(0.05,0.1,0.2,0.3), sigma=c(0.001,0.005,0.01,0.015))
 )
 save(svmFit,file = 'svmFit')
 svmFit
@@ -651,7 +650,7 @@ histogram(~Survived+Dead,train.Probs)
 ```{r echo=TRUE, message=FALSE}
 ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
-                     verboseIter = T,
+                     verboseIter = F,
                      classProbs = TRUE,
                      summaryFunction = twoClassSummary,
                      savePredictions = T
@@ -674,6 +673,14 @@ histogram(~Survived+Dead,train.Probs)
 ## Averaged Neural Networks
 
 ```{r}
+ctrl <- trainControl(method = "repeatedcv",
+                     repeats = 5,
+                     verboseIter = F,
+                     classProbs = TRUE,
+                     summaryFunction = twoClassSummary,
+                     savePredictions = T
+                     )
+avNNetgrid <- expand.grid(size=c(2,4,6),decay=c(0,0.1),bag=c(T,F))
 avNnetFit <- train(Survived~.,
                    train.imp,
                    method = "avNNet", 
@@ -688,6 +695,7 @@ predict(avNnetFit,type = 'prob') -> train.Probs
 histogram(~Survived+Dead,train.Probs)
 ```
 
+***
 
 # Compare models
 ```{r}
@@ -711,7 +719,18 @@ difValues <- diff(re)
 dotplot(difValues)
 ```
 
+## Variable Importance & Performance
+
+```{r}
+plot(varImp(glmnetFit),15,main='Elastinet Model')
+plot(varImp(xgbFit.red),15,main='XGBoost, Reduced Variables')
+```
+
+
+***
+
 # Test Set Evaluation
+
 ## Create test set
 ```{r}
 test.imp <- test.raw
@@ -726,7 +745,7 @@ test.imp$title[test.imp$title %in% c('Capt','Col','Major')] <- 'Officer'
 test.imp$title[test.imp$title %in% c('Don','Dr','Rev','Sir','Jonkheer','Countess','Lady','Dona')] <- 'Royalty'
 test.imp$title[test.imp$title %in% c('Mrs','Mme')] <- 'Mrs'
 test.imp$title[test.imp$title %in% c('Ms','Mlle')] <- 'Miss'
-test.imp$title <- factor(test.imp$title,levels =levels(train.imp$title))
+test.imp$title <- factor(test.imp$title,levels = levels(train.imp$title))
 
 #Missing age
 missing.age <- test.imp %>% filter(is.na(Age)) %>% dplyr::select(-Cabin,-Ticket,-Name)
@@ -753,6 +772,7 @@ test.imp$Name <- NULL
 test.imp$CabinMissing <- as.numeric(is.na(test.raw$Cabin))
 test.imp$CabinCode <- map_chr(test.raw$Cabin,~str_split(string = .x,pattern = '')[[1]][1])
 test.imp$CabinCode[is.na(test.imp$CabinCode)] <- 'U'
+test.imp$CabinCode <- factor(test.imp$CabinCode,levels = levels(train.imp$CabinCode))
 test.imp$CabinNum <- as.numeric(map_chr(test.raw$Cabin,~str_split(string = .x,pattern = '[a-zA-Z]')[[1]][2]))
 test.imp$CabinNum <- map_int(test.imp$CabinNum, ~as.integer(str_split(.x,pattern = '',simplify = T)[1][1]))
 test.imp$CabinNum[is.na(test.imp$CabinNum)] <- 0
@@ -807,9 +827,7 @@ c5Pred <- predict(object = c5Fit, newdata = test.imp)
 knnPred <- predict(object = knnFit, newdata = test.imp)
 svmPred <- predict(object = svmFit, newdata = test.imp)
 avNNPred <- predict(object = avNnetFit, newdata = test.imp)
-```
 
-```{r}
 xtab <- table(xgbPred,test.imp$Survived)
 xgbCM <- caret::confusionMatrix(xtab)
 
@@ -852,16 +870,5 @@ xyplot(kappa~F1,compiled_results,
            ltext(...,labels=compiled_results$models,
                  pos=1, cex=.8, offset = .6,col='darkblue')
        })
-```
-
-
-
-```{r}
-plot(varImp(glmnetFit),15,main='Elastinet Model')
-plot(varImp(xgbFit.red),15,main='XGBoost, Reduced Variables')
-```
-
-```{r}
-elastinetCM
 ```
 
