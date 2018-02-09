@@ -9,6 +9,7 @@ categories:
 tags:
   - caret
   - R
+  - kaggle
 ---
 
 ```{r setup, include=FALSE}
@@ -641,7 +642,8 @@ c5Fit <- train(
     Survived~.,
     train.imp,
     method = 'C5.0',
-    trControl = ctrl
+    trControl = ctrl,
+    control = C50::C5.0Control(earlyStopping = FALSE)
 )
 save(c5Fit,file = 'c5Fit')
 c5Fit
@@ -650,6 +652,24 @@ densityplot(c5Fit,pch='|')
 predict(c5Fit,type = 'prob') -> train.Probs
 histogram(~Survived+Dead,train.Probs)
 ```
+
+## Averaged Neural Networks
+
+```{r}
+avNnetFit <- train(Survived~.,
+                   train.imp,
+                   method = "avNNet", 
+                   trControl = ctrl,
+                   repeats = 15,
+                   trace = FALSE) 
+save(avNnetFit,file = 'avNnetFit')
+avNnetFit
+plot(avNnetFit)
+densityplot(avNnetFit,pch='|')
+predict(avNnetFit,type = 'prob') -> train.Probs
+histogram(~Survived+Dead,train.Probs)
+```
+
 
 # Compare models
 ```{r}
@@ -660,7 +680,8 @@ re <-
     elastinet = glmnetFit,
     C50 = c5Fit,
     xgb_reduced = xgbFit.red,
-    svm = svmFit
+    svm = svmFit,
+    avgNNet = avNnetFit
     ))
 # summary(re)
 bwplot(re)
@@ -668,6 +689,10 @@ dotplot(re)
 # summary(diff(re))
 ```
 
+```{r}
+difValues <- diff(re)
+dotplot(difValues)
+```
 
 # Test Set Evaluation
 ## Create test set
@@ -684,7 +709,7 @@ test.imp$title[test.imp$title %in% c('Capt','Col','Major')] <- 'Officer'
 test.imp$title[test.imp$title %in% c('Don','Dr','Rev','Sir','Jonkheer','Countess','Lady','Dona')] <- 'Royalty'
 test.imp$title[test.imp$title %in% c('Mrs','Mme')] <- 'Mrs'
 test.imp$title[test.imp$title %in% c('Ms','Mlle')] <- 'Miss'
-test.imp$title <- as.factor(test.imp$title)
+test.imp$title <- factor(test.imp$title,levels =levels(train.imp$title))
 
 #Missing age
 missing.age <- test.imp %>% filter(is.na(Age)) %>% dplyr::select(-Cabin,-Ticket,-Name)
@@ -764,6 +789,7 @@ elastinetPred <- predict(object = glmnetFit, newdata = test.imp)
 c5Pred <- predict(object = c5Fit, newdata = test.imp)
 knnPred <- predict(object = knnFit, newdata = test.imp)
 svmPred <- predict(object = svmFit, newdata = test.imp)
+avNNPred <- predict(object = avNnetFit, newdata = test.imp)
 ```
 
 ```{r}
@@ -785,26 +811,36 @@ knnCM <-caret::confusionMatrix(xtab)
 xtab <- table(svmPred,test.imp$Survived)
 svmCM <-caret::confusionMatrix(xtab)
 
-CM_list <- list(xgbCM, xgbredCM, elastinetCM, c5CM, knnCM, svmCM)
+xtab <- table(avNNPred,test.imp$Survived)
+avNNCM <-caret::confusionMatrix(xtab)
+
+CM_list <- list(xgbCM, xgbredCM, elastinetCM, c5CM, knnCM, svmCM, avNNCM)
 
 compiled_results <- tibble(
-    models = c('xgb','xgb_reduced','elastinet','C5.0','knn','svm'),
+    models = c('xgb','xgb_reduced','elastinet','C5.0','knn','svm', 'avgNN'),
     accuracy = map_dbl(CM_list,~.x$overall[1]),
     kappa = map_dbl(CM_list,~.x$overall[2]),
     sensitivity = map_dbl(CM_list,~.x$byClass[1]),
     specificity = map_dbl(CM_list,~.x$byClass[2]),
     F1 = map_dbl(CM_list,~.x$byClass[7])
 )
-compiled_results
+compiled_results %>% arrange(accuracy,kappa)
 ```
 
 ```{r}
-dotplot(models~accuracy,compiled_results)
+dotplot(reorder(models,accuracy)~accuracy,compiled_results)
 xyplot(kappa~F1,compiled_results,
        panel = function(...){
            panel.xyplot(...)
            ltext(...,labels=compiled_results$models,
-                 pos=2, cex=0.8, offset = 1)
+                 pos=1, cex=.8, offset = .6,col='darkblue')
        })
+```
+
+
+
+```{r}
+plot(varImp(glmnetFit),15,main='Elastinet Model')
+plot(varImp(xgbFit.red),15,main='XGBoost, Reduced Variables')
 ```
 
