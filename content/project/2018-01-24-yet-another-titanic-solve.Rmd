@@ -45,6 +45,7 @@ library(xgboost, quietly = T)
 library(skimr, quietly = T)
 library(alluvial, quietly = T)
 library(pROC, quietly = T)
+library(ggrepel, quietly = T)
 
 readData <- function(path.name, file.name, column.types, missing.types) {
     gurl <- paste(path.name,file.name,sep="")
@@ -657,10 +658,39 @@ avNnetFit <- train(Survived~.,
                    repeats = 15,
                    trace = FALSE) 
 save(avNnetFit,file = 'avNnetFit')
+```
+```{r}
 avNnetFit
 plot(avNnetFit)
 densityplot(avNnetFit,pch='|')
 predict(avNnetFit,type = 'prob') -> train.Probs
+histogram(~Survived+Dead,train.Probs)
+```
+
+## Conditional Inference Random Forests
+
+```{r}
+ctrl <- trainControl(method = "repeatedcv",
+                     repeats = 5,
+                     verboseIter = F,
+                     classProbs = TRUE,
+                     summaryFunction = twoClassSummary,
+                     savePredictions = T
+                     )
+ciRFgrid <- expand.grid(mtry = c(15,20,25,30,35))
+ciRFFit <- train(Survived~.,
+                   train.imp,
+                   method = "cforest", 
+                   trControl = ctrl,
+                 tuneGrid = ciRFgrid
+                 ) 
+save(ciRFFit,file = 'ciRFFit')
+```
+```{r}
+ciRFFit
+plot(ciRFFit)
+densityplot(ciRFFit,pch='|')
+predict(ciRFFit,type = 'prob') -> train.Probs
 histogram(~Survived+Dead,train.Probs)
 ```
 
@@ -675,9 +705,9 @@ re <-
     elastinet = glmnetFit,
     C50 = c5Fit,
     svm = svmFit,
-    avgNNet = avNnetFit
+    avgNNet = avNnetFit,
+    ciRF = ciRFFit
     ))
-# summary(re)
 bwplot(re)
 dotplot(re)
 ```
@@ -729,10 +759,6 @@ test.imp$Seniors <- ifelse(test.imp$Age>60,1,0)
 
 #Family Related
 test.imp$TotalFam <- test.imp$SibSp + test.imp$Parch + 1
-#test.imp$LargeParCh <- as.numeric(test.imp$Parch>=3)
-#test.imp$LargeSibSp <- as.numeric(test.imp$SibSp>=3)
-#test.imp$Single <- ifelse(test.imp$TotalFam==1,1,0)
-#test.imp$Couple <- ifelse(test.imp$TotalFam==2,1,0)
 test.imp$LargeFamily <- ifelse(test.imp$TotalFam>4,1,0)
 test.imp$Name <- NULL
 
@@ -745,18 +771,12 @@ test.imp$CabinNum <- as.numeric(map_chr(test.raw$Cabin,~str_split(string = .x,pa
 test.imp$CabinNum <- map_int(test.imp$CabinNum, ~as.integer(str_split(.x,pattern = '',simplify = T)[1][1]))
 test.imp$CabinNum[is.na(test.imp$CabinNum)] <- 0
 
-#test.imp$CabinCode <- factor(
-#    x = test.imp$CabinCode,
-#    levels = unique(train.imp$CabinCode)
-#)
-
 test.imp$TopDeck <- ifelse(test.imp$CabinCode %in% c('A','B'),1,0)
 test.imp$MidDeck <- ifelse(test.imp$CabinCode %in% c('C','D'),1,0)
 test.imp$LowerDeck <- ifelse(test.imp$TopDeck==0 & test.imp$MidDeck==0 ,1,0)
 
 test.imp$NumberofCabins <- map_int(test.raw$Cabin,~str_split(string = .x,pattern = ' ')[[1]] %>% length)
 test.imp$Cabin <- NULL
-
 
 # Ticket
 test.imp %<>%
@@ -788,12 +808,13 @@ test.imp$TicketNum <- NULL
 
 ## Predict test results
 ```{r}
-xgbPred <- predict(object = xgbFit, newdata = test.imp)
-elastinetPred <- predict(object = glmnetFit, newdata = test.imp)
-c5Pred <- predict(object = c5Fit, newdata = test.imp)
-knnPred <- predict(object = knnFit, newdata = test.imp)
-svmPred <- predict(object = svmFit, newdata = test.imp)
-avNNPred <- predict(object = avNnetFit, newdata = test.imp)
+xgbPred         <- predict(object = xgbFit,    newdata = test.imp)
+elastinetPred   <- predict(object = glmnetFit, newdata = test.imp)
+c5Pred          <- predict(object = c5Fit,     newdata = test.imp)
+knnPred         <- predict(object = knnFit,    newdata = test.imp)
+svmPred         <- predict(object = svmFit,    newdata = test.imp)
+avNNPred        <- predict(object = avNnetFit, newdata = test.imp)
+ciRFPred        <- predict(object = ciRFFit,   newdata = test.imp)
 
 xtab <- table(xgbPred,test.imp$Survived)
 xgbCM <- caret::confusionMatrix(xtab)
@@ -813,27 +834,34 @@ svmCM <-caret::confusionMatrix(xtab)
 xtab <- table(avNNPred,test.imp$Survived)
 avNNCM <-caret::confusionMatrix(xtab)
 
-CM_list <- list(xgbCM, elastinetCM, c5CM, knnCM, svmCM, avNNCM)
+xtab <- table(ciRFPred,test.imp$Survived)
+ciRFCM <-caret::confusionMatrix(xtab)
+
+CM_list <- list(xgbCM, elastinetCM, c5CM, knnCM, svmCM, avNNCM, ciRFCM)
 
 compiled_results <- tibble(
-    models = c('xgb','elastinet','C5.0','knn','svm', 'avgNN'),
+    models = c('xgb','elastinet','C5.0','knn','svm', 'avgNN', 'ciRF'),
     accuracy = map_dbl(CM_list,~.x$overall[1]),
     kappa = map_dbl(CM_list,~.x$overall[2]),
     sensitivity = map_dbl(CM_list,~.x$byClass[1]),
     specificity = map_dbl(CM_list,~.x$byClass[2]),
-    F1 = map_dbl(CM_list,~.x$byClass[7])
+    F1 = map_dbl(CM_list,~.x$byClass[7])o
 )
 compiled_results %>% arrange(accuracy,kappa)
 ```
 
 ```{r}
 dotplot(reorder(models,accuracy)~accuracy,compiled_results, main = 'Accuracy (Test Set Performance)')
-xyplot(kappa~F1,compiled_results,
-       panel = function(...){
-           panel.xyplot(...)
-           ltext(...,labels=compiled_results$models,
-                 pos=4, cex=.9, offset = .6,col='darkblue')
-       }, xlim=seq(0.6,0.9,0.05), type=c('p','g','r'), col.line='gray',
-       lty = 2, main = 'Kappa vs F1 (Test Set Performance)')
+```
+
+```{r}
+ggplot(compiled_results, aes(F1, kappa)) +
+    geom_point(color = 'blue',shape=1) +
+    geom_text_repel(aes(label = models),
+                    box.padding=unit(.5,'lines'),
+                    max.iter=1e4,segment.size=.4,
+                    force=4) +
+    theme_bw()+
+    labs(x='F1',y='kappa', title='Kappa vs F1 (Test Set Performance)')
 ```
 
