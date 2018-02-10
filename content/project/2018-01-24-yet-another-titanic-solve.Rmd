@@ -17,6 +17,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(cache.comments=FALSE)
 ```
 
 **tl;dr:** 
@@ -106,6 +107,7 @@ kaggletest.raw <- prep_data(kaggletest.raw)
 Here, I'm splitting up the `train` dataset into a training and a testing dataset. Right now, I don't intend to upload any results back into Kaggle, so I'm just going to evaluate my models on my testing split.
 
 ```{r}
+set.seed(1071)
 training_rows <- caret::createDataPartition(y = train.raw$Survived, p = 0.7, list = F)
 test.raw <- train.raw %>% filter(!(rownames(.) %in% training_rows))
 train.raw <- train.raw %>% filter(rownames(.) %in% training_rows)
@@ -366,12 +368,9 @@ train.imp %>%
 
 **Child?:** Trying out two engineered variables here - is the passenger a child or not? Using Age=18 as a threshold. 
 
-<!-- And is s/he close enough to be considered a adult by chance? Those between 16 and 18 could be mistaken for not being children. (My way of incorporating a fudge factor in the decision process of ladies & children first.) -->
-
 ```{r}
 train.imp$child <- 0
 train.imp$child[train.imp$Age<18] <- 1
-# train.imp$almostadult <- as.numeric(between(train.imp$Age,16,18))
 ```
 
 **Really old?:** Really older folks would get priority perhaps. Creating a categorical variables for this conditions.
@@ -480,12 +479,14 @@ train.imp %>% glimpse()
 
 # Modeling
 
-I'm experimenting with a few modeling techniques, mainly [xgboost](http://xgboost.readthedocs.io/en/latest/), [rpart2]() and penalized models using [glmnet](https://cran.r-project.org/web/packages/glmnet/index.html). I've implemented all these models using [caret](http://topepo.github.io/caret/index.html) which I find an absolutely indispensible toolkit to prep, build, tune and explore numerous models using very few lines of code.
+I'm experimenting with a few modeling techniques, mainly [xgboost](http://xgboost.readthedocs.io/en/latest/), penalized models using [glmnet](https://cran.r-project.org/web/packages/glmnet/index.html), [kNN](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/kmeans.html), [SVM with RBF](https://cran.r-project.org/web/packages/kernlab/index.html), [C5.0](https://cran.r-project.org/web/packages/C50/index.html) and [Avg NN](https://cran.r-project.org/web/packages/nnet/nnet.pdf). I've tried to select models with different structures and different underlying architecture. This gives the highest diversity during the initial modeling approach. I've implemented all these models using [caret](http://topepo.github.io/caret/index.html) which I find an absolutely indispensible toolkit to prep, build, tune and explore numerous models using very few lines of code.
 
 For all models, I'm using a 5-repeat 10-fold cross validation technique on the training dataset. Tuning parameter searches (aka hypertuning) is performed using the `tuneGrid` parameter in the `train()` call. The best model is selected using the AUC of the ROC. Here are the models and a few intermediate results for each model. At the end, I've compared the performance of all the models together.
 
-
 ## Extreme Gradient Boosting
+
+The renowned and popular `xgboost` package via `caret`. `ctrl` is the training control object which specifies the resampling method selected. The `grid` object helps perform hyperparameter tuning.
+
 ```{r echo=TRUE, fig.align='center', fig.show='hold', message=FALSE}
 ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
@@ -496,8 +497,8 @@ ctrl <- trainControl(method = "repeatedcv",
                      savePredictions = T
                      )
 xgbGrid <- expand.grid(
-    nrounds=seq(10,20,2),
-    max_depth=seq(2,6,2),
+    nrounds=seq(14,24,2),
+    max_depth=seq(2,8,2),
     eta=c(0.1, 0.2, 0.3),
     gamma=1,
     colsample_bytree=1,
@@ -513,6 +514,15 @@ xgbFit <- train(
 )
 save(xgbFit,file = 'xgbFit')
 ```
+
+What we can see:
+
+* Run times are extremely fast
+* The final values used for the model were nrounds = 20, max_depth = 2, eta = 0.2. Perhaps increasing the boosting iterations might help, but I'm stopping here.
+* Feature importance plots show the derived features 'Senior' and 'TopDeck' add value.
+* The PDF of AUC ROC shows a bi-modal distribution (slightly). I noticed this for the other models as well. I wonder what that indicates?
+* Histograms of the probability plots look somewhat as expected, with a strong peak at <0.2 for 'Survived' and a strong peak at >0.8 for 'Dead'. What I don't like is how it doesn't seem to tail off at either end, i.e. ~20% of the data in either category is strongly misclassified.
+
 ```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
 xgbFit
 plot(xgbFit)
@@ -524,10 +534,9 @@ predict(xgbFit,type = 'prob') -> train.Probs
 histogram(~Survived+Dead,train.Probs)
 ```
 
-
 ## Elastinet
 
-non-down sampling worked better
+Moving on to a mixture model of ridge & lasso.
 
 ```{r message=FALSE, warning=FALSE}
 ctrl <- trainControl(method = "repeatedcv",
@@ -539,7 +548,7 @@ ctrl <- trainControl(method = "repeatedcv",
                      # sampling = 'down'
                      )
 glmnetGrid <- expand.grid(.alpha = c(0,.2,.4,.6,.8,1),
-                          .lambda = seq(10^-10,10^-1,0.01))
+                          .lambda = seq(10^-10,10^-1,0.02))
 glmnetFit <- train(
     Survived~.,
     train.imp,
@@ -548,6 +557,14 @@ glmnetFit <- train(
     tuneGrid = glmnetGrid
 )
 save(glmnetFit,file = 'glmnetFit')
+```
+
+What we can see:
+
+* The final values used for the model were alpha = 1 and lambda = 0.02. An alpha of 1 indicates this is a pure lasso model
+* Like before, I don't like is how it doesn't seem to tail off at either end, i.e. ~20% of the data in either category is strongly misclassified.
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
 glmnetFit
 glmnPlot <- plot(glmnetFit,
                  plotType = "level",
@@ -559,11 +576,14 @@ update(glmnPlot,
        main = "Area Under the ROC Curve",
        xlab = "Amount of Regularization")
 densityplot(glmnetFit,pch='|')
+plot(varImp(glmnetFit),15,main='Elastinet Model')
 predict(glmnetFit,type = 'prob') -> train.glmnet.Probs
 histogram(~Survived+Dead,train.glmnet.Probs)
 ```
 
-## k-Means
+## k-NN
+
+`kNN` is expected to be the worst of the lot, and it doesn't prove us wrong.
 
 ```{r echo=TRUE, message=FALSE}
 ctrl <- trainControl(method = "repeatedcv",
@@ -583,6 +603,9 @@ knnFit <- train(
     tuneGrid = knnGrid
 )
 save(knnFit,file = 'knnFit')
+```
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
 knnFit
 plot(knnFit)
 densityplot(knnFit,pch='|')
@@ -592,7 +615,7 @@ histogram(~Survived+Dead,train.Probs)
 
 ## SVM
 
-```{r echo=TRUE, message=FALSE}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
                      verboseIter = F,
@@ -609,6 +632,9 @@ svmFit <- train(
     tuneGrid = expand.grid(C=c(0.05,0.1,0.2,0.3), sigma=c(0.001,0.005,0.01,0.015))
 )
 save(svmFit,file = 'svmFit')
+```
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
 svmFit
 plot(svmFit)
 densityplot(svmFit,pch='|')
@@ -633,6 +659,9 @@ c5Fit <- train(
     control = C50::C5.0Control(earlyStopping = FALSE)
 )
 save(c5Fit,file = 'c5Fit')
+```
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
 c5Fit
 plot(c5Fit)
 densityplot(c5Fit,pch='|')
@@ -659,7 +688,8 @@ avNnetFit <- train(Survived~.,
                    trace = FALSE) 
 save(avNnetFit,file = 'avNnetFit')
 ```
-```{r}
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
 avNnetFit
 plot(avNnetFit)
 densityplot(avNnetFit,pch='|')
@@ -686,7 +716,8 @@ ciRFFit <- train(Survived~.,
                  ) 
 save(ciRFFit,file = 'ciRFFit')
 ```
-```{r}
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
 ciRFFit
 plot(ciRFFit)
 densityplot(ciRFFit,pch='|')
@@ -697,7 +728,7 @@ histogram(~Survived+Dead,train.Probs)
 ***
 
 # Compare models
-```{r}
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
 re <-
     resamples(x = list(
     xgb = xgbFit,
@@ -716,14 +747,6 @@ dotplot(re)
 difValues <- diff(re)
 dotplot(difValues)
 ```
-
-## Variable Importance & Performance
-
-```{r}
-plot(varImp(glmnetFit),15,main='Elastinet Model')
-plot(varImp(xgbFit),15,main='XGBoost')
-```
-
 
 ***
 
@@ -808,14 +831,16 @@ test.imp$TicketNum <- NULL
 
 ## Predict test results
 ```{r}
-xgbPred         <- predict(object = xgbFit,    newdata = test.imp)
 elastinetPred   <- predict(object = glmnetFit, newdata = test.imp)
+xgbPred         <- predict(object = xgbFit,    newdata = test.imp)
 c5Pred          <- predict(object = c5Fit,     newdata = test.imp)
 knnPred         <- predict(object = knnFit,    newdata = test.imp)
 svmPred         <- predict(object = svmFit,    newdata = test.imp)
 avNNPred        <- predict(object = avNnetFit, newdata = test.imp)
 ciRFPred        <- predict(object = ciRFFit,   newdata = test.imp)
+```
 
+```{r}
 xtab <- table(xgbPred,test.imp$Survived)
 xgbCM <- caret::confusionMatrix(xtab)
 
@@ -845,7 +870,7 @@ compiled_results <- tibble(
     kappa = map_dbl(CM_list,~.x$overall[2]),
     sensitivity = map_dbl(CM_list,~.x$byClass[1]),
     specificity = map_dbl(CM_list,~.x$byClass[2]),
-    F1 = map_dbl(CM_list,~.x$byClass[7])o
+    F1 = map_dbl(CM_list,~.x$byClass[7])
 )
 compiled_results %>% arrange(accuracy,kappa)
 ```
@@ -855,7 +880,7 @@ dotplot(reorder(models,accuracy)~accuracy,compiled_results, main = 'Accuracy (Te
 ```
 
 ```{r}
-ggplot(compiled_results, aes(F1, kappa)) +
+ggplot(compiled_results, aes(F1, accuracy)) +
     geom_point(color = 'blue',shape=1) +
     geom_text_repel(aes(label = models),
                     box.padding=unit(.5,'lines'),
@@ -865,3 +890,4 @@ ggplot(compiled_results, aes(F1, kappa)) +
     labs(x='F1',y='kappa', title='Kappa vs F1 (Test Set Performance)')
 ```
 
+# Final remarks
