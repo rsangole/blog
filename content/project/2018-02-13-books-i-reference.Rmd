@@ -1,0 +1,43 @@
+---
+title: Books I Reference
+author: Rahul Sangole
+date: '2018-02-13'
+slug: books-i-reference
+categories:
+  - Books
+tags:
+  - books
+  - literature
+---
+
+The full list of the books in my shelf is on my [Goodreads account](https://www.goodreads.com/review/list/28286118-rahul?utf8=%E2%9C%93&utf8=%E2%9C%93&print=true&shelf=data-science&title=rahul&sort=position&order=a&per_page=75) [^1]. The ones I refer to the most are listed here:
+
+[^1]: Most of them are a result of my [MSPA coursework](https://sps.northwestern.edu/masters/data-science/). Others are from colleagues. I'm always searching for good literature to study from. If you have suggestions, please drop me a note.
+
+```{r include=FALSE}
+library(knitr)
+library(kableExtra)
+library(dplyr)
+options(knitr.table.format = "html") 
+# df <- readr::read_csv(file = '/Users/Rahul/Documents/Data Science/Blog/phack/static/files/df.csv')
+df <- readr::read_csv(file = 'files/books_list.csv')
+```
+
+```{r echo=FALSE, results='asis'}
+df %>% mutate(id=row_number()) %>% group_by(Category) %>% summarise(start=min(id),end=max(id)) -> kable_style_row_IDs
+df %>%
+    dplyr::select(-Category) %>% 
+    kable('html',col.names = c('','')) %>% 
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed","responsive")) %>% 
+    column_spec(2, width = "12em") %>% 
+    group_rows(kable_style_row_IDs[[1,1]],kable_style_row_IDs[[1,2]],kable_style_row_IDs[[1,3]]) %>% 
+    group_rows(kable_style_row_IDs[[2,1]],kable_style_row_IDs[[2,2]],kable_style_row_IDs[[2,3]]) %>% 
+    group_rows(kable_style_row_IDs[[3,1]],kable_style_row_IDs[[3,2]],kable_style_row_IDs[[3,3]]) %>% 
+    group_rows(kable_style_row_IDs[[4,1]],kable_style_row_IDs[[4,2]],kable_style_row_IDs[[4,3]]) %>% 
+    group_rows(kable_style_row_IDs[[5,1]],kable_style_row_IDs[[5,2]],kable_style_row_IDs[[5,3]]) %>% 
+    group_rows(kable_style_row_IDs[[6,1]],kable_style_row_IDs[[6,2]],kable_style_row_IDs[[6,3]]) %>% 
+    group_rows(kable_style_row_IDs[[7,1]],kable_style_row_IDs[[7,2]],kable_style_row_IDs[[7,3]]) %>% 
+    group_rows(kable_style_row_IDs[[8,1]],kable_style_row_IDs[[8,2]],kable_style_row_IDs[[8,3]]) %>% 
+    group_rows(kable_style_row_IDs[[9,1]],kable_style_row_IDs[[9,2]],kable_style_row_IDs[[9,3]])
+    # collapse_rows(columns = 1)
+```

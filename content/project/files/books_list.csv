@@ -1,0 +1,37 @@
+Category,Title,Author
+Deep Learning,Deep Learning with R,Francois Chollet
+Deep Learning,Handbook Of Neural Computing Applications,Alianna J Maren
+Deep Learning,Deep Learning,Ian Goodfellow
+Deep Learning,LSTM with Python,Jason Brownlee
+GLM,"Generalized Additive Models: An Introduction with R, Second Edition",Simon Wood
+GLM,Applied Regression Modeling,Iain Pardoe
+GLM,Generalized Linear Models,John P. Hoffmann
+GLM,Introduction to Linear Regression Analysis,Douglas Montgomery
+ML,"Hands-On Machine Learning with Scikit-Learn and Tensorflow: Concepts, Tools, and Techniques to Build Intelligent Systems",Aurelien Geron
+ML,Flexible Imputation of Missing Data,Stef van Buuren
+ML,Applied Predictive Modeling,Max Kuhn
+ML,An Introduction to Statistical Learning: With Applications in R,Trevor Hastie
+Python,Python for Data Analysis,Wes McKinney
+Python,Introducing Python: Modern Computing in Simple Packages,Bill Lubanovic
+Python,Python Cookbook,David Beazley
+Quality,Multivariate Statistical Quality Control Using R,Edgar Santos
+Quality,"Statistics for Experimenters: Design, Innovation, and Discovery",George Box
+Quality,Quality Control with R: An ISO Standards Approach,Emilio L Cano
+Quality,Design and Analysis of Experiments with R,John Lawson
+R,"R for Data Science: Import, Tidy, Transform, Visualize, and Model Data",Hadley Wickham
+R,Testing R Code,Richard Cotton
+R,R Packages,Hadley Wickham
+R,Advanced R,Hadley Wickham
+Stats,The Essentials of Probability,Richard Durrett
+Stats,Probability and Statistical Inference,Robert Hogg
+Stats,Applied Multivariate Statistical Analysis,Richard Johnson
+Stats,Multivariate Statistical Methods,Donald Morrison
+Stats,Mathematical Statistics and Data Analysis,John Rice
+Stats,Best Practices in Data Cleaning: A Complete Guide to Everything You Need to Do Before and After Collecting Your Data,Jason Osborne
+Stats,Multivariable Modeling and Multivariate Analysis for the Behavioral Sciences,Brian Everitt
+Text,Natural Language Processing with Python,Steven Bird
+Text,Text Mining with R,Julia Silge
+Visualization,Information Dashboard Design: Displaying Data for At-a-Glance Monitoring,Stephen Few
+Visualization,Lattice: Multivariate Data Visualization with R,Deepayan Sarkar
+Visualization,ggplot2: Elegant Graphics for Data Analysis,Hadley Wickham
+Visualization,Data Visualisation: A Handbook for Data Driven Design,Andy Kirk
