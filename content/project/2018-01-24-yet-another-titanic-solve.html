@@ -48,6 +48,7 @@ output:
 <li><a href="#create-test-set">Create test set</a></li>
 <li><a href="#predict-test-results">Predict test results</a></li>
 </ul></li>
+<li><a href="#kaggle-performance">Kaggle Performance</a></li>
 <li><a href="#final-remarks">Final remarks</a></li>
 </ul>
 </div>
@@ -688,6 +689,7 @@ save(glmnetFit,file = &#39;glmnetFit&#39;)</code></pre>
 <ul>
 <li>The final values used for the model were alpha = 1 and lambda = 0.02. An alpha of 1 indicates this is a pure lasso model</li>
 <li>Like before, I don’t like is how it doesn’t seem to tail off at either end, i.e. ~20% of the data in either category is strongly misclassified.</li>
+<li>A quick look at the var importance plot does show that the derived variables of title, ticket char, and ticket number are important. Not bad for some quick feature engineering.</li>
 </ul>
 <pre class="r"><code>glmnetFit</code></pre>
 <pre><code>## glmnet 
@@ -740,15 +742,15 @@ save(glmnetFit,file = &#39;glmnetFit&#39;)</code></pre>
                  cuts = 15,
                  scales = list(x = list(rot = 90, cex = .65)))
 update(glmnPlot,
-       ylab = &quot;Mixing Percentage\nRidge &lt;---------&gt; Lasso&quot;,
+       xlab = &quot;Mixing Percentage\nRidge &lt;---------&gt; Lasso&quot;,
        sub = &quot;&quot;,
        main = &quot;Area Under the ROC Curve&quot;,
-       xlab = &quot;Amount of Regularization&quot;)
+       ylab = &quot;Amount of Regularization&quot;)
 densityplot(glmnetFit,pch=&#39;|&#39;)
 plot(varImp(glmnetFit),15,main=&#39;Elastinet Model&#39;)
 predict(glmnetFit,type = &#39;prob&#39;) -&gt; train.glmnet.Probs
 histogram(~Survived+Dead,train.glmnet.Probs)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-2.png" width="672" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-3.png" width="672" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-1.png" width="50%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-2.png" width="50%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-3.png" width="50%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-4.png" width="50%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="k-nn" class="section level2">
 <h2>k-NN</h2>
@@ -772,6 +774,7 @@ knnFit &lt;- train(
 <pre><code>## Warning in train.default(x, y, weights = w, ...): The metric &quot;Accuracy&quot; was
 ## not in the result set. ROC will be used instead.</code></pre>
 <pre class="r"><code>save(knnFit,file = &#39;knnFit&#39;)</code></pre>
+<p>The probability value histograms show how large the overlap is between the two classes. Clearly a poor predictor model.</p>
 <pre class="r"><code>knnFit</code></pre>
 <pre><code>## k-Nearest Neighbors 
 ## 
@@ -823,6 +826,9 @@ svmFit &lt;- train(
     tuneGrid = expand.grid(C=c(0.05,0.1,0.2,0.3), sigma=c(0.001,0.005,0.01,0.015))
 )
 save(svmFit,file = &#39;svmFit&#39;)</code></pre>
+<ul>
+<li>The SVM shows moderate performance, but notice many wrongs it gets confidently. Large peaks (~20%) in the probability histograms indicate that the predictions this model gets wrong, it gets wrong very confidently.</li>
+</ul>
 <pre class="r"><code>svmFit</code></pre>
 <pre><code>## Support Vector Machines with Radial Basis Function Kernel 
 ## 
@@ -880,6 +886,10 @@ c5Fit &lt;- train(
 <pre><code>## Warning in train.default(x, y, weights = w, ...): The metric &quot;Accuracy&quot; was
 ## not in the result set. ROC will be used instead.</code></pre>
 <pre class="r"><code>save(c5Fit,file = &#39;c5Fit&#39;)</code></pre>
+<ul>
+<li>For the C5.0 model, I’ve kept the grid search space the default offered by <code>caret</code>.</li>
+<li>We still see the ‘U’ shape on the probability distributions, although more spread out than what we saw in the SVM model.</li>
+</ul>
 <pre class="r"><code>c5Fit</code></pre>
 <pre><code>## C5.0 
 ## 
@@ -919,22 +929,19 @@ histogram(~Survived+Dead,train.Probs)</code></pre>
 <h2>Averaged Neural Networks</h2>
 <pre class="r"><code>ctrl &lt;- trainControl(method = &quot;repeatedcv&quot;,
                      repeats = 5,
-                     verboseIter = F,
                      classProbs = TRUE,
                      summaryFunction = twoClassSummary,
                      savePredictions = T
                      )
-avNNetgrid &lt;- expand.grid(size=c(2,4,6),decay=c(0,0.1),bag=c(T,F))
+avNNetgrid &lt;- expand.grid(size=c(2,4,6,8),decay=c(0.1,0.2),bag=c(T,F))
 avNnetFit &lt;- train(Survived~.,
                    train.imp,
                    method = &quot;avNNet&quot;, 
                    trControl = ctrl,
+                   tuneGrid = avNNetgrid,
                    repeats = 15,
-                   trace = FALSE) </code></pre>
-<pre><code>## Warning in train.default(x, y, weights = w, ...): The metric &quot;Accuracy&quot; was
-## not in the result set. ROC will be used instead.</code></pre>
-<pre><code>## Warning: executing %dopar% sequentially: no parallel backend registered</code></pre>
-<pre class="r"><code>save(avNnetFit,file = &#39;avNnetFit&#39;)</code></pre>
+                   trace = FALSE) 
+save(avNnetFit,file = &#39;avNnetFit&#39;)</code></pre>
 <pre class="r"><code>avNnetFit</code></pre>
 <pre><code>## Model Averaged Neural Network 
 ## 
@@ -977,7 +984,7 @@ histogram(~Survived+Dead,train.Probs)</code></pre>
                      summaryFunction = twoClassSummary,
                      savePredictions = T
                      )
-ciRFgrid &lt;- expand.grid(mtry = c(15,20,25,30,35))
+ciRFgrid &lt;- expand.grid(mtry = c(20,25,30,35,40))
 ciRFFit &lt;- train(Survived~.,
                    train.imp,
                    method = &quot;cforest&quot;, 
@@ -1012,7 +1019,7 @@ ciRFFit &lt;- train(Survived~.,
 densityplot(ciRFFit,pch=&#39;|&#39;)
 predict(ciRFFit,type = &#39;prob&#39;) -&gt; train.Probs
 histogram(~Survived+Dead,train.Probs)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-39-1.png" width="672" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-39-2.png" width="672" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-39-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-39-1.png" width="50%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-39-2.png" width="50%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-39-3.png" width="50%" style="display: block; margin: auto;" /></p>
 <hr />
 </div>
 </div>
@@ -1030,7 +1037,7 @@ histogram(~Survived+Dead,train.Probs)</code></pre>
     ))
 bwplot(re)
 dotplot(re)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-40-1.png" width="672" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-40-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-40-1.png" width="75%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-40-2.png" width="75%" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>difValues &lt;- diff(re)
 dotplot(difValues)</code></pre>
 <p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
@@ -1165,18 +1172,20 @@ compiled_results %&gt;% arrange(accuracy,kappa)</code></pre>
 ## 5 xgb          0.816 0.598       0.676       0.902 0.738
 ## 6 svm          0.846 0.665       0.725       0.921 0.783
 ## 7 elastinet    0.850 0.675       0.745       0.915 0.792</code></pre>
-<pre class="r"><code>dotplot(reorder(models,accuracy)~accuracy,compiled_results, main = &#39;Accuracy (Test Set Performance)&#39;)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
-<pre class="r"><code>ggplot(compiled_results, aes(F1, accuracy)) +
+<pre class="r"><code>dotplot(reorder(models,accuracy)~accuracy,compiled_results, main = &#39;Accuracy (Test Set Performance)&#39;)
+ggplot(compiled_results, aes(F1, accuracy)) +
     geom_point(color = &#39;blue&#39;,shape=1) +
     geom_text_repel(aes(label = models),
-                    box.padding=unit(.5,&#39;lines&#39;),
-                    max.iter=1e4,segment.size=.4,
-                    force=4) +
+                    box.padding=unit(1,&#39;lines&#39;),
+                    max.iter=1e2,segment.size=.3,
+                    force=1) +
     theme_bw()+
     labs(x=&#39;F1&#39;,y=&#39;kappa&#39;, title=&#39;Kappa vs F1 (Test Set Performance)&#39;)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-45-1.png" width="50%" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-45-2.png" width="50%" /></p>
 </div>
+</div>
+<div id="kaggle-performance" class="section level1">
+<h1>Kaggle Performance</h1>
 </div>
 <div id="final-remarks" class="section level1">
 <h1>Final remarks</h1>

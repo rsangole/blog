@@ -563,18 +563,19 @@ What we can see:
 
 * The final values used for the model were alpha = 1 and lambda = 0.02. An alpha of 1 indicates this is a pure lasso model
 * Like before, I don't like is how it doesn't seem to tail off at either end, i.e. ~20% of the data in either category is strongly misclassified.
+* A quick look at the var importance plot does show that the derived variables of title, ticket char, and ticket number are important. Not bad for some quick feature engineering.
 
-```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width='50%'}
 glmnetFit
 glmnPlot <- plot(glmnetFit,
                  plotType = "level",
                  cuts = 15,
                  scales = list(x = list(rot = 90, cex = .65)))
 update(glmnPlot,
-       ylab = "Mixing Percentage\nRidge <---------> Lasso",
+       xlab = "Mixing Percentage\nRidge <---------> Lasso",
        sub = "",
        main = "Area Under the ROC Curve",
-       xlab = "Amount of Regularization")
+       ylab = "Amount of Regularization")
 densityplot(glmnetFit,pch='|')
 plot(varImp(glmnetFit),15,main='Elastinet Model')
 predict(glmnetFit,type = 'prob') -> train.glmnet.Probs
@@ -605,6 +606,8 @@ knnFit <- train(
 save(knnFit,file = 'knnFit')
 ```
 
+The probability value histograms show how large the overlap is between the two classes. Clearly a poor predictor model.
+
 ```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
 knnFit
 plot(knnFit)
@@ -634,6 +637,8 @@ svmFit <- train(
 save(svmFit,file = 'svmFit')
 ```
 
+* The SVM shows moderate performance, but notice many wrongs it gets confidently. Large peaks (~20%) in the probability histograms indicate that the predictions this model gets wrong, it gets wrong very confidently. 
+
 ```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
 svmFit
 plot(svmFit)
@@ -643,6 +648,7 @@ histogram(~Survived+Dead,train.Probs)
 ```
 
 ## C5.0
+
 ```{r echo=TRUE, message=FALSE}
 ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
@@ -661,6 +667,9 @@ c5Fit <- train(
 save(c5Fit,file = 'c5Fit')
 ```
 
+* For the C5.0 model, I've kept the grid search space the default offered by `caret`.
+* We still see the 'U' shape on the probability distributions, although more spread out than what we saw in the SVM model.
+
 ```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
 c5Fit
 plot(c5Fit)
@@ -671,19 +680,19 @@ histogram(~Survived+Dead,train.Probs)
 
 ## Averaged Neural Networks
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 ctrl <- trainControl(method = "repeatedcv",
                      repeats = 5,
-                     verboseIter = F,
                      classProbs = TRUE,
                      summaryFunction = twoClassSummary,
                      savePredictions = T
                      )
-avNNetgrid <- expand.grid(size=c(2,4,6),decay=c(0,0.1),bag=c(T,F))
+avNNetgrid <- expand.grid(size=c(2,4,6,8),decay=c(0.1,0.2),bag=c(T,F))
 avNnetFit <- train(Survived~.,
                    train.imp,
                    method = "avNNet", 
                    trControl = ctrl,
+                   tuneGrid = avNNetgrid,
                    repeats = 15,
                    trace = FALSE) 
 save(avNnetFit,file = 'avNnetFit')
@@ -707,7 +716,7 @@ ctrl <- trainControl(method = "repeatedcv",
                      summaryFunction = twoClassSummary,
                      savePredictions = T
                      )
-ciRFgrid <- expand.grid(mtry = c(15,20,25,30,35))
+ciRFgrid <- expand.grid(mtry = c(20,25,30,35,40))
 ciRFFit <- train(Survived~.,
                    train.imp,
                    method = "cforest", 
@@ -717,7 +726,7 @@ ciRFFit <- train(Survived~.,
 save(ciRFFit,file = 'ciRFFit')
 ```
 
-```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width='50%'}
 ciRFFit
 plot(ciRFFit)
 densityplot(ciRFFit,pch='|')
@@ -728,7 +737,7 @@ histogram(~Survived+Dead,train.Probs)
 ***
 
 # Compare models
-```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width='75%'}
 re <-
     resamples(x = list(
     xgb = xgbFit,
@@ -875,19 +884,20 @@ compiled_results <- tibble(
 compiled_results %>% arrange(accuracy,kappa)
 ```
 
-```{r}
+```{r out.width='50%', fig.show='hold'}
 dotplot(reorder(models,accuracy)~accuracy,compiled_results, main = 'Accuracy (Test Set Performance)')
-```
-
-```{r}
 ggplot(compiled_results, aes(F1, accuracy)) +
     geom_point(color = 'blue',shape=1) +
     geom_text_repel(aes(label = models),
-                    box.padding=unit(.5,'lines'),
-                    max.iter=1e4,segment.size=.4,
-                    force=4) +
+                    box.padding=unit(1,'lines'),
+                    max.iter=1e2,segment.size=.3,
+                    force=1) +
     theme_bw()+
     labs(x='F1',y='kappa', title='Kappa vs F1 (Test Set Performance)')
 ```
 
+# Kaggle Performance
+
+
 # Final remarks
+
