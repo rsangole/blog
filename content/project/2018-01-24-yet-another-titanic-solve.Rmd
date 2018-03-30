@@ -19,7 +19,7 @@ knitr::opts_chunk$set(cache=TRUE)
 knitr::opts_chunk$set(cache.comments=FALSE)
 ```
 
-**tl;dr:** 
+**tl;dr:** Another titanic solve. Uses `caret` and `tidyverse` for everything. Best model is elastinet and gets me a 0.72-0.76 score on kaggle.
 
 # Objectives
 
