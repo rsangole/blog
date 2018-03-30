@@ -1,9 +1,8 @@
 ---
 title: Yet Another Titanic Solve
 author: Rahul Sangole
-date: '2018-01-24'
+date: '2018-03-30'
 slug: yet-another-titanic-solve
-draft: yes
 categories:
   - R
 tags:
@@ -235,7 +234,7 @@ Here is a comparison of the same information between a boxplot and a beanplot. W
 
 [^3]: Read more about beanplots here: https://cran.r-project.org/web/packages/beanplot/vignettes/beanplot.pdf
 
-```{r, message=FALSE, warning=FALSE, fig.show='hold',fig.align='center'}
+```{r, message=FALSE, warning=FALSE, fig.show='hold',fig.align='center', out.width= '60%'}
 ggplot(train.raw,aes(y=Age,x=Pclass))+geom_boxplot(aes(fill=Survived))+theme_bw()
 beanplot(Age~Survived*Pclass,side='b',train.raw,col=list('yellow','orange'),
          border = c('yellow2','darkorange'),ll = 0.05,boxwex = .5,
@@ -298,7 +297,7 @@ train.imp$Embarked[is.na(train.imp$Embarked)] <- 'S'
 
 **Names, Titles & Age**: The names have titles embedded in the strings. I can extract these using regex. Master, Miss, Mr and Mrs are the most popular - no surprise there, with lots of other titles.  Here's the distribution of the titles by age. These can be used to impute the missing age values.
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, out.width= '60%'}
 train.imp$title <- str_extract(pattern = '[a-zA-Z]+(?=\\.)',string = train.imp$Name)
 train.imp$title <- as.factor(train.imp$title)
 ggplot(train.imp,aes(x=title,y=Age))+
@@ -311,7 +310,7 @@ ggplot(train.imp,aes(x=title,y=Age))+
 
 Grouping similar titles together, I've kept a few titles - Officer, Royalty, Mr, Mrs and Miss.
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, out.width= '60%'}
 train.imp$title <- as.character(train.imp$title)
 train.imp$title[train.imp$title %in% c('Capt','Col','Major')] <- 'Officer'
 train.imp$title[train.imp$title %in% c('Don','Dr','Rev','Sir','Jonkheer','Countess','Lady','Dona')] <- 'Royalty'
@@ -328,7 +327,7 @@ ggplot(train.imp,aes(x=title,y=Age))+
 
 Now for the missing Age values. I'm trying out two strategies to impute age, just for kicks. First, a regression tree using the `rpart` method. 5-repeat 10-fold cross validation across a tuning grid of 20 values of `maxdepth`. RMSE stablizes at a depth of 14, with a value of 12.2.
 
-```{r message=FALSE, warning=FALSE, fig.show='hold',fig.align='center'}
+```{r message=FALSE, warning=FALSE, fig.show='hold',fig.align='center', out.width= '60%'}
 age.predictors <- train.imp %>%
     dplyr::select(-Survived,-Cabin,-Ticket,-Name) %>%
     dplyr::filter(complete.cases(.))
@@ -349,7 +348,7 @@ save(rpartFit_ageimputation,file = 'rpartFit_ageimputation')
 
 I'm going to use the randomForest model. Using the `predict.train()` to predict values of age and plug them back into the imputed data. You can see the blue points which are the imputed values of `Age`. What I noticed is that for all the titles, the imputed Age value seems to be distributed fairly well, except Master. For Master, the three imputed are definitely outliers. I'm going to force these to the median Age.
 
-```{r}
+```{r out.width= '60%'}
 missing_age <- is.na(train.imp$Age)
 age.predicted <- predict(rpartFit_ageimputation, newdata = train.imp[missing_age,])
 train.imp[missing_age,'Age'] <- age.predicted
@@ -523,8 +522,8 @@ What we can see:
 * The PDF of AUC ROC shows a bi-modal distribution (slightly). I noticed this for the other models as well. I wonder what that indicates?
 * Histograms of the probability plots look somewhat as expected, with a strong peak at <0.2 for 'Survived' and a strong peak at >0.8 for 'Dead'. What I don't like is how it doesn't seem to tail off at either end, i.e. ~20% of the data in either category is strongly misclassified.
 
-```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
-xgbFit
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width= '60%'}
+print(xgbFit,details = F)
 plot(xgbFit)
 xgb.importance(feature_names = colnames(train.imp), 
                model = xgbFit$finalModel) %>%
@@ -565,7 +564,7 @@ What we can see:
 * Like before, I don't like is how it doesn't seem to tail off at either end, i.e. ~20% of the data in either category is strongly misclassified.
 * A quick look at the var importance plot does show that the derived variables of title, ticket char, and ticket number are important. Not bad for some quick feature engineering.
 
-```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width='50%'}
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width='60%'}
 glmnetFit
 glmnPlot <- plot(glmnetFit,
                  plotType = "level",
@@ -608,7 +607,7 @@ save(knnFit,file = 'knnFit')
 
 The probability value histograms show how large the overlap is between the two classes. Clearly a poor predictor model.
 
-```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width= '60%'}
 knnFit
 plot(knnFit)
 densityplot(knnFit,pch='|')
@@ -639,7 +638,7 @@ save(svmFit,file = 'svmFit')
 
 * The SVM shows moderate performance, but notice many wrongs it gets confidently. Large peaks (~20%) in the probability histograms indicate that the predictions this model gets wrong, it gets wrong very confidently. 
 
-```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width= '60%'}
 svmFit
 plot(svmFit)
 densityplot(svmFit,pch='|')
@@ -670,7 +669,7 @@ save(c5Fit,file = 'c5Fit')
 * For the C5.0 model, I've kept the grid search space the default offered by `caret`.
 * We still see the 'U' shape on the probability distributions, although more spread out than what we saw in the SVM model.
 
-```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width= '60%'}
 c5Fit
 plot(c5Fit)
 densityplot(c5Fit,pch='|')
@@ -698,7 +697,11 @@ avNnetFit <- train(Survived~.,
 save(avNnetFit,file = 'avNnetFit')
 ```
 
-```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center'}
+Averaged neural networks are something I picked up in the 2018 RStudio conference. It fits multiple neural networks to a problem and returns the average value of all the nnets together. Easy to use, pretty spiffy.
+
+There are three tunable parameters here - # of hidden nodes, bagging and weight decay. Upon playing with them a bit, I settled on what you see below. Perhaps increasing the # of hidden units would have made more of a difference, but I'm happy with this so far.
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width= '60%'}
 avNnetFit
 plot(avNnetFit)
 densityplot(avNnetFit,pch='|')
@@ -726,7 +729,9 @@ ciRFFit <- train(Survived~.,
 save(ciRFFit,file = 'ciRFFit')
 ```
 
-```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width='50%'}
+This is another technology I picked up from converstaions at RStudio conference. I believe it's referenced in the APM book as well. Some information about them is [here](https://hsequantling.wikispaces.com/file/view/LevshinaCh14CARTRandomForest.pdf). To be honest, I haven't spent any time understanding exactly how these work, so to me they are black box(y) at the moment.
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width= '60%'}
 ciRFFit
 plot(ciRFFit)
 densityplot(ciRFFit,pch='|')
@@ -737,7 +742,10 @@ histogram(~Survived+Dead,train.Probs)
 ***
 
 # Compare models
-```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width='75%'}
+
+Now the fun part - pitting these models against each other to figure out who's the strongest. The beauty of using `caret` to analyze all the models with the same resampling strategy is that it allows one to use the `resamples()` function to quickly extract all the information in the fits and plot out key performance parameters like ROC, sensitivity and specificity.
+
+```{r echo=TRUE, message=FALSE}
 re <-
     resamples(x = list(
     xgb = xgbFit,
@@ -748,9 +756,25 @@ re <-
     avgNNet = avNnetFit,
     ciRF = ciRFFit
     ))
-bwplot(re)
+```
+
+This plot shows the point estimates (mean and CI of mean) of all three metrics, as evaluated on each repeated cross-validation on all models run per model-type. All the top 4 models are really alike in AUC ROC, with xgb and C50 taking a slight lead in sensitivity. 
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width='60%'}
 dotplot(re)
 ```
+
+Another way to visualize the data is to plot all the results of each model-type for all it's cross-validated results on a boxplot. This shows us how much variation we might expect from the model for a true unknown test set. Here, elastinet seems to have the tightest IQR for AUC ROC as well as the tightest IQR for sensitivity. It also shows no outliers.
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width='60%'}
+bwplot(re)
+```
+
+One challenge in the plots above is drawing inferences from the plots above. Too many of the points above are really close to each other. It's hard to tell if one model is any better than another model.
+
+This is where `diff()` is a useful function. Basically, for each metric, all pair-wise differences are evaluated. The plot makes this quite intuitive. If the confidence level  on the differences includes zero, the models are equal to each other. Similar to assessing a null hypothesis of (beta = 0) in a linear regression analysis. 
+
+Now, we can clearly see that if xgb is compared to it's next 3 rivals, there isn't really a statistically significant difference between the AUC ROC performance of that model against the others based on the cross-validations alone. No reason to pick over the others. 
 
 ```{r}
 difValues <- diff(re)
@@ -760,6 +784,10 @@ dotplot(difValues)
 ***
 
 # Test Set Evaluation
+
+Of course, any data scientist worth his/her salt knows better than to use training set performances to fully evaluate and select the final model.
+
+So, first re-trace all the steps and prepare the test dataset.
 
 ## Create test set
 ```{r}
@@ -839,6 +867,9 @@ test.imp$TicketNum <- NULL
 ```
 
 ## Predict test results
+
+Now, predict the results using all the modelFits created in the previous section.
+
 ```{r}
 elastinetPred   <- predict(object = glmnetFit, newdata = test.imp)
 xgbPred         <- predict(object = xgbFit,    newdata = test.imp)
@@ -848,6 +879,8 @@ svmPred         <- predict(object = svmFit,    newdata = test.imp)
 avNNPred        <- predict(object = avNnetFit, newdata = test.imp)
 ciRFPred        <- predict(object = ciRFFit,   newdata = test.imp)
 ```
+
+Predictions are done; now let's investigate the results. Extracting confusion matrices is made simple using `caret`. Comparing all the results is made easy if we leverage the tools in `purrr`.
 
 ```{r}
 xtab <- table(xgbPred,test.imp$Survived)
@@ -884,6 +917,8 @@ compiled_results <- tibble(
 compiled_results %>% arrange(accuracy,kappa)
 ```
 
+Of course, the easiest way to look at the results is visually. Elastinet and svm are the clear winners here, with 84%+ accuracy. The kappa and F1 scores together also show them are clear winners. This is what's interesting about using the test datasets. The cross-validation training results had xgb, C50, ciRF, avgNNet and elastinet all almost equally as good. However, the test results show a very clear winner indeed.
+
 ```{r out.width='50%', fig.show='hold'}
 dotplot(reorder(models,accuracy)~accuracy,compiled_results, main = 'Accuracy (Test Set Performance)')
 ggplot(compiled_results, aes(F1, accuracy)) +
@@ -898,6 +933,4 @@ ggplot(compiled_results, aes(F1, accuracy)) +
 
 # Kaggle Performance
 
-
-# Final remarks
-
+The top few models take me to a 72% - 76% score on Kaggle. It isn't the top model there of course, but not bad for a 1st Kaggle competiton attempt.

@@ -34,6 +34,12 @@ output:
 </ul></li>
 <li><a href="#next-steps">Next Steps</a></li>
 </ul></li>
+<li><a href="#phase-2-report">Phase 2 Report</a><ul>
+<li><a href="#recap">Recap</a></li>
+<li><a href="#categories">5 categories</a></li>
+<li><a href="#lda">LDA</a></li>
+<li><a href="#t-sne">t-SNE</a></li>
+</ul></li>
 </ul>
 </div>
 
@@ -70,19 +76,23 @@ load(&#39;453_safety_project/training_labels.RData&#39;)</code></pre>
 <div id="view-the-data" class="section level3">
 <h3>View the data</h3>
 <p>The training data looks like this: two columns: 1st column is the dsid_id, and the 2nd column is the actual text. Each row represents one safety issue.</p>
-<pre class="r"><code>head(training_data,2) </code></pre>
-<pre><code>## # A tibble: 2 x 2
+<pre class="r"><code>head(training_data,4) </code></pre>
+<pre><code>## # A tibble: 4 x 2
 ##   doc_id text                                                             
 ##    &lt;int&gt; &lt;chr&gt;                                                            
 ## 1      1 locate _ distancemeasuringequipment FROM runway ON THE locate fr…
-## 2      2 IN _ I BECAME AWARE THAT MY ULTRASONIC AND EDDY CURRENT inspect …</code></pre>
+## 2      2 IN _ I BECAME AWARE THAT MY ULTRASONIC AND EDDY CURRENT inspect …
+## 3      3 visualflightrules FROM feet PIERCE flightlevel TO HABERSHAM COUN…
+## 4      4 JUST PRIOR TO rotate A DEER RAN ONTO THE runway.I rotate AND hea…</code></pre>
 <p>The training data labels look like this. This is the response variable in the original challenge. There are 22 total categories, and a dsid can exist in multiple categories.</p>
-<pre class="r"><code>head(training_labels,2)</code></pre>
-<pre><code>## # A tibble: 2 x 23
+<pre class="r"><code>head(training_labels,4)</code></pre>
+<pre><code>## # A tibble: 4 x 23
 ##   doc_id cat_a cat_b cat_c cat_d cat_e cat_f cat_g cat_h cat_i cat_j cat_k
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
 ## 1      1    -1     1    -1    -1    -1     1     1    -1    -1    -1    -1
 ## 2      2    -1    -1    -1    -1    -1    -1    -1    -1    -1    -1    -1
+## 3      3    -1     1    -1    -1    -1    -1    -1    -1    -1    -1    -1
+## 4      4    -1    -1    -1    -1    -1    -1    -1    -1    -1    -1    -1
 ## # ... with 11 more variables: cat_l &lt;int&gt;, cat_m &lt;int&gt;, cat_n &lt;int&gt;,
 ## #   cat_o &lt;int&gt;, cat_p &lt;int&gt;, cat_q &lt;int&gt;, cat_r &lt;int&gt;, cat_s &lt;int&gt;,
 ## #   cat_t &lt;int&gt;, cat_u &lt;int&gt;, cat_v &lt;int&gt;</code></pre>
@@ -279,5 +289,23 @@ ggplot(beta_spread,aes(reorder(term,log_ratio_21),log_ratio_21))+
 <li>Work on ECs and a better EC structure</li>
 <li>Start working on the ontologies</li>
 </ul>
+</div>
+</div>
+<div id="phase-2-report" class="section level1">
+<h1>Phase 2 Report</h1>
+<div id="recap" class="section level3">
+<h3>Recap</h3>
+<ul>
+<li></li>
+</ul>
+</div>
+<div id="categories" class="section level2">
+<h2>5 categories</h2>
+</div>
+<div id="lda" class="section level2">
+<h2>LDA</h2>
+</div>
+<div id="t-sne" class="section level2">
+<h2>t-SNE</h2>
 </div>
 </div>

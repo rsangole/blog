@@ -51,13 +51,13 @@ My entire code base is stored [on github](https://github.com/rsangole/453_TextAn
 The training data looks like this: two columns: 1st column is the dsid_id, and the 2nd column is the actual text. Each row represents one safety issue.
 
 ```{r}
-head(training_data,2) 
+head(training_data,4) 
 ```
 
 The training data labels look like this. This is the response variable in the original challenge. There are 22 total categories, and a dsid can exist in multiple categories.
 
 ```{r}
-head(training_labels,2)
+head(training_labels,4)
 ```
 
 ### Observations
@@ -256,3 +256,17 @@ ggplot(beta_spread,aes(reorder(term,log_ratio_21),log_ratio_21))+
 * Does it matter if I remove the UPPERCASE words?
 * Work on ECs and a better EC structure
 * Start working on the ontologies
+
+# Phase 2 Report
+
+### Recap
+
+* 
+
+## 5 categories
+
+## LDA
+
+## t-SNE
+
+
