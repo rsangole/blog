@@ -1,0 +1,99 @@
+---
+title: Performance Benchmarking for Date-Time conversions
+author: Rahul Sangole
+date: '2018-04-12'
+slug: performance-benchmarking-for-date-time-conversions
+categories:
+  - R
+tags:
+  - benchmarking
+  - R
+  - datetime
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#motivation">Motivation</a></li>
+<li><a href="#performance-comparison">Performance comparison</a></li>
+<li><a href="#packages-compared">Packages compared</a></li>
+<li><a href="#results">Results</a></li>
+</ul>
+</div>
+
+<div id="motivation" class="section level2">
+<h2>Motivation</h2>
+<p>Once more, there’s was an opportunity at work to optimize code and reduce run-time. The last time was for <a href="http://rsangole.netlify.com/post/dummy-variables-one-hot-encoding/">dummy-variable creation</a>. Upon querying large data from our hive tables, the returned dataframe contains values of class <code>character</code>. Thus, everything has to be first type converted before any processing can be done.</p>
+<p>The most time consuming of these has been <code>character</code> to <code>date-time</code> conversion for which I traditionally used <code>base::as.POSIXct</code>.</p>
+<p>Upon searching for some options myself, some help from Twitter, I’ve compared the performance of 6 functions on a 1e7 size character vector.</p>
+<div class="figure">
+<img src="/post/custom_images/Henning_on_Twitter.png" width="450" />
+
+</div>
+</div>
+<div id="performance-comparison" class="section level2">
+<h2>Performance comparison</h2>
+<p>I’ve run these benchmarks on my Macbook Pro:</p>
+<ul>
+<li>Processor Name: Intel Core i5</li>
+<li>Processor Speed: 2.4 GHz</li>
+<li>Number of Processors: 1</li>
+<li>Total Number of Cores: 2</li>
+<li>L2 Cache (per Core): 256 KB</li>
+<li>L3 Cache: 3 MB</li>
+<li>Memory: 8 GB</li>
+</ul>
+</div>
+<div id="packages-compared" class="section level2">
+<h2>Packages compared</h2>
+<ul>
+<li><code>base::strptime</code></li>
+<li><code>base::as.POSIXct</code></li>
+<li><code>lubridate::parse_date_time</code></li>
+<li><code>lubridate::parse_date_time2</code> [fast C parser]</li>
+<li><code>lubridate::fast_strptime</code> [fast C parser]</li>
+<li><code>fasttime::fastPOSIXct</code> [fast C parser]</li>
+</ul>
+<pre class="r"><code>tvec &lt;- rep(as.character(Sys.time()+runif(1,-1e9,1e9)),1e7)
+
+strp_fn &lt;- function(tvec) strptime(tvec, format = &#39;%Y-%m-%d %H:%M:%S&#39;, tz = &#39;UTC&#39;)
+POSIX_fn &lt;- function(tvec) as.POSIXct(tvec, format = &#39;%Y-%m-%d %H:%M:%S&#39;, tz = &#39;UTC&#39;)
+pdt_fn &lt;- function(tvec) lubridate::parse_date_time(tvec, orders = &#39;Ymd H M S&#39;, tz = &#39;UTC&#39;)
+pdt2_fn &lt;- function(tvec) lubridate::parse_date_time2(tvec, orders = &#39;Ymd H M S&#39;, tz = &#39;UTC&#39;)
+faststrp_fn &lt;- function(tvec) lubridate::fast_strptime(tvec, format = &#39;%Y-%m-%d %H:%M:%OS&#39;, tz = &#39;UTC&#39;)
+fasttime_fn &lt;- function(tvec) fasttime::fastPOSIXct(x = tvec, tz = &#39;UTC&#39;, required.components = 6)
+
+benchmarks &lt;- microbenchmark::microbenchmark(
+    strptime = strp_fn(tvec),          asPOSIXct = POSIX_fn(tvec),
+    parse_date_time = pdt_fn(tvec),    parse_date_time2 = pdt2_fn(tvec),
+    fast_strptime = faststrp_fn(tvec), fastPOSIXct = fasttime_fn(tvec),
+    times = 30L, unit = &#39;s&#39;)
+
+ggplot2::autoplot(benchmarks, log = F)
+print(benchmarks) ; print(benchmarks, unit = &#39;relative&#39;)</code></pre>
+</div>
+<div id="results" class="section level2">
+<h2>Results</h2>
+<p><img src="/post/2018-04-12-performance-benchmarking-for-date-time-conversions_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>The results are quite amazing. <code>fastPOSIXct</code> wins by a massive margin. <code>as.POSIXct</code> is 10x slower than <code>fastPOSIXct</code> and has a wider spread too.</p>
+<pre><code>## Unit: relative
+##              expr       min        lq     mean    median       uq      max
+##          strptime  7.140213  6.995050 6.587170  6.931937 6.243467 5.545282
+##         asPOSIXct 10.888603 10.668598 9.886067 10.338859 9.127702 8.170841
+##   parse_date_time  3.658794  3.700901 3.607782  3.840411 3.530341 3.136295
+##  parse_date_time2  1.973176  1.957485 1.864200  1.924281 1.753341 1.701600
+##     fast_strptime  1.795452  1.753926 1.717556  1.772935 1.605809 1.588742
+##       fastPOSIXct  1.000000  1.000000 1.000000  1.000000 1.000000 1.000000
+##  neval   cld
+##     30    d 
+##     30     e
+##     30   c  
+##     30  b   
+##     30  b   
+##     30 a</code></pre>
+<p>If you run these bench marks on more powerful machines or larger datasets, share your results too. It’ll be interesting to see if this result scales.</p>
+<p>Thanks <a href="https://twitter.com/henningsway">Henning</a> for the winning package suggestion! I owe you some beer!</p>
+</div>
