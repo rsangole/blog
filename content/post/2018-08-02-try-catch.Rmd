@@ -1,0 +1,236 @@
+---
+title: Using tryCatch for robust R scripts
+author: Rahul S
+date: '2018-12-20'
+slug: try-catch
+categories:
+  - R
+tags:
+  - R
+  - programming-practices
+output:
+    blogdown::html_page:
+        toc: false
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(knitr)
+```
+
+Using `tryCatch` to write robust R code can be a bit confusing. I found the help file dry to read. There are some resources which explore `tryCatch`, linked below. Over the years, I have developed a few programming paradigms which I've repeatedly found useful. A quick introduction to `tryCatch` below, followed by three use-cases I use on a regular basis.
+
+# Syntax
+
+`tryCatch` has a slightly complex syntax structure. However, once we understand the 4 parts which constitute a complete `tryCatch` call as shown below, it becomes easy to remember:
+
+* `expr`    : [Required] R code(s) to be evaluated
+* `error`   : [Optional] What should run if an error occured while evaluating the codes in `expr`
+* `warning` : [Optional] What should run if a warning occured while evaluating the codes in `expr`
+* `finally` : [Optional] What should run just before quitting the `tryCatch` call, irrespective of if `expr` ran succcessfuly, with an error, or with a warning
+
+```{r eval=FALSE}
+tryCatch(
+    expr = {
+        # Your code...
+        # goes here...
+        # ...
+    },
+    error = function(e){ 
+        # (Optional)
+        # Do this if an error is caught...
+    },
+    warning = function(w){
+        # (Optional)
+        # Do this if an warning is caught...
+    },
+    finally = {
+        # (Optional)
+        # Do this at the end before quitting the tryCatch structure...
+    }
+)
+```
+
+## Hello World example
+
+This is a toy example showing how a function can use `tryCatch` to handle execution.
+
+```{r}
+log_calculator <- function(x){
+    tryCatch(
+        expr = {
+            message(log(x))
+            message("Successfully executed the log(x) call.")
+        },
+        error = function(e){
+            message('Caught an error!')
+            print(e)
+        },
+        warning = function(w){
+            message('Caught an warning!')
+            print(w)
+        },
+        finally = {
+            message('All done, quitting.')
+        }
+    )    
+}
+```
+
+If x is a valid number, `expr` and `finally` are executed:
+
+```{r collapse=TRUE}
+log_calculator(10)
+```
+
+If x is an invalid number (negative, zero, `NA`), `expr` is attempted, and `warning` and `finally` are executed:
+
+```{r collapse=TRUE}
+log_calculator(-10)
+```
+
+If x is an invalid entry which raises an error, `expr` is attempted, and `error` and `finally` are executed:
+
+```{r collapse=TRUE}
+log_calculator("log_me")
+```
+
+---
+
+# More useful examples
+
+## Use `tryCatch` within loops
+
+There are cases at work where I have quite large datasets to pre-process before model building can begin. The sources of these data can be varied and thus the quality of these data can vary. While each dataset _should_ conform to our data quality standards (datatypes, data dictionaries, other domain-specific constraints), very often these isn't the case. As a result, common data preprocessing functions might fail on few datasets. We can use `tryCatch` within the `for` loop to catch errors without breaking the loop. 
+
+_Another toy example:_ Say, we have a nested dataframe of the `mtcars` data, nested on the cylinder numbers, and say, we had a few character values in `mpg` which is our response variable.
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE, collapse=TRUE}
+# Example nested dataframe
+(df_nested <- mtcars %>% as_tibble() %>% tidyr::nest(-cyl))
+
+df_nested$data[[2]][c(4,8),"mpg"] <- "Missing"
+```
+
+We wish to run a few custom preprocessors, including taking the log of `mpg`. 
+ 
+```{r}
+convert_gear_to_factors <- function(df){ df %>% mutate(gear = factor(gear, levels = 1:5, labels = paste0("Gear_",1:5))) }
+transform_response_to_log <- function(df){ df %>% mutate(log_mpg = log(mpg)) %>% select(-mpg) }
+```
+
+How do we run our preprocessors over all the rows without error-ing out?
+
+```{r collapse=TRUE}
+for (indx in 1:nrow(df_nested)) {
+    tryCatch(
+        expr = {
+            df_nested[[indx, "data"]] <-  df_nested[[indx, "data"]] %>% 
+                convert_gear_to_factors() %>% 
+                transform_response_to_log()
+            message("Iteration ", indx, " successful.")
+        },
+        error = function(e){
+            message("* Caught an error on itertion ", indx)
+            print(e)
+        }
+    )
+}
+```
+
+We're able to handle the error on iteration 2, let the user know, and run the remaining iterations.
+
+## Catch issues early, log progress often
+
+An important component of preparing 'development' code to be 'production' ready is implementation of good defensive programming and logging practices. I won't go into details of either here, except to showcase the style of programs I have been writing to prepare code before it goes to our production cluster.
+
+```{r eval=FALSE}
+preprocess_data <- function(df, x, b, ...){
+    message("-- Within preprocessor")
+    df %>% 
+        assertive::assert_is_data.frame() %>% 
+        assertive::assert_is_non_empty()
+    x %>% 
+        assertive::assert_is_numeric() %>% 
+        assertive::assert_all_are_greater_than(3.14)
+    b %>% 
+        assertive::assert_is_a_bool()
+    
+    # Code here...
+    # ....
+    # ....
+    
+    return(df)
+}
+build_model <- function(...){message("-- Building model...")}
+eval_model  <- function(...) {message("-- Evaluating model...")}
+save_model  <- function(...) {message("-- Saving model...")}
+
+main_executor <- function(...){
+    tryCatch(
+        expr = {
+            preprocess_data(df, x, b, more_args,...) %>% 
+                build_model() %>% 
+                eval_model() %>% 
+                save_model()
+        },
+        error = function(e){
+            message('** ERR at ', Sys.time(), " **")
+            print(e)
+            write_to_log_file(e, logger_level = "ERR") #Custom logging function
+        },
+        warning = function(w){
+            message('** WARN at ', Sys.time(), " **")
+            print(w)
+            write_to_log_file(w, logger_level = "WARN") #Custom logging function
+        },
+        finally = {
+            message("--- Main Executor Complete ---")
+        }
+    )
+}
+```
+
+Each utility function starts with checking arguments. There are plenty of packages which allow run-time testing. My favorite one is [assertive](https://cran.r-project.org/web/packages/assertive/index.html). It's easy to read the code, and it's pipe-able. Errors and warnings are handled using `tryCatch` - they are printed to the console if running in interactive mode, and then written to log files as well. I have written my own custom logging functions, but there are packages like [logging](https://cran.r-project.org/web/packages/logging/logging.pdf) and [log4r](https://cran.r-project.org/web/packages/log4r/index.html) which work perfectly fine.
+
+## Use `tryCatch` while model building
+
+`tryCatch` is quite invaluable during model building. This is an actual piece of code I wrote for a kaggle competition as part of my midterm work at school. [Github link here](https://github.com/rsangole/413_midterm_kaggle). The details of what's going on isn't important. At a high level, I was fitting `stlf` models using [`forecast`](https://www.rdocumentation.org/packages/forecast/versions/8.4/topics/forecast.stl) for each shop, among 60 unique shop-ID numbers. For various reasons, for some shops, an `stlf` model could not be be fit, in which case a default seasonal naive model using `snaive` was to be used. `tryCatch` is a perfect way to handle such exceptions as shown below. I used a similar approach while building models at an "item" level: the number of unique items was in the 1000s; manually debugging one at a time is impossible. `tryCatch` allows us to programatically handle such situations.
+
+```{r eval=FALSE, message=FALSE, warning=FALSE}
+stlf_yhats <- vector(mode = 'list', length = length(unique_shops))
+for (i in seq_along(unique_shops)) {
+    cat('\nProcessing shop', unique_shops[i])
+    tr_data <- c6_tr %>% filter(shop_id == unique_shops[i])
+    tr_data_ts <-
+        dcast(
+          formula = yw ~ shop_id,
+          data = tr_data,
+          fun.aggregate = sum,
+          value.var = 'total_sales',
+          fill = 0
+        )
+    tr_data_ts <- ts(tr_data_ts[, -1], frequency = 52)
+
+    ##################
+    # <--Look here -->
+    fit <- tryCatch(
+      expr = {tr_data_ts %>% stlf(lambda = 'auto')},
+      error = function(e) { tr_data_ts %>% snaive()}
+      )
+    ##################
+  
+    fc <- fit %>% forecast(h = h)
+    stlf_yhats[[i]] <- as.numeric(fc$mean)
+    stlf_yhats[[i]] <- ifelse(stlf_yhats[[i]] < 0, 0, stlf_yhats[[i]])
+}
+```
+
+Hope this is useful to others learning `tryCatch`. Cheers.
+
+# Links
+
+ - https://www.rdocumentation.org/packages/R.oo/versions/1.2.7/topics/trycatch
+ - https://www.r-bloggers.com/careful-with-trycatch/
+ - http://adv-r.had.co.nz/Exceptions-Debugging.html
+ 

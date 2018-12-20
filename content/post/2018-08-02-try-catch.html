@@ -1,0 +1,215 @@
+---
+title: Using tryCatch for robust R scripts
+author: Rahul S
+date: '2018-12-20'
+slug: try-catch
+categories:
+  - R
+tags:
+  - R
+  - programming-practices
+output:
+    blogdown::html_page:
+        toc: false
+---
+
+
+
+<p>Using <code>tryCatch</code> to write robust R code can be a bit confusing. I found the help file dry to read. There are some resources which explore <code>tryCatch</code>, linked below. Over the years, I have developed a few programming paradigms which I’ve repeatedly found useful. A quick introduction to <code>tryCatch</code> below, followed by three use-cases I use on a regular basis.</p>
+<div id="syntax" class="section level1">
+<h1>Syntax</h1>
+<p><code>tryCatch</code> has a slightly complex syntax structure. However, once we understand the 4 parts which constitute a complete <code>tryCatch</code> call as shown below, it becomes easy to remember:</p>
+<ul>
+<li><code>expr</code> : [Required] R code(s) to be evaluated</li>
+<li><code>error</code> : [Optional] What should run if an error occured while evaluating the codes in <code>expr</code></li>
+<li><code>warning</code> : [Optional] What should run if a warning occured while evaluating the codes in <code>expr</code></li>
+<li><code>finally</code> : [Optional] What should run just before quitting the <code>tryCatch</code> call, irrespective of if <code>expr</code> ran succcessfuly, with an error, or with a warning</li>
+</ul>
+<pre class="r"><code>tryCatch(
+    expr = {
+        # Your code...
+        # goes here...
+        # ...
+    },
+    error = function(e){ 
+        # (Optional)
+        # Do this if an error is caught...
+    },
+    warning = function(w){
+        # (Optional)
+        # Do this if an warning is caught...
+    },
+    finally = {
+        # (Optional)
+        # Do this at the end before quitting the tryCatch structure...
+    }
+)</code></pre>
+<div id="hello-world-example" class="section level2">
+<h2>Hello World example</h2>
+<p>This is a toy example showing how a function can use <code>tryCatch</code> to handle execution.</p>
+<pre class="r"><code>log_calculator &lt;- function(x){
+    tryCatch(
+        expr = {
+            message(log(x))
+            message(&quot;Successfully executed the log(x) call.&quot;)
+        },
+        error = function(e){
+            message(&#39;Caught an error!&#39;)
+            print(e)
+        },
+        warning = function(w){
+            message(&#39;Caught an warning!&#39;)
+            print(w)
+        },
+        finally = {
+            message(&#39;All done, quitting.&#39;)
+        }
+    )    
+}</code></pre>
+<p>If x is a valid number, <code>expr</code> and <code>finally</code> are executed:</p>
+<pre class="r"><code>log_calculator(10)
+## 2.30258509299405
+## Successfully executed the log(x) call.
+## All done, quitting.</code></pre>
+<p>If x is an invalid number (negative, zero, <code>NA</code>), <code>expr</code> is attempted, and <code>warning</code> and <code>finally</code> are executed:</p>
+<pre class="r"><code>log_calculator(-10)
+## Caught an warning!
+## &lt;simpleWarning in log(x): NaNs produced&gt;
+## All done, quitting.</code></pre>
+<p>If x is an invalid entry which raises an error, <code>expr</code> is attempted, and <code>error</code> and <code>finally</code> are executed:</p>
+<pre class="r"><code>log_calculator(&quot;log_me&quot;)
+## Caught an error!
+## &lt;simpleError in log(x): non-numeric argument to mathematical function&gt;
+## All done, quitting.</code></pre>
+<hr />
+</div>
+</div>
+<div id="more-useful-examples" class="section level1">
+<h1>More useful examples</h1>
+<div id="use-trycatch-within-loops" class="section level2">
+<h2>Use <code>tryCatch</code> within loops</h2>
+<p>There are cases at work where I have quite large datasets to pre-process before model building can begin. The sources of these data can be varied and thus the quality of these data can vary. While each dataset <em>should</em> conform to our data quality standards (datatypes, data dictionaries, other domain-specific constraints), very often these isn’t the case. As a result, common data preprocessing functions might fail on few datasets. We can use <code>tryCatch</code> within the <code>for</code> loop to catch errors without breaking the loop.</p>
+<p><em>Another toy example:</em> Say, we have a nested dataframe of the <code>mtcars</code> data, nested on the cylinder numbers, and say, we had a few character values in <code>mpg</code> which is our response variable.</p>
+<pre class="r"><code># Example nested dataframe
+(df_nested &lt;- mtcars %&gt;% as_tibble() %&gt;% tidyr::nest(-cyl))
+## # A tibble: 3 x 2
+##     cyl data              
+##   &lt;dbl&gt; &lt;list&gt;            
+## 1     6 &lt;tibble [7 × 10]&gt; 
+## 2     4 &lt;tibble [11 × 10]&gt;
+## 3     8 &lt;tibble [14 × 10]&gt;
+
+df_nested$data[[2]][c(4,8),&quot;mpg&quot;] &lt;- &quot;Missing&quot;</code></pre>
+<p>We wish to run a few custom preprocessors, including taking the log of <code>mpg</code>.</p>
+<pre class="r"><code>convert_gear_to_factors &lt;- function(df){ df %&gt;% mutate(gear = factor(gear, levels = 1:5, labels = paste0(&quot;Gear_&quot;,1:5))) }
+transform_response_to_log &lt;- function(df){ df %&gt;% mutate(log_mpg = log(mpg)) %&gt;% select(-mpg) }</code></pre>
+<p>How do we run our preprocessors over all the rows without error-ing out?</p>
+<pre class="r"><code>for (indx in 1:nrow(df_nested)) {
+    tryCatch(
+        expr = {
+            df_nested[[indx, &quot;data&quot;]] &lt;-  df_nested[[indx, &quot;data&quot;]] %&gt;% 
+                convert_gear_to_factors() %&gt;% 
+                transform_response_to_log()
+            message(&quot;Iteration &quot;, indx, &quot; successful.&quot;)
+        },
+        error = function(e){
+            message(&quot;* Caught an error on itertion &quot;, indx)
+            print(e)
+        }
+    )
+}
+## Iteration 1 successful.
+## * Caught an error on itertion 2
+## &lt;Rcpp::eval_error in mutate_impl(.data, dots): Evaluation error: non-numeric argument to mathematical function.&gt;
+## Iteration 3 successful.</code></pre>
+<p>We’re able to handle the error on iteration 2, let the user know, and run the remaining iterations.</p>
+</div>
+<div id="catch-issues-early-log-progress-often" class="section level2">
+<h2>Catch issues early, log progress often</h2>
+<p>An important component of preparing ‘development’ code to be ‘production’ ready is implementation of good defensive programming and logging practices. I won’t go into details of either here, except to showcase the style of programs I have been writing to prepare code before it goes to our production cluster.</p>
+<pre class="r"><code>preprocess_data &lt;- function(df, x, b, ...){
+    message(&quot;-- Within preprocessor&quot;)
+    df %&gt;% 
+        assertive::assert_is_data.frame() %&gt;% 
+        assertive::assert_is_non_empty()
+    x %&gt;% 
+        assertive::assert_is_numeric() %&gt;% 
+        assertive::assert_all_are_greater_than(3.14)
+    b %&gt;% 
+        assertive::assert_is_a_bool()
+    
+    # Code here...
+    # ....
+    # ....
+    
+    return(df)
+}
+build_model &lt;- function(...){message(&quot;-- Building model...&quot;)}
+eval_model  &lt;- function(...) {message(&quot;-- Evaluating model...&quot;)}
+save_model  &lt;- function(...) {message(&quot;-- Saving model...&quot;)}
+
+main_executor &lt;- function(...){
+    tryCatch(
+        expr = {
+            preprocess_data(df, x, b, more_args,...) %&gt;% 
+                build_model() %&gt;% 
+                eval_model() %&gt;% 
+                save_model()
+        },
+        error = function(e){
+            message(&#39;** ERR at &#39;, Sys.time(), &quot; **&quot;)
+            print(e)
+            write_to_log_file(e, logger_level = &quot;ERR&quot;) #Custom logging function
+        },
+        warning = function(w){
+            message(&#39;** WARN at &#39;, Sys.time(), &quot; **&quot;)
+            print(w)
+            write_to_log_file(w, logger_level = &quot;WARN&quot;) #Custom logging function
+        },
+        finally = {
+            message(&quot;--- Main Executor Complete ---&quot;)
+        }
+    )
+}</code></pre>
+<p>Each utility function starts with checking arguments. There are plenty of packages which allow run-time testing. My favorite one is <a href="https://cran.r-project.org/web/packages/assertive/index.html">assertive</a>. It’s easy to read the code, and it’s pipe-able. Errors and warnings are handled using <code>tryCatch</code> - they are printed to the console if running in interactive mode, and then written to log files as well. I have written my own custom logging functions, but there are packages like <a href="https://cran.r-project.org/web/packages/logging/logging.pdf">logging</a> and <a href="https://cran.r-project.org/web/packages/log4r/index.html">log4r</a> which work perfectly fine.</p>
+</div>
+<div id="use-trycatch-while-model-building" class="section level2">
+<h2>Use <code>tryCatch</code> while model building</h2>
+<p><code>tryCatch</code> is quite invaluable during model building. This is an actual piece of code I wrote for a kaggle competition as part of my midterm work at school. <a href="https://github.com/rsangole/413_midterm_kaggle">Github link here</a>. The details of what’s going on isn’t important. At a high level, I was fitting <code>stlf</code> models using <a href="https://www.rdocumentation.org/packages/forecast/versions/8.4/topics/forecast.stl"><code>forecast</code></a> for each shop, among 60 unique shop-ID numbers. For various reasons, for some shops, an <code>stlf</code> model could not be be fit, in which case a default seasonal naive model using <code>snaive</code> was to be used. <code>tryCatch</code> is a perfect way to handle such exceptions as shown below. I used a similar approach while building models at an “item” level: the number of unique items was in the 1000s; manually debugging one at a time is impossible. <code>tryCatch</code> allows us to programatically handle such situations.</p>
+<pre class="r"><code>stlf_yhats &lt;- vector(mode = &#39;list&#39;, length = length(unique_shops))
+for (i in seq_along(unique_shops)) {
+    cat(&#39;\nProcessing shop&#39;, unique_shops[i])
+    tr_data &lt;- c6_tr %&gt;% filter(shop_id == unique_shops[i])
+    tr_data_ts &lt;-
+        dcast(
+          formula = yw ~ shop_id,
+          data = tr_data,
+          fun.aggregate = sum,
+          value.var = &#39;total_sales&#39;,
+          fill = 0
+        )
+    tr_data_ts &lt;- ts(tr_data_ts[, -1], frequency = 52)
+
+    ##################
+    # &lt;--Look here --&gt;
+    fit &lt;- tryCatch(
+      expr = {tr_data_ts %&gt;% stlf(lambda = &#39;auto&#39;)},
+      error = function(e) { tr_data_ts %&gt;% snaive()}
+      )
+    ##################
+  
+    fc &lt;- fit %&gt;% forecast(h = h)
+    stlf_yhats[[i]] &lt;- as.numeric(fc$mean)
+    stlf_yhats[[i]] &lt;- ifelse(stlf_yhats[[i]] &lt; 0, 0, stlf_yhats[[i]])
+}</code></pre>
+<p>Hope this is useful to others learning <code>tryCatch</code>. Cheers.</p>
+</div>
+</div>
+<div id="links" class="section level1">
+<h1>Links</h1>
+<ul>
+<li><a href="https://www.rdocumentation.org/packages/R.oo/versions/1.2.7/topics/trycatch" class="uri">https://www.rdocumentation.org/packages/R.oo/versions/1.2.7/topics/trycatch</a></li>
+<li><a href="https://www.r-bloggers.com/careful-with-trycatch/" class="uri">https://www.r-bloggers.com/careful-with-trycatch/</a></li>
+<li><a href="http://adv-r.had.co.nz/Exceptions-Debugging.html" class="uri">http://adv-r.had.co.nz/Exceptions-Debugging.html</a></li>
+</ul>
+</div>
