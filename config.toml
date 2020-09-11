@@ -1,7 +1,7 @@
 baseurl = "/"
 relativeURLs = true
 languageCode = "en-us"
-title = "pHack"
+title = "yHat"
 theme = "hugo-xmin"
 disqusShortname = "rsangole-netlify-com" # delete this to disable disqus comments
 googleAnalytics = "UA-106573867-1"
@@ -27,12 +27,13 @@ enableEmoji = true
     url = "/project/"
     weight = 3
 [[menu.main]]
-    name = "github"
-    url = "https://www.github.com/rsangole"
+    name = "about me"
+    url = "/about/"
     weight = 4
 
+
 [params]
-    author = "Rahul S"
+    author = "rahul s"
     dateFormat = "2006-01-02"
     description = ""
-    footer = "&copy; Rahul S 2020 | [Github](https://www.github.com/rsangole)"
+    footer = "&copy; rahul s 2020 | [Github](https://www.github.com/rsangole)"
