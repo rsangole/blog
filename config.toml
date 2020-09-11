@@ -28,7 +28,7 @@ enableEmoji = true
     weight = 3
 [[menu.main]]
     name = "github"
-    url = "https://http://github.com/rsangole"
+    url = "https://www.github.com/rsangole"
     weight = 4
 
 [params]
