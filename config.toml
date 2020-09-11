@@ -22,15 +22,6 @@ enableEmoji = true
     name = "posts"
     url = "/post/"
     weight = 2
-[[menu.main]]
-    name = "projects"
-    url = "/project/"
-    weight = 3
-[[menu.main]]
-    name = "about me"
-    url = "/about/"
-    weight = 4
-
 
 [params]
     author = "rahul s"
