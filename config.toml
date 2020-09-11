@@ -26,5 +26,5 @@ enableEmoji = true
 [params]
     author = "rahul s"
     dateFormat = "2006-01-02"
-    description = ""
+    description = "data science blog by rahul sangole"
     footer = "&copy; rahul s 2020 | [Github](https://www.github.com/rsangole)"
