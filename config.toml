@@ -1,7 +1,7 @@
 baseurl = "/"
 relativeURLs = true
 languageCode = "en-us"
-title = "yHat"
+title = "{yHat}"
 theme = "hugo-xmin"
 disqusShortname = "rsangole-netlify-com" # delete this to disable disqus comments
 googleAnalytics = "UA-106573867-1"
