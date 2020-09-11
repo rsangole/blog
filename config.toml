@@ -1,69 +1,38 @@
-baseURL = "http://rsangole.netlify.com/"
+baseurl = "/"
+relativeURLs = true
 languageCode = "en-us"
-title = "Rahul Sangole"
-theme = "minimal"
+title = "pHack"
+theme = "hugo-xmin"
 disqusShortname = "rsangole-netlify-com" # delete this to disable disqus comments
 googleAnalytics = "UA-106573867-1"
-RSSLink = "true"
-toc = "true"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+preserveTaxonomyNames = true
+footnotereturnlinkcontents = "↩"
+enableEmoji = true
+
+[permalinks]
+    post = "/post/:year/:month/:day/:slug/"
+    note = "/note/:year/:month/:day/:slug/"
+
+[[menu.main]]
+    name = "home"
+    url = "/"
+    weight = 1
+[[menu.main]]
+    name = "posts"
+    url = "/post/"
+    weight = 2
+[[menu.main]]
+    name = "projects"
+    url = "/project/"
+    weight = 3
+[[menu.main]]
+    name = "github"
+    url = "https://http://github.com/rsangole"
+    weight = 4
 
 [params]
-    author = "Rahul Sangole"
-    description = "hacking my way through stats and ml"
-    githubUsername = "rsangole"
-    accent = "gray"
-    line_accent = "darkred" # "#2196F3"
-    showBorder = true
-    backgroundColor = "white"
-    font = "Open+Sans" # should match the name on Google Fonts!
-    highlight = true
-
-[[menu.main]]
-    url = "/"
-    name = "~/home"
-    weight = 1
-
-[[menu.main]]
-    url = "/post/"
-    name = "~/posts"
-    weight = 2
-
-[[menu.main]]
-    url = "/project/"
-    name = "~/projects"
-    weight = 3
-
-[[menu.main]]
-    url = "/tags/"
-    name = "~/tags"
-    weight = 4
-
-# Social icons to be shown on the right-hand side of the navigation bar
-# The "name" field should match the name of the icon to be used
-# The list of available icons can be found at http://fontawesome.io/icons/
-
-[[menu.icon]]
-    url = "mailto:rahul.sangole@gmail.com"
-    name = "envelope-o"
-    weight = 1
-
-[[menu.icon]]
-    url = "https://github.com/rsangole/"
-    name = "github"
-    weight = 2
-
-[[menu.icon]]
-    url = "https://twitter.com/rsangole/"
-    name = "twitter"
-    weight = 3
-
-[[menu.icon]]
-    url = "https://www.linkedin.com/in/rahulsangole/"
-    name = "linkedin"
-    weight = 4
-
-[[menu.icon]]
-    url = "/index.xml"
-    name = "rss"
-    weight = 5
+    author = "Rahul S"
+    dateFormat = "2006-01-02"
+    description = ""
+    footer = "&copy; Rahul S 2020 | [Github](https://www.github.com/rsangole)"
