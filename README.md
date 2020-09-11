@@ -1,2 +1,3 @@
-# phack
-My personal blog documenting some work in R, stats and ML
+# yhat
+
+My blog on things related to data science & R.

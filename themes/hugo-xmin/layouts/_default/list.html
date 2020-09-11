@@ -1,0 +1,30 @@
+{{ partial "header.html" . }}
+
+{{if not .IsHome }}
+<h1>{{ .Title }}</h1>
+{{ end }}
+
+{{ .Content }}
+
+<main>
+<article>
+
+<style>
+main ul { list-style:none; margin:0; padding: 0;}
+main li { padding-left: 5.5em; }
+main ul span { color:slategray;width:5.5em;margin-left:-5.5em;display:inline-block;}
+</style>
+
+<ul>
+  {{ range (where .Data.Pages "Section" "!=" "") }}
+  <li>
+    <span>{{ .Date.Format "2006/01/02" }}</span>
+    <a href="{{ .URL }}">{{ .Title }}</a>
+  </li>
+  {{ end }}
+</ul>
+
+</article>
+</main>
+
+{{ partial "footer.html" . }}
