@@ -1,5 +1,6 @@
 ---
 title: about me
+menu: main
 ---
 
 Hello, my name is Rahul. This is a blog where I write mainly about R and data science. 
