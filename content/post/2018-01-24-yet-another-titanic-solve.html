@@ -148,17 +148,17 @@ dim(train.raw)</code></pre>
 <p>Quick investigation of missing values can be done using the <code>complete.cases()</code>, and more thorough graphical summary can be done using Amelia. Overall, 79% of the observations have <em>some</em> missing data.</p>
 <pre class="r"><code>#Complete cases (percentages)
 round(prop.table(table(complete.cases(train.raw))),2)</code></pre>
-<pre><code>## 
-## FALSE  TRUE 
+<pre><code>##
+## FALSE  TRUE
 ##  0.79  0.21</code></pre>
 <p>Amelia lets us graphically investigate which variables have missing data. <code>purr::map_xxx()</code> gives this same information numerically in a succint fashion.</p>
 <pre class="r"><code>Amelia::missmap(train.raw, main=&#39;Missing Values Analysis using Amelia ordered by % missing&#39;, col=c(&#39;red&#39;, &#39;gray&#39;),legend = F,rank.order = T)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <pre class="r"><code>#Missing cases (numbers):
 map_int(train.raw,~sum(is.na(.x)))</code></pre>
-<pre><code>## Survived   Pclass     Name      Sex      Age    SibSp    Parch   Ticket 
-##        0        0        0        0      117        0        0        0 
-##     Fare    Cabin Embarked 
+<pre><code>## Survived   Pclass     Name      Sex      Age    SibSp    Parch   Ticket
+##        0        0        0        0      117        0        0        0
+##     Fare    Cabin Embarked
 ##        0      478        2</code></pre>
 <p>Cabin has a large number of missing values (77% missing). Imputing this variable may prove challenging or even useless. Age (19.9% missing) and Embarked (0.2%) missing are much more managable.</p>
 <hr />
@@ -180,8 +180,8 @@ map_int(train.raw,~sum(is.na(.x)))</code></pre>
 <h2>Target Variable</h2>
 <p><code>Survived</code> is the response variable. As we can see, a large majority of the passengers did not survive the accident. The response variable is a False/True boolean variable. Thus, the analysis techniques used later will be those appropriate for classification problems.</p>
 <pre class="r"><code>round(prop.table(table(train.raw$Survived)),2)</code></pre>
-<pre><code>## 
-## Survived     Dead 
+<pre><code>##
+## Survived     Dead
 ##     0.38     0.62</code></pre>
 <p>The classes are ~40:60 split which isn’t too bad. Probably don’t have to do any class balancing work.</p>
 <hr />
@@ -200,10 +200,10 @@ map_int(train.raw,~sum(is.na(.x)))</code></pre>
 <pre class="r"><code>p1 &lt;- ggplot(data=train.raw,aes(x=Age))  + geom_histogram(aes(fill=Survived),bins = 40) + coord_flip()
 p2 &lt;- ggplot(data=train.raw,aes(x=Fare)) + geom_histogram(aes(fill=Survived),bins = 40) + coord_flip()
 grid.arrange(p1,p2,nrow=1)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>As we can see, the median fare is $14.5, the mean is $32, but the max is $512. We’ll investigate winzorising this variable in the latter part. Perhaps a transformation will also help?</p>
 <pre class="r"><code>summary(train.raw$Fare)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
 ##   0.000   7.925  14.500  33.710  31.000 512.329</code></pre>
 </div>
 <div id="categorical-variables" class="section level4">
@@ -234,7 +234,7 @@ grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],
                                           c(4,5,3),
                                           c(6,6,6)),
              widths=c(3,3,1))</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 </div>
 <div id="multivariate-analyses" class="section level3">
@@ -253,7 +253,7 @@ beanplot(Age~Survived*Pclass,side=&#39;b&#39;,train.raw,col=list(&#39;yellow&#39
          border = c(&#39;yellow2&#39;,&#39;darkorange&#39;),ll = 0.05,boxwex = .5,
          main=&#39;Passenger survival by pclass and Age&#39;,xlab=&#39;Passenger Class&#39;,ylab=&#39;Age&#39;)
 legend(&#39;topright&#39;, fill = c(&#39;yellow&#39;,&#39;orange&#39;), legend = c(&quot;Dead&quot;, &quot;Survived&quot;),bty = &#39;n&#39;,cex = .8)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-9-1.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-9-2.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-9-1.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-9-2.png" width="60%" style="display: block; margin: auto;" /></p>
 <p>A look into the <code>SibSp</code> and <code>Parch</code> variables shows something interesting. There are three regions one can identify:</p>
 <ul>
 <li>The probability of survival is minimal for number of parents/children aboard &gt; 3.</li>
@@ -268,23 +268,23 @@ legend(&#39;topright&#39;, fill = c(&#39;yellow&#39;,&#39;orange&#39;), legend =
     scale_shape(solid=F)+
     geom_vline(xintercept = 3,color=&#39;darkred&#39;,lty=2)+
     geom_hline(yintercept = 3,color=&#39;red&#39;,lty=2)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>Another excellent way to look at multivariate data is using <a href="https://cran.r-project.org/web/packages/alluvial/vignettes/alluvial.html">alluvial</a> plots. Not only are these plots intuitive to read and visually stiking, but they offer a lot of insight into the structure of the multivariate data as well.</p>
 <pre class="r"><code>train.raw %&gt;%
     mutate(Age_Group = case_when(
         Age &lt; 18 ~ &#39;Child&#39;,
         Age &gt;= 18 ~ &#39;Adult&#39;
-    )) %&gt;% 
+    )) %&gt;%
   group_by(Survived, Sex, Pclass, Age_Group) %&gt;%
-  summarise(N = n()) %&gt;% 
+  summarise(N = n()) %&gt;%
   ungroup %&gt;%
   na.omit -&gt; alluvial_table
-  
+
 alluvial(alluvial_table[,c(-5)],
          freq = alluvial_table$N,
          cex = 0.8,
          col=ifelse(alluvial_table$Survived == &quot;Survived&quot;, &quot;blue&quot;, &quot;forestgreen&quot;))</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <hr />
 </div>
 </div>
@@ -296,7 +296,7 @@ alluvial(alluvial_table[,c(-5)],
 <p>Starting with the easier one first:</p>
 <p><strong>Embarked</strong>: The largest portion of the passengers embared at Southhampton. I’m replacing the NAs with the same. First, I create a new imputed training dataset.</p>
 <pre class="r"><code>summary(train.raw$Embarked)</code></pre>
-<pre><code>##    C    Q    S NA&#39;s 
+<pre><code>##    C    Q    S NA&#39;s
 ##  120   57  446    2</code></pre>
 <pre class="r"><code>train.imp &lt;- train.raw
 train.imp$Embarked[is.na(train.imp$Embarked)] &lt;- &#39;S&#39;</code></pre>
@@ -309,7 +309,7 @@ ggplot(train.imp,aes(x=title,y=Age))+
     theme_bw()+
     theme(axis.text.x = element_text(angle = 45, hjust = 1),legend.position=&quot;none&quot;)+
     labs(caption=&#39;red points are median values&#39;)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-13-1.png" width="60%" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-13-1.png" width="60%" /></p>
 <p>Grouping similar titles together, I’ve kept a few titles - Officer, Royalty, Mr, Mrs and Miss.</p>
 <pre class="r"><code>train.imp$title &lt;- as.character(train.imp$title)
 train.imp$title[train.imp$title %in% c(&#39;Capt&#39;,&#39;Col&#39;,&#39;Major&#39;)] &lt;- &#39;Officer&#39;
@@ -323,7 +323,7 @@ ggplot(train.imp,aes(x=title,y=Age))+
     theme_bw()+
     theme(axis.text.x = element_text(angle = 45, hjust = 1))+
     labs(caption=&#39;red points are median values&#39;)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-14-1.png" width="60%" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-14-1.png" width="60%" /></p>
 <p>Now for the missing Age values. I’m trying out two strategies to impute age, just for kicks. First, a regression tree using the <code>rpart</code> method. 5-repeat 10-fold cross validation across a tuning grid of 20 values of <code>maxdepth</code>. RMSE stablizes at a depth of 14, with a value of 12.2.</p>
 <pre class="r"><code>age.predictors &lt;- train.imp %&gt;%
     dplyr::select(-Survived,-Cabin,-Ticket,-Name) %&gt;%
@@ -338,17 +338,17 @@ rpartFit_ageimputation &lt;- train(x=age.predictors[,-3],
                       tuneGrid = rpartGrid
                       )
 rpartFit_ageimputation</code></pre>
-<pre><code>## CART 
-## 
+<pre><code>## CART
+##
 ## 508 samples
 ##   7 predictor
-## 
+##
 ## No pre-processing
-## Resampling: Cross-Validated (10 fold, repeated 5 times) 
-## Summary of sample sizes: 457, 457, 457, 457, 457, 457, ... 
+## Resampling: Cross-Validated (10 fold, repeated 5 times)
+## Summary of sample sizes: 457, 457, 457, 457, 457, 457, ...
 ## Resampling results across tuning parameters:
-## 
-##   maxdepth  RMSE      Rsquared   MAE     
+##
+##   maxdepth  RMSE      Rsquared   MAE
 ##    2        12.02414  0.3171031  9.443687
 ##    3        11.30498  0.3985131  8.707856
 ##    4        11.42463  0.3882499  8.782511
@@ -358,27 +358,27 @@ rpartFit_ageimputation</code></pre>
 ##    8        11.47797  0.3851413  8.783542
 ##    9        11.48005  0.3848860  8.783870
 ##   10        11.48005  0.3848860  8.783870
-## 
+##
 ## RMSE was used to select the optimal model using the smallest value.
 ## The final value used for the model was maxdepth = 5.</code></pre>
 <pre class="r"><code>plot(rpartFit_ageimputation)
 rpart.plot::rpart.plot(rpartFit_ageimputation$finalModel, extra=101, box.palette=&quot;GnBu&quot;)
 save(rpartFit_ageimputation,file = &#39;rpartFit_ageimputation&#39;)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-15-1.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-15-2.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-15-1.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-15-2.png" width="60%" style="display: block; margin: auto;" /></p>
 <p>I’m going to use the randomForest model. Using the <code>predict.train()</code> to predict values of age and plug them back into the imputed data. You can see the blue points which are the imputed values of <code>Age</code>. What I noticed is that for all the titles, the imputed Age value seems to be distributed fairly well, except Master. For Master, the three imputed are definitely outliers. I’m going to force these to the median Age.</p>
 <pre class="r"><code>missing_age &lt;- is.na(train.imp$Age)
 age.predicted &lt;- predict(rpartFit_ageimputation, newdata = train.imp[missing_age,])
 train.imp[missing_age,&#39;Age&#39;] &lt;- age.predicted
 
-train.imp %&gt;% 
-    mutate(Age_Imputed = missing_age) %&gt;% 
+train.imp %&gt;%
+    mutate(Age_Imputed = missing_age) %&gt;%
     ggplot(aes(x=title,y=Age))+
     stat_summary(aes(y = Age,group=1), fun.y=median, colour=&quot;red&quot;, geom=&quot;point&quot;,group=1)+
     geom_jitter(aes(y=Age,col=Age_Imputed,shape=Age_Imputed))+
     theme_bw()+
     theme(axis.text.x = element_text(angle = 45, hjust = 1),legend.position=&quot;none&quot;)+
     labs(caption=&#39;green points are imputed values&#39;)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-16-1.png" width="60%" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-16-1.png" width="60%" /></p>
 </div>
 <div id="derived-variables" class="section level2">
 <h2>Derived Variables</h2>
@@ -411,28 +411,28 @@ train.imp$Cabin &lt;- NULL</code></pre>
 <p><strong>Ticket:</strong> Lastly, the <code>ticket</code> variable. I’m not sure what to make of it, so I’m keeping it for now, after cleaning it up a bit. A majority (80%) of the rows have unique (one) ticket. 14% rows have a duplicate ticket, perhaps indicating a family. A small number of rows have 3+ duplicates of the tickets.</p>
 <pre class="r"><code>train.imp$Ticket %&gt;% table() %&gt;% as.numeric() %&gt;% table()</code></pre>
 <pre><code>## .
-##   1   2   3   4   5   6   7 
+##   1   2   3   4   5   6   7
 ## 430  60  15   3   1   1   1</code></pre>
 <p>There seems to be a bit of a pattern here. Tickets starting with 1 are mostly 1st class, those starting with 2 are 2nd class, and 3 - 3rd class. But, I feel it’s a very loose association.</p>
 <pre class="r"><code>train.imp %&gt;% group_by(Pclass) %&gt;% dplyr::select(Ticket,Pclass) %&gt;% sample_n(5)</code></pre>
 <pre><code>## # A tibble: 15 x 2
 ## # Groups:   Pclass [3]
 ##    Ticket       Pclass
-##    &lt;chr&gt;        &lt;fct&gt; 
-##  1 112059       P1    
-##  2 PC 17599     P1    
-##  3 17474        P1    
-##  4 113503       P1    
-##  5 36963        P1    
-##  6 248731       P2    
-##  7 237668       P2    
-##  8 W./C. 14263  P2    
-##  9 S.O.C. 14879 P2    
-## 10 29011        P2    
-## 11 LINE         P3    
-## 12 350047       P3    
-## 13 348123       P3    
-## 14 371110       P3    
+##    &lt;chr&gt;        &lt;fct&gt;
+##  1 112059       P1
+##  2 PC 17599     P1
+##  3 17474        P1
+##  4 113503       P1
+##  5 36963        P1
+##  6 248731       P2
+##  7 237668       P2
+##  8 W./C. 14263  P2
+##  9 S.O.C. 14879 P2
+## 10 29011        P2
+## 11 LINE         P3
+## 12 350047       P3
+## 13 348123       P3
+## 14 371110       P3
 ## 15 2627         P3</code></pre>
 <p>What I’m going to do is clean up the columns (remove special characters, spaces etc), then split the <code>Ticket</code> column into four: <code>TicketChar</code>, <code>TicketNum</code>,<code>TicketNumLength</code>, <code>TicketNumStart</code>. (Upon running the script a few times, I’ve decided to get rid of <code>TicketNum</code>, but I’m commenting the code for future ref). The <code>TicketChar</code> variable as this distribution:</p>
 <pre class="r"><code>train.imp %&lt;&gt;%
@@ -452,7 +452,7 @@ train.imp$Cabin &lt;- NULL</code></pre>
         TicketChar = ifelse(is.na(TicketChar),&#39;U&#39;,TicketChar),
         TicketNumStart = ifelse(is.na(TicketNumStart),0,TicketNumStart),
         TicketNumLen = ifelse(is.na(TicketNumLen),0,TicketNumLen),
-    ) %&gt;% 
+    ) %&gt;%
     mutate(
         TicketChar = as.factor(TicketChar),
         TicketNumStart = factor(TicketNumStart,levels = seq(0,9,1)),
@@ -462,19 +462,19 @@ train.imp$Ticket &lt;- NULL
 train.imp$TicketNum &lt;- NULL
 table(train.imp$TicketChar,dnn =&#39;TicketChar&#39;)</code></pre>
 <pre><code>## TicketChar
-##   A   C   F   L   P   S   U   W 
+##   A   C   F   L   P   S   U   W
 ##  15  36   3   3  52  48 461   7</code></pre>
 <pre class="r"><code>table(train.imp$TicketNumLen,dnn=&#39;TicketNumLen&#39;)</code></pre>
 <pre><code>## TicketNumLen
-##   1   3   4   5   6   7 
+##   1   3   4   5   6   7
 ##   5   5 112 171 298  34</code></pre>
 <pre class="r"><code>table(train.imp$TicketNumStart,dnn=&#39;TicketNumStart&#39;)</code></pre>
 <pre><code>## TicketNumStart
-##   0   1   2   3   4   5   6   7   8   9 
+##   0   1   2   3   4   5   6   7   8   9
 ##   5 171 150 256  11   7   9  12   1   3</code></pre>
 <pre class="r"><code>table(train.imp$NumberofCabins)</code></pre>
-<pre><code>## 
-##   1   2   3   4 
+<pre><code>##
+##   1   2   3   4
 ## 606  12   5   2</code></pre>
 <!-- ## Winzoring Variables -->
 <!-- The `fare` variable has one massive outlier. Winzorising this variable using the 95th percentile value as the cutoff. -->
@@ -559,18 +559,18 @@ xgbFit &lt;- train(
 <li>Histograms of the probability plots look somewhat as expected, with a strong peak at &lt;0.2 for ‘Survived’ and a strong peak at &gt;0.8 for ‘Dead’. What I don’t like is how it doesn’t seem to tail off at either end, i.e. ~20% of the data in either category is strongly misclassified.</li>
 </ul>
 <pre class="r"><code>print(xgbFit,details = F)</code></pre>
-<pre><code>## eXtreme Gradient Boosting 
-## 
+<pre><code>## eXtreme Gradient Boosting
+##
 ## 625 samples
 ##  22 predictor
-##   2 classes: &#39;Survived&#39;, &#39;Dead&#39; 
-## 
+##   2 classes: &#39;Survived&#39;, &#39;Dead&#39;
+##
 ## No pre-processing
-## Resampling: Cross-Validated (10 fold, repeated 5 times) 
-## Summary of sample sizes: 563, 562, 562, 562, 563, 563, ... 
+## Resampling: Cross-Validated (10 fold, repeated 5 times)
+## Summary of sample sizes: 563, 562, 562, 562, 563, 563, ...
 ## Resampling results across tuning parameters:
-## 
-##   eta  max_depth  nrounds  ROC        Sens       Spec     
+##
+##   eta  max_depth  nrounds  ROC        Sens       Spec
 ##   0.1  2          14       0.8735099  0.7158333  0.8722132
 ##   0.1  2          16       0.8742786  0.7125000  0.8742915
 ##   0.1  2          18       0.8750402  0.7166667  0.8763698
@@ -643,7 +643,7 @@ xgbFit &lt;- train(
 ##   0.3  8          20       0.8821952  0.7558333  0.8878408
 ##   0.3  8          22       0.8831267  0.7525000  0.8878677
 ##   0.3  8          24       0.8830929  0.7533333  0.8868151
-## 
+##
 ## Tuning parameter &#39;gamma&#39; was held constant at a value of 1
 ##  1
 ## Tuning parameter &#39;min_child_weight&#39; was held constant at a value of
@@ -654,13 +654,13 @@ xgbFit &lt;- train(
 ##  eta = 0.3, gamma = 1, colsample_bytree = 1, min_child_weight = 1
 ##  and subsample = 1.</code></pre>
 <pre class="r"><code>plot(xgbFit)
-xgb.importance(feature_names = colnames(train.imp), 
+xgb.importance(feature_names = colnames(train.imp),
                model = xgbFit$finalModel) %&gt;%
     xgb.ggplot.importance()
 densityplot(xgbFit,pch=&#39;|&#39;)
 predict(xgbFit,type = &#39;prob&#39;) -&gt; train.Probs
 histogram(~Survived+Dead,train.Probs)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-27-1.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-27-2.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-27-3.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-27-4.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-27-1.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-27-2.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-27-3.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-27-4.png" width="60%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="elastinet" class="section level2">
 <h2>Elastinet</h2>
@@ -690,18 +690,18 @@ save(glmnetFit,file = &#39;glmnetFit&#39;)</code></pre>
 <li>A quick look at the var importance plot does show that the derived variables of title, ticket char, and ticket number are important. Not bad for some quick feature engineering.</li>
 </ul>
 <pre class="r"><code>glmnetFit</code></pre>
-<pre><code>## glmnet 
-## 
+<pre><code>## glmnet
+##
 ## 625 samples
 ##  22 predictor
-##   2 classes: &#39;Survived&#39;, &#39;Dead&#39; 
-## 
+##   2 classes: &#39;Survived&#39;, &#39;Dead&#39;
+##
 ## No pre-processing
-## Resampling: Cross-Validated (10 fold, repeated 5 times) 
-## Summary of sample sizes: 563, 562, 563, 563, 562, 563, ... 
+## Resampling: Cross-Validated (10 fold, repeated 5 times)
+## Summary of sample sizes: 563, 562, 563, 563, 562, 563, ...
 ## Resampling results across tuning parameters:
-## 
-##   alpha  lambda  ROC        Sens       Spec     
+##
+##   alpha  lambda  ROC        Sens       Spec
 ##   0.0    1e-10   0.8717698  0.7500000  0.8727935
 ##   0.0    2e-02   0.8717698  0.7500000  0.8727935
 ##   0.0    4e-02   0.8719369  0.7441667  0.8774629
@@ -732,7 +732,7 @@ save(glmnetFit,file = &#39;glmnetFit&#39;)</code></pre>
 ##   1.0    4e-02   0.8650436  0.7150000  0.8712011
 ##   1.0    6e-02   0.8633617  0.7066667  0.8456815
 ##   1.0    8e-02   0.8545662  0.7008333  0.8328340
-## 
+##
 ## ROC was used to select the optimal model using the largest value.
 ## The final values used for the model were alpha = 1 and lambda = 0.02.</code></pre>
 <pre class="r"><code>glmnPlot &lt;- plot(glmnetFit,
@@ -748,7 +748,7 @@ densityplot(glmnetFit,pch=&#39;|&#39;)
 plot(varImp(glmnetFit),15,main=&#39;Elastinet Model&#39;)
 predict(glmnetFit,type = &#39;prob&#39;) -&gt; train.glmnet.Probs
 histogram(~Survived+Dead,train.glmnet.Probs)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-1.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-2.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-3.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-4.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-1.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-2.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-3.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-29-4.png" width="60%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="k-nn" class="section level2">
 <h2>k-NN</h2>
@@ -774,18 +774,18 @@ knnFit &lt;- train(
 <pre class="r"><code>save(knnFit,file = &#39;knnFit&#39;)</code></pre>
 <p>The probability value histograms show how large the overlap is between the two classes. Clearly a poor predictor model.</p>
 <pre class="r"><code>knnFit</code></pre>
-<pre><code>## k-Nearest Neighbors 
-## 
+<pre><code>## k-Nearest Neighbors
+##
 ## 625 samples
 ##  22 predictor
-##   2 classes: &#39;Survived&#39;, &#39;Dead&#39; 
-## 
+##   2 classes: &#39;Survived&#39;, &#39;Dead&#39;
+##
 ## No pre-processing
-## Resampling: Cross-Validated (10 fold, repeated 5 times) 
-## Summary of sample sizes: 563, 562, 563, 562, 562, 563, ... 
+## Resampling: Cross-Validated (10 fold, repeated 5 times)
+## Summary of sample sizes: 563, 562, 563, 562, 562, 563, ...
 ## Resampling results across tuning parameters:
-## 
-##   k   ROC        Sens       Spec     
+##
+##   k   ROC        Sens       Spec
 ##    3  0.7587697  0.5908333  0.8027530
 ##    5  0.7597366  0.5800000  0.8125236
 ##    7  0.7614229  0.5816667  0.8083941
@@ -797,14 +797,14 @@ knnFit &lt;- train(
 ##   19  0.7746016  0.5408333  0.8380027
 ##   21  0.7708986  0.5516667  0.8452227
 ##   23  0.7661907  0.5391667  0.8488529
-## 
+##
 ## ROC was used to select the optimal model using the largest value.
 ## The final value used for the model was k = 17.</code></pre>
 <pre class="r"><code>plot(knnFit)
 densityplot(knnFit,pch=&#39;|&#39;)
 predict(knnFit,type = &#39;prob&#39;) -&gt; train.Probs
 histogram(~Survived+Dead,train.Probs)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-31-1.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-31-2.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-31-3.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-31-1.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-31-2.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-31-3.png" width="60%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="svm" class="section level2">
 <h2>SVM</h2>
@@ -828,18 +828,18 @@ save(svmFit,file = &#39;svmFit&#39;)</code></pre>
 <li>The SVM shows moderate performance, but notice many wrongs it gets confidently. Large peaks (~20%) in the probability histograms indicate that the predictions this model gets wrong, it gets wrong very confidently.</li>
 </ul>
 <pre class="r"><code>svmFit</code></pre>
-<pre><code>## Support Vector Machines with Radial Basis Function Kernel 
-## 
+<pre><code>## Support Vector Machines with Radial Basis Function Kernel
+##
 ## 625 samples
 ##  22 predictor
-##   2 classes: &#39;Survived&#39;, &#39;Dead&#39; 
-## 
+##   2 classes: &#39;Survived&#39;, &#39;Dead&#39;
+##
 ## No pre-processing
-## Resampling: Cross-Validated (10 fold, repeated 5 times) 
-## Summary of sample sizes: 562, 562, 562, 563, 562, 563, ... 
+## Resampling: Cross-Validated (10 fold, repeated 5 times)
+## Summary of sample sizes: 562, 562, 562, 563, 562, 563, ...
 ## Resampling results across tuning parameters:
-## 
-##   C     sigma  ROC        Sens       Spec     
+##
+##   C     sigma  ROC        Sens       Spec
 ##   0.05  0.001  0.8112719  0.7275000  0.7859379
 ##   0.05  0.005  0.8197903  0.7483333  0.7740081
 ##   0.05  0.010  0.8271795  0.7541667  0.7766667
@@ -856,14 +856,14 @@ save(svmFit,file = &#39;svmFit&#39;)</code></pre>
 ##   0.30  0.005  0.8438647  0.6325000  0.8748178
 ##   0.30  0.010  0.8467133  0.6333333  0.8837517
 ##   0.30  0.015  0.8447093  0.6633333  0.8666937
-## 
+##
 ## ROC was used to select the optimal model using the largest value.
 ## The final values used for the model were sigma = 0.01 and C = 0.3.</code></pre>
 <pre class="r"><code>plot(svmFit)
 densityplot(svmFit,pch=&#39;|&#39;)
 predict(svmFit,type = &#39;prob&#39;) -&gt; train.Probs
 histogram(~Survived+Dead,train.Probs)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-33-1.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-33-2.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-33-3.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-33-1.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-33-2.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-33-3.png" width="60%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="c5.0" class="section level2">
 <h2>C5.0</h2>
@@ -889,18 +889,18 @@ c5Fit &lt;- train(
 <li>We still see the ‘U’ shape on the probability distributions, although more spread out than what we saw in the SVM model.</li>
 </ul>
 <pre class="r"><code>c5Fit</code></pre>
-<pre><code>## C5.0 
-## 
+<pre><code>## C5.0
+##
 ## 625 samples
 ##  22 predictor
-##   2 classes: &#39;Survived&#39;, &#39;Dead&#39; 
-## 
+##   2 classes: &#39;Survived&#39;, &#39;Dead&#39;
+##
 ## No pre-processing
-## Resampling: Cross-Validated (10 fold, repeated 5 times) 
-## Summary of sample sizes: 562, 562, 563, 563, 562, 563, ... 
+## Resampling: Cross-Validated (10 fold, repeated 5 times)
+## Summary of sample sizes: 562, 562, 563, 563, 562, 563, ...
 ## Resampling results across tuning parameters:
-## 
-##   model  winnow  trials  ROC        Sens       Spec     
+##
+##   model  winnow  trials  ROC        Sens       Spec
 ##   rules  FALSE    1      0.8350037  0.7266667  0.8888664
 ##   rules  FALSE   10      0.8794467  0.7575000  0.8810256
 ##   rules  FALSE   20      0.8811004  0.7558333  0.8893117
@@ -913,7 +913,7 @@ c5Fit &lt;- train(
 ##   tree    TRUE    1      0.8496924  0.7191667  0.8721457
 ##   tree    TRUE   10      0.8713200  0.7383333  0.8851687
 ##   tree    TRUE   20      0.8765562  0.7508333  0.8815115
-## 
+##
 ## ROC was used to select the optimal model using the largest value.
 ## The final values used for the model were trials = 20, model = rules
 ##  and winnow = FALSE.</code></pre>
@@ -921,7 +921,7 @@ c5Fit &lt;- train(
 densityplot(c5Fit,pch=&#39;|&#39;)
 predict(c5Fit,type = &#39;prob&#39;) -&gt; train.Probs
 histogram(~Survived+Dead,train.Probs)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-35-1.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-35-2.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-35-3.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-35-1.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-35-2.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-35-3.png" width="60%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="averaged-neural-networks" class="section level2">
 <h2>Averaged Neural Networks</h2>
@@ -934,27 +934,27 @@ histogram(~Survived+Dead,train.Probs)</code></pre>
 avNNetgrid &lt;- expand.grid(size=c(2,4,6,8),decay=c(0.1,0.2),bag=c(T,F))
 avNnetFit &lt;- train(Survived~.,
                    train.imp,
-                   method = &quot;avNNet&quot;, 
+                   method = &quot;avNNet&quot;,
                    trControl = ctrl,
                    tuneGrid = avNNetgrid,
                    repeats = 15,
-                   trace = FALSE) 
+                   trace = FALSE)
 save(avNnetFit,file = &#39;avNnetFit&#39;)</code></pre>
 <p>Averaged neural networks are something I picked up in the 2018 RStudio conference. It fits multiple neural networks to a problem and returns the average value of all the nnets together. Easy to use, pretty spiffy.</p>
 <p>There are three tunable parameters here - # of hidden nodes, bagging and weight decay. Upon playing with them a bit, I settled on what you see below. Perhaps increasing the # of hidden units would have made more of a difference, but I’m happy with this so far.</p>
 <pre class="r"><code>avNnetFit</code></pre>
-<pre><code>## Model Averaged Neural Network 
-## 
+<pre><code>## Model Averaged Neural Network
+##
 ## 625 samples
 ##  22 predictor
-##   2 classes: &#39;Survived&#39;, &#39;Dead&#39; 
-## 
+##   2 classes: &#39;Survived&#39;, &#39;Dead&#39;
+##
 ## No pre-processing
-## Resampling: Cross-Validated (10 fold, repeated 5 times) 
-## Summary of sample sizes: 562, 563, 563, 562, 562, 562, ... 
+## Resampling: Cross-Validated (10 fold, repeated 5 times)
+## Summary of sample sizes: 562, 563, 563, 562, 562, 562, ...
 ## Resampling results across tuning parameters:
-## 
-##   size  decay  bag    ROC        Sens       Spec     
+##
+##   size  decay  bag    ROC        Sens       Spec
 ##   2     0.1    FALSE  0.8741481  0.7283333  0.8956410
 ##   2     0.1     TRUE  0.8745440  0.7266667  0.8935088
 ##   2     0.2    FALSE  0.8747430  0.7283333  0.9002834
@@ -971,7 +971,7 @@ save(avNnetFit,file = &#39;avNnetFit&#39;)</code></pre>
 ##   8     0.1     TRUE  0.8747813  0.7391667  0.8847233
 ##   8     0.2    FALSE  0.8773043  0.7366667  0.8945614
 ##   8     0.2     TRUE  0.8783103  0.7350000  0.8935358
-## 
+##
 ## ROC was used to select the optimal model using the largest value.
 ## The final values used for the model were size = 8, decay = 0.2 and bag
 ##  = TRUE.</code></pre>
@@ -979,7 +979,7 @@ save(avNnetFit,file = &#39;avNnetFit&#39;)</code></pre>
 densityplot(avNnetFit,pch=&#39;|&#39;)
 predict(avNnetFit,type = &#39;prob&#39;) -&gt; train.Probs
 histogram(~Survived+Dead,train.Probs)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-37-1.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-37-2.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-37-3.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-37-1.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-37-2.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-37-3.png" width="60%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="conditional-inference-random-forests" class="section level2">
 <h2>Conditional Inference Random Forests</h2>
@@ -993,7 +993,7 @@ histogram(~Survived+Dead,train.Probs)</code></pre>
 ciRFgrid &lt;- expand.grid(mtry = c(20,25,30,35,40))
 ciRFFit &lt;- train(Survived~.,
                    train.imp,
-                   method = &quot;cforest&quot;, 
+                   method = &quot;cforest&quot;,
                    trControl = ctrl,
                  tuneGrid = ciRFgrid
                  ) </code></pre>
@@ -1002,31 +1002,31 @@ ciRFFit &lt;- train(Survived~.,
 <pre class="r"><code>save(ciRFFit,file = &#39;ciRFFit&#39;)</code></pre>
 <p>This is another technology I picked up from converstaions at RStudio conference. I believe it’s referenced in the APM book as well. Some information about them is <a href="https://hsequantling.wikispaces.com/file/view/LevshinaCh14CARTRandomForest.pdf">here</a>. To be honest, I haven’t spent any time understanding exactly how these work, so to me they are black box(y) at the moment.</p>
 <pre class="r"><code>ciRFFit</code></pre>
-<pre><code>## Conditional Inference Random Forest 
-## 
+<pre><code>## Conditional Inference Random Forest
+##
 ## 625 samples
 ##  22 predictor
-##   2 classes: &#39;Survived&#39;, &#39;Dead&#39; 
-## 
+##   2 classes: &#39;Survived&#39;, &#39;Dead&#39;
+##
 ## No pre-processing
-## Resampling: Cross-Validated (10 fold, repeated 5 times) 
-## Summary of sample sizes: 563, 563, 562, 563, 563, 562, ... 
+## Resampling: Cross-Validated (10 fold, repeated 5 times)
+## Summary of sample sizes: 563, 563, 562, 563, 563, 562, ...
 ## Resampling results across tuning parameters:
-## 
-##   mtry  ROC        Sens       Spec     
+##
+##   mtry  ROC        Sens       Spec
 ##   20    0.8764103  0.7141667  0.8784211
 ##   25    0.8784511  0.7275000  0.8805533
 ##   30    0.8801816  0.7375000  0.8815924
 ##   35    0.8804375  0.7208333  0.8826451
 ##   40    0.8810473  0.7300000  0.8862753
-## 
+##
 ## ROC was used to select the optimal model using the largest value.
 ## The final value used for the model was mtry = 40.</code></pre>
 <pre class="r"><code>plot(ciRFFit)
 densityplot(ciRFFit,pch=&#39;|&#39;)
 predict(ciRFFit,type = &#39;prob&#39;) -&gt; train.Probs
 histogram(~Survived+Dead,train.Probs)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-39-1.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-39-2.png" width="60%" style="display: block; margin: auto;" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-39-3.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-39-1.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-39-2.png" width="60%" style="display: block; margin: auto;" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-39-3.png" width="60%" style="display: block; margin: auto;" /></p>
 <hr />
 </div>
 </div>
@@ -1045,16 +1045,16 @@ histogram(~Survived+Dead,train.Probs)</code></pre>
     ))</code></pre>
 <p>This plot shows the point estimates (mean and CI of mean) of all three metrics, as evaluated on each repeated cross-validation on all models run per model-type. All the top 4 models are really alike in AUC ROC, with xgb and C50 taking a slight lead in sensitivity.</p>
 <pre class="r"><code>dotplot(re)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-41-1.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-41-1.png" width="60%" style="display: block; margin: auto;" /></p>
 <p>Another way to visualize the data is to plot all the results of each model-type for all it’s cross-validated results on a boxplot. This shows us how much variation we might expect from the model for a true unknown test set. Here, elastinet seems to have the tightest IQR for AUC ROC as well as the tightest IQR for sensitivity. It also shows no outliers.</p>
 <pre class="r"><code>bwplot(re)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-42-1.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-42-1.png" width="60%" style="display: block; margin: auto;" /></p>
 <p>One challenge in the plots above is drawing inferences from the plots above. Too many of the points above are really close to each other. It’s hard to tell if one model is any better than another model.</p>
 <p>This is where <code>diff()</code> is a useful function. Basically, for each metric, all pair-wise differences are evaluated. The plot makes this quite intuitive. If the confidence level on the differences includes zero, the models are equal to each other. Similar to assessing a null hypothesis of (beta = 0) in a linear regression analysis.</p>
 <p>Now, we can clearly see that if xgb is compared to it’s next 3 rivals, there isn’t really a statistically significant difference between the AUC ROC performance of that model against the others based on the cross-validations alone. No reason to pick over the others.</p>
 <pre class="r"><code>difValues &lt;- diff(re)
 dotplot(difValues)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
 <hr />
 </div>
 <div id="test-set-evaluation" class="section level1">
@@ -1128,7 +1128,7 @@ test.imp %&lt;&gt;%
       TicketChar = ifelse(is.na(TicketChar),&#39;U&#39;,TicketChar),
       TicketNumStart = ifelse(is.na(TicketNumStart),0,TicketNumStart),
       TicketNumLen = ifelse(is.na(TicketNumLen),0,TicketNumLen),
-    ) %&gt;% 
+    ) %&gt;%
     mutate(
         TicketChar = as.factor(TicketChar),
         TicketNumStart = factor(TicketNumStart,levels = seq(0,9,1)),
@@ -1200,7 +1200,7 @@ ggplot(compiled_results, aes(F1, accuracy)) +
                     force=1) +
     theme_bw()+
     labs(x=&#39;F1&#39;,y=&#39;kappa&#39;, title=&#39;Kappa vs F1 (Test Set Performance)&#39;)</code></pre>
-<p><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-47-1.png" width="50%" /><img src="/project/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-47-2.png" width="50%" /></p>
+<p><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-47-1.png" width="50%" /><img src="/post/2018-01-24-yet-another-titanic-solve_files/figure-html/unnamed-chunk-47-2.png" width="50%" /></p>
 </div>
 </div>
 <div id="kaggle-performance" class="section level1">
