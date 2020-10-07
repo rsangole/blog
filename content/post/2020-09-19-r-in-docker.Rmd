@@ -1,0 +1,83 @@
+---
+title: R in Docker
+author: Rahul S
+date: '2020-09-19'
+slug: r-in-docker
+categories:
+  - R
+tags:
+  - docker
+output:
+    blogdown::html_page:
+        toc: false
+---
+
+# Pain
+
+One of the challenges R developers face 
+
+# Solution
+
+## MRAN Time Machine
+
+Microsoft R Application Network (MRAN) offers a ["time machine"](https://mran.microsoft.com/timemachine). This service takes a daily snapshot of the [CRAN repository](http://cran.r-project.org) repository - going as far back as Sep 2014. You can browse the snapshots on their page:
+
+![](/post/custom_images/rdocker-mran.png){width=450px}
+MRAN snapshots help us lock-down package versions using a 'date' as the index. For example, running:
+
+```r
+install.packages("lattice", repos = "https://mran.microsoft.com/snapshot/2020-10-01")
+```
+
+will install the version of `{lattice}` on 1st Oct, 2020. 
+
+Now, this approach doesn't make it easier to choose _specific versions_ of packages _released over time_, but instead allows you to lock down a date and get only those versions available on the selected date. What that means is that running "Update Packages" on any date after 1st of Oct won't change your package configuration.
+
+```r
+> options(repos = "https://mran.microsoft.com/snapshot/2020-10-01")
+> getOption("repos")
+[1] "https://mran.microsoft.com/snapshot/2020-10-01"
+```
+
+## Docker
+
+
+```sh
+docker run 
+    -d 
+    -e PASSWORD=1234 
+    -v ~/github/:/home/rstudio/projects/ 
+    -p 3838:3838 
+    -p 8787:8787 
+    hatmatrix/blog:latest
+```
+
+The components of this command are:
+
+* `docker run` : Run a docker image...
+* `-d` : in detached mode, i.e. once the image is run in the background, you get your shell prompt
+* `-e PASSWORD=1234` : `-e` are additional arguments. Here, we've set the Rstudio password to 1234
+* `-v` : this maps `~/github/` on my local machine to `~/home/rstudio/projects/` within the docker container
+* `-p` : these args map ports from my local machine to ports within docker. We need one for rstudio (8787) and one for any shiny apps we launch from within rstudio (3838)
+* `hatmatrix/blog:latest` : this is the name of the docker image
+
+**The importance of `-v`:** Without `-v` you won't have access to any of your local files within the docker container. Remember, docker containers are fully isolated from your local machine. Also, since containers are ephemeral (i.e. short-lived & temporary), once the container is shutdown, you will lose any data stored within it permanently. Mapping to a local folder allows you to work on projects stored locally within the container.
+
+## The Dockerfile
+
+The `Dockerfile` holds the definition of how a docker image is built. The `Dockerfile` I use to create and maintain this blog is saved [here](LINK_GOES_HERE). Here's a quick explanation of the file:
+
+```docker
+FROM rocker/tidyverse:4.0.0
+
+LABEL maintainer="Rahul S <rahul.sangole@gmail.com>"
+```
+
+## Using `git`
+
+
+
+# References
+
+- https://mran.microsoft.com/timemachine
+- https://github.com/rocker-org/rocker
