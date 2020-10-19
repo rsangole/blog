@@ -1,0 +1,149 @@
+---
+title: Reproducible Work in R
+author: Rahul S
+date: '2020-10-10'
+slug: reproducible-work-in-R
+categories:
+  - R
+tags:
+  - docker
+output:
+    blogdown::html_page:
+        toc: false
+---
+
+
+
+<div id="source-of-pain" class="section level1">
+<h1>Source of Pain</h1>
+<ul>
+<li>One of the biggest challenges we face as data-scientists while working on production-grade codebases is ensuring end-to-end reproduciblity and stability over time.
+<ul>
+<li>This would extend to the academia as well, but I’m not an academician.</li>
+</ul></li>
+<li>A basic R setup has no built-in functionality to store the package versions &amp; dependencies (unlike running within a conda environment, for example).</li>
+<li>If your default repository is CRAN, it’s a major problem since CRAN gets updated on a daily basis.</li>
+<li>I’ve found some solutions like <code>pkgdown</code> too cumbersome to use. I’ve even tried working within a conda environment setup for R, but I am not a fan.</li>
+<li>Collaborating in a team between data-scientists adds an additional layer of complexity. In my experience:
+<ul>
+<li>Folks within one team can have different versions of everything - OS, the R kernel, packages, libraries, environment variables… !</li>
+<li>Some folks are conservative in upgrading their systems; others are excited to try newer versions of packages</li>
+</ul></li>
+<li>Working across OS can often introduce unexpected problems (IME, particularly with functions which allow parallel compute <code>mcapply</code>, <code>future</code>.)
+<ul>
+<li>This becomes problematic when developing codebases on a local system (which might be Windows) but deploying codebases in another environment (which might be Linux)</li>
+</ul></li>
+</ul>
+</div>
+<div id="solution" class="section level1">
+<h1>Solution</h1>
+<p>In my experience, the solution I’ve outlined below offers me an excellent approach for long term reproducibility and code stability:</p>
+<ol style="list-style-type: decimal">
+<li>Lock down your R package versions using MRAN snapshots</li>
+<li>Lock down your working environment using a Docker image</li>
+<li>Do all your development within Docker containers</li>
+<li>Accompany all projects with a Docker image</li>
+</ol>
+<p>This has worked so well that I haven’t bothered using R/Rstudio on my local machine in well over half a year now.</p>
+<div id="mran-time-machine" class="section level2">
+<h2>1. MRAN Time Machine</h2>
+<p>Microsoft R Application Network (MRAN) offers a “<a href="https://mran.microsoft.com/timemachine">time machine</a>”. This service takes a daily snapshot of the <a href="http://cran.r-project.org">CRAN repository</a> repository - going as far back as Sep 2014. You can browse the snapshots on their page:</p>
+<p><img src="/post/custom_images/rdocker-mran.png" width="450" /></p>
+<p>MRAN snapshots help us lock-down package versions using a date as the ‘index’. For example, running:</p>
+<pre class="r"><code>install.packages(&quot;lattice&quot;, 
+                 repos = &quot;https://mran.microsoft.com/snapshot/2020-10-01&quot;)</code></pre>
+<p>will install the version of <code>{lattice}</code> as of 1st Oct, 2020.</p>
+<p>Now, this approach doesn’t make it easier to choose <em>specific versions</em> of packages <em>released over time</em>, but instead allows you to lock down a date and get only those versions available on the selected date. What that means is that running “Update Packages” on any date after 1st of Oct won’t change your package configuration.</p>
+<pre class="r"><code>&gt; options(repos = &quot;https://mran.microsoft.com/snapshot/2020-10-01&quot;)
+&gt; getOption(&quot;repos&quot;)
+[1] &quot;https://mran.microsoft.com/snapshot/2020-10-01&quot;</code></pre>
+</div>
+<div id="docker-image" class="section level2">
+<h2>2. Docker Image</h2>
+<div id="the-dockerfile" class="section level3">
+<h3>The Dockerfile</h3>
+<p>The <code>Dockerfile</code> holds the definition of how a docker image is built. The Dockerfile which I use to maintain this blog is saved <a href="https://github.com/rsangole/blog/blob/master/docker/Dockerfile">here</a>. It’s hosted on <a href="https://hub.docker.com/repository/docker/hatmatrix/blog">hub.docker.com</a> too.</p>
+<p>Here’s a quick explanation of the file. For a deeper dive into Dockerfiles, there are lots of resources online <a href="https://rollout.io/blog/a-beginners-guide-to-the-dockerfile/">1</a>, <a href="https://linuxhint.com/understand_dockerfile/">2</a>, <a href="https://blog.hipolabs.com/understanding-docker-without-losing-your-shit-cf2b30307c63">3</a>.</p>
+<div id="from" class="section level4">
+<h4>FROM</h4>
+<p>I’m using the <code>rocker/tidyverse:4.0.0</code> <a href="https://hub.docker.com/layers/rocker/tidyverse/4.0.0/images/sha256-b5dca99adfd18ae14ba50dcbc4aaaec2674138bc75015104a77a9805694c157a?context=explore">image</a>, which offers a great starting point. It has R version 4.0.0 and the tidyverse packages preinstalled.</p>
+<pre class="docker"><code>FROM rocker/tidyverse:4.0.0</code></pre>
+</div>
+<div id="run" class="section level4">
+<h4>RUN</h4>
+<p>This installs many of the linux libraries needed for the subsequent R packages to work. I’ve also installed some useful utility packages like <code>curl</code>, <code>jq</code> and <code>vim</code>.</p>
+<pre class="docker"><code>RUN apt-get update &amp;&amp; apt-get install -y --no-install-recommends \
+        libgit2-dev \
+        libxml2-dev \
+        ... \
+        ... \
+        curl \
+        tree \
+        jq \
+        htop \
+        texinfo \
+        vim \
+        man-db \
+        less</code></pre>
+</div>
+<div id="env-r-pkg-install" class="section level4">
+<h4>ENV + R PKG INSTALL</h4>
+<p>Here’s where I set the MRAN Build Date and then install the R packages I need using <code>install2.r</code> with the <code>-r</code> argument to point to MRAN Time Machine instead of CRAN.</p>
+<pre class="docker"><code>ENV MRAN_BUILD_DATE=2020-09-01
+
+# Install Basic Utility R Packages
+RUN install2.r -r https://cran.microsoft.com/snapshot/${MRAN_BUILD_DATE} \
+    --error \
+    rgl \
+    data.table \
+    reprex \
+    # ~ 30 more R Packages
+    ... \
+    ... \</code></pre>
+</div>
+<div id="build-push" class="section level4">
+<h4>Build &amp; Push</h4>
+<p>Build the docker image and push it to <code>hub.docker.com</code>.</p>
+<pre class="sh"><code>docker build . -t hatmatrix/blog:latest
+docker push hatmatrix/blog:latest</code></pre>
+<p>Your docker image is now avaiable online for anyone running your project to pull.</p>
+</div>
+</div>
+</div>
+<div id="develop-in-docker" class="section level2">
+<h2>3. Develop in Docker</h2>
+<p>Now I have a stable docker image to use for this blog. I can run the image with this shell cmd:</p>
+<pre class="sh"><code>docker run 
+    -d 
+    -e PASSWORD=1234 
+    -v ~/github/:/home/rstudio/projects/ 
+    -p 3838:3838 
+    -p 8787:8787 
+    hatmatrix/blog:latest</code></pre>
+<p>The components of this command are:</p>
+<ul>
+<li><code>docker run</code> : Run a docker image…</li>
+<li><code>-d</code> : in detached mode, i.e. once the image is run in the background, you get your shell prompt</li>
+<li><code>-e PASSWORD=1234</code> : <code>-e</code> are additional arguments. Here, we’ve set the Rstudio password to 1234</li>
+<li><code>-v</code> : this maps <code>~/github/</code> on my local machine to <code>~/home/rstudio/projects/</code> within the docker container</li>
+<li><code>-p</code> : these args map ports from my local machine to ports within docker. We need one for rstudio (8787) and one for any shiny apps we launch from within rstudio (3838)</li>
+<li><code>hatmatrix/blog:latest</code> : this is the name of the docker image</li>
+</ul>
+<p><strong>The importance of <code>-v</code>:</strong> Without <code>-v</code> you won’t have access to any of your local files within the docker container. Remember, docker containers are fully isolated from your local machine. Also, since containers are ephemeral (i.e. short-lived &amp; temporary), once the container is shutdown, you will lose any data stored within it permanently. Mapping to a local folder allows you to work on projects stored locally within the container.</p>
+</div>
+<div id="docker-images-accompany-r-projects" class="section level2">
+<h2>4. Docker images accompany R projects</h2>
+<p>Just create a <code>/docker</code> folder in your working project directory, and save your Dockerfile. Here’s my example for this blog: <a href="https://github.com/rsangole/blog/tree/master/docker">example docker folder</a>. Optionally, create a <code>docker-build.sh</code> to save on some typing down the line.</p>
+</div>
+</div>
+<div id="thats-it" class="section level1">
+<h1>That’s it!</h1>
+<p>This is a lightweight workflow which has allowed me to maintain full reproducibility and code stability no matter which OS I’m working on.</p>
+</div>
+<div id="useful-links" class="section level1">
+<h1>Useful Links</h1>
+<ul>
+<li><a href="https://mran.microsoft.com/timemachine" class="uri">https://mran.microsoft.com/timemachine</a></li>
+<li><a href="https://github.com/rocker-org/rocker" class="uri">https://github.com/rocker-org/rocker</a></li>
+</ul>
+</div>
