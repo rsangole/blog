@@ -98,3 +98,13 @@ RUN install2.r -r https://cran.microsoft.com/snapshot/${MRAN_BUILD_DATE} \
 	reactable \
  	kableExtra \
  	waiter
+
+RUN mkdir dotdotfiles
+COPY dotfiles dotfiles/
+
+RUN mkdir -p /home/rstudio/.R/snippets \
+	&& mkdir -p /home/rstudio/.R/rstudio/keybindings \
+	&& cp -r dotfiles/.Rprofile /home/rstudio/ \
+	&& cp -r dotfiles/r.snippets /home/rstudio/.R/snippets/ \
+	&& cp -r dotfiles/user-settings /home/rstudio/.rstudio/monitored/user-settings/ \
+	&& cp dotfiles/keybindings/*.* /home/rstudio/.R/rstudio/keybindings/

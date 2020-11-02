@@ -1,0 +1,6 @@
+{
+    "executeCurrentParagraph" : "Alt+Cmd+Enter",
+    "quickAddNext" : "Cmd+D",
+    "removeLine" : "Ctrl+D",
+    "sendToTerminal" : "Ctrl+Alt+Enter"
+}
