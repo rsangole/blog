@@ -1,0 +1,150 @@
+---
+title: 30 Day Chart Challenge
+author: Rahul
+date: '2021-04-13'
+slug: 30-day-chart-challenge
+categories:
+  - 30DayChartChallenge
+tags:
+  - visualization
+  - ggplot
+output: 
+  html_document: 
+    toc: yes
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="day-13---correlation" class="section level2">
+<h2>Day 13 - Correlation</h2>
+<pre class="r"><code>library(tidyverse)
+library(ggplot2)
+library(ggdark)
+library(ggtext)
+library(ggforce)
+
+# https://data.world/markmarkoh/kepler-confirmed-planets
+dat &lt;- data.table::fread(&quot;~/github/blog/content/post/files/kepler_confirmed_planets/planets.csv&quot;)
+
+hull_a &lt;- dat %&gt;% 
+  select(st_rad, st_mass) %&gt;% 
+  filter(st_rad &gt; 0.335 &amp; st_rad &lt; 2.95 &amp; st_mass &lt; 2) %&gt;% 
+  tidyr::drop_na()
+cor_a &lt;- scales::label_number(accuracy = 0.01)(cor(hull_a)[1, 2])
+
+hull_b &lt;- dat %&gt;% 
+  select(st_rad, st_mass) %&gt;% 
+  filter(st_rad &gt; 2.95) %&gt;% 
+  tidyr::drop_na()
+cor_b &lt;- scales::label_number(accuracy = 0.01)(cor(hull_b)[1,2])
+
+# https://coolors.co/1c1f35-151728-44243e-723054-68838c-4e636a-4ab6d3
+pt_color &lt;- &quot;#6BC3DB&quot;
+hull_color &lt;- &quot;#68838C&quot;
+axis_text_color &lt;- &quot;#68838C&quot;
+caption_color &lt;- &quot;#4E636A&quot;
+grid_color &lt;- &quot;#1C1F35&quot;
+plot_title_color &lt;- &quot;#723054&quot;
+bg_color &lt;- &quot;#151728&quot;
+
+dat %&gt;%
+  ggplot(aes(x = st_rad, y = st_mass)) +
+  geom_point(
+    colour = pt_color,
+    pch = 21,
+    size = 1,
+    alpha = 0.3
+  ) +
+  geom_mark_hull(
+    data = hull_a,
+    aes(label = glue::glue(&quot;Group A\nCorr: {cor_a}&quot;)),
+    concavity = 10,
+    color = hull_color,
+    size = 0.3,
+    radius = .02,
+    con.cap = 0,
+    con.colour = hull_color,
+    con.border = &quot;none&quot;,
+    label.fill = bg_color,
+    label.colour = hull_color,
+    label.margin = margin(1, 1, 1, 1, &quot;mm&quot;)
+  ) +
+  geom_mark_hull(
+    data = hull_b,
+    aes(label = glue::glue(&quot;Group B\nCorr: {cor_b}&quot;)),
+    concavity = 10,
+    color = hull_color,
+    size = 0.3,
+    radius = .02,
+    con.cap = 0,
+    con.colour = hull_color,
+    con.border = &quot;none&quot;,
+    label.fill = bg_color,
+    label.colour = hull_color,
+    label.margin = margin(1, 1, 1, 1, &quot;mm&quot;)
+  ) +
+  annotate(
+    geom = &quot;curve&quot;,
+    xend = 0.09,
+    yend = 0.06,
+    x = 0.09 - 0.01,
+    y = 0.06 + 0.1,
+    curvature = -.3,
+    arrow = arrow(length = unit(0, &quot;mm&quot;)),
+    color = hull_color
+  ) +
+  annotate(
+    geom = &quot;text&quot;,
+    x = 0.09 - 0.01,
+    y = 0.06 + 0.1,
+    label = &quot;Each point\nis a star&quot;,
+    hjust = &quot;right&quot;,
+    size = 3.4,
+    color = hull_color
+  ) +
+  scale_x_continuous(trans = &quot;log10&quot;,
+                     labels =
+                       scales::label_number(suffix = &quot;x&quot;,
+                                            accuracy = 1,)) +
+  scale_y_continuous(labels =
+                       scales::label_number(suffix = &quot;x&quot;,
+                                            accuracy = 1,)) +
+  dark_theme_minimal() +
+  coord_cartesian(ylim = c(0, 3), clip = &quot;off&quot;) +
+  theme(
+    plot.background = element_rect(color = bg_color, 
+                                   fill = bg_color),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(color = grid_color),
+    axis.text = element_text(size = 12, color = axis_text_color),
+    axis.title.y = element_text(size = 14, color = axis_text_color),
+    axis.title.x = element_text(size = 14, color = axis_text_color),
+    plot.title = element_markdown(
+      family = &quot;Inter-Medium&quot;,
+      color = plot_title_color,
+      size = 22,
+      margin = margin(0, 0, 0.5, 0, unit = &quot;line&quot;)
+    ),
+    plot.title.position = &quot;plot&quot;,
+    plot.subtitle = element_markdown(
+      color = plot_title_color,
+      size = 12,
+      lineheight = 1.2,
+      margin = margin(0, 0, 1, 0, unit = &quot;line&quot;)
+    ),
+    plot.margin = margin(1.5, 1.5, 1, 1.5, unit = &quot;line&quot;),
+    legend.position = c(0.9, 0.1),
+    plot.caption = element_text(colour = caption_color, size = 10)
+  ) +
+  labs(
+    x = &quot;Radius compared to the Sun&quot;,
+    y = &quot;Mass compared to the Sun&quot;,
+    title = &quot;Stars of the Kepler K2 Mission&quot;,
+    subtitle = glue::glue(&quot;The Kepler K2 mission was a 5-year long expedition searching for Earth-like or smaller planets orbiting stars in our galaxy.&lt;br /&gt;Kepler was a special-purpose spacecraft that precisely measured the light variations from thousands of distant stars, looking for planetary transits.&lt;br /&gt;This graphic shows the relationship between the stellar mass &amp; stellar radii of {n} stars, with a potential {pl_n} orbiting exoplanets.&lt;br /&gt;It&#39;s fascinating to see two distinct clusters: stars with very high correlation between mass and radius, and those with radii &gt; 3x our sun, &lt;br /&gt; with near-zero correlation between mass &amp; radii.&quot;,
+                          pl_n = scales::label_comma(accuracy = 10)(dat[,sum(pl_pnum)]),
+                          n = scales::label_comma(accuracy = 10)(dat %&gt;% count(pl_hostname) %&gt;% nrow())),
+    caption = &quot;DAY 13 - #30DayChartChallenge\nDATASET BY @markmarkoh\nPLOT BY @rsangole&quot;
+  )</code></pre>
+<p><img src="/post/2021-04-13-30-day-chart-challenge_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
