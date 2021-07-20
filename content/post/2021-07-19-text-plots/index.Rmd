@@ -9,8 +9,8 @@ tags:
   - visualization
   - docker
 output: 
-  html_document: 
-    toc: yes
+  blogdown::html_page:
+    toc: true
 ---
 
 ```{r include=FALSE}

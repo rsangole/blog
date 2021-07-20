@@ -9,12 +9,20 @@ tags:
   - visualization
   - docker
 output: 
-  html_document: 
-    toc: yes
+  blogdown::html_page:
+    toc: true
 ---
 
 <script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
 
+<div id="TOC">
+<ul>
+<li><a href="#whats-the-distribution-of-a-variable">What’s the distribution of a variable?</a></li>
+<li><a href="#counts-of-a-factor">Counts of a factor?</a></li>
+<li><a href="#boxplots">Boxplots</a></li>
+<li><a href="#time-series-plots">Time series plots</a></li>
+</ul>
+</div>
 
 <p>I often use data ETL pipeline scripts cron-jobed on text-only interfaces (be it Jenkins, or cron-jobed in shell). While I print descriptive stats to keep tabs on ETL runs, I’ve found <a href="https://cran.r-project.org/web/packages/txtplot/index.html"><code>{txtplot}</code></a> adds a higher level of fidelity in my logfiles. <a href="https://www.rdocumentation.org/collaborators/name/Bjoern%20Bornkamp">Bjoern Bornkamp</a>’s package offers a simple and effective way to enhance my logfiles.</p>
 <p>Will I use them to visualize my data? No. Are they useful tokeep an eye on your pipelines and quickly diagnose issues? Yes, I’ve been able to diagnose more than a few data quality spills very quickly because I had these rudimentary plots in my logfiles.</p>
