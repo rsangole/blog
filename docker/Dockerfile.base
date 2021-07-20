@@ -1,4 +1,4 @@
-FROM rocker/tidyverse:4.0.0
+FROM rocker/tidyverse:4.1.0
 
 LABEL maintainer="Rahul S <rahul.sangole@gmail.com>"
 
@@ -32,7 +32,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         man-db \
         less
 
-ENV MRAN_BUILD_DATE=2020-09-01
+ENV MRAN_BUILD_DATE=2021-06-18
 
 # Install Basic Utility R Packages
 RUN install2.r -r https://cran.microsoft.com/snapshot/${MRAN_BUILD_DATE} \
@@ -51,31 +51,17 @@ RUN install2.r -r https://cran.microsoft.com/snapshot/${MRAN_BUILD_DATE} \
 	tsibble \
 	profvis \
 	bookdown \
-	blogdown
-
-# Analysis Packages
-RUN install2.r -r https://cran.microsoft.com/snapshot/${MRAN_BUILD_DATE} \
-	--error \
-	randomForest \
-	feasts \
-	prophet \
-	qcc \
-	MSQC \
-	Rtsne \
-	strucchange \
-	robfilter \
-	bfast \
-	tsmp \
-	anomalize \
-	slider \
-	dtwclust \
-	fpp3 \
-	astsa \
-	cluster \
-	dendextend \
-	rpart \
-	party \
-	partykit
+	blogdown \
+	targets \ 
+	future \ 
+	future.callr \
+	furrr \
+	curl \
+	bit64 \
+	getPass \
+	RCurl \
+	assertive \
+	RPostgres
 
 # Plotting Packages
 RUN install2.r -r https://cran.microsoft.com/snapshot/${MRAN_BUILD_DATE} \
@@ -87,17 +73,10 @@ RUN install2.r -r https://cran.microsoft.com/snapshot/${MRAN_BUILD_DATE} \
 	ggExtra \
 	DiagrammeR \
 	patchwork \
-	plotly
-
-
-# Shiny Packages
-RUN install2.r -r https://cran.microsoft.com/snapshot/${MRAN_BUILD_DATE} \
-	--error \
-	shiny \
-	shinyWidgets \
-	reactable \
- 	kableExtra \
- 	waiter
+	plotly \
+	txtplot \
+	billboarder \
+	timevis
 
 RUN mkdir dotdotfiles
 COPY dotfiles dotfiles/

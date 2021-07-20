@@ -1,0 +1,32 @@
+FROM hatmatrix/blog:analysis
+
+ENV MRAN_BUILD_DATE=2021-06-18
+
+# Install Basic Utility R Packages
+
+# Shiny Packages
+RUN install2.r -r https://cran.microsoft.com/snapshot/${MRAN_BUILD_DATE} \
+	--error \
+	shiny \
+	shinyWidgets \
+	reactable \
+ 	kableExtra \
+ 	waiter \
+	shinythemes \
+	shinyBS \
+	shinydashboardPlus \
+	shinyEffects \
+	shinyjqui \
+	showtext \
+	shinycssloaders \
+	bs4Dash \
+	flexdashboard \
+	listviewer \
+	trelliscopejs \
+	shinyFeedback \
+	waiter \
+	rpivotTable \
+	profvis \
+	config \
+	downloadthis \
+	shinyalert

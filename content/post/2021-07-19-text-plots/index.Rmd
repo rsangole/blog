@@ -1,0 +1,62 @@
+---
+title: Enhance ETL pipeline monitoring with text plots
+author: Rahul
+date: '2021-07-19'
+slug: text-plots
+categories:
+  - R
+tags:
+  - visualization
+  - docker
+output: 
+  html_document: 
+    toc: yes
+---
+
+```{r include=FALSE}
+library(dplyr)
+library(txtplot)
+```
+
+I often use data ETL pipeline scripts cron-jobed on text-only interfaces (be it Jenkins, or cron-jobed in shell). While I print  descriptive stats to keep tabs on ETL runs, I've found [`{txtplot}`](https://cran.r-project.org/web/packages/txtplot/index.html) adds a higher level of fidelity in my logfiles. [Bjoern Bornkamp](https://www.rdocumentation.org/collaborators/name/Bjoern%20Bornkamp)'s package offers a simple and effective way to enhance my logfiles. 
+
+Will I use them to visualize my data? No. Are they useful tokeep an eye on your pipelines and quickly diagnose issues? Yes, I've been able to diagnose more than a few data quality spills very quickly because I had these rudimentary plots in my logfiles.
+
+Some examples...
+
+### What's the distribution of a variable?
+
+```{r}
+dat <- dplyr::starwars %>% 
+  mutate(across(where(is.character), forcats::fct_infreq))
+
+dat %>%
+  tidyr::drop_na(height) %>% 
+  pull(height) %>% 
+  txtdensity(., xlab = "starwars: height distribution", width = 70, height = 12, pch = "o")
+```
+
+### Counts of a factor?
+
+```{r}
+txtbarchart(dat$sex, width = 70, height = 12, pch = "x")
+```
+
+### Boxplots
+
+```{r}
+txtboxplot(dat$height, dat$mass, width = 70, height = 12)
+```
+
+### Time series plots
+
+```{r}
+txtplot(y = LakeHuron, x = 1875:1972, width = 70, height = 12, xlab = "year", ylab = "level")
+```
+
+ACF plots, though I've not used these in production yet.
+
+```{r}
+txtacf(sunspot.year, width = 70, height = 12)
+```
+
