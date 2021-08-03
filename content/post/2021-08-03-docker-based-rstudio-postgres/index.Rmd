@@ -31,18 +31,18 @@ library(tweetrmd)
 tweet_embed("https://twitter.com/rsangole/status/1418418477329620993")
 ```
 
-I'll layout the three posts like so:
+I'll layout the two posts like so:
 
-1. Part I - This post, will layout how I've setup my new workflow with Postgres & RStudio using Docker
-1. Part II - I'll compile the sources of data for anomaly detection datasets, and my personal setup
+1. Part I - This post will teach you how to setup a simple reproducible Docker based workflow for a personal Postgres Database, development in RStudio
+1. Part II - This will teach you how to setup your own anomaly database
 
 # Why you should read this?
 
-This post will teach you how to setup 
+You'll be able to rapidly setup a personal Docker based postgres database. You will be able to access this in R and begin development. The whole process will be completely reproducible and inherits all the benefits of working in Docker.
 
-# Who should read this?
+# Who shouldn't read this?
 
-If you're able to 
+If 
 
 ## How to setup a local dockerized Postgres database from scratch
 
