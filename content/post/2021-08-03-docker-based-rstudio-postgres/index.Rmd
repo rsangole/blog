@@ -1,0 +1,57 @@
+---
+title: Docker based RStudio & Postgres
+author: Rahul
+date: '2021-08-03'
+slug: docker-based-rstudio-postgres
+categories:
+  - R
+tags:
+  - docker
+  - postgres
+output: 
+  blogdown::html_page:
+    toc: true
+---
+
+```{r include=FALSE}
+library(dplyr)
+library(txtplot)
+```
+
+This is part one of the two part post related to Docker, Postgres Databases and Anomaly datasets.
+
+# Background
+
+In recent LinkedIn posts ( [Mine]() and [Rami's Repost](https://www.linkedin.com/posts/rami-krispin_anomalydetection-data-timeseries-activity-6825126331672612864-MEks)) and Tweet, I asked the internet for their favorite datasets for anomaly detection problems, particularly in the  time-series domain. 
+
+```{r echo=FALSE}
+# install.packages("devtools")
+# devtools::install_github("gadenbuie/tweetrmd")
+library(tweetrmd)
+tweet_embed("https://twitter.com/rsangole/status/1418418477329620993")
+```
+
+I'll layout the three posts like so:
+
+1. Part I - This post, will layout how I've setup my new workflow with Postgres & RStudio using Docker
+1. Part II - I'll compile the sources of data for anomaly detection datasets, and my personal setup
+
+# Why you should read this?
+
+This post will teach you how to setup 
+
+# Who should read this?
+
+If you're able to 
+
+## How to setup a local dockerized Postgres database from scratch
+
+1. Pull postgres docker image using `docker pull postgres:13.3`
+1. Edit `00-postgres-init.sh` with your custom settings
+1. Run `./00-postgres-init.sh`, this sets up new roles + new databases
+1. Check the configuration in `docker-compose.yml` for your postgres database settings and docker images
+1. To run RStudio and Postgres together, run `docker-compose up -d`
+1. Connect to RStudio in a browser using `localhost:8787`
+1. Test your database by running `postgres.R`
+
+As a short cut to run docker & open a browser for RStudio, run `docker-compose up -d; firefox localhost:8787`

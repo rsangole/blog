@@ -86,5 +86,11 @@ RUN mkdir -p /home/rstudio/.R/snippets \
 	&& cp -r dotfiles/.Rprofile /home/rstudio/ \
 	&& cp -r dotfiles/r.snippets /home/rstudio/.R/snippets/ \
 	&& cp -r dotfiles/user-settings /home/rstudio/.rstudio/monitored/user-settings/ \
-	&& cp dotfiles/keybindings/*.* /home/rstudio/.R/rstudio/keybindings/ \
-  && Rscript -e "blogdown::install_hugo()"
+	&& cp dotfiles/keybindings/*.* /home/rstudio/.R/rstudio/keybindings/
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  curl
+
+RUN Rscript -e "install.packages('tensorflow'); reticulate::install_miniconda();"
+RUN Rscript -e "library('tensorflow'); install_tensorflow(version = 'gpu')"
+RUN Rscript -e "require(devtools); install_version('keras', version = '2.3.0.0'); library('keras'); install_keras(tensorflow = 'gpu')"
