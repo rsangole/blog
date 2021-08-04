@@ -1,0 +1,157 @@
+---
+title: Docker based RStudio & Postgres
+author: Rahul
+date: '2021-08-03'
+slug: docker-based-rstudio-postgres
+categories:
+  - R
+tags:
+  - docker
+  - postgres
+output: 
+  github_document:
+    toc: true
+    toc_depth: 1
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+<script src="{{< blogdown/postref >}}index_files/twitter-widget/widgets.js"></script>
+
+
+<p>This is part one of the two part post related to Docker, Postgres databases and Anomaly data-sets.</p>
+<div id="background" class="section level1">
+<h1>Background</h1>
+<p>In recent LinkedIn posts ( <a href="">Mine</a> and <a href="https://www.linkedin.com/posts/rami-krispin_anomalydetection-data-timeseries-activity-6825126331672612864-MEks">Rami’s Repost</a>) and Tweet, I asked the internet for their favorite datasets for anomaly detection problems, particularly in the time-series domain.</p>
+<blockquote class="twitter-tweet" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">What are some of your favorite publicly available data sets useful for anomaly detection problems? <br><br>I’m interested in applying some ML and DL anomaly detection algorithms to new datasets.<a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://twitter.com/hashtag/datascience?src=hash&amp;ref_src=twsrc%5Etfw">#datascience</a> <a href="https://twitter.com/hashtag/analytics?src=hash&amp;ref_src=twsrc%5Etfw">#analytics</a> <a href="https://twitter.com/hashtag/python?src=hash&amp;ref_src=twsrc%5Etfw">#python</a> <a href="https://twitter.com/hashtag/machinelearning?src=hash&amp;ref_src=twsrc%5Etfw">#machinelearning</a></p>&mdash; Rahul (@rsangole) <a href="https://twitter.com/rsangole/status/1418418477329620993?ref_src=twsrc%5Etfw">July 23, 2021</a></blockquote>
+
+<p>I’ll layout the two posts like so:</p>
+<ol style="list-style-type: decimal">
+<li>Part I - This post will teach you how to setup a simple reproducible Docker based workflow for a personal Postgres Database with code development in RStudio.</li>
+<li>Part II - This will teach you how to setup your own anomaly database.</li>
+</ol>
+</div>
+<div id="why-should-you-read-this" class="section level1">
+<h1>Why should you read this?</h1>
+<p>At the end of this tutorial, you’ll be able to rapidly setup a Docker based personal Postgres database. You will learn how to quickly deploy Postgres &amp; RStudio using <code>docker-compose</code>. You will be able to access the DB in R / RStudio and begin development immediately. The process will be fully reproducible as it inherits all the benefits of working in Docker.</p>
+<p><em>This text assumed you’re familiar with Docker and RStudio in a Docker environment. If you’re not, I recommend reading <a href="https://rsangole.netlify.app/post/2020/10/10/reproducible-work-in-r/">Reproducible Work in R</a> first.</em></p>
+</div>
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p>You will be launching two docker images:</p>
+<ol style="list-style-type: decimal">
+<li>A Postgres image. I choose <a href="https://hub.docker.com/_/postgres/"><code>postgres:13.3</code></a></li>
+<li>An RStudio image. I choose <a href="https://hub.docker.com/r/hatmatrix/blog/tags?page=1&amp;ordering=last_updated"><code>hatmatrix/blog:base</code></a> (equivalent: <a href="https://hub.docker.com/r/rocker/rstudio"><code>rocker/rstudio</code></a> )</li>
+</ol>
+<p>To permanently store your data beyond the life of the containers, you will have two mounted volumes, one for each container. In the example below, I choose:</p>
+<ol style="list-style-type: decimal">
+<li>For the Postgres database: <code>$HOME/docker/volumes/postgres</code></li>
+<li>For RStudio &amp; R Projects: <code>$HOME/github</code></li>
+</ol>
+<p><img src="docker-compose.png" /></p>
+<p>None of these paths or docker images are special. You can customize them to your liking.</p>
+<p>I use <code>docker-compose</code> to launch both postgres and RStudio services together. It’s convenient while also ensuring the postgres service runs first followed by RStudio. It’s very easy to get all the services up and pull them down using a few commands.</p>
+</div>
+<div id="first-time-setup" class="section level1">
+<h1>First Time Setup</h1>
+<p>You need to run these steps the first time you’re setting up the postgres database. I’ve stored these steps in <a href="https://github.com/rsangole/postgres/blob/master/00-postgres-init.sh"><code>00-postgres-init.sh</code>.</a></p>
+<div id="directory-setup" class="section level3">
+<h3>Directory Setup</h3>
+<p>You need a directory to store the postgres database in. While I chose <code>$HOME/docker/volumes/postgres</code>, you can choose any directory you’d like. Lines 3-10 take care of this for you:</p>
+<pre class="zsh"><code># create directory if does not exist
+if [ -d &quot;$HOME/docker/volumes/postgres&quot; ] 
+then
+    echo &quot;Directory $HOME/docker/volumes/postgres exists.&quot; 
+else
+    echo &quot;Error: Directory $HOME/docker/volumes/postgres does not exists.&quot;
+    mkdir -p $HOME/docker/volumes/postgres
+fi</code></pre>
+</div>
+<div id="postgres-setup" class="section level3">
+<h3>Postgres Setup</h3>
+<p>Now it’s time to setup the database. You need two steps at a minimum to get started:</p>
+<ol style="list-style-type: decimal">
+<li>A new ‘role’ (akin to a login) with rights to create new databases.</li>
+<li>At least one database to work in. In my script, I’m making two, <code>work</code> and <code>anomaly</code>.</li>
+</ol>
+<p>To manipulate the database, you need a <code>postgres</code> server running to process the <code>psql</code> commands. You’ll launch one using <code>docker run …</code>. You need the correct volume mounted using <code>-v</code>. Next, we create the role and databases by piping <code>psql</code> commands into <code>docker exec ...</code>. Then, we stop the container.</p>
+<pre><code># launch the postgres image called &#39;post_setup&#39;,
+# attach it to the local volume
+docker run --rm --name post_setup \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=docker \
+  -d \
+  -p 5432:5432 \
+  -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data \
+  postgres:13.3
+
+# create a new role, and two databases
+echo &quot;CREATE ROLE rahul WITH PASSWORD &#39;pass&#39; CREATEDB LOGIN;
+CREATE DATABASE work; CREATE DATABASE anomaly;&quot; | \
+ docker exec -i post_setup \
+ psql -U postgres
+
+# stop the docker container
+docker stop post_setup</code></pre>
+</div>
+</div>
+<div id="daily-workflow" class="section level1">
+<h1>Daily Workflow</h1>
+<div id="how-to-get-started" class="section level3">
+<h3>How to get started?</h3>
+<ol style="list-style-type: decimal">
+<li>Store <a href="https://github.com/rsangole/postgres/blob/master/docker-compose.yml"><code>docker-compose.yml</code></a> in a local directory</li>
+<li>Modify it if you’ve changed any of the default images/directories I’ve configured.</li>
+<li>In shell, run <code>docker-compose up -d</code></li>
+</ol>
+<p><em>protip</em>: to launch a browser directly into RStudio as well, run:</p>
+<pre><code>docker-compose up -d; firefox localhost:8787</code></pre>
+</div>
+<div id="breakdown" class="section level3">
+<h3>Breakdown</h3>
+<p>We’re creating two services, one called <code>db</code> and the other <code>rstudio</code>.</p>
+<p>Let’s look at <code>db</code> first. Most of the arguments will look familiar if you’re familiar with <code>docker run</code> args. What’s new here is the <code>restart: unless-stopped</code> arg which tells docker to only start postgres if it’s currently stopped.</p>
+<p><em>Note: change the <code>source</code> directory if you’ve customized it in your setup script above.</em></p>
+<pre><code>version: &quot;3.3&quot;
+services:
+  db:
+    image: postgres:13.3
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: &quot;anomaly&quot;
+      POSTGRES_USER: &quot;rahul&quot;
+      POSTGRES_PASSWORD: &quot;pass&quot;
+    ports:
+      - &quot;5432:5432&quot;
+    volumes:
+      - type: &quot;bind&quot;
+        source: &quot;$HOME/docker/volumes/postgres&quot;
+        target: &quot;/var/lib/postgresql/data&quot;</code></pre>
+<p>Now, the 2nd service called <code>rstudio</code>. Again, typical arguments you would have passed to <code>docker run</code>. The interesting argument here is <code>depends_on</code> which tells docker compose to only run this image <em>after</em> the database is up and running. Fantastic!</p>
+<pre><code>  rstudio:
+    image: hatmatrix/blog:base
+    ports:
+      - &quot;8787:8787&quot;
+      - &quot;3838:3838&quot;
+    environment:
+      DISABLE_AUTH: &quot;true&quot;
+    volumes:
+      - type: &quot;bind&quot;
+        source: &quot;$HOME/github&quot;
+        target: &quot;/home/rstudio&quot;
+    depends_on:
+      - &quot;db&quot;</code></pre>
+</div>
+<div id="connecting-via-r" class="section level2">
+<h2>Connecting via R</h2>
+<p>Use <a href="https://github.com/rsangole/postgres/blob/master/postgres.R"><code>postgres.R</code></a> to test your connection. Run your <code>DBI::</code> commands you would normally, <em>except</em> for one key difference. In the connection object, make sure the name of the <code>host</code> is the name of the database service you’ve chosen in <code>docker-compose.yml</code>.</p>
+<pre><code>con &lt;- DBI::dbConnect(
+  drv = RPostgres::Postgres(),
+  dbname = &quot;anomaly&quot;,
+  host = &quot;db&quot;, # this needs to be the name of the postgres service
+               # (line 3 in docker-compose.yml)
+  user = &quot;rahul&quot;,
+  password = &quot;pass&quot;,
+  port = 5432
+)</code></pre>
+</div>
+</div>
