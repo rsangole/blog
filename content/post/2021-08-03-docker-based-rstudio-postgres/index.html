@@ -15,19 +15,16 @@ output:
 ---
 
 <script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
-<script src="{{< blogdown/postref >}}index_files/twitter-widget/widgets.js"></script>
 
 
-<p>This is part one of the two part post related to Docker, Postgres databases and Anomaly data-sets.</p>
+<p><em>This is part one of the two part post related to Docker, Postgres databases and Anomaly data-sets.</em></p>
 <div id="background" class="section level1">
 <h1>Background</h1>
-<p>In recent LinkedIn posts ( <a href="">Mine</a> and <a href="https://www.linkedin.com/posts/rami-krispin_anomalydetection-data-timeseries-activity-6825126331672612864-MEks">Rami’s Repost</a>) and Tweet, I asked the internet for their favorite datasets for anomaly detection problems, particularly in the time-series domain.</p>
-<blockquote class="twitter-tweet" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">What are some of your favorite publicly available data sets useful for anomaly detection problems? <br><br>I’m interested in applying some ML and DL anomaly detection algorithms to new datasets.<a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://twitter.com/hashtag/datascience?src=hash&amp;ref_src=twsrc%5Etfw">#datascience</a> <a href="https://twitter.com/hashtag/analytics?src=hash&amp;ref_src=twsrc%5Etfw">#analytics</a> <a href="https://twitter.com/hashtag/python?src=hash&amp;ref_src=twsrc%5Etfw">#python</a> <a href="https://twitter.com/hashtag/machinelearning?src=hash&amp;ref_src=twsrc%5Etfw">#machinelearning</a></p>&mdash; Rahul (@rsangole) <a href="https://twitter.com/rsangole/status/1418418477329620993?ref_src=twsrc%5Etfw">July 23, 2021</a></blockquote>
-
-<p>I’ll layout the two posts like so:</p>
+<p>In recent LinkedIn posts (<a href="https://www.linkedin.com/posts/rahulsangole_rstats-datascience-analytics-activity-6824183826877698048-0ImA">mine</a> and <a href="https://www.linkedin.com/posts/rami-krispin_anomalydetection-data-timeseries-activity-6825126331672612864-MEks">Rami’s Repost</a>) and <a href="https://twitter.com/rsangole/status/1418418477329620993">tweets</a>, I asked the internet for their favorite datasets for anomaly detection problems, particularly in the time-series domain. I got lots of responses, and now have a massive amount of data to play with, thank you all!</p>
+<p>To process this data, I wanted to setup my own Postgres server on my linux box. However, I also wanted the entire codebase to be portable &amp; reproducible, so I can replicate it on my Mac as well. I setup everything using Docker and it works fantastic. If you’d like to learn how to do so, follow along my next two posts:</p>
 <ol style="list-style-type: decimal">
-<li>Part I - This post will teach you how to setup a simple reproducible Docker based workflow for a personal Postgres Database with code development in RStudio.</li>
-<li>Part II - This will teach you how to setup your own anomaly database.</li>
+<li>Part I - (this post) Will teach you how to setup a simple reproducible Docker based workflow for a personal Postgres Database + RStudio for code development</li>
+<li>Part II - (near future) Will teach you how to setup your own anomaly database</li>
 </ol>
 </div>
 <div id="why-should-you-read-this" class="section level1">

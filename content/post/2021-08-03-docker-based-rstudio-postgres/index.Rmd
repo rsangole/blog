@@ -20,20 +20,16 @@ library(dplyr)
 library(tweetrmd)
 ```
 
-This is part one of the two part post related to Docker, Postgres databases and Anomaly data-sets.
+_This is part one of the two part post related to Docker, Postgres databases and Anomaly data-sets._
 
 # Background
 
-In recent LinkedIn posts ( [Mine]() and [Rami's Repost](https://www.linkedin.com/posts/rami-krispin_anomalydetection-data-timeseries-activity-6825126331672612864-MEks)) and Tweet, I asked the internet for their favorite datasets for anomaly detection problems, particularly in the time-series domain.
+In recent LinkedIn posts ([mine](https://www.linkedin.com/posts/rahulsangole_rstats-datascience-analytics-activity-6824183826877698048-0ImA) and [Rami's Repost](https://www.linkedin.com/posts/rami-krispin_anomalydetection-data-timeseries-activity-6825126331672612864-MEks)) and [tweets](https://twitter.com/rsangole/status/1418418477329620993), I asked the internet for their favorite datasets for anomaly detection problems, particularly in the time-series domain. I got lots of responses, and now have a massive amount of data to play with, thank you all!
 
-```{r echo=FALSE}
-tweet_embed("https://twitter.com/rsangole/status/1418418477329620993")
-```
+To process this data, I wanted to setup my own Postgres server on my linux box. However, I also wanted the entire codebase to be portable & reproducible, so I can replicate it on my Mac as well. I setup everything using Docker and it works fantastic. If you'd like to learn how to do so, follow along my next two posts:
 
-I'll layout the two posts like so:
-
-1.  Part I - This post will teach you how to setup a simple reproducible Docker based workflow for a personal Postgres Database with code development in RStudio.
-2.  Part II - This will teach you how to setup your own anomaly database.
+1.  Part I - (this post) Will teach you how to setup a simple reproducible Docker based workflow for a personal Postgres Database + RStudio for code development
+2.  Part II - (near future) Will teach you how to setup your own anomaly database
 
 # Why should you read this?
 

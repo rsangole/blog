@@ -16,19 +16,16 @@ output:
 
 
 
-This is part one of the two part post related to Docker, Postgres databases and Anomaly data-sets.
+_This is part one of the two part post related to Docker, Postgres databases and Anomaly data-sets._
 
 # Background
 
-In recent LinkedIn posts ( [Mine]() and [Rami's Repost](https://www.linkedin.com/posts/rami-krispin_anomalydetection-data-timeseries-activity-6825126331672612864-MEks)) and Tweet, I asked the internet for their favorite datasets for anomaly detection problems, particularly in the time-series domain.
+In recent LinkedIn posts ([mine](https://www.linkedin.com/posts/rahulsangole_rstats-datascience-analytics-activity-6824183826877698048-0ImA) and [Rami's Repost](https://www.linkedin.com/posts/rami-krispin_anomalydetection-data-timeseries-activity-6825126331672612864-MEks)) and [tweets](https://twitter.com/rsangole/status/1418418477329620993), I asked the internet for their favorite datasets for anomaly detection problems, particularly in the time-series domain. I got lots of responses, and now have a massive amount of data to play with, thank you all!
 
-<!--html_preserve--><blockquote class="twitter-tweet" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">What are some of your favorite publicly available data sets useful for anomaly detection problems? <br><br>I’m interested in applying some ML and DL anomaly detection algorithms to new datasets.<a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://twitter.com/hashtag/datascience?src=hash&amp;ref_src=twsrc%5Etfw">#datascience</a> <a href="https://twitter.com/hashtag/analytics?src=hash&amp;ref_src=twsrc%5Etfw">#analytics</a> <a href="https://twitter.com/hashtag/python?src=hash&amp;ref_src=twsrc%5Etfw">#python</a> <a href="https://twitter.com/hashtag/machinelearning?src=hash&amp;ref_src=twsrc%5Etfw">#machinelearning</a></p>&mdash; Rahul (@rsangole) <a href="https://twitter.com/rsangole/status/1418418477329620993?ref_src=twsrc%5Etfw">July 23, 2021</a></blockquote>
-<!--/html_preserve-->
+To process this data, I wanted to setup my own Postgres server on my linux box. However, I also wanted the entire codebase to be portable & reproducible, so I can replicate it on my Mac as well. I setup everything using Docker and it works fantastic. If you'd like to learn how to do so, follow along my next two posts:
 
-I'll layout the two posts like so:
-
-1.  Part I - This post will teach you how to setup a simple reproducible Docker based workflow for a personal Postgres Database with code development in RStudio.
-2.  Part II - This will teach you how to setup your own anomaly database.
+1.  Part I - (this post) Will teach you how to setup a simple reproducible Docker based workflow for a personal Postgres Database + RStudio for code development
+2.  Part II - (near future) Will teach you how to setup your own anomaly database
 
 # Why should you read this?
 
