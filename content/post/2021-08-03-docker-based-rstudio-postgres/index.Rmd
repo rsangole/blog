@@ -124,6 +124,7 @@ Let's look at `db` first. Most of the arguments will look familiar if you're fam
 
 *Note: change the `source` directory if you've customized it in your setup script above.*
 
+```yml
     version: "3.3"
     services:
       db:
@@ -139,6 +140,7 @@ Let's look at `db` first. Most of the arguments will look familiar if you're fam
           - type: "bind"
             source: "$HOME/docker/volumes/postgres"
             target: "/var/lib/postgresql/data"
+```
 
 Now, the 2nd service called `rstudio`. Again, typical arguments you would have passed to `docker run`. The interesting argument here is `depends_on` which tells docker compose to only run this image *after* the database is up and running. Fantastic!
 

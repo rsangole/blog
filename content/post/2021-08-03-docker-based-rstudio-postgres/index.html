@@ -108,21 +108,21 @@ docker stop post_setup</code></pre>
 <p>We’re creating two services, one called <code>db</code> and the other <code>rstudio</code>.</p>
 <p>Let’s look at <code>db</code> first. Most of the arguments will look familiar if you’re familiar with <code>docker run</code> args. What’s new here is the <code>restart: unless-stopped</code> arg which tells docker to only start postgres if it’s currently stopped.</p>
 <p><em>Note: change the <code>source</code> directory if you’ve customized it in your setup script above.</em></p>
-<pre><code>version: &quot;3.3&quot;
-services:
-  db:
-    image: postgres:13.3
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: &quot;anomaly&quot;
-      POSTGRES_USER: &quot;rahul&quot;
-      POSTGRES_PASSWORD: &quot;pass&quot;
-    ports:
-      - &quot;5432:5432&quot;
-    volumes:
-      - type: &quot;bind&quot;
-        source: &quot;$HOME/docker/volumes/postgres&quot;
-        target: &quot;/var/lib/postgresql/data&quot;</code></pre>
+<pre class="yml"><code>    version: &quot;3.3&quot;
+    services:
+      db:
+        image: postgres:13.3
+        restart: unless-stopped
+        environment:
+          POSTGRES_DB: &quot;anomaly&quot;
+          POSTGRES_USER: &quot;rahul&quot;
+          POSTGRES_PASSWORD: &quot;pass&quot;
+        ports:
+          - &quot;5432:5432&quot;
+        volumes:
+          - type: &quot;bind&quot;
+            source: &quot;$HOME/docker/volumes/postgres&quot;
+            target: &quot;/var/lib/postgresql/data&quot;</code></pre>
 <p>Now, the 2nd service called <code>rstudio</code>. Again, typical arguments you would have passed to <code>docker run</code>. The interesting argument here is <code>depends_on</code> which tells docker compose to only run this image <em>after</em> the database is up and running. Fantastic!</p>
 <pre class="yml"><code>      rstudio:
         image: hatmatrix/blog:base
