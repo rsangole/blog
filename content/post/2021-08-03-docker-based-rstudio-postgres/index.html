@@ -101,7 +101,7 @@ docker stop post_setup</code></pre>
 <li>In shell, run <code>docker-compose up -d</code></li>
 </ol>
 <p><em>protip</em>: to launch a browser directly into RStudio as well, run:</p>
-<pre><code>docker-compose up -d; firefox localhost:8787</code></pre>
+<pre class="zsh"><code>docker-compose up -d; firefox localhost:8787</code></pre>
 </div>
 <div id="breakdown" class="section level3">
 <h3>Breakdown</h3>
@@ -124,19 +124,19 @@ services:
         source: &quot;$HOME/docker/volumes/postgres&quot;
         target: &quot;/var/lib/postgresql/data&quot;</code></pre>
 <p>Now, the 2nd service called <code>rstudio</code>. Again, typical arguments you would have passed to <code>docker run</code>. The interesting argument here is <code>depends_on</code> which tells docker compose to only run this image <em>after</em> the database is up and running. Fantastic!</p>
-<pre><code>  rstudio:
-    image: hatmatrix/blog:base
-    ports:
-      - &quot;8787:8787&quot;
-      - &quot;3838:3838&quot;
-    environment:
-      DISABLE_AUTH: &quot;true&quot;
-    volumes:
-      - type: &quot;bind&quot;
-        source: &quot;$HOME/github&quot;
-        target: &quot;/home/rstudio&quot;
-    depends_on:
-      - &quot;db&quot;</code></pre>
+<pre class="yml"><code>      rstudio:
+        image: hatmatrix/blog:base
+        ports:
+          - &quot;8787:8787&quot;
+          - &quot;3838:3838&quot;
+        environment:
+          DISABLE_AUTH: &quot;true&quot;
+        volumes:
+          - type: &quot;bind&quot;
+            source: &quot;$HOME/github&quot;
+            target: &quot;/home/rstudio&quot;
+        depends_on:
+          - &quot;db&quot;</code></pre>
 </div>
 <div id="connecting-via-r" class="section level2">
 <h2>Connecting via R</h2>

@@ -108,7 +108,9 @@ To manipulate the database, you need a `postgres` server running to process the 
 
 *protip*: to launch a browser directly into RStudio as well, run:
 
-    docker-compose up -d; firefox localhost:8787
+```{.zsh}
+docker-compose up -d; firefox localhost:8787
+```
 
 ### Breakdown
 
@@ -136,6 +138,7 @@ Let's look at `db` first. Most of the arguments will look familiar if you're fam
 
 Now, the 2nd service called `rstudio`. Again, typical arguments you would have passed to `docker run`. The interesting argument here is `depends_on` which tells docker compose to only run this image *after* the database is up and running. Fantastic!
 
+```yml
       rstudio:
         image: hatmatrix/blog:base
         ports:
@@ -149,6 +152,7 @@ Now, the 2nd service called `rstudio`. Again, typical arguments you would have p
             target: "/home/rstudio"
         depends_on:
           - "db"
+```
 
 ## Connecting via R
 
