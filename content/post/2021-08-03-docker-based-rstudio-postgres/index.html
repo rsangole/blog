@@ -142,7 +142,7 @@ services:
 <h2>Connecting via R</h2>
 <p>Use <a href="https://github.com/rsangole/postgres/blob/master/postgres.R"><code>postgres.R</code></a> to test your connection. Run your <code>DBI::</code> commands you would normally, <em>except</em> for one key difference.</p>
 <p>In the connection object, make sure the name of the <code>host</code> is the name of the database service you’ve chosen in <code>docker-compose.yml</code>. (Outside docker, you would typically use ‘localhost’ to connect to a local postgres server).</p>
-<pre><code>con &lt;- DBI::dbConnect(
+<pre class="r"><code>con &lt;- DBI::dbConnect(
   drv = RPostgres::Postgres(),
   dbname = &quot;anomaly&quot;,
   host = &quot;db&quot;, # this needs to be the name of the postgres service
