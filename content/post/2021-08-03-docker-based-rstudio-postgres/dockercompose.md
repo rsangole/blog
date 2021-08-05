@@ -156,15 +156,17 @@ Use [`postgres.R`](https://github.com/rsangole/postgres/blob/master/postgres.R) 
 
 In the connection object, make sure the name of the `host` is the name of the database service you've chosen in `docker-compose.yml`. (Outside docker, you would typically use 'localhost' to connect to a local postgres server).
 
-    con <- DBI::dbConnect(
-      drv = RPostgres::Postgres(),
-      dbname = "anomaly",
-      host = "db", # this needs to be the name of the postgres service
-                   # (line 3 in docker-compose.yml)
-      user = "rahul",
-      password = "pass",
-      port = 5432
-    )
+```r
+con <- DBI::dbConnect(
+  drv = RPostgres::Postgres(),
+  dbname = "anomaly",
+  host = "db", # this needs to be the name of the postgres service
+               # (line 3 in docker-compose.yml)
+  user = "rahul",
+  password = "pass",
+  port = 5432
+)
+```
 
 That's it! You're off to the races now. Use the DB as you normally would using [`{DBI}`](https://dbi.r-dbi.org/).
 
