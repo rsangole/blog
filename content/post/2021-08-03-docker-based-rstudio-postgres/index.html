@@ -140,7 +140,8 @@ services:
 </div>
 <div id="connecting-via-r" class="section level2">
 <h2>Connecting via R</h2>
-<p>Use <a href="https://github.com/rsangole/postgres/blob/master/postgres.R"><code>postgres.R</code></a> to test your connection. Run your <code>DBI::</code> commands you would normally, <em>except</em> for one key difference. In the connection object, make sure the name of the <code>host</code> is the name of the database service you’ve chosen in <code>docker-compose.yml</code>.</p>
+<p>Use <a href="https://github.com/rsangole/postgres/blob/master/postgres.R"><code>postgres.R</code></a> to test your connection. Run your <code>DBI::</code> commands you would normally, <em>except</em> for one key difference.</p>
+<p>In the connection object, make sure the name of the <code>host</code> is the name of the database service you’ve chosen in <code>docker-compose.yml</code>. (Outside docker, you would typically use ‘localhost’ to connect to a local postgres server).</p>
 <pre><code>con &lt;- DBI::dbConnect(
   drv = RPostgres::Postgres(),
   dbname = &quot;anomaly&quot;,
@@ -150,5 +151,16 @@ services:
   password = &quot;pass&quot;,
   port = 5432
 )</code></pre>
+<p>That’s it! You’re off to the races now. Use the DB as you normally would using <a href="https://dbi.r-dbi.org/"><code>{DBI}</code></a>.</p>
+<pre class="r"><code>con %&gt;% DBI::dbListTables()
+con %&gt;% dplyr::tbl(&quot;table_name&quot;)</code></pre>
+</div>
+<div id="to-stop-services" class="section level2">
+<h2>To Stop Services</h2>
+<p>You have two options here:</p>
+<ol style="list-style-type: decimal">
+<li><code>docker-compose stop</code> will stop the services, which you can restart using <code>docker-compose start</code>.</li>
+<li><code>docker-compose down</code> will and remove containers as well. Run <code>docker-compose up</code> to get going once again.</li>
+</ol>
 </div>
 </div>

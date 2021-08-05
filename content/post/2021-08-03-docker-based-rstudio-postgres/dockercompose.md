@@ -152,7 +152,9 @@ Now, the 2nd service called `rstudio`. Again, typical arguments you would have p
 
 ## Connecting via R
 
-Use [`postgres.R`](https://github.com/rsangole/postgres/blob/master/postgres.R) to test your connection. Run your `DBI::` commands you would normally, *except* for one key difference. In the connection object, make sure the name of the `host` is the name of the database service you've chosen in `docker-compose.yml`.
+Use [`postgres.R`](https://github.com/rsangole/postgres/blob/master/postgres.R) to test your connection. Run your `DBI::` commands you would normally, *except* for one key difference. 
+
+In the connection object, make sure the name of the `host` is the name of the database service you've chosen in `docker-compose.yml`. (Outside docker, you would typically use 'localhost' to connect to a local postgres server).
 
     con <- DBI::dbConnect(
       drv = RPostgres::Postgres(),
@@ -163,3 +165,17 @@ Use [`postgres.R`](https://github.com/rsangole/postgres/blob/master/postgres.R) 
       password = "pass",
       port = 5432
     )
+
+That's it! You're off to the races now. Use the DB as you normally would using [`{DBI}`](https://dbi.r-dbi.org/).
+
+```r
+con %>% DBI::dbListTables()
+con %>% dplyr::tbl("table_name")
+```
+
+## To Stop Services
+
+You have two options here:
+
+1. `docker-compose stop` will stop the services, which you can restart using `docker-compose start`.
+1. `docker-compose down` will and remove containers as well. Run `docker-compose up` to get going once again.
