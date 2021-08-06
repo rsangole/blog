@@ -59,7 +59,7 @@ You need to run these steps the first time you're setting up the postgres databa
 
 You need a directory to store the postgres database in. While I chose `$HOME/docker/volumes/postgres`, you can choose any directory you'd like. Lines 3-10 take care of this for you:
 
-``` {.sh}
+```sh
 # create directory if does not exist
 if [ -d "$HOME/docker/volumes/postgres" ] 
 then
@@ -79,7 +79,7 @@ Now it's time to setup the database. You need two steps at a minimum to get star
 
 To manipulate the database, you need a `postgres` server running to process the `psql` commands. You'll launch one using `docker run …`. You need the correct volume mounted using `-v`. Next, we create the role and databases by piping `psql` commands into `docker exec ...`. Then, we stop the container.
 
-``` {.sh}
+```sh
 # launch the postgres image called 'post_setup',
 # attach it to the local volume
 docker run --rm --name post_setup \
@@ -110,13 +110,13 @@ docker stop post_setup
 
 *protip*: to launch a browser directly into RStudio as well, run this command in the directory where you have `docker-compose.yml`:
 
-``` {.zsh}
+```zsh
 docker-compose up -d; firefox localhost:8787
 ```
 
-*protip*: save this as an alias and generalize it. The `-f` arg tells `docker-compose` explicitely which file you'd like to use. Now `dcuf` can be run from anywhere in the system. 
+*pro-protip*: save this as an alias and generalize it. The `-f` arg tells `docker-compose` explicitely which file you'd like to use. Now `dcuf` can be run from anywhere in the system. 
 
-```{.zsh}
+```zsh
 alias dcuf='docker-compose -f $HOME/github/docker/docker-compose.yml up -d; firefox localhost:8787' 
 ```
 
@@ -128,7 +128,7 @@ Let's look at `db` first. Most of the arguments will look familiar if you're fam
 
 *Note: change the `source` directory if you've customized it in your setup script above.*
 
-``` {.yml}
+```yml
 version: "3.3"
 services:
   db:
@@ -148,7 +148,7 @@ services:
 
 Now, the 2nd service called `rstudio`. Again, typical arguments you would have passed to `docker run`. The interesting argument here is `depends_on` which tells docker compose to only run this image *after* the database is up and running. Fantastic!
 
-``` {.yml}
+```yml
   rstudio:
     image: hatmatrix/blog:base
     ports:

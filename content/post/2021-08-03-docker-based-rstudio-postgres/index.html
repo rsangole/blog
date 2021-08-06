@@ -102,7 +102,7 @@ docker stop post_setup</code></pre>
 </ol>
 <p><em>protip</em>: to launch a browser directly into RStudio as well, run this command in the directory where you have <code>docker-compose.yml</code>:</p>
 <pre class="zsh"><code>docker-compose up -d; firefox localhost:8787</code></pre>
-<p><em>protip</em>: save this as an alias and generalize it. The <code>-f</code> arg tells <code>docker-compose</code> explicitely which file you’d like to use. Now <code>dcuf</code> can be run from anywhere in the system.</p>
+<p><em>pro-protip</em>: save this as an alias and generalize it. The <code>-f</code> arg tells <code>docker-compose</code> explicitely which file you’d like to use. Now <code>dcuf</code> can be run from anywhere in the system.</p>
 <pre class="zsh"><code>alias dcuf=&#39;docker-compose -f $HOME/github/docker/docker-compose.yml up -d; firefox localhost:8787&#39; </code></pre>
 </div>
 <div id="breakdown" class="section level3">
