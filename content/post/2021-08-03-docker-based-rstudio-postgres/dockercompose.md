@@ -16,7 +16,7 @@ output:
 
 
 
-_This is part one of the two part post related to Docker, Postgres databases and Anomaly data-sets._
+*This is part one of the two part post related to Docker, Postgres databases and Anomaly data-sets.*
 
 # Background
 
@@ -59,7 +59,7 @@ You need to run these steps the first time you're setting up the postgres databa
 
 You need a directory to store the postgres database in. While I chose `$HOME/docker/volumes/postgres`, you can choose any directory you'd like. Lines 3-10 take care of this for you:
 
-``` {.zsh}
+``` {.sh}
 # create directory if does not exist
 if [ -d "$HOME/docker/volumes/postgres" ] 
 then
@@ -79,37 +79,45 @@ Now it's time to setup the database. You need two steps at a minimum to get star
 
 To manipulate the database, you need a `postgres` server running to process the `psql` commands. You'll launch one using `docker run …`. You need the correct volume mounted using `-v`. Next, we create the role and databases by piping `psql` commands into `docker exec ...`. Then, we stop the container.
 
-    # launch the postgres image called 'post_setup',
-    # attach it to the local volume
-    docker run --rm --name post_setup \
-      -e POSTGRES_USER=postgres \
-      -e POSTGRES_PASSWORD=docker \
-      -d \
-      -p 5432:5432 \
-      -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data \
-      postgres:13.3
+``` {.sh}
+# launch the postgres image called 'post_setup',
+# attach it to the local volume
+docker run --rm --name post_setup \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=docker \
+  -d \
+  -p 5432:5432 \
+  -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data \
+  postgres:13.3
 
-    # create a new role, and two databases
-    echo "CREATE ROLE rahul WITH PASSWORD 'pass' CREATEDB LOGIN;
-    CREATE DATABASE work; CREATE DATABASE anomaly;" | \
-     docker exec -i post_setup \
-     psql -U postgres
+# create a new role, and two databases
+echo "CREATE ROLE rahul WITH PASSWORD 'pass' CREATEDB LOGIN;
+CREATE DATABASE work; CREATE DATABASE anomaly;" | \
+ docker exec -i post_setup \
+ psql -U postgres
 
-    # stop the docker container
-    docker stop post_setup
+# stop the docker container
+docker stop post_setup
+```
 
 # Daily Workflow
 
-### How to get started? 
+### How to get started?
 
 1.  Store [`docker-compose.yml`](https://github.com/rsangole/postgres/blob/master/docker-compose.yml) in a local directory
 2.  Modify it if you've changed any of the default images/directories I've configured.
 3.  In shell, run `docker-compose up -d`
 
-*protip*: to launch a browser directly into RStudio as well, run:
+*protip*: to launch a browser directly into RStudio as well, run this command in the directory where you have `docker-compose.yml`:
+
+``` {.zsh}
+docker-compose up -d; firefox localhost:8787
+```
+
+*protip*: save this as an alias and generalize it. The `-f` arg tells `docker-compose` explicitely which file you'd like to use. Now `dcuf` can be run from anywhere in the system. 
 
 ```{.zsh}
-docker-compose up -d; firefox localhost:8787
+alias dcuf='docker-compose -f $HOME/github/docker/docker-compose.yml up -d; firefox localhost:8787' 
 ```
 
 ### Breakdown
@@ -120,49 +128,49 @@ Let's look at `db` first. Most of the arguments will look familiar if you're fam
 
 *Note: change the `source` directory if you've customized it in your setup script above.*
 
-```yml
-    version: "3.3"
-    services:
-      db:
-        image: postgres:13.3
-        restart: unless-stopped
-        environment:
-          POSTGRES_DB: "anomaly"
-          POSTGRES_USER: "rahul"
-          POSTGRES_PASSWORD: "pass"
-        ports:
-          - "5432:5432"
-        volumes:
-          - type: "bind"
-            source: "$HOME/docker/volumes/postgres"
-            target: "/var/lib/postgresql/data"
+``` {.yml}
+version: "3.3"
+services:
+  db:
+    image: postgres:13.3
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "anomaly"
+      POSTGRES_USER: "rahul"
+      POSTGRES_PASSWORD: "pass"
+    ports:
+      - "5432:5432"
+    volumes:
+      - type: "bind"
+        source: "$HOME/docker/volumes/postgres"
+        target: "/var/lib/postgresql/data"
 ```
 
 Now, the 2nd service called `rstudio`. Again, typical arguments you would have passed to `docker run`. The interesting argument here is `depends_on` which tells docker compose to only run this image *after* the database is up and running. Fantastic!
 
-```yml
-      rstudio:
-        image: hatmatrix/blog:base
-        ports:
-          - "8787:8787"
-          - "3838:3838"
-        environment:
-          DISABLE_AUTH: "true"
-        volumes:
-          - type: "bind"
-            source: "$HOME/github"
-            target: "/home/rstudio"
-        depends_on:
-          - "db"
+``` {.yml}
+  rstudio:
+    image: hatmatrix/blog:base
+    ports:
+      - "8787:8787"
+      - "3838:3838"
+    environment:
+      DISABLE_AUTH: "true"
+    volumes:
+      - type: "bind"
+        source: "$HOME/github"
+        target: "/home/rstudio"
+    depends_on:
+      - "db"
 ```
 
 ## Connecting via R
 
-Use [`postgres.R`](https://github.com/rsangole/postgres/blob/master/postgres.R) to test your connection. Run your `DBI::` commands you would normally, *except* for one key difference. 
+Use [`postgres.R`](https://github.com/rsangole/postgres/blob/master/postgres.R) to test your connection. Run your `DBI::` commands you would normally, *except* for one key difference.
 
 In the connection object, make sure the name of the `host` is the name of the database service you've chosen in `docker-compose.yml`. (Outside docker, you would typically use 'localhost' to connect to a local postgres server).
 
-```r
+``` {.r}
 con <- DBI::dbConnect(
   drv = RPostgres::Postgres(),
   dbname = "anomaly",
@@ -176,7 +184,7 @@ con <- DBI::dbConnect(
 
 That's it! You're off to the races now. Use the DB as you normally would using [`{DBI}`](https://dbi.r-dbi.org/).
 
-```r
+``` {.r}
 con %>% DBI::dbListTables()
 con %>% dplyr::tbl("table_name")
 ```
@@ -185,5 +193,5 @@ con %>% dplyr::tbl("table_name")
 
 You have two options here:
 
-1. `docker-compose stop` will stop the services, which you can restart using `docker-compose start`.
-1. `docker-compose down` will and remove containers as well. Run `docker-compose up` to get going once again.
+1.  `docker-compose stop` will stop the services, which you can restart using `docker-compose start`.
+2.  `docker-compose down` will and remove containers as well. Run `docker-compose up` to get going once again.

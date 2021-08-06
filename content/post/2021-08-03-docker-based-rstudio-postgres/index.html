@@ -54,7 +54,7 @@ output:
 <div id="directory-setup" class="section level3">
 <h3>Directory Setup</h3>
 <p>You need a directory to store the postgres database in. While I chose <code>$HOME/docker/volumes/postgres</code>, you can choose any directory you’d like. Lines 3-10 take care of this for you:</p>
-<pre class="zsh"><code># create directory if does not exist
+<pre class="sh"><code># create directory if does not exist
 if [ -d &quot;$HOME/docker/volumes/postgres&quot; ] 
 then
     echo &quot;Directory $HOME/docker/volumes/postgres exists.&quot; 
@@ -71,7 +71,7 @@ fi</code></pre>
 <li>At least one database to work in. In my script, I’m making two, <code>work</code> and <code>anomaly</code>.</li>
 </ol>
 <p>To manipulate the database, you need a <code>postgres</code> server running to process the <code>psql</code> commands. You’ll launch one using <code>docker run …</code>. You need the correct volume mounted using <code>-v</code>. Next, we create the role and databases by piping <code>psql</code> commands into <code>docker exec ...</code>. Then, we stop the container.</p>
-<pre><code># launch the postgres image called &#39;post_setup&#39;,
+<pre class="sh"><code># launch the postgres image called &#39;post_setup&#39;,
 # attach it to the local volume
 docker run --rm --name post_setup \
   -e POSTGRES_USER=postgres \
@@ -100,43 +100,45 @@ docker stop post_setup</code></pre>
 <li>Modify it if you’ve changed any of the default images/directories I’ve configured.</li>
 <li>In shell, run <code>docker-compose up -d</code></li>
 </ol>
-<p><em>protip</em>: to launch a browser directly into RStudio as well, run:</p>
+<p><em>protip</em>: to launch a browser directly into RStudio as well, run this command in the directory where you have <code>docker-compose.yml</code>:</p>
 <pre class="zsh"><code>docker-compose up -d; firefox localhost:8787</code></pre>
+<p><em>protip</em>: save this as an alias and generalize it. The <code>-f</code> arg tells <code>docker-compose</code> explicitely which file you’d like to use. Now <code>dcuf</code> can be run from anywhere in the system.</p>
+<pre class="zsh"><code>alias dcuf=&#39;docker-compose -f $HOME/github/docker/docker-compose.yml up -d; firefox localhost:8787&#39; </code></pre>
 </div>
 <div id="breakdown" class="section level3">
 <h3>Breakdown</h3>
 <p>We’re creating two services, one called <code>db</code> and the other <code>rstudio</code>.</p>
 <p>Let’s look at <code>db</code> first. Most of the arguments will look familiar if you’re familiar with <code>docker run</code> args. What’s new here is the <code>restart: unless-stopped</code> arg which tells docker to only start postgres if it’s currently stopped.</p>
 <p><em>Note: change the <code>source</code> directory if you’ve customized it in your setup script above.</em></p>
-<pre class="yml"><code>    version: &quot;3.3&quot;
-    services:
-      db:
-        image: postgres:13.3
-        restart: unless-stopped
-        environment:
-          POSTGRES_DB: &quot;anomaly&quot;
-          POSTGRES_USER: &quot;rahul&quot;
-          POSTGRES_PASSWORD: &quot;pass&quot;
-        ports:
-          - &quot;5432:5432&quot;
-        volumes:
-          - type: &quot;bind&quot;
-            source: &quot;$HOME/docker/volumes/postgres&quot;
-            target: &quot;/var/lib/postgresql/data&quot;</code></pre>
+<pre class="yml"><code>version: &quot;3.3&quot;
+services:
+  db:
+    image: postgres:13.3
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: &quot;anomaly&quot;
+      POSTGRES_USER: &quot;rahul&quot;
+      POSTGRES_PASSWORD: &quot;pass&quot;
+    ports:
+      - &quot;5432:5432&quot;
+    volumes:
+      - type: &quot;bind&quot;
+        source: &quot;$HOME/docker/volumes/postgres&quot;
+        target: &quot;/var/lib/postgresql/data&quot;</code></pre>
 <p>Now, the 2nd service called <code>rstudio</code>. Again, typical arguments you would have passed to <code>docker run</code>. The interesting argument here is <code>depends_on</code> which tells docker compose to only run this image <em>after</em> the database is up and running. Fantastic!</p>
-<pre class="yml"><code>      rstudio:
-        image: hatmatrix/blog:base
-        ports:
-          - &quot;8787:8787&quot;
-          - &quot;3838:3838&quot;
-        environment:
-          DISABLE_AUTH: &quot;true&quot;
-        volumes:
-          - type: &quot;bind&quot;
-            source: &quot;$HOME/github&quot;
-            target: &quot;/home/rstudio&quot;
-        depends_on:
-          - &quot;db&quot;</code></pre>
+<pre class="yml"><code>  rstudio:
+    image: hatmatrix/blog:base
+    ports:
+      - &quot;8787:8787&quot;
+      - &quot;3838:3838&quot;
+    environment:
+      DISABLE_AUTH: &quot;true&quot;
+    volumes:
+      - type: &quot;bind&quot;
+        source: &quot;$HOME/github&quot;
+        target: &quot;/home/rstudio&quot;
+    depends_on:
+      - &quot;db&quot;</code></pre>
 </div>
 <div id="connecting-via-r" class="section level2">
 <h2>Connecting via R</h2>
