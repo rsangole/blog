@@ -1,5 +1,7 @@
 public/
 blogdown/
+.config/
+.local/
 
 # History files
 .Rhistory
