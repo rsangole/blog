@@ -14,10 +14,6 @@ output:
     toc_depth: 1
 ---
 
-```{r setup, include=FALSE}
-library(dplyr)
-```
-
 *This is part one of the two part post related to Docker, PostgreSQL databases and Anomaly data-sets.*
 
 # Background
