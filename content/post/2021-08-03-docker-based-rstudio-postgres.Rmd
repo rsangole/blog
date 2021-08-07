@@ -49,7 +49,7 @@ To permanently store your data beyond the life of the containers, you will mount
 1.  For PostgreSQL: `$HOME/docker/volumes/postgres`
 2.  For R Projects: `$HOME/github`
 
-![](docker-compose.png)
+![](/post/docker-compose.png)
 
 None of these paths, except for the in-container PostgreSQL are special; you can customize the others to your liking. By default, `postgres:13.3` expects the database to be at `/var/lib/postgresql/data`. If you choose another database, modify this accordingly.
 

@@ -12,12 +12,27 @@ main ul span { color:slategray;width:5.5em;margin-left:-5.5em;display:inline-blo
 </style>
 
 <ul>
-  {{ range (where .Data.Pages "Section" "!=" "") }}
-  <li>
-    <span>{{ .Date.Format "2006/01/02" }}</span>
-    <a href="{{ .URL }}">{{ .Title }}</a>
-  </li>
+  {{ $pages := .Pages }}
+  {{ if .IsHome }}{{ $pages = .Site.RegularPages }}{{ end }}
+  
+  {{ if .IsHome }}
+    <i>Latest posts...</i><br>
+    {{ range first 6 (where $pages "Section" "!=" "") }}
+    <li>
+      <span>{{ .Date.Format "2006/01/02" }}</span>
+      <a href="{{ .URL }}">{{ .Title }}</a>
+    </li>
+    {{ end }}
+    ...
+  {{ else }}
+    {{ range (where $pages "Section" "!=" "") }}
+    <li>
+      <span>{{ .Date.Format "2006/01/02" }}</span>
+      <a href="{{ .URL }}">{{ .Title }}</a>
+    </li>
+    {{ end }}
   {{ end }}
+  
 </ul>
 
 </article>
