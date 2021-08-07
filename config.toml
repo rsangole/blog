@@ -28,3 +28,8 @@ enableEmoji = true
     dateFormat = "2006-01-02"
     description = "data science blog by rahul sangole"
     footer = "&copy; rahul s 2020 | [Github](https://www.github.com/rsangole)"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
