@@ -49,7 +49,13 @@ To permanently store your data beyond the life of the containers, you will mount
 1.  For PostgreSQL: `$HOME/docker/volumes/postgres`
 2.  For R Projects: `$HOME/github`
 
-![](/post/docker-compose.png)
+![](/post/docker-compose.png)[^3]
+
+[^3]: 
+<div>DB icon by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a></div>
+<div>Folder icon by <a href="https://www.flaticon.com/authors/icongeek26" title="Icongeek26">Icongeek26</a></div>
+<div>RAM icon by <a href="https://www.freepik.com" title="Freepik">Freepik</a></div>
+<div>Storage icon by <a href="https://smashicons.com/" title="Smashicons">Smashicons</a></div>
 
 None of these paths, except for the in-container PostgreSQL are special; you can customize the others to your liking. By default, `postgres:13.3` expects the database to be at `/var/lib/postgresql/data`. If you choose another database, modify this accordingly.
 
@@ -63,7 +69,7 @@ You need to run these steps the first time you're setting up the PostgreSQL data
 
 You need a local directory to store the PostgreSQL database in. Lines 3-10 take care of this for you.
 
-``` sh
+``` {.sh}
 # create directory if does not exist
 if [ -d "$HOME/docker/volumes/postgres" ] 
 then
@@ -83,7 +89,7 @@ Now it's time to setup the database. You need two steps at a minimum to get star
 
 To manipulate the database, you need a PostgreSQL server running to process the `psql` commands. You'll launch one using `docker run`. You need the correct volume mounted using `-v`. Next, we create the role and databases by piping `psql` commands into `docker exec`. Then, we stop the container.
 
-``` sh
+``` {.sh}
 # launch the postgres image called 'post_setup',
 # attach it to the local volume
 docker run --rm --name post_setup \
@@ -106,9 +112,9 @@ docker stop post_setup
 
 In summary, now I have a PostgresSQL database:
 
-- stored at `$HOME/docker/volumes/postgres`
-- with a new role `rahul` and password `pass`
-- with 2 databases: `work` and `anomaly`
+-   stored at `$HOME/docker/volumes/postgres`
+-   with a new role `rahul` and password `pass`
+-   with 2 databases: `work` and `anomaly`
 
 # Daily Workflow
 
@@ -120,13 +126,13 @@ In summary, now I have a PostgresSQL database:
 
 *protip*: to launch a browser (firefox for me) directly into RStudio as well, run this command in the directory where you have `docker-compose.yml`:
 
-``` zsh
+``` {.zsh}
 docker-compose up -d; firefox localhost:8787
 ```
 
 *pro-protip*: save an alias and generalize the command. The `-f` arg instructs `docker-compose` which file you'd like to use. Now [`engage`](https://www.youtube.com/watch?v=0yBoY1SQA5A) can be run from anywhere in the system.
 
-``` zsh
+``` {.zsh}
 alias engage='docker-compose \
             -f $HOME/github/docker/docker-compose.yml \
             up -d; firefox localhost:8787' 
@@ -134,13 +140,13 @@ alias engage='docker-compose \
 
 ### The breakdown
 
-What's in [`docker-compose.yml`](https://github.com/rsangole/postgres/blob/master/docker-compose.yml)? We're creating two services, one called `db` and the other `rstudio`.[^3]
+What's in [`docker-compose.yml`](https://github.com/rsangole/postgres/blob/master/docker-compose.yml)? We're creating two services, one called `db` and the other `rstudio`.[^4]
 
-[^3]: These are just labels, you can call them what you'd like
+[^4]: These are just labels, you can call them what you'd like
 
 Let's look at `db` first. Most of the arguments will look familiar if you're familiar with `docker run` args. What's new here is the `restart: unless-stopped` arg which tells Docker to only start PostgreSQL if it's currently stopped.
 
-``` yml
+``` {.yml}
 version: "3.3"
 services:
   db:
@@ -160,7 +166,7 @@ services:
 
 The 2nd service is `rstudio`. Apart from the typical args, the interesting arg here is `depends_on` which tells Docker to only run this image *after* the database is up and running. Fantastic!
 
-``` yml
+``` {.yml}
   rstudio:
     image: hatmatrix/blog:base
     ports:

@@ -54,7 +54,7 @@ output:
 <li>For PostgreSQL: <code>$HOME/docker/volumes/postgres</code></li>
 <li>For R Projects: <code>$HOME/github</code></li>
 </ol>
-<p><img src="/post/docker-compose.png" /></p>
+<p><img src="/post/docker-compose.png" /><a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
 <p>None of these paths, except for the in-container PostgreSQL are special; you can customize the others to your liking. By default, <code>postgres:13.3</code> expects the database to be at <code>/var/lib/postgresql/data</code>. If you choose another database, modify this accordingly.</p>
 <p>I use <code>docker-compose</code> to launch both PostgreSQL and RStudio services together. It’s convenient while also ensuring the PostgreSQL service runs first followed by RStudio. It’s easy to start or stop all the services using just a few commands.</p>
 </div>
@@ -125,7 +125,7 @@ docker stop post_setup</code></pre>
 </div>
 <div id="the-breakdown" class="section level3">
 <h3>The breakdown</h3>
-<p>What’s in <a href="https://github.com/rsangole/postgres/blob/master/docker-compose.yml"><code>docker-compose.yml</code></a>? We’re creating two services, one called <code>db</code> and the other <code>rstudio</code>.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+<p>What’s in <a href="https://github.com/rsangole/postgres/blob/master/docker-compose.yml"><code>docker-compose.yml</code></a>? We’re creating two services, one called <code>db</code> and the other <code>rstudio</code>.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
 <p>Let’s look at <code>db</code> first. Most of the arguments will look familiar if you’re familiar with <code>docker run</code> args. What’s new here is the <code>restart: unless-stopped</code> arg which tells Docker to only start PostgreSQL if it’s currently stopped.</p>
 <pre class="yml"><code>version: &quot;3.3&quot;
 services:
@@ -188,6 +188,19 @@ con %&gt;% dplyr::tbl(&quot;table_name&quot;)</code></pre>
 <ol>
 <li id="fn1"><p>I harp on ‘personal’ given I’m not setting up appropriate roles, auth etc needed in a work environment. But, it’s good enough for my personal use.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 <li id="fn2"><p>This is my own image based off of <a href="https://hub.docker.com/r/rocker/rstudio"><code>rocker/rstudio</code></a><a href="#fnref2" class="footnote-back">↩︎</a></p></li>
-<li id="fn3"><p>These are just labels, you can call them what you’d like<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><div>
+DB icon by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a>
+</div>
+<div>
+Folder icon by <a href="https://www.flaticon.com/authors/icongeek26" title="Icongeek26">Icongeek26</a>
+</div>
+<div>
+RAM icon by <a href="https://www.freepik.com" title="Freepik">Freepik</a>
+</div>
+<div>
+Storage icon by <a href="https://smashicons.com/" title="Smashicons">Smashicons</a>
+</div>
+<a href="#fnref3" class="footnote-back">↩︎</a></li>
+<li id="fn4"><p>These are just labels, you can call them what you’d like<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
