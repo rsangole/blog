@@ -1,0 +1,156 @@
+---
+title: Making the Anomaly Database
+author: Rahul
+date: '2021-08-18'
+slug: making-an-anomaly-database
+categories:
+  - R
+tags:
+  - postgres
+  - database
+  - anomaly
+output: 
+  blogdown::html_page:
+    toc: true
+    toc_depth: 1
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#motivation">Motivation</a></li>
+<li><a href="#who-should-read-this">Who should read this?</a></li>
+<li><a href="#steps">Steps</a></li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+</div>
+
+<p><em>This is part two of the two part post related to Docker, Postgres databases and Anomaly data-sets. Read <a href="https://rsangole.netlify.app/post/2021/08/07/docker-based-rstudio-postgres/">Part 1</a>, which teaches you how to setup a new postgres database using Docker.</em></p>
+<p>This post describes how you populate the anomaly database built in Part 1.</p>
+<div id="motivation" class="section level1">
+<h1>Motivation</h1>
+<p>Continuing the theme of end-to-end reproducible workflows, I want to be able to recreate my raw database programatically as well.</p>
+<p>At the end of this activity, I’m able to quickly load and manage ~6G of data for my personal use.</p>
+<p><img src="/post/anomaly-db-vscode.gif" /></p>
+<p>The entire codebase for populating the database is in my <a href="https://github.com/rsangole/anomaly_db">GitHub repo</a>.</p>
+</div>
+<div id="who-should-read-this" class="section level1">
+<h1>Who should read this?</h1>
+<p>If you’re comfortable using <code>download.file()</code>, system commands, <code>arff</code> file formats, and <code>{DBI}</code> you won’t learn much here. Read on if you’re curious about my approach.</p>
+</div>
+<div id="steps" class="section level1">
+<h1>Steps</h1>
+<p>Only three files here:</p>
+<ol style="list-style-type: decimal">
+<li>Initial Setup (<a href="https://github.com/rsangole/anomaly_db/blob/master/00-execute.R"><code>00-execute.R</code></a>)</li>
+<li>Download data from the web (<a href="https://github.com/rsangole/anomaly_db/blob/master/01-download-data.R"><code>01-download-data.R</code></a>)</li>
+<li>Load data into <code>anomaly</code> database in Postgres (<a href="https://github.com/rsangole/anomaly_db/blob/master/02-load-data-to-postgres.R"><code>02-load-data-to-postgres.R</code></a>)</li>
+</ol>
+<div id="initial-setup" class="section level3">
+<h3>Initial Setup</h3>
+<p>A list helps be keep track of the data sources, and helps me turn any downloads off to save on space/time (the Monash one is a ~2G download, for example).</p>
+<pre class="r"><code>datasets &lt;- list(
+  ionosphere = TRUE,
+  nab = TRUE,
+  monash = TRUE, # 2G download, 6G uncompressed
+  ucr = TRUE
+)</code></pre>
+<p>Some simple housekeeping to ensure directories are setup correctly. Furthermore, if the folder is git controlled, the directory which will house the datasets <code>large_data</code> needs to be in <code>.gitignore</code>. I check for this.</p>
+<pre class="r"><code># create large_data/ if does not exist
+if (!fs::dir_exists(here::here(&quot;large_data&quot;))) {
+  cli::cli_alert(&quot;{here::here(&#39;large_data&#39;)} does not exist&quot;)
+  resp &lt;-
+    usethis::ui_yeah(
+      &quot;Create {here::here(&#39;large_data&#39;)}?&quot;,
+      yes = &quot;Y&quot;,
+      no = &quot;N&quot;,
+      shuffle = F
+    )
+  if (!resp)
+    stop()
+  fs::dir_create(here::here(&quot;large_data&quot;))
+}
+
+# git but no gitignore?
+if (fs::dir_exists(here::here(&quot;.git&quot;)) &amp;
+    !fs::file_exists(here::here(&quot;.gitignore&quot;))) {
+  cli::cli_alert_danger(
+    &quot;You have a git project, but no .gitignore. You must add {here::here(&#39;large_data&#39;)} to .gitignore since the data are massive.&quot;
+  )
+  stop()
+}
+
+# gitignore but large_data missing?
+if (fs::file_exists(here::here(&quot;.gitignore&quot;)) &amp;
+    !any(grepl(&quot;large_data&quot;, readLines(here::here(&quot;.gitignore&quot;))))) {
+  cli::cli_alert_danger(
+    &quot;Your .gitignore does not have `large_data` specified. Add this to continue, since the data are massive.&quot;
+  )
+  stop()
+}</code></pre>
+</div>
+<div id="download-data" class="section level3">
+<h3>Download Data</h3>
+<p>Now, for those datasets in the list above, simply download the data using <code>download.file()</code> for the selected datasets and move/unzip them to the <code>large_data</code> folder. I’m also checking if the folder already exists, and I’d like to overwrite it.</p>
+<p>Here’s an example for the UCR dataset. The code for the rest of the datasets is pretty similar.</p>
+<pre class="r"><code>if(datasets$ucr){
+  DIR &lt;- here::here(&quot;large_data/UCRArchive_2018&quot;)
+  resp &lt;- T
+  if(fs::dir_exists(DIR)){
+    resp &lt;- usethis::ui_yeah(&quot;{DIR} already exists. Re-download data?&quot;, &quot;Y&quot;, &quot;N&quot;, shuffle = F)
+    fs::dir_delete(here::here(&quot;large_data/UCRArchive_2018&quot;))
+  }
+  if(resp){
+    download.file(url = &quot;https://www.cs.ucr.edu/%7Eeamonn/time_series_data_2018/UCRArchive_2018.zip&quot;,
+                  destfile = here::here(&quot;large_data/UCRArchive_2018.zip&quot;))
+    system(command = glue::glue(&#39;unzip -P someone {here::here(&quot;large_data/UCRArchive_2018.zip&quot;)} -d {here::here(&quot;large_data&quot;)}&#39;))
+    fs::file_delete(here::here(&quot;large_data/UCRArchive_2018.zip&quot;))
+  }
+}</code></pre>
+</div>
+<div id="load-data" class="section level3">
+<h3>Load Data</h3>
+<p>Now, it’s as easy as:</p>
+<ol style="list-style-type: decimal">
+<li>Connect to the postgres database using <code>DBI::dbConnect</code></li>
+<li>Read a dataset from <code>large_data/</code></li>
+<li>Simple cleanup (<code>janitor::clean_names</code>, all timestamp cols are called <code>time</code> etc)</li>
+<li>Use <code>DBI::dbWriteTable</code> to load the data into postgres</li>
+</ol>
+<p>Here’s an example codebase:</p>
+<pre class="r"><code># DB Connection ----
+con &lt;- DBI::dbConnect(
+  drv = RPostgres::Postgres(),
+  dbname = &quot;anomaly&quot;,
+  host = &quot;db&quot;,
+  user = &quot;rahul&quot;,
+  password = &quot;pass&quot;,
+  port = 5432
+)
+
+if (datasets$ionosphere) {
+  dat &lt;-
+    read_csv(&quot;large_data/ionosphere/ionosphere.data&quot;, col_names = F) %&gt;%
+    rename(class = X35)
+  DBI::dbWriteTable(con, &quot;ionosphere&quot;, dat)
+
+# Quick check
+  con %&gt;% dplyr::tbl(&quot;ionosphere&quot;)
+  
+}</code></pre>
+<p><em>For the monash dataset, you do need to use <a href="https://stat.ethz.ch/R-manual/R-devel/library/foreign/html/read.arff.html"><code>foreign::read.arff()</code></a>.</em></p>
+<hr />
+</div>
+</div>
+<div id="tips" class="section level1">
+<h1>Tips</h1>
+<p><strong>Large file downloads</strong> will timeout within the default timeout-window of 1 min. Handle this before calling <code>download.file()</code>.</p>
+<pre class="r"><code>timeout.existing &lt;- getOption(&quot;timeout&quot;)
+on.exit(options(timeout = timeout.existing))
+options(timeout = 60*60)</code></pre>
+<p><strong>Data dictionaries</strong> can be stored directly in the DB too. I store the contents of each <code>README.md</code> in the <code>UCR_Archive2018/*</code> folder in a data dictionary table called <code>ucr_00_meta</code>. This allows me to programatically call the dictionary in downstream development.</p>
+<p><img src="/post/ucr_00_meta.png" /></p>
+<p><strong>Shiny</strong> can be effectively used for quick exploration. Here’s an example of something I’m building for myself. The dashboard pulls data from PostgreSQL directly. UCR metadata is also pulled from the db rendered at the top of each page, making it quick to browse through the datasets. As I add more datasets, I keep expanding this dashboard.</p>
+<p><img src="/post/anomaly-db-shiny.gif" /></p>
+</div>
