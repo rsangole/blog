@@ -26,7 +26,7 @@ This post describes how you populate the anomaly database built in Part 1.
 
 # Motivation
 
-Continuing the theme of end-to-end reproducible workflows, I want to be able to recreate my raw database programatically as well.
+Continuing the theme of end-to-end reproducible workflows, I want to be able to recreate my raw database programmatically as well.
 
 At the end of this activity, I'm able to quickly load and manage ~6G of data for my personal use.
 
