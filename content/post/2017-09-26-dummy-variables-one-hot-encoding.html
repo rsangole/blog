@@ -3,8 +3,6 @@ title: Performance Benchmarking for Dummy Variable Creation
 author: Rahul Sangole
 date: '2017-09-27'
 slug: dummy-variables-one-hot-encoding
-categories:
-  - R
 tags:
   - R
   - dummy variables
@@ -146,14 +144,14 @@ head(dummy(HairEyeColor),3)</code></pre>
 <p><em>Side note:</em> there’s a useful feature to grab all the categories in a factor variable.</p>
 <pre class="r"><code>categories(HairEyeColor)</code></pre>
 <pre><code>## $Hair
-## [1] &quot;Black&quot; &quot;Blond&quot; &quot;Brown&quot; &quot;Red&quot;  
-## 
+## [1] &quot;Black&quot; &quot;Blond&quot; &quot;Brown&quot; &quot;Red&quot;
+##
 ## $Eye
 ## [1] &quot;Blue&quot;  &quot;Brown&quot; &quot;Green&quot; &quot;Hazel&quot;
-## 
+##
 ## $Sex
-## [1] &quot;Female&quot; &quot;Male&quot;  
-## 
+## [1] &quot;Female&quot; &quot;Male&quot;
+##
 ## $Y
 ## [1] &quot;No&quot;  &quot;Yes&quot;</code></pre>
 </div>
@@ -179,7 +177,7 @@ HairEyeColor$Sex &lt;- as.factor(HairEyeColor$Sex)
 dV &lt;- dummyVars(formula = Y~.,data = HairEyeColor)
 dV</code></pre>
 <pre><code>## Dummy Variable Object
-## 
+##
 ## Formula: Y ~ .
 ## 5 variables, 4 factors
 ## Variables and levels will be separated by &#39;.&#39;
@@ -214,23 +212,23 @@ dV</code></pre>
 HairEyeColor_df &lt;- as.data.frame(HairEyeColor)
 
 stats_fn &lt;- function(D){
-    stats::model.matrix(Y~.-1,D) %&gt;% 
+    stats::model.matrix(Y~.-1,D) %&gt;%
         cbind(D$Y)
 }
 
 dummies_fn &lt;- function(D){
-    dummies::dummy.data.frame(D[,-5]) %&gt;% 
+    dummies::dummy.data.frame(D[,-5]) %&gt;%
         cbind(D$Y)
 }
 
 dummy_fn &lt;- function(D){
-    dummy::dummy(D[,-5]) %&gt;% 
+    dummy::dummy(D[,-5]) %&gt;%
         cbind(D$Y)
 }
 
 caret_fn &lt;- function(D){
     dV &lt;- caret::dummyVars(formula = Y~.,data = D)
-    predict(object = dV, newdata = D) %&gt;% 
+    predict(object = dV, newdata = D) %&gt;%
         cbind(D$Y)
     }
 
@@ -261,7 +259,7 @@ data %&lt;&gt;%
         PedHC =  `Pedestrian_Crossing-Human_Control` %&gt;% stringr::str_replace_all(&#39;[()/ ]&#39;,&#39;.&#39;) %&gt;% as.factor,
         PedPF =  `Pedestrian_Crossing-Physical_Facilities` %&gt;% stringr::str_replace_all(&#39;[()/ ]&#39;,&#39;.&#39;) %&gt;% as.factor,
         Year =  as.factor(Year)
-    ) %&gt;% 
+    ) %&gt;%
     mutate(
         Y = sample(c(0,1),dim(data)[1],replace = T) %&gt;% factor(levels = c(0,1),labels = c(&#39;No&#39;,&#39;Yes&#39;))
     )
@@ -269,30 +267,30 @@ dim(data)</code></pre>
 <pre><code>## [1] 570011      8</code></pre>
 <p>In total, there will be 39 dummy variable columns created for these 7 factor variables, as we can see here:</p>
 <pre class="r"><code>map_int(data,~length(levels(.x)))</code></pre>
-<pre><code>## Day_of_Week   Road_Type     Weather RoadSurface       PedHC       PedPF 
-##           7           6           9           5           3           6 
-##        Year           Y 
+<pre><code>## Day_of_Week   Road_Type     Weather RoadSurface       PedHC       PedPF
+##           7           6           9           5           3           6
+##        Year           Y
 ##           3           2</code></pre>
 <p>Now for the benchmarks:</p>
 <pre class="r"><code>data_df &lt;- as.data.frame(data)
 stats_fn &lt;- function(D){
-    stats::model.matrix(Y~.-1,D) %&gt;% 
+    stats::model.matrix(Y~.-1,D) %&gt;%
         cbind(D$Y)
 }
 
 dummies_fn &lt;- function(D){
-    dummies::dummy.data.frame(D[,-8]) %&gt;% 
+    dummies::dummy.data.frame(D[,-8]) %&gt;%
         cbind(D$Y)
 }
 
 dummy_fn &lt;- function(D){
-    dummy::dummy(D[,-8]) %&gt;% 
+    dummy::dummy(D[,-8]) %&gt;%
         cbind(D$Y)
 }
 
 caret_fn &lt;- function(D){
     dV &lt;- caret::dummyVars(formula = Y~.,data = D)
-    predict(object = dV, newdata = D) %&gt;% 
+    predict(object = dV, newdata = D) %&gt;%
         cbind(D$Y)
     }
 

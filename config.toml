@@ -18,14 +18,29 @@ enableEmoji = true
     name = "home"
     url = "/"
     weight = 1
-    
+
 [[menu.main]]
     name = "posts"
     url = "/post/"
     weight = 2
 
+[[menu.main]]
+    name = "projects"
+    url = "/projects/"
+    weight = 3
+
+[[menu.main]]
+    name = "notes"
+    url = "/notes/"
+    weight = 4
+
+[[menu.main]]
+    name = "topics"
+    url = "/categories/"
+    weight = 5
+
 [params]
     author = "rahul s"
     dateFormat = "2006-01-02"
     description = "data science blog by rahul sangole"
-    footer = "&copy; rahul s 2021 | [Github](https://www.github.com/rsangole)"
+    footer = "&copy; rahul s 2022 | [Github](https://www.github.com/rsangole)"

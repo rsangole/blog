@@ -3,8 +3,6 @@ title: Pur(r)ify Your Carets
 author: Rahul Sangole
 date: '2017-09-17'
 slug: pur-r-ify-your-carets
-categories:
-  - R
 tags:
   - R
   - purrr
@@ -80,11 +78,11 @@ colnames(squared) &lt;- paste0(colnames(squared),&#39;.sq&#39;)
 preds.sq &lt;- colnames(squared)
 
 # All together now...
-BostonHousing %&lt;&gt;% 
+BostonHousing %&lt;&gt;%
   cbind(boxcoxed,squared)
 
 # Make sure everything is a numerical (for xgboost to work), and also NOT a tibble (some caret functions have trouble with tibbles)
-BostonHousing %&lt;&gt;% 
+BostonHousing %&lt;&gt;%
   map_df(.f = ~as.numeric(.x)) %&gt;% as.data.frame()
 
 str(BostonHousing)</code></pre>
@@ -139,9 +137,9 @@ pred_varsets</code></pre>
 <h3>Create a starter dataframe</h3>
 <p>I first create a starter dataframe where the input data is repeated as many times as the number of predictor variable sets. <code>enframe()</code> allows us to embed objects a dataframe column.</p>
 <pre class="r"><code>num_var_select &lt;- length(pred_varsets)
-list(BostonHousing) %&gt;% 
-    rep(num_var_select) %&gt;% 
-    enframe(name = &#39;id&#39;, value = &#39;rawdata&#39;) %&gt;% 
+list(BostonHousing) %&gt;%
+    rep(num_var_select) %&gt;%
+    enframe(name = &#39;id&#39;, value = &#39;rawdata&#39;) %&gt;%
     mutate(pred_varsets = pred_varsets) -&gt; starter_df
 starter_df</code></pre>
 <pre><code>## # A tibble: 3 x 3
@@ -158,7 +156,7 @@ filterColumns &lt;- function(x,y){
 }
 
 # Create X and Y columns
-starter_df %&lt;&gt;% 
+starter_df %&lt;&gt;%
   transmute(
   id,
   pred_varsets,
@@ -217,12 +215,12 @@ xgbTreeModel &lt;- function(X,Y){
         y=Y,
         method = &#39;xgbTree&#39;,
         trControl = ctrl,
-        tuneGrid = expand.grid(nrounds = c(100,300,500), 
+        tuneGrid = expand.grid(nrounds = c(100,300,500),
                               max_depth = c(2,4,6) ,
                               eta = 0.1,
-                              gamma = 1, 
-                              colsample_bytree = 1, 
-                              min_child_weight = 1, 
+                              gamma = 1,
+                              colsample_bytree = 1,
+                              min_child_weight = 1,
                               subsample = 1),
         preProc = c(&#39;center&#39;, &#39;scale&#39;)
     )
@@ -287,7 +285,7 @@ train_df %&gt;% dplyr::select(pred_varsets,modelName,params,modelFits)</code></p
 <div id="extract-results" class="section level3">
 <h3>Extract results</h3>
 <p>Now, I can extract pretty much any model performance or hypertuning parameter using <code>purrr</code>. Since <code>caret</code> is so lovingly standardized, it doesn’t matter if I’m using a glm, xgboost, rpart2, or ann - the code remains the same.</p>
-<pre class="r"><code>train_df %&lt;&gt;% 
+<pre class="r"><code>train_df %&lt;&gt;%
     mutate(
         RMSE=map_dbl(modelFits,~max(.x$results$RMSE)),
         RMSESD=map_dbl(modelFits,~max(.x$results$RMSESD)),
@@ -308,7 +306,7 @@ train_df %&gt;% dplyr::select(-train.X,-train.Y,-params,-modelFits)</code></pre>
 <p>This allows us to very quickly visualize the results using <code>lattice</code> or <code>ggplot</code> <em>across all models</em>.</p>
 <pre class="r"><code>lattice::dotplot(Rsq~pred_varsets|modelName,train_df)</code></pre>
 <p><img src="/post/2017-09-17-pur-r-ify-your-carets_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<pre class="r"><code>train_df %&gt;% 
+<pre class="r"><code>train_df %&gt;%
     ggplot(aes(x=pred_varsets,color=modelName))+
     geom_point(aes(y=RMSE),size=2)+
     geom_errorbar(aes(ymin = RMSE-RMSESD,ymax= RMSE+RMSESD),size=.5,width=.15)</code></pre>

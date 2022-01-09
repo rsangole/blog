@@ -3,8 +3,6 @@ title: Performance Benchmarking for Date-Time conversions
 author: Rahul Sangole
 date: '2018-04-12'
 slug: performance-benchmarking-for-date-time-conversions
-categories:
-  - R
 tags:
   - benchmarking
   - R
@@ -89,11 +87,11 @@ print(benchmarks) ; print(benchmarks, unit = &#39;relative&#39;)</code></pre>
 ##     fast_strptime  1.795452  1.753926 1.717556  1.772935 1.605809 1.588742
 ##       fastPOSIXct  1.000000  1.000000 1.000000  1.000000 1.000000 1.000000
 ##  neval   cld
-##     30    d 
+##     30    d
 ##     30     e
-##     30   c  
-##     30  b   
-##     30  b   
+##     30   c
+##     30  b
+##     30  b
 ##     30 a</code></pre>
 <p>If you run these bench marks on more powerful machines or larger datasets, share your results too. It’ll be interesting to see if this result scales.</p>
 <p>Thanks <a href="https://twitter.com/henningsway">Henning</a> for the winning package suggestion! I owe you some beer!</p>

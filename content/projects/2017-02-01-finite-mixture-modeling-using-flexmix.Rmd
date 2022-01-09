@@ -3,8 +3,6 @@ title: Finite Mixture Modeling using Flexmix
 author: Rahul Sangole
 date: '2017-02-01'
 slug: finite-mixture-modeling-using-flexmix
-categories:
-  - R
 tags:
   - R
   - flexmix

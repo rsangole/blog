@@ -1,0 +1,13 @@
+version: "3.3"
+services:
+  rstudio:
+    image: hatmatrix/blog:analysis
+    ports:
+      - "8787:8787"
+      - "3838:3838"
+    environment:
+      DISABLE_AUTH: "true"
+    volumes:
+      - type: "bind"
+        source: "$HOME/github"
+        target: "/home/rstudio"

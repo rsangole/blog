@@ -4,7 +4,7 @@ author: Rahul S
 date: '2020-10-10'
 slug: reproducible-work-in-R
 categories:
-  - R
+  - docker-series
 tags:
   - docker
 output:

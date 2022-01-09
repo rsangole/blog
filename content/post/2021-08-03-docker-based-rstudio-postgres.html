@@ -4,11 +4,11 @@ author: Rahul
 date: '2021-08-07'
 slug: docker-based-rstudio-postgres
 categories:
-  - R
+  - docker-series
 tags:
   - docker
   - postgres
-output: 
+output:
   blogdown::html_page:
     toc: true
     toc_depth: 1
@@ -65,9 +65,9 @@ output:
 <h3>1 - Directory Setup</h3>
 <p>You need a local directory to store the PostgreSQL database in. Lines 3-10 take care of this for you.</p>
 <pre class="sh"><code># create directory if does not exist
-if [ -d &quot;$HOME/docker/volumes/postgres&quot; ] 
+if [ -d &quot;$HOME/docker/volumes/postgres&quot; ]
 then
-    echo &quot;Directory $HOME/docker/volumes/postgres exists.&quot; 
+    echo &quot;Directory $HOME/docker/volumes/postgres exists.&quot;
 else
     echo &quot;Error: Directory $HOME/docker/volumes/postgres does not exists.&quot;
     mkdir -p $HOME/docker/volumes/postgres

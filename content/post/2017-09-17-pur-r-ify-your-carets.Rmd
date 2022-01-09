@@ -3,8 +3,6 @@ title: Pur(r)ify Your Carets
 author: Rahul Sangole
 date: '2017-09-17'
 slug: pur-r-ify-your-carets
-categories:
-  - R
 tags:
   - R
   - purrr

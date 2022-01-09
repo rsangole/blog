@@ -3,12 +3,10 @@ title: Enhance ETL pipeline monitoring with text plots
 author: Rahul
 date: '2021-07-19'
 slug: enhance-etl-text-plots
-categories:
-  - R
 tags:
   - visualization
   - docker
-output: 
+output:
   blogdown::html_page:
     toc: true
 ---
@@ -29,12 +27,12 @@ output:
 <p>Some examples…</p>
 <div id="whats-the-distribution-of-a-variable" class="section level3">
 <h3>What’s the distribution of a variable?</h3>
-<pre class="r"><code>dat &lt;- dplyr::starwars %&gt;% 
+<pre class="r"><code>dat &lt;- dplyr::starwars %&gt;%
   mutate(across(where(is.character), forcats::fct_infreq))
 
 dat %&gt;%
-  tidyr::drop_na(height) %&gt;% 
-  pull(height) %&gt;% 
+  tidyr::drop_na(height) %&gt;%
+  pull(height) %&gt;%
   txtdensity(., xlab = &quot;starwars: height distribution&quot;, width = 70, height = 12, pch = &quot;o&quot;)</code></pre>
 <pre><code>##       +-----------+--------------+-------oo----+-------------+-------+
 ##  0.02 +                                oooooo                        +
@@ -46,7 +44,7 @@ dat %&gt;%
 ## 0.005 +         ooo              oo              ooo                 +
 ##       |  oooooooo oooooooooooooooo                 ooooooooo   ooo   |
 ##     0 +-----------+--------------+-------------+-----------ooooo-----+
-##                  100            150           200           250       
+##                  100            150           200           250
 ##                        starwars: height distribution</code></pre>
 </div>
 <div id="counts-of-a-factor" class="section level3">
@@ -62,23 +60,23 @@ dat %&gt;%
 ##    |  x              x                                               |
 ##    |  x              x              x              x              x  |
 ##  0 +--x--------------x--------------x--------------x--------------x--+
-##       1              2              3              4              5   
+##       1              2              3              4              5
 ## Legend: 1=male, 2=female, 3=none, 4=hermaphroditic, 5=NA&#39;s</code></pre>
 </div>
 <div id="boxplots" class="section level3">
 <h3>Boxplots</h3>
 <pre class="r"><code>txtboxplot(dat$height, dat$mass, width = 70, height = 12)</code></pre>
-<pre><code>##  0            50            100           150           200           
+<pre><code>##  0            50            100           150           200
 ##  |-------------+-------------+-------------+-------------+-----------|
-##                                                 +---+--+              
-## 1                                       --------|   |  |---------     
-##                                                 +---+--+              
-##                  +-----+-+                                            
-## 2     -----------|     | |----------                                  
-##                  +-----+-+                                            
-##      +                                                                
-## 3    |                                                                
-##      +                                                                
+##                                                 +---+--+
+## 1                                       --------|   |  |---------
+##                                                 +---+--+
+##                  +-----+-+
+## 2     -----------|     | |----------
+##                  +-----+-+
+##      +
+## 3    |
+##      +
 ## Legend: 1=dat$height, 2=dat$mass, 3=12</code></pre>
 </div>
 <div id="time-series-plots" class="section level3">
@@ -94,7 +92,7 @@ dat %&gt;%
 ## l 577 +                               *  ** ** *         ** **       +
 ##       |                                    *                         |
 ##   576 +-----+----------+-----------+----------+-----------+-*--------+
-##           1880       1900        1920       1940        1960          
+##           1880       1900        1920       1940        1960
 ##                                    year</code></pre>
 <p>ACF plots, though I’ve not used these in production yet.</p>
 <pre class="r"><code>txtacf(sunspot.year, width = 70, height = 12)</code></pre>

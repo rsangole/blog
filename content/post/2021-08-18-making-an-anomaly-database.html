@@ -4,12 +4,12 @@ author: Rahul
 date: '2021-08-18'
 slug: making-an-anomaly-database
 categories:
-  - R
+  - docker-series
 tags:
   - postgres
   - database
   - anomaly
-output: 
+output:
   blogdown::html_page:
     toc: true
     toc_depth: 1
@@ -137,7 +137,7 @@ if (datasets$ionosphere) {
 
 # Quick check
   con %&gt;% dplyr::tbl(&quot;ionosphere&quot;)
-  
+
 }</code></pre>
 <p><em>For the monash dataset, you do need to use <a href="https://stat.ethz.ch/R-manual/R-devel/library/foreign/html/read.arff.html"><code>foreign::read.arff()</code></a>.</em></p>
 <hr />

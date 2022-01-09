@@ -4,8 +4,6 @@ author: Rahul Sangole
 date: '2018-02-27'
 slug: 453-text-analytics-class-project-aviation-safety-data
 draft: yes
-categories:
-  - R
 tags:
   - R
   - text analysis
@@ -79,8 +77,8 @@ load(&#39;453_safety_project/training_labels.RData&#39;)</code></pre>
 <p>The training data looks like this: two columns: 1st column is the dsid_id, and the 2nd column is the actual text. Each row represents one safety issue.</p>
 <pre class="r"><code>head(training_data,4) </code></pre>
 <pre><code>## # A tibble: 4 x 2
-##   doc_id text                                                             
-##    &lt;int&gt; &lt;chr&gt;                                                            
+##   doc_id text
+##    &lt;int&gt; &lt;chr&gt;
 ## 1      1 locate _ distancemeasuringequipment FROM runway ON THE locate fr…
 ## 2      2 IN _ I BECAME AWARE THAT MY ULTRASONIC AND EDDY CURRENT inspect …
 ## 3      3 visualflightrules FROM feet PIERCE flightlevel TO HABERSHAM COUN…
@@ -120,14 +118,14 @@ load(&#39;453_safety_project/training_labels.RData&#39;)</code></pre>
 ## 2 T        3290</code></pre>
 <p>This will make things more managable for me, while hoping that the selected dsids have some unique underlying stucture.</p>
 <pre class="r"><code>set.seed(1)
-training_labels %&gt;% 
-    mutate(b_and_s = ifelse(cat_b==1 &amp; cat_s==1,T,F)) %&gt;% 
+training_labels %&gt;%
+    mutate(b_and_s = ifelse(cat_b==1 &amp; cat_s==1,T,F)) %&gt;%
     filter(!b_and_s) %&gt;%
-    group_by(cat_b, cat_s) %&gt;% 
-    sample_n(200) %&gt;% 
-    ungroup() %&gt;% 
+    group_by(cat_b, cat_s) %&gt;%
+    sample_n(200) %&gt;%
+    ungroup() %&gt;%
     filter(cat_b==1 | cat_s==1)-&gt; sub_train_labels
-training_data %&gt;% 
+training_data %&gt;%
     filter(doc_id %in% sub_train_labels$doc_id) -&gt; sub_training_data</code></pre>
 </div>
 </div>
@@ -141,9 +139,9 @@ training_data %&gt;%
 <div id="uppercase-words" class="section level5">
 <h5>UPPERCASE words</h5>
 <pre class="r"><code>tidy_text &lt;- sub_training_data %&gt;%
-    unnest_tokens(word, text, to_lower = F) %&gt;% 
+    unnest_tokens(word, text, to_lower = F) %&gt;%
     mutate(lower = word==str_to_lower(word))
-tidy_text %&gt;% 
+tidy_text %&gt;%
     filter(lower == F) %&gt;%
     count(word, sort = T) %&gt;%
     filter(n &gt; 1e3) %&gt;%
@@ -158,8 +156,8 @@ tidy_text %&gt;%
     mutate(word = str_to_lower(word)) %&gt;%
     anti_join(stop_words) %&gt;%
     mutate(word = str_to_upper(word)) %&gt;%
-    count(word, sort = T) %&gt;% 
-    filter(n &gt; 50) %&gt;% 
+    count(word, sort = T) %&gt;%
+    filter(n &gt; 50) %&gt;%
     mutate(word = reorder(word, n)) %&gt;%
     ggplot(aes(word, n)) +
     geom_col() +
@@ -171,8 +169,8 @@ tidy_text %&gt;%
 <h5>Lowercase words</h5>
 <p>The lowercase words most certainly are more interesting aviation related words.</p>
 <pre class="r"><code>sub_training_data %&gt;%
-    unnest_tokens(word, text, to_lower = F) %&gt;% 
-    mutate(lower = word==str_to_lower(word)) %&gt;% 
+    unnest_tokens(word, text, to_lower = F) %&gt;%
+    mutate(lower = word==str_to_lower(word)) %&gt;%
     filter(lower==T) %&gt;%
     count(word, sort = T) %&gt;%
     filter(n &gt; 200) %&gt;%
@@ -189,8 +187,8 @@ tidy_text %&gt;%
 <p>A fun way to visualize the words is a word cloud. Here’s the cloud for the subsetted data.</p>
 <pre class="r"><code>data(&quot;stop_words&quot;)
 sub_training_data %&gt;%
-    unnest_tokens(word, text, to_lower = F) %&gt;% 
-    mutate(lower = word==str_to_lower(word)) %&gt;% 
+    unnest_tokens(word, text, to_lower = F) %&gt;%
+    mutate(lower = word==str_to_lower(word)) %&gt;%
     filter(lower==T) %&gt;%
     count(word, sort = T) %&gt;%
     wordcloud2(color = &#39;random-dark&#39;,fontFamily = &#39;arial&#39;,shape = &#39;circle&#39;)</code></pre>
@@ -204,9 +202,9 @@ sub_training_data %&gt;%
 
 docs &lt;- Corpus(VectorSource(text))
 docs %&lt;&gt;%
-    tm_map(content_transformer(tolower)) %&gt;% 
-    tm_map(removeWords,stopwords(&#39;english&#39;)) %&gt;% 
-    tm_map(removePunctuation) %&gt;% 
+    tm_map(content_transformer(tolower)) %&gt;%
+    tm_map(removeWords,stopwords(&#39;english&#39;)) %&gt;%
+    tm_map(removePunctuation) %&gt;%
     tm_map(stripWhitespace)
 
 library(&#39;SnowballC&#39;)
@@ -217,7 +215,7 @@ inspect(docs[1])</code></pre>
 <pre><code>## &lt;&lt;SimpleCorpus&gt;&gt;
 ## Metadata:  corpus specific: 1, document level (indexed): 0
 ## Content:  documents: 1
-## 
+##
 ## [1] just bdl airport request direct saxairtrafficcontrol say couldn t clear us direct ignit readback clearanc understand direct ignit later convers appear airtrafficcontrol thought clear us direct ignit direct sax caseapproach sax airtrafficcontrol gave us degre head readback later convers appear thought clear us direct sax degre headnon us hear way readback way seem incent airtrafficcontrol listen readback make sure understand way mean</code></pre>
 <p>This is followed by creation of a DocumentTermMatrix.</p>
 <pre class="r"><code>dtm &lt;- DocumentTermMatrix(docs)

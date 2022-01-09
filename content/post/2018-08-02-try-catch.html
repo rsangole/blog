@@ -3,8 +3,6 @@ title: Using tryCatch for robust R scripts
 author: Rahul S
 date: '2018-12-20'
 slug: try-catch
-categories:
-  - R
 tags:
   - R
   - programming-practices
@@ -31,7 +29,7 @@ output:
         # goes here...
         # ...
     },
-    error = function(e){ 
+    error = function(e){
         # (Optional)
         # Do this if an error is caught...
     },
@@ -64,7 +62,7 @@ output:
         finally = {
             message(&#39;All done, quitting.&#39;)
         }
-    )    
+    )
 }</code></pre>
 <p>If x is a valid number, <code>expr</code> and <code>finally</code> are executed:</p>
 <pre class="r"><code>log_calculator(10)
@@ -93,9 +91,9 @@ output:
 <pre class="r"><code># Example nested dataframe
 (df_nested &lt;- mtcars %&gt;% as_tibble() %&gt;% tidyr::nest(-cyl))
 ## # A tibble: 3 x 2
-##     cyl data              
-##   &lt;dbl&gt; &lt;list&gt;            
-## 1     6 &lt;tibble [7 × 10]&gt; 
+##     cyl data
+##   &lt;dbl&gt; &lt;list&gt;
+## 1     6 &lt;tibble [7 × 10]&gt;
 ## 2     4 &lt;tibble [11 × 10]&gt;
 ## 3     8 &lt;tibble [14 × 10]&gt;
 
@@ -107,8 +105,8 @@ transform_response_to_log &lt;- function(df){ df %&gt;% mutate(log_mpg = log(mpg
 <pre class="r"><code>for (indx in 1:nrow(df_nested)) {
     tryCatch(
         expr = {
-            df_nested[[indx, &quot;data&quot;]] &lt;-  df_nested[[indx, &quot;data&quot;]] %&gt;% 
-                convert_gear_to_factors() %&gt;% 
+            df_nested[[indx, &quot;data&quot;]] &lt;-  df_nested[[indx, &quot;data&quot;]] %&gt;%
+                convert_gear_to_factors() %&gt;%
                 transform_response_to_log()
             message(&quot;Iteration &quot;, indx, &quot; successful.&quot;)
         },
@@ -129,19 +127,19 @@ transform_response_to_log &lt;- function(df){ df %&gt;% mutate(log_mpg = log(mpg
 <p>An important component of preparing ‘development’ code to be ‘production’ ready is implementation of good defensive programming and logging practices. I won’t go into details of either here, except to showcase the style of programs I have been writing to prepare code before it goes to our production cluster.</p>
 <pre class="r"><code>preprocess_data &lt;- function(df, x, b, ...){
     message(&quot;-- Within preprocessor&quot;)
-    df %&gt;% 
-        assertive::assert_is_data.frame() %&gt;% 
+    df %&gt;%
+        assertive::assert_is_data.frame() %&gt;%
         assertive::assert_is_non_empty()
-    x %&gt;% 
-        assertive::assert_is_numeric() %&gt;% 
+    x %&gt;%
+        assertive::assert_is_numeric() %&gt;%
         assertive::assert_all_are_greater_than(3.14)
-    b %&gt;% 
+    b %&gt;%
         assertive::assert_is_a_bool()
-    
+
     # Code here...
     # ....
     # ....
-    
+
     return(df)
 }
 build_model &lt;- function(...){message(&quot;-- Building model...&quot;)}
@@ -151,9 +149,9 @@ save_model  &lt;- function(...) {message(&quot;-- Saving model...&quot;)}
 main_executor &lt;- function(...){
     tryCatch(
         expr = {
-            preprocess_data(df, x, b, more_args,...) %&gt;% 
-                build_model() %&gt;% 
-                eval_model() %&gt;% 
+            preprocess_data(df, x, b, more_args,...) %&gt;%
+                build_model() %&gt;%
+                eval_model() %&gt;%
                 save_model()
         },
         error = function(e){
@@ -197,7 +195,7 @@ for (i in seq_along(unique_shops)) {
       error = function(e) { tr_data_ts %&gt;% snaive()}
       )
     ##################
-  
+
     fc &lt;- fit %&gt;% forecast(h = h)
     stlf_yhats[[i]] &lt;- as.numeric(fc$mean)
     stlf_yhats[[i]] &lt;- ifelse(stlf_yhats[[i]] &lt; 0, 0, stlf_yhats[[i]])

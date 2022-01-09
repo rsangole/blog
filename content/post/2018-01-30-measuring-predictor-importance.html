@@ -2,8 +2,6 @@
 title: Measuring Predictor Importance for Continous Response
 author: Rahul Sangole
 date: '2018-01-30'
-categories:
-  - R
 tags:
   - caret
   - multivariate
@@ -52,13 +50,13 @@ library(minerva)</code></pre>
 <pre class="r"><code>library(randomForest)</code></pre>
 <pre><code>## randomForest 4.6-12</code></pre>
 <pre><code>## Type rfNews() to see new features/changes/bug fixes.</code></pre>
-<pre><code>## 
+<pre><code>##
 ## Attaching package: &#39;randomForest&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
+##
 ##     combine</code></pre>
 <pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
-## 
+##
 ##     margin</code></pre>
 <pre class="r"><code>data(&quot;Sacramento&quot;)
 Sacramento &lt;- tbl_df(Sacramento)</code></pre>
@@ -87,7 +85,7 @@ categoricalPredictors &lt;-
 Sacramento %&gt;% select_if(is.factor) %&gt;% colnames</code></pre>
 <pre class="r"><code>map_dbl(.x = Sacramento[, numericPredictors],
         .f = ~ cor(x = Sacramento[, response], y = .x))</code></pre>
-<pre><code>##      beds     baths      sqft  latitude longitude 
+<pre><code>##      beds     baths      sqft  latitude longitude
 ## 0.4634122 0.5756415 0.7673609 0.1548084 0.3630227</code></pre>
 <pre class="r"><code>splom(x = ~Sacramento[3:9],
       data = Sacramento,

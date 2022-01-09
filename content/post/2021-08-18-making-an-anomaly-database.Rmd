@@ -4,7 +4,7 @@ author: Rahul
 date: '2021-08-18'
 slug: making-an-anomaly-database
 categories:
-  - R
+  - docker-series
 tags:
   - postgres
   - database

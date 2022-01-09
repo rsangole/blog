@@ -3,8 +3,6 @@ title: Perf Benchmarking Dummy Variables - Part II
 author: Rahul Sangole
 date: '2020-12-16'
 slug: perf-benchmarking-dummy-variables-part-ii
-categories:
-  - R
 tags:
   - benchmarking
   - dummy variables
@@ -57,18 +55,18 @@ output:
 <div id="machine" class="section level2">
 <h2>Machine</h2>
 <p>I’m running these tests on a 2019 MacBook Pro running macOS Catalina (10.15.7) on a 2.4 GHz 8-Core Intel i9 with 32 MB 2400 MHz DDR4, in a <a href="https://hub.docker.com/r/hatmatrix/blog">docker container</a> running:</p>
-<pre><code>platform       x86_64-pc-linux-gnu         
-arch           x86_64                      
-os             linux-gnu                   
-system         x86_64, linux-gnu           
-status                                     
-major          4                           
-minor          0.0                         
-year           2020                        
-month          04                          
-day            24                          
-svn rev        78286                       
-language       R                           
+<pre><code>platform       x86_64-pc-linux-gnu
+arch           x86_64
+os             linux-gnu
+system         x86_64, linux-gnu
+status
+major          4
+minor          0.0
+year           2020
+month          04
+day            24
+svn rev        78286
+language       R
 version.string R version 4.0.0 (2020-04-24)
 nickname       Arbor Day </code></pre>
 </div>
@@ -122,12 +120,12 @@ microbenchmark::microbenchmark(
 <p>How does the performance vary when rows, columns, or number of factors are scaled?</p>
 <p>First, make some functions to create dataframes with varying rows/cols/levels per variable, run benchmarks &amp; extract median execution times.</p>
 <pre class="r"><code>make_data &lt;- function(NROW = 10, NCOL = 5, NFAC = 5){
-    sapply(1:NCOL, 
-           function(x) sample(LETTERS[1:NFAC], 
-                              size = NROW, 
-                              replace = TRUE)) %&gt;% 
+    sapply(1:NCOL,
+           function(x) sample(LETTERS[1:NFAC],
+                              size = NROW,
+                              replace = TRUE)) %&gt;%
         as_tibble()
-    
+
 }
 run_benchmark &lt;- function(dat){
     microbenchmark::microbenchmark(
@@ -140,19 +138,19 @@ run_benchmark &lt;- function(dat){
     )
 }
 extract_median_time &lt;- function(benchmarks){
-    as_tibble(benchmarks) %&gt;% 
-        dplyr::group_by(expr) %&gt;% 
+    as_tibble(benchmarks) %&gt;%
+        dplyr::group_by(expr) %&gt;%
         summarize(median_ms = median(time) * 1e-6)
 }</code></pre>
 <p><code>make_data</code> makes a pretty simple tibble:</p>
 <pre class="r"><code>make_data(NROW = 5, NCOL = 6, NFAC = 3)</code></pre>
 <pre><code>## # A tibble: 5 x 6
-##   V1    V2    V3    V4    V5    V6   
+##   V1    V2    V3    V4    V5    V6
 ##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-## 1 A     B     C     A     C     A    
-## 2 B     A     A     B     C     C    
-## 3 A     C     C     B     B     A    
-## 4 C     A     A     C     C     C    
+## 1 A     B     C     A     C     A
+## 2 B     A     A     B     C     C
+## 3 A     C     C     B     B     A
+## 4 C     A     A     C     C     C
 ## 5 C     A     C     B     C     C</code></pre>
 </div>
 <div id="how-does-performance-scale-by-number-of-rows" class="section level3">
@@ -160,15 +158,15 @@ extract_median_time &lt;- function(benchmarks){
 <p><code>stats</code> still rocks. With very large datasets, <code>fastDummies</code> approaches similar speed.</p>
 <pre class="r"><code>experiment_rows &lt;- tibble::tibble(
     nrows = 10^(1:6)
-    ) %&gt;% 
+    ) %&gt;%
     dplyr::mutate(input_data = purrr::map(nrows, ~make_data(NROW = .x, NCOL = 5, NFAC = 5)),
                   benchmarks = purrr::map(input_data, ~run_benchmark(.x)),
                   median_times = purrr::map(benchmarks, ~extract_median_time(.x)))
-experiment_rows %&gt;% 
+experiment_rows %&gt;%
     dplyr::select(nrows, median_times) %&gt;%
     tidyr::unnest(cols = c(median_times)) %&gt;%
-    dplyr::rename(Package = expr) %&gt;% 
-    tidyr::pivot_wider(names_from = Package, values_from = median_ms) %&gt;% 
+    dplyr::rename(Package = expr) %&gt;%
+    tidyr::pivot_wider(names_from = Package, values_from = median_ms) %&gt;%
     dplyr::mutate(
         dummies = dummies/stats,
         dummy = dummy/stats,
@@ -176,18 +174,18 @@ experiment_rows %&gt;%
         fastDummies = fastDummies/stats,
         stats = 1
     ) %&gt;%
-    tidyr::pivot_longer(-nrows) %&gt;% 
+    tidyr::pivot_longer(-nrows) %&gt;%
     ggplot(aes(nrows, value, color = name)) +
     geom_line() +
-    geom_point(aes(text = glue::glue(&quot;&lt;b&gt;{title}&lt;/b&gt; {verb} {y}x&quot;, 
-                                     title = name, 
-                                     verb = ifelse(name == &quot;stats&quot;, &quot;:&quot;, &quot;slower by&quot;), 
+    geom_point(aes(text = glue::glue(&quot;&lt;b&gt;{title}&lt;/b&gt; {verb} {y}x&quot;,
+                                     title = name,
+                                     verb = ifelse(name == &quot;stats&quot;, &quot;:&quot;, &quot;slower by&quot;),
                                      y = ifelse(value &gt; 2,
                                             round(value),
                                             round(value, digits = 1))))) +
     scale_y_log10(labels = scales::label_number(accuracy = 1, suffix = &quot;x&quot;)) +
     scale_x_log10(breaks = 10^(1:6), labels = scales::label_number_si()) +
-    labs(x = &quot;Number of Rows&quot;, y = &quot;Relative Execution Rates&quot;, 
+    labs(x = &quot;Number of Rows&quot;, y = &quot;Relative Execution Rates&quot;,
          title = &quot;Row Performance (log-log scale)&quot;) -&gt; p
 ggplotly(p, tooltip = &quot;text&quot;)</code></pre>
 <div id="htmlwidget-1" style="width:672px;height:480px;" class="plotly html-widget"></div>

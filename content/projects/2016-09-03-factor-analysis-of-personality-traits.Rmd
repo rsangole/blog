@@ -3,8 +3,6 @@ title: Factor Analysis of Personality Traits
 author: Rahul Sangole
 date: '2016-09-03'
 slug: factor-analysis-of-personality-traits
-categories:
-  - R
 tags:
   - R
   - factor analysis

@@ -4,8 +4,7 @@ author: Rahul Sangole
 date: '2021-01-19'
 slug: tidytuesday-the-tate-collection
 categories:
-  - TidyTuesday
-  - R
+  - tidy-tuesday-series
 tags:
   - tidytuesday
   - visualization
@@ -23,14 +22,14 @@ library(beeswarm)
 library(extrafont)
 extrafont::font_import(paths = here::here(&quot;static&quot;, &quot;font&quot;), prompt = F)
 
-artists &lt;- data.table::fread(&quot;~/github/tidytues/tidytuesday/data/2021/2021-01-12/artists.csv&quot;) %&gt;% 
+artists &lt;- data.table::fread(&quot;~/github/tidytues/tidytuesday/data/2021/2021-01-12/artists.csv&quot;) %&gt;%
   mutate(gender = ifelse(is.na(gender), &quot;Unknown&quot;, gender),
          gender = factor(gender,levels = c(&quot;Male&quot;,&quot;Female&quot;, &quot;Unknown&quot;), ordered = TRUE),
          life_yr = yearOfDeath - yearOfBirth,
          pre_1850 = yearOfBirth &lt; 1850,
-         name_len = stringr::str_length(name) - 2) %&gt;% 
-  separate(col = &quot;placeOfBirth&quot;, sep = &quot;,&quot;, into = c(&quot;birth_city&quot;, &quot;birth_country&quot;), remove = F) %&gt;% 
-  separate(col = &quot;placeOfDeath&quot;, sep = &quot;,&quot;, into = c(&quot;death_city&quot;, &quot;death_country&quot;), remove = F) %&gt;% 
+         name_len = stringr::str_length(name) - 2) %&gt;%
+  separate(col = &quot;placeOfBirth&quot;, sep = &quot;,&quot;, into = c(&quot;birth_city&quot;, &quot;birth_country&quot;), remove = F) %&gt;%
+  separate(col = &quot;placeOfDeath&quot;, sep = &quot;,&quot;, into = c(&quot;death_city&quot;, &quot;death_country&quot;), remove = F) %&gt;%
   mutate(moved_countries = birth_country != death_country,
          birth_country = ifelse(is.na(birth_country), &quot;Unknown&quot;, birth_country),
          death_country = ifelse(is.na(death_country), &quot;Unknown&quot;, death_country))

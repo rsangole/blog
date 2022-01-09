@@ -3,8 +3,6 @@ title: Yet Another Titanic Solve
 author: Rahul Sangole
 date: '2018-03-30'
 slug: yet-another-titanic-solve
-categories:
-  - R
 tags:
   - caret
   - R

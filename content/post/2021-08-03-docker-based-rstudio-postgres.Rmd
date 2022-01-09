@@ -4,7 +4,7 @@ author: Rahul
 date: '2021-08-07'
 slug: docker-based-rstudio-postgres
 categories:
-  - R
+  - docker-series
 tags:
   - docker
   - postgres

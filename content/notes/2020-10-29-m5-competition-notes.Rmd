@@ -3,10 +3,8 @@ title: M5 Competition Virtual Awards Ceremony
 author: R Sangole
 date: '2020-10-29'
 slug: m5-competition-notes
-categories:
-  - R
 tags:
-  - time-series forecasting
+  - time-series-forecasting
 ---
 
 The [M5 Forecasting Competiton](https://mofc.unic.ac.cy/m5-competition/) recently finished, this past Jun 2020. On the 29th of Oct, M Open Forecasting Center (MOFC) held a [virtual awards ceremony](https://youtu.be/cQ_xPo9F9h4). I jotted down some notes for myself from the key note speakers.
