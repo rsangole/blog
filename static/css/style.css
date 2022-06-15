@@ -87,7 +87,7 @@ pre {
     box-shadow: 5px 5px 5px #eee;
     background: #f9f9f9 /*#f8f8f8*/;
     color: #000;
-    padding: 1em;
+    /*padding: 1em;*/
     overflow-x: auto;
 }
 
@@ -95,9 +95,6 @@ code {
     background: #f9f9f9;
 }
 
-pre code {
-    background: none;
-}
 
 img, iframe, video {
     max-width: 100%;
