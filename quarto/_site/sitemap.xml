@@ -1,23 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.rsangole.com/posts/2020-10-29-m5-competition-notes.html</loc>
-    <lastmod>2022-08-14T02:17:12.734Z</lastmod>
+    <loc>https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/2020-10-29-m5-competition-notes.html</loc>
+    <lastmod>2022-08-14T22:03:53.211Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.rsangole.com/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii.html</loc>
+    <lastmod>2022-08-14T21:44:21.754Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.rsangole.com/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html</loc>
+    <lastmod>2022-08-14T21:44:06.901Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.rsangole.com/posts/2021-07-19_enhance-etl-text-plots/2021-07-19-enhance-etl-text-plots.html</loc>
+    <lastmod>2022-08-14T22:03:35.895Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.rsangole.com/posts/2021-08-03_docker-based-rstudio-postgres/2021-08-03-docker-based-rstudio-postgres.html</loc>
+    <lastmod>2022-08-14T22:04:02.983Z</lastmod>
   </url>
   <url>
     <loc>https://www.rsangole.com/index.html</loc>
-    <lastmod>2022-08-14T02:18:11.033Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.rsangole.com/about.html</loc>
-    <lastmod>2022-08-14T01:57:46.575Z</lastmod>
+    <lastmod>2022-08-15T00:50:54.999Z</lastmod>
   </url>
   <url>
     <loc>https://www.rsangole.com/blog.html</loc>
-    <lastmod>2022-08-14T02:18:10.311Z</lastmod>
+    <lastmod>2022-08-15T00:51:53.392Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2020/2020-10-29-m5-competition-notes.html</loc>
-    <lastmod>2022-08-14T02:18:09.976Z</lastmod>
+    <loc>https://www.rsangole.com/posts/2018-02-13-books-i-reference/2018-02-13-books-i-reference.html</loc>
+    <lastmod>2022-08-14T21:58:19.664Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.rsangole.com/posts/2018-08-02-try-catch/2018-08-02-try-catch.html</loc>
+    <lastmod>2022-08-15T00:43:33.939Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.rsangole.com/posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html</loc>
+    <lastmod>2022-08-15T00:46:15.500Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.rsangole.com/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection.html</loc>
+    <lastmod>2022-08-15T00:51:52.525Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.rsangole.com/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index.html</loc>
+    <lastmod>2022-08-15T00:47:28.710Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.rsangole.com/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs.html</loc>
+    <lastmod>2022-08-15T00:51:06.224Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.rsangole.com/posts/2020-10-10-reproducible-work-in-R/2020-10-10-reproducible-work-in-R.html</loc>
+    <lastmod>2022-08-15T00:50:53.401Z</lastmod>
   </url>
 </urlset>

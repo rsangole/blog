@@ -12,15 +12,13 @@ website:
       - href: index.qmd
         text: ~/
       - href: blog.qmd
-        text: /blog/
+        text: ~/blog
   page-footer:
     center: "2022 rahul s"
+  google-analytics: "UA-106573867-1"
 
 format:
   html:
     theme: simplex
     css: styles.css
     toc: true
-
-
-

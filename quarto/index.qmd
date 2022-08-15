@@ -2,7 +2,7 @@
 title: "Rahul S"
 image: headshot.jpg
 about:
-  template: trestles
+  template: jolla
   links:
     - text: LinkedIn
       url: "https://linkedin.com/in/rahulsangole"
@@ -22,8 +22,27 @@ comments: false
 
 Hello, my name is Rahul. This is a blog where I write about R and data science.
 
-I’m a data scientist at Apple where my work focuses on time-series forecasting and dashboarding. Before Apple, I worked as a data science manager at Cummins, an automotive engineering company, where I focused on developing time-series anomaly detection algorithms for engine health monitoring. In my former career, I worked as a mechanical engineer with a focus on computational stress, vibration and fatigue modeling.
+I’m a data scientist at Apple where my work focuses on time-series, R in production and Shiny dashboarding. Before [Apple](https://www.apple.com), I worked as a data science manager at [Cummins](https://www.cummins.com) where I focused on developing time-series anomaly detection algorithms for [engine health monitoring](https://www.cummins.com/parts-and-service/digital-products-and-services/preventech-mining). In my former career, I worked as a mechanical engineer with a focus on computational stress, vibration and fatigue modeling.
 
-I have a Master’s degree in Predictive Analytics from Northwesten University and a Master’s degree in Mechanical Engineering from the University of Michigan.
+I have a Master’s degree in Predictive Analytics from Northwestern University and another in Mechanical Engineering from the University of Michigan.
 
 :::
+
+```{r include=FALSE}
+# list names of post folders
+posts <- list.dirs(
+  path = here::here("posts"),
+  full.names = FALSE,
+  recursive = FALSE
+)
+
+# extract the slugs
+slugs <- gsub("^.*_", "", posts)
+
+# lines to insert to a netlify _redirect file
+redirects <- paste0("/", slugs, " ", "/posts/", posts)
+
+# write the _redirect file
+writeLines(redirects, here::here("_site", "_redirects"))
+```
+

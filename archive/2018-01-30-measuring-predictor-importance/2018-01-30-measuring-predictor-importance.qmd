@@ -1,0 +1,156 @@
+---
+title: Measuring Predictor Importance for Continous Response
+author: Rahul Sangole
+date: '2018-01-30'
+categories:
+  - R
+tags:
+  - caret
+  - multivariate
+  - R
+slug: measuring-predictor-importance
+draft: yes
+output:
+    blogdown::html_page:
+        toc: yes
+---
+
+**tl;dr**: 
+
+# 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+```{r}
+library(caret)
+library(tidyverse)
+library(lattice)
+library(purrr)
+library(minerva)
+library(CORElearn)
+library(randomForest)
+
+data("Sacramento")
+Sacramento <- tbl_df(Sacramento)
+```
+
+```{r}
+glimpse(Sacramento)
+```
+
+```{r}
+Sacramento %>% select_if(is.factor) %>% str
+```
+
+```{r}
+response <- 'price'
+#paste(colnames(Sacramento),collapse = '\',\'') #helper code
+predictors <-c('city','zip','beds','baths','sqft','type','latitude','longitude')
+numericPredictors <- c('beds', 'baths', 'sqft', 'latitude', 'longitude')
+categoricalPredictors <-
+Sacramento %>% select_if(is.factor) %>% colnames
+```
+
+```{r}
+map_dbl(.x = Sacramento[, numericPredictors],
+        .f = ~ cor(x = Sacramento[, response], y = .x))
+```
+
+```{r message=FALSE, warning=FALSE}
+splom(x = ~Sacramento[3:9],
+      data = Sacramento,
+      groups = type,
+      varname.cex = 0.9,
+      axis.text.cex = 0.3,
+      type = 'p',
+      cex = 0.2,
+      auto.key = list(columns=3,cex=0.6),
+      panel=function(...) {
+          panel.xyplot(...,pch=20,alpha = 0.4);
+          panel.loess(...,lwd=2,col='red',lty=1)
+          }
+      )
+```
+
+```{r}
+xyplot(price~latitude,Sacramento,type=c('p','smooth'),lwd=2,col.line='red')
+xyplot(price~longitude,Sacramento,type=c('p','smooth'),lwd=2,col.line='red')
+xyplot(price~sqft,Sacramento,type=c('p','smooth'),lwd=2,col.line='red')
+```
+
+loess method, r-sq statistic
+
+```{r}
+varimp <- filterVarImp(x = Sacramento[predictors],
+                       y = Sacramento[response][[1]],
+                       nonpara = TRUE)
+varimp %>% rownames_to_column %>% barchart(
+    Overall ~ rowname,
+    data = .,
+    xlab = 'predictors',
+    ylab = 'var importance',
+    main = 'LOESS filter based var importance results',
+    panel = function(...) {
+    panel.barchart(...);
+    panel.abline(h = 0.2, col = 'red', lty = 2)
+    }
+    )
+```
+
+```{r}
+mine_output <- mine(x = Sacramento[numericPredictors],
+                    y = Sacramento[response][[1]])
+mine_output$MIC
+as_tibble(mine_output$MIC, rownames = 'var') %>% barchart(
+    Y ~ var,
+    .,
+    xlab = 'predictors',
+    ylab = 'var importance',
+    main = 'MIC based var importance results',
+    panel = function(...) {
+    panel.barchart(...);
+    panel.abline(h = 0.25, col = 'red', lty = 2)
+    }
+    )
+```
+
+```{r}
+zip <- table(Sacramento$zip) %>% as_tibble() %>% arrange(desc(n))
+zip_to_other <- zip$Var1[zip$n <= 10]
+Sacramento$zip <- as.character(Sacramento$zip)
+Sacramento$zip[Sacramento$zip %in% zip_to_other] <- 'zOther'
+Sacramento$zip <- as.factor(Sacramento$zip)
+rfFit <- randomForest(price ~ ., Sacramento, ntree = 2000, importance =
+TRUE)
+varImp(rfFit) %>% rownames_to_column %>% barchart(
+    Overall ~ rowname,
+    .,
+    xlab = 'predictors',
+    ylab = 'var importance',
+    main = 'randomForest based var importance results',
+    panel = function(...) {
+    panel.barchart(...);
+    panel.abline(h = 40, col = 'red', lty = 2)
+    }
+    )
+```
+
+```{r}
+estReliefF <- attrEval(formula = price ~ .,
+                       data = Sacramento,
+                       estimator = 'RReliefFequalK')
+data.frame(estReliefF) %>% rownames_to_column() %>% barchart(
+    estReliefF ~ rowname,
+    .,
+    xlab = 'predictors',
+    ylab = 'var importance',
+    main = '`relief` algorithm based var importance results',
+    panel = function(...) {
+    panel.barchart(...);
+    panel.abline(h = 0.035, col = 'red', lty = 2)
+    }
+    )
+```
+

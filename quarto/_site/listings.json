@@ -2,7 +2,18 @@
   {
     "listing": "/blog.html",
     "items": [
-      "/posts/2020/2020-10-29-m5-competition-notes.html"
+      "/posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html",
+      "/posts/2021-08-03_docker-based-rstudio-postgres/2021-08-03-docker-based-rstudio-postgres.html",
+      "/posts/2021-07-19_enhance-etl-text-plots/2021-07-19-enhance-etl-text-plots.html",
+      "/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection.html",
+      "/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs.html",
+      "/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index.html",
+      "/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii.html",
+      "/posts/2020-10-29_m5-competition-notes/2020-10-29-m5-competition-notes.html",
+      "/posts/2020-10-10-reproducible-work-in-R/2020-10-10-reproducible-work-in-R.html",
+      "/posts/2018-08-02-try-catch/2018-08-02-try-catch.html",
+      "/posts/2018-02-13-books-i-reference/2018-02-13-books-i-reference.html",
+      "/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html"
     ]
   }
 ]

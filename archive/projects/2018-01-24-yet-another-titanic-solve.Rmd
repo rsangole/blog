@@ -1,0 +1,934 @@
+---
+title: Yet Another Titanic Solve
+author: Rahul Sangole
+date: '2018-03-30'
+slug: yet-another-titanic-solve
+tags:
+  - caret
+  - R
+  - kaggle
+output:
+    blogdown::html_page:
+        toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(cache.comments=FALSE)
+```
+
+**tl;dr:** Another titanic solve. Uses `caret` and `tidyverse` for everything. Best model is elastinet and gets me a 0.72-0.76 score on kaggle. Enjoy.
+
+# Objectives
+
+1. End to end analysis using R
+2. Learn the `caret` package for ML
+3. Learn to present the case using R Notebooks
+
+***
+
+# Read in the dataset
+I stored the raw files on Github, so I used [RCurl](https://cran.r-project.org/web/packages/RCurl/index.html) with [Wehrley's method](https://github.com/wehrley/wehrley.github.io/blob/master/SOUPTONUTS.md) that utilizes read.csv to the fullest. It's one of the best ways I've found to read in data and also set data-types at the same time. He's done a great job on that function. The dataset contains one ID variable, one response variable and ten predictor variables.
+
+```{r, message=FALSE, warning=FALSE}
+library(RCurl,quietly = T)
+library(tidyverse,quietly = T)
+library(ggplot2,quietly = T)
+library(gridExtra,quietly = T)
+library(beanplot,quietly = T)
+library(caret,quietly = T)
+library(stringr,quietly = T)
+library(party, quietly = T)
+library(xgboost, quietly = T)
+library(skimr, quietly = T)
+library(alluvial, quietly = T)
+library(pROC, quietly = T)
+library(ggrepel, quietly = T)
+
+readData <- function(path.name, file.name, column.types, missing.types) {
+    gurl <- paste(path.name,file.name,sep="")
+    download.file(gurl,file.name,method="curl",quiet = T)
+    tbl_df(read.csv(file.name,colClasses=column.types,
+             na.strings=missing.types))
+}
+
+Titanic.path <- "https://raw.githubusercontent.com/rsangole/Titanic/master/"
+train.data.file <- "train.csv"
+test.data.file <- "test.csv"
+missing.types <- c("NA", "")
+train.column.types <- c('integer',   # PassengerId
+                        'factor',    # Survived
+                        'factor',    # Pclass
+                        'character', # Name
+                        'factor',    # Sex
+                        'numeric',   # Age
+                        'integer',   # SibSp
+                        'integer',   # Parch
+                        'character', # Ticket
+                        'numeric',   # Fare
+                        'character', # Cabin
+                        'factor'     # Embarked
+)
+
+test.column.types <- train.column.types[-2]     # # no Survived column in test.csv
+train.raw <- readData(path.name = Titanic.path,
+                      file.name = train.data.file,
+                      column.types = train.column.types,
+                      missing.types = missing.types)
+kaggletest.raw <- readData(path.name = Titanic.path,
+                     file.name = test.data.file,
+                     column.types = test.column.types,
+                     missing.types = missing.types)
+
+prep_data <- function(D) {
+    if (!is.null(D$Survived)) {
+        D$Survived <- factor(D$Survived,
+                             levels = c(1, 0),
+                             labels = c('Survived', 'Dead'))
+        }
+    D$Pclass <- factor(D$Pclass,
+                       levels = c(1, 2, 3),
+                       labels = c('P1', 'P2', 'P3'))
+    D$PassengerId <- NULL
+    D
+}
+
+train.raw <- prep_data(train.raw)
+kaggletest.raw <- prep_data(kaggletest.raw)
+```
+
+***
+
+# Train-Test Split
+
+Here, I'm splitting up the `train` dataset into a training and a testing dataset. Right now, I don't intend to upload any results back into Kaggle, so I'm just going to evaluate my models on my testing split.
+
+```{r}
+set.seed(1071)
+training_rows <- caret::createDataPartition(y = train.raw$Survived, p = 0.7, list = F)
+test.raw <- train.raw %>% filter(!(rownames(.) %in% training_rows))
+train.raw <- train.raw %>% filter(rownames(.) %in% training_rows)
+dim(train.raw)
+dim(test.raw)
+```
+
+
+***
+
+# Missing values analysis
+
+Quick investigation of missing values can be done using the `complete.cases()`, and more thorough graphical summary can be done using Amelia. Overall, 79% of the observations have *some* missing data.
+
+```{r}
+#Complete cases (percentages)
+round(prop.table(table(complete.cases(train.raw))),2)
+```
+
+Amelia lets us graphically investigate which variables have missing data. `purr::map_xxx()` gives this same information numerically in a succint fashion.
+```{r, message=FALSE, warning=FALSE}
+Amelia::missmap(train.raw, main='Missing Values Analysis using Amelia ordered by % missing', col=c('red', 'gray'),legend = F,rank.order = T)
+#Missing cases (numbers):
+map_int(train.raw,~sum(is.na(.x)))
+```
+
+Cabin has a large number of missing values (77% missing). Imputing this variable may prove challenging or even useless. Age (19.9% missing) and Embarked (0.2%) missing are much more managable.
+
+***
+
+# EDA
+
+The first step in the analysis is to explore the data numerically and graphically. I always split up my EDA investigation as follows:
+
+* Target Variable
+* Predictor Variables
+    + Univariate
+    + Bivariate
+    + Multivariate
+
+This gives me a structured approach towards larger datasets. My [professor](http://www.syamalasrinivasan.com/) at Northwestern taught me to always complete a thorough intimate numeric & graphical EDA on the data, no matter how large the data [^1]. [Anscombe](http://www.jstor.org/stable/2682899) (1973) clearly shows the importance of graphical analyses.
+
+[^1]: I think this approach depends on the academic background and the industry of the analyst. Prof Srinivasan, and my mentor at work both have strong statistical academic backgrounds, and both believe in thorough EDA of the data. I've also noticed this approach from individuals in the banking & insurance industry - perhaps due to regulatory requirements. On the other hand, folks trained in computer science and algorithmic data science tend to underplay the importance of thorough EDA.
+
+## Target Variable
+`Survived` is the response variable. As we can see, a large majority of the passengers did not survive the accident. The response variable is a False/True boolean variable. Thus, the analysis techniques used later will be those appropriate for classification problems. 
+
+```{r}
+round(prop.table(table(train.raw$Survived)),2)
+```
+
+The classes are ~40:60 split which isn't too bad. Probably don't have to do any class balancing work.
+
+***
+
+## Predictor Variables {.tabset .tabset-fade}
+
+### Univariate & Bivariate
+
+The first step is to look at every variable available. I prefer using the `ggplot2` framework for all the visuals.
+
+#### Continuous Variables
+
+* `Age` seems to have a bimodal distribution - very young children, and then directly young adults to mid-age persons. The 2nd mode is right skewed with no obvious outliers.
+
+* `Fare` certainly shows many outliers beyond the ~$200 level. A majority of the fares are <$50, which makes sense since a majority of the travelers are bound to be in the 3rd passenger class.
+
+```{r, message=FALSE, warning=FALSE}
+p1 <- ggplot(data=train.raw,aes(x=Age))  + geom_histogram(aes(fill=Survived),bins = 40) + coord_flip()
+p2 <- ggplot(data=train.raw,aes(x=Fare)) + geom_histogram(aes(fill=Survived),bins = 40) + coord_flip()
+grid.arrange(p1,p2,nrow=1)
+```
+
+As we can see, the median fare is $14.5, the mean is $32, but the max is $512. We'll investigate winzorising this variable in the latter part. Perhaps a transformation will also help?
+
+```{r}
+summary(train.raw$Fare)
+```
+
+#### Categorical Variables
+
+A ggplot command is iterated over for the categorical variables.[^2]
+
+[^2]: To iterate variable names in ggplot, use `ggplot(...)+aes_string(...)` in place of `ggplot(...,aes(...))`.
+
+Key takeways for the categorical variables:
+
+1. `Pclass`: If you were traveling 1st class, you have the highest chance of survival. Could be indicative of preferential treatment to those who paid more, a less politically correct class-stratified society, as well as the fact that the 1st class passengers had cabins at the very top of the ship.
+2. `Pclass`: Persons traveling 3rd class had the highest fatality rate. 3rd class passengers had cabins deep in the ship. With the reasons give in (1), this could have contributed to the low survival rate.
+3. `Sex`: Males have a very high fatality rate. Seems like the 'women and children' first policy was followed during evacuation.
+4. `SibSp` & `Parch`: What's interesting here is, for both these variables, at level 0, the fatality rate is higher. At levels 1+, the chances of survival are much better. Again, this could point to the 'women *and children*' policy being followed. (Or perhaps there weren't as many families with children on board!)
+6. `Embarked`: Southampton has a higher fatality rate than Cherbourg or Queenstown. A cross-tabulation between `Embarked` and `Pclass` shows that 72% of the 3rd class passengers and 89% of the 2nd class passengers boarded at Southampton. This jives with the observation that 2nd and 3rd class passengers have higher fatality rates.
+
+```{r, message=FALSE, warning=FALSE}
+get_legend<-function(myggplot){
+  tmp <- ggplot_gtable(ggplot_build(myggplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)
+}
+p <- lapply(X = c('Pclass','Sex','SibSp','Parch','Embarked'),
+            FUN = function(x) ggplot(data = train.raw)+
+                aes_string(x=x,fill='Survived')+
+                geom_bar(position="dodge")+
+                theme(legend.position="none"))
+legend <- get_legend(ggplot(data = train.raw,aes(x=Pclass,fill=Survived))+geom_bar())
+grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],
+             legend,layout_matrix = cbind(c(1,2,3),
+                                          c(4,5,3),
+                                          c(6,6,6)),
+             widths=c(3,3,1))
+```
+
+### Multivariate Analyses
+
+Grouped boxplots are a common method of comparing distributions grouped by categorical variables. I find [beanplots](https://cran.r-project.org/web/packages/beanplot/beanplot.pdf) to be excellent complementary plots to boxplots (and in some cases, even better). They're a bit tricky to read at first - since they are so underutilized - but just through one plot, a wealth of information can be extracted.[^3]
+
+Here is a comparison of the same information between a boxplot and a beanplot. What can we infer from the bean plot better?
+
+1. The beanplot allows us to visualize the density function of the parameter, in this case: Age. Furthermore, the length of each beanline is cumulative to the number of datapoints that exist. Rightaway, we can tell that Pclass=3 has the most data in the set, with sparser data at Pclass=1.
+2. The mean values for 1st class is higher than that for 2nd and 3rd class. The distributions of deceased and survived for 1st class are fairly similar.
+3. For 2nd and 3rd class, the survived data shows a bimodal distribution. Bumps at the 0-10 age show that children were evacuated first. This is also the reason the mean values for survived is lower.
+4. For 2nd and 3rd class, the deceased data shows a fairly normal distribution.
+5. The individual measurements (represented by black lines) represent each observation and help identify outliers much more easily than a boxplot does.
+
+[^3]: Read more about beanplots here: https://cran.r-project.org/web/packages/beanplot/vignettes/beanplot.pdf
+
+```{r, message=FALSE, warning=FALSE, fig.show='hold',fig.align='center', out.width= '60%'}
+ggplot(train.raw,aes(y=Age,x=Pclass))+geom_boxplot(aes(fill=Survived))+theme_bw()
+beanplot(Age~Survived*Pclass,side='b',train.raw,col=list('yellow','orange'),
+         border = c('yellow2','darkorange'),ll = 0.05,boxwex = .5,
+         main='Passenger survival by pclass and Age',xlab='Passenger Class',ylab='Age')
+legend('topright', fill = c('yellow','orange'), legend = c("Dead", "Survived"),bty = 'n',cex = .8)
+```
+
+A look into the `SibSp` and `Parch` variables shows something interesting. There are three regions one can identify:
+
+* The probability of survival is minimal for number of parents/children aboard > 3.
+* The probability of survival is minimal for number of siblings/spouses aboard > 3.
+* For `SibSp`<=3 and `Parch`<=3, there are better chances for survival.
+
+The grouping by `Pclass` reveals that all the large families were 3rd class travelers. Worse access to help... lowest chance for survival.
+
+These could be simple rules either hard coded during model building: something along the lines of: *IF (SibSp>3 OR Parch >3) THEN prediction = 0*, or some derived variables can be created.
+
+```{r}
+ggplot(train.raw,aes(y=SibSp,x=Parch))+
+    geom_jitter(aes(color=Survived,shape=Pclass))+
+    theme_bw()+
+    scale_shape(solid=F)+
+    geom_vline(xintercept = 3,color='darkred',lty=2)+
+    geom_hline(yintercept = 3,color='red',lty=2)
+```
+
+Another excellent way to look at multivariate data is using [alluvial](https://cran.r-project.org/web/packages/alluvial/vignettes/alluvial.html) plots. Not only are these plots intuitive to read and visually stiking, but they offer a lot of insight into the structure of the multivariate data as well.
+
+```{r}
+train.raw %>%
+    mutate(Age_Group = case_when(
+        Age < 18 ~ 'Child',
+        Age >= 18 ~ 'Adult'
+    )) %>% 
+  group_by(Survived, Sex, Pclass, Age_Group) %>%
+  summarise(N = n()) %>% 
+  ungroup %>%
+  na.omit -> alluvial_table
+  
+alluvial(alluvial_table[,c(-5)],
+         freq = alluvial_table$N,
+         cex = 0.8,
+         col=ifelse(alluvial_table$Survived == "Survived", "blue", "forestgreen"))
+```
+
+
+***
+
+# Data Preparation
+## Missing Values Imputation
+Starting with the easier one first:
+
+**Embarked**: The largest portion of the passengers embared at Southhampton. I'm replacing the NAs with the same. First, I create a new imputed training dataset.
+
+```{r}
+summary(train.raw$Embarked)
+train.imp <- train.raw
+train.imp$Embarked[is.na(train.imp$Embarked)] <- 'S'
+```
+
+**Names, Titles & Age**: The names have titles embedded in the strings. I can extract these using regex. Master, Miss, Mr and Mrs are the most popular - no surprise there, with lots of other titles.  Here's the distribution of the titles by age. These can be used to impute the missing age values.
+
+```{r, message=FALSE, warning=FALSE, out.width= '60%'}
+train.imp$title <- str_extract(pattern = '[a-zA-Z]+(?=\\.)',string = train.imp$Name)
+train.imp$title <- as.factor(train.imp$title)
+ggplot(train.imp,aes(x=title,y=Age))+
+    geom_jitter(shape=21,alpha=.6,col='blue')+
+    stat_summary(aes(y = Age,group=1), fun.y=median, colour="red", geom="point",group=1)+
+    theme_bw()+
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),legend.position="none")+
+    labs(caption='red points are median values')
+```
+
+Grouping similar titles together, I've kept a few titles - Officer, Royalty, Mr, Mrs and Miss.
+
+```{r message=FALSE, warning=FALSE, out.width= '60%'}
+train.imp$title <- as.character(train.imp$title)
+train.imp$title[train.imp$title %in% c('Capt','Col','Major')] <- 'Officer'
+train.imp$title[train.imp$title %in% c('Don','Dr','Rev','Sir','Jonkheer','Countess','Lady','Dona')] <- 'Royalty'
+train.imp$title[train.imp$title %in% c('Mrs','Mme')] <- 'Mrs'
+train.imp$title[train.imp$title %in% c('Ms','Mlle')] <- 'Miss'
+train.imp$title <- as.factor(train.imp$title)
+ggplot(train.imp,aes(x=title,y=Age))+
+    geom_jitter(color='blue',shape=21,alpha=.7)+
+    stat_summary(aes(y = Age,group=1), fun.y=median, colour="red", geom="point",group=1)+
+    theme_bw()+
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+    labs(caption='red points are median values')
+```
+
+Now for the missing Age values. I'm trying out two strategies to impute age, just for kicks. First, a regression tree using the `rpart` method. 5-repeat 10-fold cross validation across a tuning grid of 20 values of `maxdepth`. RMSE stablizes at a depth of 14, with a value of 12.2.
+
+```{r message=FALSE, warning=FALSE, fig.show='hold',fig.align='center', out.width= '60%'}
+age.predictors <- train.imp %>%
+    dplyr::select(-Survived,-Cabin,-Ticket,-Name) %>%
+    dplyr::filter(complete.cases(.))
+ctrl <- trainControl(method = "repeatedcv",
+                     repeats = 5)
+rpartGrid <- data.frame(maxdepth = seq(2,10,1))
+rpartFit_ageimputation <- train(x=age.predictors[,-3],
+                      y=age.predictors$Age,
+                      method='rpart2',
+                      trControl = ctrl,
+                      tuneGrid = rpartGrid
+                      )
+rpartFit_ageimputation
+plot(rpartFit_ageimputation)
+rpart.plot::rpart.plot(rpartFit_ageimputation$finalModel, extra=101, box.palette="GnBu")
+save(rpartFit_ageimputation,file = 'rpartFit_ageimputation')
+```
+
+I'm going to use the randomForest model. Using the `predict.train()` to predict values of age and plug them back into the imputed data. You can see the blue points which are the imputed values of `Age`. What I noticed is that for all the titles, the imputed Age value seems to be distributed fairly well, except Master. For Master, the three imputed are definitely outliers. I'm going to force these to the median Age.
+
+```{r out.width= '60%'}
+missing_age <- is.na(train.imp$Age)
+age.predicted <- predict(rpartFit_ageimputation, newdata = train.imp[missing_age,])
+train.imp[missing_age,'Age'] <- age.predicted
+
+train.imp %>% 
+    mutate(Age_Imputed = missing_age) %>% 
+    ggplot(aes(x=title,y=Age))+
+    stat_summary(aes(y = Age,group=1), fun.y=median, colour="red", geom="point",group=1)+
+    geom_jitter(aes(y=Age,col=Age_Imputed,shape=Age_Imputed))+
+    theme_bw()+
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),legend.position="none")+
+    labs(caption='green points are imputed values')
+```
+
+## Derived Variables
+
+**Child?:** Trying out two engineered variables here - is the passenger a child or not? Using Age=18 as a threshold. 
+
+```{r}
+train.imp$child <- 0
+train.imp$child[train.imp$Age<18] <- 1
+```
+
+**Really old?:** Really older folks would get priority perhaps. Creating a categorical variables for this conditions.
+```{r}
+train.imp$Seniors <- ifelse(train.imp$Age>60,1,0)
+```
+
+
+**Family related:** Let's also create some variables that talk about family sizes. What's the total family size -- continous variable `TotalFam`. Is the person single, part of a couple or a large family? Three categorical variables for these.
+
+```{r}
+train.imp$TotalFam <- train.imp$SibSp + train.imp$Parch + 1
+train.imp$LargeFamily <- ifelse(train.imp$TotalFam>4,1,0)
+train.imp$Name <- NULL
+```
+
+**Cabin related:** Extracting the cabin alphabet and number from the cabin variable. Since the cabin numbers could be ordered from left to right or top to bottom on the boat, perhaps only the 1st digit is significant. Also, some folks have more than 1 cabin. Wonder if that's important. Since lots of unknowns in the `Cabin` variable, all NA values are replaced by 'U'. Refering to the deck diagram, the topmost decks are A and B, which are closest to the lifeboats. Perhaps that's important too. Here, I create a bunch of categorical variables based off the original `Cabin`, and then remove it from the dataset.
+
+```{r}
+train.imp$CabinMissing <- as.numeric(is.na(train.raw$Cabin))
+
+train.imp$CabinCode <- map_chr(train.raw$Cabin,~str_split(string = .x,pattern = '')[[1]][1])
+train.imp$CabinCode[is.na(train.imp$CabinCode)] <- 'U'
+train.imp$CabinCode <- as.factor(train.imp$CabinCode)
+
+train.imp$CabinNum <- as.numeric(map_chr(train.raw$Cabin,~str_split(string = .x,pattern = '[a-zA-Z]')[[1]][2]))
+train.imp$CabinNum <- map_int(train.imp$CabinNum, ~as.integer(str_split(.x,pattern = '',simplify = T)[1][1]))
+train.imp$CabinNum[is.na(train.imp$CabinNum)] <- 0
+
+train.imp$TopDeck <- ifelse(train.imp$CabinCode %in% c('A','B'),1,0)
+train.imp$MidDeck <- ifelse(train.imp$CabinCode %in% c('C','D'),1,0)
+train.imp$LowerDeck <- ifelse(train.imp$TopDeck==0 & train.imp$MidDeck==0 ,1,0)
+
+train.imp$NumberofCabins <- map_int(train.raw$Cabin,~str_split(string = .x,pattern = ' ')[[1]] %>% length)
+train.imp$Cabin <- NULL
+```
+
+**Ticket:** Lastly, the `ticket` variable. I'm not sure what to make of it, so I'm keeping it for now, after cleaning it up a bit. A majority (80%) of the rows have unique (one) ticket. 14% rows have a duplicate ticket, perhaps indicating a family. A small number of rows have 3+ duplicates of the tickets.
+
+```{r}
+train.imp$Ticket %>% table() %>% as.numeric() %>% table()
+```
+
+There seems to be a bit of a pattern here. Tickets starting with 1 are mostly 1st class, those starting with 2 are 2nd class, and 3 - 3rd class. But, I feel it's a very loose association.
+```{r}
+train.imp %>% group_by(Pclass) %>% dplyr::select(Ticket,Pclass) %>% sample_n(5)
+```
+
+What I'm going to do is clean up the columns (remove special characters, spaces etc), then split the `Ticket` column into four: `TicketChar`, `TicketNum`,`TicketNumLength`, `TicketNumStart`.  (Upon running the script a few times, I've decided to get rid of `TicketNum`, but I'm commenting the code for future ref). The `TicketChar` variable as this distribution:
+
+```{r}
+train.imp %<>%
+    mutate(
+        Ticket = str_to_upper(Ticket) %>%
+            str_replace_all(pattern = regex(pattern = '[.\\/]'),replacement = ''),
+        TicketNum = str_extract(Ticket,pattern = regex('([0-9]){3,}')),
+        TicketNumStart = map_int(TicketNum,~as.integer(str_split(.x,pattern = '',simplify = T)[1])),
+        TicketNumLen = map_int(TicketNum,~dim(str_split(.x,pattern = '',simplify = T))[2]),
+        TicketChar = str_extract(Ticket,pattern = regex('^[a-zA-Z/\\.]+'))
+        ) %>%
+     mutate(
+         TicketChar = map_chr(.x=TicketChar,
+                              .f=~str_split(string=.x, pattern = '',simplify = T)[1])
+         ) %>%
+    mutate(
+        TicketChar = ifelse(is.na(TicketChar),'U',TicketChar),
+        TicketNumStart = ifelse(is.na(TicketNumStart),0,TicketNumStart),
+        TicketNumLen = ifelse(is.na(TicketNumLen),0,TicketNumLen),
+    ) %>% 
+    mutate(
+        TicketChar = as.factor(TicketChar),
+        TicketNumStart = factor(TicketNumStart,levels = seq(0,9,1)),
+        TicketNumLen = as.factor(TicketNumLen)
+    )
+train.imp$Ticket <- NULL
+train.imp$TicketNum <- NULL
+table(train.imp$TicketChar,dnn ='TicketChar')
+table(train.imp$TicketNumLen,dnn='TicketNumLen')
+table(train.imp$TicketNumStart,dnn='TicketNumStart')
+```
+
+```{r}
+table(train.imp$NumberofCabins)
+```
+
+
+<!-- ## Winzoring Variables -->
+
+<!-- The `fare` variable has one massive outlier. Winzorising this variable using the 95th percentile value as the cutoff. -->
+
+<!-- ```{r} -->
+<!-- ggplot(train.imp,aes(x=Fare,fill=Pclass))+geom_histogram()+facet_grid(Pclass~.) -->
+<!-- quantile(train.imp$Fare[train.imp$Pclass=='P1'],probs = c(.1,.25,.5,.75,.95)) -->
+<!-- train.imp$Fare[train.imp$Fare>232] <- 232 -->
+<!-- ``` -->
+
+## Final Data Review
+
+The dataset is now prepared for modeling. Here's a quick review of the data so far. 23 variables in total.
+
+```{r}
+train.imp %>% glimpse()
+```
+
+***
+
+# Modeling
+
+I'm experimenting with a few modeling techniques, mainly [xgboost](http://xgboost.readthedocs.io/en/latest/), penalized models using [glmnet](https://cran.r-project.org/web/packages/glmnet/index.html), [kNN](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/kmeans.html), [SVM with RBF](https://cran.r-project.org/web/packages/kernlab/index.html), [C5.0](https://cran.r-project.org/web/packages/C50/index.html) and [Avg NN](https://cran.r-project.org/web/packages/nnet/nnet.pdf). I've tried to select models with different structures and different underlying architecture. This gives the highest diversity during the initial modeling approach. I've implemented all these models using [caret](http://topepo.github.io/caret/index.html) which I find an absolutely indispensible toolkit to prep, build, tune and explore numerous models using very few lines of code.
+
+For all models, I'm using a 5-repeat 10-fold cross validation technique on the training dataset. Tuning parameter searches (aka hypertuning) is performed using the `tuneGrid` parameter in the `train()` call. The best model is selected using the AUC of the ROC. Here are the models and a few intermediate results for each model. At the end, I've compared the performance of all the models together.
+
+## Extreme Gradient Boosting
+
+The renowned and popular `xgboost` package via `caret`. `ctrl` is the training control object which specifies the resampling method selected. The `grid` object helps perform hyperparameter tuning.
+
+```{r echo=TRUE, fig.align='center', fig.show='hold', message=FALSE}
+ctrl <- trainControl(method = "repeatedcv",
+                     repeats = 5,
+                     verboseIter = F,
+                     classProbs = TRUE,
+                     summaryFunction = twoClassSummary,
+                     # sampling = 'down',
+                     savePredictions = T
+                     )
+xgbGrid <- expand.grid(
+    nrounds=seq(14,24,2),
+    max_depth=seq(2,8,2),
+    eta=c(0.1, 0.2, 0.3),
+    gamma=1,
+    colsample_bytree=1,
+    min_child_weight=1,
+    subsample=1
+)
+xgbFit <- train(
+    Survived~.,
+    train.imp,
+    method = 'xgbTree',
+    trControl = ctrl,
+    tuneGrid = xgbGrid
+)
+save(xgbFit,file = 'xgbFit')
+```
+
+What we can see:
+
+* Run times are extremely fast
+* The final values used for the model were nrounds = 20, max_depth = 2, eta = 0.2. Perhaps increasing the boosting iterations might help, but I'm stopping here.
+* Feature importance plots show the derived features 'Senior' and 'TopDeck' add value.
+* The PDF of AUC ROC shows a bi-modal distribution (slightly). I noticed this for the other models as well. I wonder what that indicates?
+* Histograms of the probability plots look somewhat as expected, with a strong peak at <0.2 for 'Survived' and a strong peak at >0.8 for 'Dead'. What I don't like is how it doesn't seem to tail off at either end, i.e. ~20% of the data in either category is strongly misclassified.
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width= '60%'}
+print(xgbFit,details = F)
+plot(xgbFit)
+xgb.importance(feature_names = colnames(train.imp), 
+               model = xgbFit$finalModel) %>%
+    xgb.ggplot.importance()
+densityplot(xgbFit,pch='|')
+predict(xgbFit,type = 'prob') -> train.Probs
+histogram(~Survived+Dead,train.Probs)
+```
+
+## Elastinet
+
+Moving on to a mixture model of ridge & lasso.
+
+```{r message=FALSE, warning=FALSE}
+ctrl <- trainControl(method = "repeatedcv",
+                     repeats = 5,
+                     verboseIter = F,
+                     classProbs = TRUE,
+                     summaryFunction = twoClassSummary,
+                     savePredictions = T
+                     # sampling = 'down'
+                     )
+glmnetGrid <- expand.grid(.alpha = c(0,.2,.4,.6,.8,1),
+                          .lambda = seq(10^-10,10^-1,0.02))
+glmnetFit <- train(
+    Survived~.,
+    train.imp,
+    trControl=ctrl,
+    method='glmnet',
+    tuneGrid = glmnetGrid
+)
+save(glmnetFit,file = 'glmnetFit')
+```
+
+What we can see:
+
+* The final values used for the model were alpha = 1 and lambda = 0.02. An alpha of 1 indicates this is a pure lasso model
+* Like before, I don't like is how it doesn't seem to tail off at either end, i.e. ~20% of the data in either category is strongly misclassified.
+* A quick look at the var importance plot does show that the derived variables of title, ticket char, and ticket number are important. Not bad for some quick feature engineering.
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width='60%'}
+glmnetFit
+glmnPlot <- plot(glmnetFit,
+                 plotType = "level",
+                 cuts = 15,
+                 scales = list(x = list(rot = 90, cex = .65)))
+update(glmnPlot,
+       xlab = "Mixing Percentage\nRidge <---------> Lasso",
+       sub = "",
+       main = "Area Under the ROC Curve",
+       ylab = "Amount of Regularization")
+densityplot(glmnetFit,pch='|')
+plot(varImp(glmnetFit),15,main='Elastinet Model')
+predict(glmnetFit,type = 'prob') -> train.glmnet.Probs
+histogram(~Survived+Dead,train.glmnet.Probs)
+```
+
+## k-NN
+
+`kNN` is expected to be the worst of the lot, and it doesn't prove us wrong.
+
+```{r echo=TRUE, message=FALSE}
+ctrl <- trainControl(method = "repeatedcv",
+                     repeats = 5,
+                     verboseIter = F,
+                     classProbs = TRUE,
+                     summaryFunction = twoClassSummary,
+                     savePredictions = T
+                     # sampling = 'down'
+                     )
+knnGrid <- expand.grid(k=seq(3,23,2))
+knnFit <- train(
+    Survived~.,
+    train.imp,
+    method = 'knn',
+    trControl = ctrl,
+    tuneGrid = knnGrid
+)
+save(knnFit,file = 'knnFit')
+```
+
+The probability value histograms show how large the overlap is between the two classes. Clearly a poor predictor model.
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width= '60%'}
+knnFit
+plot(knnFit)
+densityplot(knnFit,pch='|')
+predict(knnFit,type = 'prob') -> train.Probs
+histogram(~Survived+Dead,train.Probs)
+```
+
+## SVM
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+ctrl <- trainControl(method = "repeatedcv",
+                     repeats = 5,
+                     verboseIter = F,
+                     classProbs = TRUE,
+                     summaryFunction = twoClassSummary,
+                     savePredictions = T
+                     # sampling = 'down'
+                     )
+svmFit <- train(
+    Survived~.,
+    train.imp,
+    method = 'svmRadial',
+    trControl = ctrl,
+    tuneGrid = expand.grid(C=c(0.05,0.1,0.2,0.3), sigma=c(0.001,0.005,0.01,0.015))
+)
+save(svmFit,file = 'svmFit')
+```
+
+* The SVM shows moderate performance, but notice many wrongs it gets confidently. Large peaks (~20%) in the probability histograms indicate that the predictions this model gets wrong, it gets wrong very confidently. 
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width= '60%'}
+svmFit
+plot(svmFit)
+densityplot(svmFit,pch='|')
+predict(svmFit,type = 'prob') -> train.Probs
+histogram(~Survived+Dead,train.Probs)
+```
+
+## C5.0
+
+```{r echo=TRUE, message=FALSE}
+ctrl <- trainControl(method = "repeatedcv",
+                     repeats = 5,
+                     verboseIter = F,
+                     classProbs = TRUE,
+                     summaryFunction = twoClassSummary,
+                     savePredictions = T
+                     )
+c5Fit <- train(
+    Survived~.,
+    train.imp,
+    method = 'C5.0',
+    trControl = ctrl,
+    control = C50::C5.0Control(earlyStopping = FALSE)
+)
+save(c5Fit,file = 'c5Fit')
+```
+
+* For the C5.0 model, I've kept the grid search space the default offered by `caret`.
+* We still see the 'U' shape on the probability distributions, although more spread out than what we saw in the SVM model.
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width= '60%'}
+c5Fit
+plot(c5Fit)
+densityplot(c5Fit,pch='|')
+predict(c5Fit,type = 'prob') -> train.Probs
+histogram(~Survived+Dead,train.Probs)
+```
+
+## Averaged Neural Networks
+
+```{r message=FALSE, warning=FALSE}
+ctrl <- trainControl(method = "repeatedcv",
+                     repeats = 5,
+                     classProbs = TRUE,
+                     summaryFunction = twoClassSummary,
+                     savePredictions = T
+                     )
+avNNetgrid <- expand.grid(size=c(2,4,6,8),decay=c(0.1,0.2),bag=c(T,F))
+avNnetFit <- train(Survived~.,
+                   train.imp,
+                   method = "avNNet", 
+                   trControl = ctrl,
+                   tuneGrid = avNNetgrid,
+                   repeats = 15,
+                   trace = FALSE) 
+save(avNnetFit,file = 'avNnetFit')
+```
+
+Averaged neural networks are something I picked up in the 2018 RStudio conference. It fits multiple neural networks to a problem and returns the average value of all the nnets together. Easy to use, pretty spiffy.
+
+There are three tunable parameters here - # of hidden nodes, bagging and weight decay. Upon playing with them a bit, I settled on what you see below. Perhaps increasing the # of hidden units would have made more of a difference, but I'm happy with this so far.
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width= '60%'}
+avNnetFit
+plot(avNnetFit)
+densityplot(avNnetFit,pch='|')
+predict(avNnetFit,type = 'prob') -> train.Probs
+histogram(~Survived+Dead,train.Probs)
+```
+
+## Conditional Inference Random Forests
+
+```{r}
+ctrl <- trainControl(method = "repeatedcv",
+                     repeats = 5,
+                     verboseIter = F,
+                     classProbs = TRUE,
+                     summaryFunction = twoClassSummary,
+                     savePredictions = T
+                     )
+ciRFgrid <- expand.grid(mtry = c(20,25,30,35,40))
+ciRFFit <- train(Survived~.,
+                   train.imp,
+                   method = "cforest", 
+                   trControl = ctrl,
+                 tuneGrid = ciRFgrid
+                 ) 
+save(ciRFFit,file = 'ciRFFit')
+```
+
+This is another technology I picked up from converstaions at RStudio conference. I believe it's referenced in the APM book as well. Some information about them is [here](https://hsequantling.wikispaces.com/file/view/LevshinaCh14CARTRandomForest.pdf). To be honest, I haven't spent any time understanding exactly how these work, so to me they are black box(y) at the moment.
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width= '60%'}
+ciRFFit
+plot(ciRFFit)
+densityplot(ciRFFit,pch='|')
+predict(ciRFFit,type = 'prob') -> train.Probs
+histogram(~Survived+Dead,train.Probs)
+```
+
+***
+
+# Compare models
+
+Now the fun part - pitting these models against each other to figure out who's the strongest. The beauty of using `caret` to analyze all the models with the same resampling strategy is that it allows one to use the `resamples()` function to quickly extract all the information in the fits and plot out key performance parameters like ROC, sensitivity and specificity.
+
+```{r echo=TRUE, message=FALSE}
+re <-
+    resamples(x = list(
+    xgb = xgbFit,
+    knn = knnFit,
+    elastinet = glmnetFit,
+    C50 = c5Fit,
+    svm = svmFit,
+    avgNNet = avNnetFit,
+    ciRF = ciRFFit
+    ))
+```
+
+This plot shows the point estimates (mean and CI of mean) of all three metrics, as evaluated on each repeated cross-validation on all models run per model-type. All the top 4 models are really alike in AUC ROC, with xgb and C50 taking a slight lead in sensitivity. 
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width='60%'}
+dotplot(re)
+```
+
+Another way to visualize the data is to plot all the results of each model-type for all it's cross-validated results on a boxplot. This shows us how much variation we might expect from the model for a true unknown test set. Here, elastinet seems to have the tightest IQR for AUC ROC as well as the tightest IQR for sensitivity. It also shows no outliers.
+
+```{r echo=TRUE, message=FALSE, fig.show='hold', fig.align='center', out.width='60%'}
+bwplot(re)
+```
+
+One challenge in the plots above is drawing inferences from the plots above. Too many of the points above are really close to each other. It's hard to tell if one model is any better than another model.
+
+This is where `diff()` is a useful function. Basically, for each metric, all pair-wise differences are evaluated. The plot makes this quite intuitive. If the confidence level  on the differences includes zero, the models are equal to each other. Similar to assessing a null hypothesis of (beta = 0) in a linear regression analysis. 
+
+Now, we can clearly see that if xgb is compared to it's next 3 rivals, there isn't really a statistically significant difference between the AUC ROC performance of that model against the others based on the cross-validations alone. No reason to pick over the others. 
+
+```{r}
+difValues <- diff(re)
+dotplot(difValues)
+```
+
+***
+
+# Test Set Evaluation
+
+Of course, any data scientist worth his/her salt knows better than to use training set performances to fully evaluate and select the final model.
+
+So, first re-trace all the steps and prepare the test dataset.
+
+## Create test set
+```{r}
+test.imp <- test.raw
+
+#Embarked
+test.imp$Embarked[is.na(test.imp$Embarked)]='S'
+
+#Title
+test.raw$title <- str_extract(pattern = '[a-zA-Z]+(?=\\.)',string = test.raw$Name)
+test.imp$title <- as.character(test.raw$title)
+test.imp$title[test.imp$title %in% c('Capt','Col','Major')] <- 'Officer'
+test.imp$title[test.imp$title %in% c('Don','Dr','Rev','Sir','Jonkheer','Countess','Lady','Dona')] <- 'Royalty'
+test.imp$title[test.imp$title %in% c('Mrs','Mme')] <- 'Mrs'
+test.imp$title[test.imp$title %in% c('Ms','Mlle')] <- 'Miss'
+test.imp$title <- factor(test.imp$title,levels = levels(train.imp$title))
+
+#Missing age
+missing.age <- test.imp %>% filter(is.na(Age)) %>% dplyr::select(-Cabin,-Ticket,-Name)
+age.predicted <- predict(rpartFit_ageimputation, newdata = missing.age)
+test.imp$Age[is.na(test.imp$Age)] <- age.predicted
+
+#Child
+test.imp$child <- 0
+test.imp$child[test.imp$Age<18] <- 1
+
+#Young/old
+test.imp$Seniors <- ifelse(test.imp$Age>60,1,0)
+
+#Family Related
+test.imp$TotalFam <- test.imp$SibSp + test.imp$Parch + 1
+test.imp$LargeFamily <- ifelse(test.imp$TotalFam>4,1,0)
+test.imp$Name <- NULL
+
+#Cabin & Deck
+test.imp$CabinMissing <- as.numeric(is.na(test.raw$Cabin))
+test.imp$CabinCode <- map_chr(test.raw$Cabin,~str_split(string = .x,pattern = '')[[1]][1])
+test.imp$CabinCode[is.na(test.imp$CabinCode)] <- 'U'
+test.imp$CabinCode <- factor(test.imp$CabinCode,levels = levels(train.imp$CabinCode))
+test.imp$CabinNum <- as.numeric(map_chr(test.raw$Cabin,~str_split(string = .x,pattern = '[a-zA-Z]')[[1]][2]))
+test.imp$CabinNum <- map_int(test.imp$CabinNum, ~as.integer(str_split(.x,pattern = '',simplify = T)[1][1]))
+test.imp$CabinNum[is.na(test.imp$CabinNum)] <- 0
+
+test.imp$TopDeck <- ifelse(test.imp$CabinCode %in% c('A','B'),1,0)
+test.imp$MidDeck <- ifelse(test.imp$CabinCode %in% c('C','D'),1,0)
+test.imp$LowerDeck <- ifelse(test.imp$TopDeck==0 & test.imp$MidDeck==0 ,1,0)
+
+test.imp$NumberofCabins <- map_int(test.raw$Cabin,~str_split(string = .x,pattern = ' ')[[1]] %>% length)
+test.imp$Cabin <- NULL
+
+# Ticket
+test.imp %<>%
+    mutate(
+      Ticket = str_to_upper(Ticket) %>%
+          str_replace_all(pattern = regex(pattern = '[.\\/]'),replacement = ''),
+      TicketNum = str_extract(Ticket,pattern = regex('([0-9]){3,}')),
+      TicketNumStart = map_int(TicketNum,~as.integer(str_split(.x,pattern = '',simplify = T)[1])),
+      TicketNumLen = map_int(TicketNum,~dim(str_split(.x,pattern = '',simplify = T))[2]),
+      TicketChar = str_extract(Ticket,pattern = regex('^[a-zA-Z/\\.]+'))
+      ) %>%
+    mutate(
+        TicketChar = map_chr(.x=TicketChar,
+                             .f=~str_split(string=.x, pattern = '',simplify = T)[1])
+        ) %>%
+    mutate(
+      TicketChar = ifelse(is.na(TicketChar),'U',TicketChar),
+      TicketNumStart = ifelse(is.na(TicketNumStart),0,TicketNumStart),
+      TicketNumLen = ifelse(is.na(TicketNumLen),0,TicketNumLen),
+    ) %>% 
+    mutate(
+        TicketChar = as.factor(TicketChar),
+        TicketNumStart = factor(TicketNumStart,levels = seq(0,9,1)),
+        TicketNumLen = as.factor(TicketNumLen)
+    )
+test.imp$Ticket <- NULL
+test.imp$TicketNum <- NULL
+```
+
+## Predict test results
+
+Now, predict the results using all the modelFits created in the previous section.
+
+```{r}
+elastinetPred   <- predict(object = glmnetFit, newdata = test.imp)
+xgbPred         <- predict(object = xgbFit,    newdata = test.imp)
+c5Pred          <- predict(object = c5Fit,     newdata = test.imp)
+knnPred         <- predict(object = knnFit,    newdata = test.imp)
+svmPred         <- predict(object = svmFit,    newdata = test.imp)
+avNNPred        <- predict(object = avNnetFit, newdata = test.imp)
+ciRFPred        <- predict(object = ciRFFit,   newdata = test.imp)
+```
+
+Predictions are done; now let's investigate the results. Extracting confusion matrices is made simple using `caret`. Comparing all the results is made easy if we leverage the tools in `purrr`.
+
+```{r}
+xtab <- table(xgbPred,test.imp$Survived)
+xgbCM <- caret::confusionMatrix(xtab)
+
+xtab <- table(elastinetPred,test.imp$Survived)
+elastinetCM <- caret::confusionMatrix(xtab)
+
+xtab <- table(c5Pred,test.imp$Survived)
+c5CM <- caret::confusionMatrix(xtab)
+
+xtab <- table(knnPred,test.imp$Survived)
+knnCM <-caret::confusionMatrix(xtab)
+
+xtab <- table(svmPred,test.imp$Survived)
+svmCM <-caret::confusionMatrix(xtab)
+
+xtab <- table(avNNPred,test.imp$Survived)
+avNNCM <-caret::confusionMatrix(xtab)
+
+xtab <- table(ciRFPred,test.imp$Survived)
+ciRFCM <-caret::confusionMatrix(xtab)
+
+CM_list <- list(xgbCM, elastinetCM, c5CM, knnCM, svmCM, avNNCM, ciRFCM)
+
+compiled_results <- tibble(
+    models = c('xgb','elastinet','C5.0','knn','svm', 'avgNN', 'ciRF'),
+    accuracy = map_dbl(CM_list,~.x$overall[1]),
+    kappa = map_dbl(CM_list,~.x$overall[2]),
+    sensitivity = map_dbl(CM_list,~.x$byClass[1]),
+    specificity = map_dbl(CM_list,~.x$byClass[2]),
+    F1 = map_dbl(CM_list,~.x$byClass[7])
+)
+compiled_results %>% arrange(accuracy,kappa)
+```
+
+Of course, the easiest way to look at the results is visually. Elastinet and svm are the clear winners here, with 84%+ accuracy. The kappa and F1 scores together also show them are clear winners. This is what's interesting about using the test datasets. The cross-validation training results had xgb, C50, ciRF, avgNNet and elastinet all almost equally as good. However, the test results show a very clear winner indeed.
+
+```{r out.width='50%', fig.show='hold'}
+dotplot(reorder(models,accuracy)~accuracy,compiled_results, main = 'Accuracy (Test Set Performance)')
+ggplot(compiled_results, aes(F1, accuracy)) +
+    geom_point(color = 'blue',shape=1) +
+    geom_text_repel(aes(label = models),
+                    box.padding=unit(1,'lines'),
+                    max.iter=1e2,segment.size=.3,
+                    force=1) +
+    theme_bw()+
+    labs(x='F1',y='kappa', title='Kappa vs F1 (Test Set Performance)')
+```
+
+# Kaggle Performance
+
+The top few models take me to a 72% - 76% score on Kaggle. It isn't the top model there of course, but not bad for a 1st Kaggle competiton attempt.
