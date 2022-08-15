@@ -2,6 +2,7 @@
 title: M5 Competition Virtual Awards Ceremony
 description: Notes from the M5 Forecasting Competition keynote speakers.
 date: '2020-10-29'
+image: m5.jpeg
 categories:
   - Notes
 ---

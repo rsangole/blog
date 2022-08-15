@@ -1,0 +1,18 @@
+---
+title: Visualising Linear Discriminant Analyses
+date: '2018-01-27'
+categories:
+  - Shiny
+  - Visualization
+description: Linear Discriminant Analysis visualized using Shiny
+image: LDA_Discriminant_Line_Projections.jpg
+---
+
+[Shiny](https://shiny.rstudio.com/) had interested me for a while for it's power to quickly communicate and visualize data and models. I hadn't delved into it due to lack of time to do so, until now.
+
+Quick visualization I've created as my 1st foray into R Shiny. Nothing earth shattering, but was helpful to learn the tool.
+
+-   Hosted on shinyapps for free, at [link](https://rsangole.shinyapps.io/LDA_Visual/)
+-   Github code [here](https://github.com/rsangole/r_shiny_visuals)
+
+![](LDA_Discriminant_Line_Projections.jpg)

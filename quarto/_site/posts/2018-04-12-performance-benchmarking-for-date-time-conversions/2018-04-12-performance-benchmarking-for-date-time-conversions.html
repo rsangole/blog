@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Rahul">
+<meta name="dcterms.date" content="2018-04-12">
+<meta name="description" content="I have 6 methods compete against each other to figure out the fastest way to convert characters to date-time for large datasets.">
+
+<title>yHat - Performance Benchmarking for Date-Time conversions</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-106573867-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta name="twitter:title" content="yHat - Performance Benchmarking for Date-Time conversions">
+<meta name="twitter:description" content="I have 6 methods compete against each other to figure out the fastest way to convert characters to date-time for large datasets.">
+<meta name="twitter:image" content="https://www.rsangole.com/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/clocks.jpg">
+<meta name="twitter:creator" content="@rsangole">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">yHat</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">~/</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html">~/blog</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation">Motivation</a></li>
+  <li><a href="#performance-comparison" id="toc-performance-comparison" class="nav-link" data-scroll-target="#performance-comparison">Performance comparison</a></li>
+  <li><a href="#packages-compared" id="toc-packages-compared" class="nav-link" data-scroll-target="#packages-compared">Packages compared</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Performance Benchmarking for Date-Time conversions</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Benchmarking</div>
+    <div class="quarto-category">Programming Practices</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    I have 6 methods compete against each other to figure out the fastest way to convert characters to date-time for large datasets.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Rahul </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 12, 2018</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>Once more, there’s was an opportunity at work to optimize code and reduce run-time. The last time was for <a href="http://rsangole.netlify.com/post/dummy-variables-one-hot-encoding/">dummy-variable creation</a>. Upon querying large data from our hive tables, the returned dataframe contains values of class <code>character</code>. Thus, everything has to be first type converted before any processing can be done.</p>
+<p>The most time consuming of these has been <code>character</code> to <code>date-time</code> conversion for which I traditionally used <code>base::as.POSIXct</code>.</p>
+<p>Upon searching for some options myself, some help from Twitter, I’ve compared the performance of 6 functions on a 1e7 size character vector.</p>
+<p><img src="Henning_on_Twitter.png" class="img-fluid" width="450"></p>
+</section>
+<section id="performance-comparison" class="level2">
+<h2 class="anchored" data-anchor-id="performance-comparison">Performance comparison</h2>
+<p>I’ve run these benchmarks on my Macbook Pro:</p>
+<ul>
+<li>Processor Name: Intel Core i5</li>
+<li>Processor Speed: 2.4 GHz</li>
+<li>Number of Processors: 1</li>
+<li>Total Number of Cores: 2</li>
+<li>L2 Cache (per Core): 256 KB</li>
+<li>L3 Cache: 3 MB</li>
+<li>Memory: 8 GB</li>
+</ul>
+</section>
+<section id="packages-compared" class="level2">
+<h2 class="anchored" data-anchor-id="packages-compared">Packages compared</h2>
+<ul>
+<li><code>base::strptime</code></li>
+<li><code>base::as.POSIXct</code></li>
+<li><code>lubridate::parse_date_time</code></li>
+<li><code>lubridate::parse_date_time2</code> [fast C parser]</li>
+<li><code>lubridate::fast_strptime</code> [fast C parser]</li>
+<li><code>fasttime::fastPOSIXct</code> [fast C parser]</li>
+</ul>
+<div class="cell" data-hash="2018-04-12-performance-benchmarking-for-date-time-conversions_cache/html/unnamed-chunk-1_c1e71945d4f8e79a5e6097c32dedd438">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>tvec <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">as.character</span>(<span class="fu">Sys.time</span>()<span class="sc">+</span><span class="fu">runif</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="fl">1e9</span>,<span class="fl">1e9</span>)),<span class="fl">1e7</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>strp_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(tvec) <span class="fu">strptime</span>(tvec, <span class="at">format =</span> <span class="st">'%Y-%m-%d %H:%M:%S'</span>, <span class="at">tz =</span> <span class="st">'UTC'</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>POSIX_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(tvec) <span class="fu">as.POSIXct</span>(tvec, <span class="at">format =</span> <span class="st">'%Y-%m-%d %H:%M:%S'</span>, <span class="at">tz =</span> <span class="st">'UTC'</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>pdt_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(tvec) lubridate<span class="sc">::</span><span class="fu">parse_date_time</span>(tvec, <span class="at">orders =</span> <span class="st">'Ymd H M S'</span>, <span class="at">tz =</span> <span class="st">'UTC'</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pdt2_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(tvec) lubridate<span class="sc">::</span><span class="fu">parse_date_time2</span>(tvec, <span class="at">orders =</span> <span class="st">'Ymd H M S'</span>, <span class="at">tz =</span> <span class="st">'UTC'</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>faststrp_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(tvec) lubridate<span class="sc">::</span><span class="fu">fast_strptime</span>(tvec, <span class="at">format =</span> <span class="st">'%Y-%m-%d %H:%M:%OS'</span>, <span class="at">tz =</span> <span class="st">'UTC'</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>fasttime_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(tvec) fasttime<span class="sc">::</span><span class="fu">fastPOSIXct</span>(<span class="at">x =</span> tvec, <span class="at">tz =</span> <span class="st">'UTC'</span>, <span class="at">required.components =</span> <span class="dv">6</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>benchmarks <span class="ot">&lt;-</span> microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">strptime =</span> <span class="fu">strp_fn</span>(tvec),          <span class="at">asPOSIXct =</span> <span class="fu">POSIX_fn</span>(tvec),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">parse_date_time =</span> <span class="fu">pdt_fn</span>(tvec),    <span class="at">parse_date_time2 =</span> <span class="fu">pdt2_fn</span>(tvec),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">fast_strptime =</span> <span class="fu">faststrp_fn</span>(tvec), <span class="at">fastPOSIXct =</span> <span class="fu">fasttime_fn</span>(tvec),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">times =</span> 30L, <span class="at">unit =</span> <span class="st">'s'</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">autoplot</span>(benchmarks, <span class="at">log =</span> F)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(benchmarks) ; <span class="fu">print</span>(benchmarks, <span class="at">unit =</span> <span class="st">'relative'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<div class="cell" data-hash="2018-04-12-performance-benchmarking-for-date-time-conversions_cache/html/unnamed-chunk-2_bfaf3caa7fe79b90c6c67dd68fd6d329">
+<div class="cell-output-display">
+<p><img src="2018-04-12-performance-benchmarking-for-date-time-conversions_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The results are quite amazing. <code>fastPOSIXct</code> wins by a massive margin. <code>as.POSIXct</code> is 10x slower than <code>fastPOSIXct</code> and has a wider spread too.</p>
+<div class="cell" data-hash="2018-04-12-performance-benchmarking-for-date-time-conversions_cache/html/unnamed-chunk-3_2c7bc6c6610ca420f33e7267275e7777">
+<div class="cell-output cell-output-stdout">
+<pre><code>Unit: relative
+             expr       min        lq     mean    median       uq      max
+         strptime  7.140213  6.995050 6.587170  6.931937 6.243467 5.545282
+        asPOSIXct 10.888603 10.668598 9.886067 10.338859 9.127702 8.170841
+  parse_date_time  3.658794  3.700901 3.607782  3.840411 3.530341 3.136295
+ parse_date_time2  1.973176  1.957485 1.864200  1.924281 1.753341 1.701600
+    fast_strptime  1.795452  1.753926 1.717556  1.772935 1.605809 1.588742
+      fastPOSIXct  1.000000  1.000000 1.000000  1.000000 1.000000 1.000000
+ neval
+    30
+    30
+    30
+    30
+    30
+    30</code></pre>
+</div>
+</div>
+<p>If you run these bench marks on more powerful machines or larger datasets, share your results too. It’ll be interesting to see if this result scales.</p>
+<p>Thanks <a href="https://twitter.com/henningsway">Henning</a> for the winning package suggestion! I owe you some beer!</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<div>
+<hr>
+
+<p> Subscribe to my newsletter! </p>
+
+<iframe id="beehiiv-form" src="https://embeds.beehiiv.com/f1edc1d7-9d22-462b-935c-78e350a21f60?slim=true" data-test-id="beehiiv-embed" frameborder="0" scrolling="no" style="margin: 0; border-radius: 0px !important; background-color: transparent; height: 55px;"></iframe>
+
+</div>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="rsangole/blog_comments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">2022 rahul s</div>
+  </div>
+</footer>
+
+
+
+</body></html>

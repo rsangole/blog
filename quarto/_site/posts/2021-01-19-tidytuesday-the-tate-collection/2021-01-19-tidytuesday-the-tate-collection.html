@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.37">
+<meta name="generator" content="quarto-1.0.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -137,11 +137,14 @@ ga('send', {
 
 <link rel="stylesheet" href="../../styles.css">
 <meta name="twitter:title" content="yHat - TidyTuesday - The Tate Collection">
+<meta name="twitter:image" content="https://www.rsangole.com/posts/2021-01-19-tidytuesday-the-tate-collection/graph.png">
 <meta name="twitter:creator" content="@rsangole">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image-height" content="2688">
+<meta name="twitter:image-width" content="2304">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed">
+<body class="floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -170,12 +173,14 @@ ga('send', {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    
+</nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -309,7 +314,7 @@ $ color          &lt;chr&gt; "#3e487a", "#3e487a", "#3e487a", "#3e487a", "#3e487
 $ cutpts_numeric &lt;int&gt; 9, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, …</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell page-columns page-full" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>make_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(to_plot) {</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    categories <span class="ot">&lt;-</span> <span class="fu">unique</span>(to_plot[, .(medium_cleaned, color)])</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    xleg <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.0</span>,  <span class="fl">2.8</span>,  <span class="fl">4.6</span>,  <span class="fl">6.8</span>,  <span class="fl">8.2</span>, <span class="fl">10.0</span>)</span>
@@ -385,8 +390,12 @@ $ cutpts_numeric &lt;int&gt; 9, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 
 <span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">padj =</span> <span class="dv">6</span>,</span>
 <span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>    <span class="at">adj =</span> <span class="dv">1</span></span>
 <span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="2021-01-19-tidytuesday-the-tate-collection_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="1152"></p>
+<div class="cell-output-display column-page">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2021-01-19-tidytuesday-the-tate-collection_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="1152"></p>
+</figure>
+</div>
 </div>
 </div>
 

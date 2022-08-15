@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>yHat</title>
+<link>https://www.rsangole.com/projects.html</link>
+<atom:link href="https://www.rsangole.com/projects.xml" rel="self" type="application/rss+xml"/>
+<description>rahul's blog on data science</description>
+<generator>quarto-1.0.38</generator>
+<lastBuildDate>Wed, 01 Feb 2017 08:00:00 GMT</lastBuildDate>
+<item>
+  <title>Finite Mixture Modeling using Flexmix</title>
+  <dc:creator>Rahul</dc:creator>
+  <link>https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html</link>
+  <description><![CDATA[ 
+
+
+
+<p>This page replicates the codes written by Grun &amp; Leish (2007) in <a href="http://ro.uow.edu.au/cgi/viewcontent.cgi?article=3410&amp;context=commpapers">‘FlexMix: An R package for finite mixture modelling’, University of Wollongong, Australia.</a> My intent here was to learn the flexmix package by replicating the results by the authors.</p>
+<section id="model-based-clustering" class="level1">
+<h1>Model Based Clustering</h1>
+<p>The model based clustering on the whiskey dataset. The whiskey dataset is from the Simmons Study of Media and Markets (Fall 1997), and contains the incidence matrix for scotch brands in households who reported consuming scotch for period of 1 year. The dataset is taken from <a href="https://www.researchgate.net/profile/Greg_Allenby/publication/247837327_Multivariate_Analysis_of_Multiple_Response_Data/links/547480910cf2778985abe334.pdf">Edwards and Allenby (2003).</a></p>
+<p>Load the necessary packges first: <code>tidyverse</code> and <code>flexmix</code>.</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-1_b100be6d1d1b47ad686defd97d76fdf1">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;">library</span>(dplyr)</span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;">library</span>(flexmix)</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;">library</span>(ggplot2)</span>
+<span id="cb1-4"><span class="fu" style="color: #4758AB;">library</span>(tidyr)</span></code></pre></div>
+</div>
+<section id="quick-eda" class="level2">
+<h2 class="anchored" data-anchor-id="quick-eda">Quick EDA</h2>
+<p>Quick look at the data itself. The dataframe consists of 2 elements - frequency (numeric vector), and the incidence matrix. There are total of 484 observations.</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-2_530cf31d5f5b303edd260b9b099d9fd7">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;">data</span>(<span class="st" style="color: #20794D;">"whiskey"</span>)</span>
+<span id="cb2-2">df <span class="ot" style="color: #003B4F;">&lt;-</span> whiskey</span>
+<span id="cb2-3"><span class="fu" style="color: #4758AB;">set.seed</span>(<span class="dv" style="color: #AD0000;">1802</span>)</span>
+<span id="cb2-4"><span class="fu" style="color: #4758AB;">str</span>(df)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   484 obs. of  2 variables:
+ $ Freq     : int  1 1 10 14 10 23 9 8 1 12 ...
+ $ Incidence: num [1:484, 1:21] 1 0 0 0 0 0 0 0 0 0 ...
+  ..- attr(*, "dimnames")=List of 2
+  .. ..$ : chr [1:484] "1" "2" "3" "4" ...
+  .. ..$ : chr [1:21] "Singleton" "Knockando" "White Horse" "Scoresby Rare" ...</code></pre>
+</div>
+</div>
+<p>The column names of the <code>df$Incidence</code> matrix are the brands of whiskey.</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-3_f0ae8c706d4da4b5e6e94c603ee7f7be">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu" style="color: #4758AB;">colnames</span>(df<span class="sc" style="color: #5E5E5E;">$</span>Incidence)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Singleton"                  "Knockando"                 
+ [3] "White Horse"                "Scoresby Rare"             
+ [5] "Ushers"                     "Macallan"                  
+ [7] "Grant's"                    "Passport"                  
+ [9] "Black &amp; White"              "Clan MacGregor"            
+[11] "Ballantine"                 "Pinch (Haig)"              
+[13] "Other brands"               "Cutty Sark"                
+[15] "Glenfiddich"                "Glenlivet"                 
+[17] "J&amp;B"                        "Dewar's White Label"       
+[19] "Johnnie Walker Black Label" "Johnnie Walker Red Label"  
+[21] "Chivas Regal"              </code></pre>
+</div>
+</div>
+<p>The incidence matrix shows a relationship between two classes of variables - in this case: freqencies of the brand of whiskey in the past year, and the brand of whiskey itself. Quick look at a portion of the matrix:</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-4_73b437e13d81d5bea9c5764a9802b200">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">df<span class="sc" style="color: #5E5E5E;">$</span>Incidence[<span class="fu" style="color: #4758AB;">sample</span>(<span class="at" style="color: #657422;">x =</span> <span class="dv" style="color: #AD0000;">1</span><span class="sc" style="color: #5E5E5E;">:</span><span class="dv" style="color: #AD0000;">484</span>,<span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">10</span>),<span class="fu" style="color: #4758AB;">sample</span>(<span class="dv" style="color: #AD0000;">1</span><span class="sc" style="color: #5E5E5E;">:</span><span class="dv" style="color: #AD0000;">21</span>,<span class="dv" style="color: #AD0000;">3</span>)]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Macallan Cutty Sark Black &amp; White
+119        0          1             0
+8          0          0             0
+245        0          0             1
+347        0          0             0
+26         0          1             0
+221        1          0             0
+1          0          0             0
+178        1          0             0
+411        0          0             0
+224        0          1             0</code></pre>
+</div>
+</div>
+<p>The popularity of the whiskeys can be seen here. Chivas Regal seems to be a favourite, which puts my personal preference in line with a larger population :)</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-5_8b1e5f271d2b814af1bbf4476480f11b">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">c <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">colSums</span>(df<span class="sc" style="color: #5E5E5E;">$</span>Incidence)</span>
+<span id="cb8-2">d1 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">data.frame</span>(<span class="at" style="color: #657422;">Brand=</span><span class="fu" style="color: #4758AB;">names</span>(c),<span class="at" style="color: #657422;">counts=</span>c,<span class="at" style="color: #657422;">row.names =</span> <span class="cn" style="color: #8f5902;">NULL</span>)</span>
+<span id="cb8-3">d1 <span class="ot" style="color: #003B4F;">&lt;-</span> d1 <span class="sc" style="color: #5E5E5E;">%&gt;%</span> <span class="fu" style="color: #4758AB;">left_join</span>(whiskey_brands) <span class="sc" style="color: #5E5E5E;">%&gt;%</span> <span class="fu" style="color: #4758AB;">arrange</span>(<span class="sc" style="color: #5E5E5E;">-</span>counts)</span>
+<span id="cb8-4"><span class="fu" style="color: #4758AB;">ggplot</span>(d1,<span class="fu" style="color: #4758AB;">aes</span>(<span class="fu" style="color: #4758AB;">reorder</span>(Brand,counts),counts,<span class="at" style="color: #657422;">fill=</span>Type))<span class="sc" style="color: #5E5E5E;">+</span><span class="fu" style="color: #4758AB;">geom_bar</span>(<span class="at" style="color: #657422;">stat=</span><span class="st" style="color: #20794D;">'identity'</span>)<span class="sc" style="color: #5E5E5E;">+</span><span class="fu" style="color: #4758AB;">coord_flip</span>()<span class="sc" style="color: #5E5E5E;">+</span><span class="fu" style="color: #4758AB;">labs</span>(<span class="at" style="color: #657422;">y=</span><span class="st" style="color: #20794D;">'Counts'</span>,<span class="at" style="color: #657422;">x=</span><span class="st" style="color: #20794D;">'Whiskey Brand'</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="model-building" class="level2">
+<h2 class="anchored" data-anchor-id="model-building">Model building</h2>
+<p>The first model in the paper is a stepped Flexmix model, specific for binary variables using the <code>FLXMcvbinary()</code> model. Since the objective is to cluster the model based on the Incidence counts and Frequencies, the formula used is <code>Incidence ~ 1</code>. The frequencies themselves are input as <code>weights</code> in the formula.</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-6_7e3149dcbba8df6eb41b55d87fe6b067">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1">wh_mix <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">stepFlexmix</span>(Incidence <span class="sc" style="color: #5E5E5E;">~</span> <span class="dv" style="color: #AD0000;">1</span>,</span>
+<span id="cb9-2">                      <span class="at" style="color: #657422;">weights =</span> <span class="sc" style="color: #5E5E5E;">~</span> Freq, </span>
+<span id="cb9-3">                      <span class="at" style="color: #657422;">data =</span> df,</span>
+<span id="cb9-4">                      <span class="at" style="color: #657422;">model =</span> <span class="fu" style="color: #4758AB;">FLXMCmvbinary</span>(<span class="at" style="color: #657422;">truncated =</span> <span class="cn" style="color: #8f5902;">TRUE</span>),</span>
+<span id="cb9-5">                      <span class="at" style="color: #657422;">control =</span> <span class="fu" style="color: #4758AB;">list</span>(<span class="at" style="color: #657422;">minprior =</span> <span class="fl" style="color: #AD0000;">0.005</span>),</span>
+<span id="cb9-6">                      <span class="at" style="color: #657422;">k=</span><span class="dv" style="color: #AD0000;">1</span><span class="sc" style="color: #5E5E5E;">:</span><span class="dv" style="color: #AD0000;">7</span>,</span>
+<span id="cb9-7">                      <span class="at" style="color: #657422;">nrep=</span><span class="dv" style="color: #AD0000;">5</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1 : * * * * *
+2 : * * * * *
+3 : * * * * *
+4 : * * * * *
+5 : * * * * *
+6 : * * * * *
+7 : * * * * *</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="fu" style="color: #4758AB;">summary</span>(wh_mix)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Length       Class        Mode 
+          1 stepFlexmix          S4 </code></pre>
+</div>
+</div>
+<p>A top model can be selecting using BIC or AIC criteria. The BIC criteria selects a model with 5 clusters.</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-7_c1bcb91ce327c7ee21eeb42c82336967">
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><span class="fu" style="color: #4758AB;">plot</span>(<span class="fu" style="color: #4758AB;">BIC</span>(wh_mix),<span class="at" style="color: #657422;">type=</span><span class="st" style="color: #20794D;">'b'</span>,<span class="at" style="color: #657422;">ylab=</span><span class="st" style="color: #20794D;">'BIC'</span>)</span>
+<span id="cb13-2"><span class="fu" style="color: #4758AB;">points</span>(<span class="at" style="color: #657422;">x =</span> <span class="fu" style="color: #4758AB;">which.min</span>(<span class="fu" style="color: #4758AB;">BIC</span>(wh_mix)),<span class="fu" style="color: #4758AB;">min</span>(<span class="fu" style="color: #4758AB;">BIC</span>(wh_mix)),<span class="at" style="color: #657422;">col=</span><span class="st" style="color: #20794D;">'red'</span>,<span class="at" style="color: #657422;">pch=</span><span class="dv" style="color: #AD0000;">20</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">wh_best <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">getModel</span>(wh_mix,<span class="st" style="color: #20794D;">'BIC'</span>)</span>
+<span id="cb14-2"><span class="fu" style="color: #4758AB;">print</span>(wh_best)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+stepFlexmix(Incidence ~ 1, weights = ~Freq, data = df, model = FLXMCmvbinary(truncated = TRUE), 
+    control = list(minprior = 0.005), k = 5, nrep = 5)
+
+Cluster sizes:
+  1   2   3   4   5 
+ 24 262 794 161 977 
+
+convergence after 127 iterations</code></pre>
+</div>
+</div>
+<p>The proportions of the observations in each cluster are shown here:</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-8_f40dc2587dcc188a84279b5eab4d12e2">
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="fu" style="color: #4758AB;">round</span>(<span class="fu" style="color: #4758AB;">prop.table</span>(<span class="fu" style="color: #4758AB;">table</span>(wh_best<span class="sc" style="color: #5E5E5E;">@</span>cluster)),<span class="dv" style="color: #AD0000;">2</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   1    2    3    4    5 
+0.04 0.25 0.19 0.23 0.29 </code></pre>
+</div>
+</div>
+<p>The parameter estimates plotted for model with k=5 is shown below graphically. Component 3 (4% of households) contain the largest number of different brands. Component 1 (25% of households) seen to prefer single malt whiskeys. Component 4 (23% of households) are across the board with Brands, but perhaps show lesser of an interest in single malts, just like Component 5 (29% of the households).</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-9_34c795c429e24f3ffedeeffa4cc2e4fe">
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="co" style="color: #5E5E5E;"># wh_best.prior &lt;- prior(wh_best)</span></span>
+<span id="cb18-2">wh_best.param <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">parameters</span>(wh_best)</span>
+<span id="cb18-3">wh_best.param <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">data.frame</span>(<span class="at" style="color: #657422;">Brand=</span>stringr<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">str_replace</span>(<span class="fu" style="color: #4758AB;">rownames</span>(wh_best.param),<span class="at" style="color: #657422;">pattern =</span> <span class="st" style="color: #20794D;">'center.'</span>,<span class="at" style="color: #657422;">replacement =</span> <span class="st" style="color: #20794D;">''</span>),</span>
+<span id="cb18-4">wh_best.param,<span class="at" style="color: #657422;">row.names =</span> <span class="cn" style="color: #8f5902;">NULL</span>) </span>
+<span id="cb18-5">wh_best.param <span class="ot" style="color: #003B4F;">&lt;-</span> wh_best.param <span class="sc" style="color: #5E5E5E;">%&gt;%</span> <span class="fu" style="color: #4758AB;">gather</span>(Components,Value,Comp<span class="fl" style="color: #AD0000;">.1</span><span class="sc" style="color: #5E5E5E;">:</span>Comp<span class="fl" style="color: #AD0000;">.5</span>)</span>
+<span id="cb18-6">wh_best.param <span class="ot" style="color: #003B4F;">&lt;-</span> wh_best.param <span class="sc" style="color: #5E5E5E;">%&gt;%</span> <span class="fu" style="color: #4758AB;">left_join</span>(<span class="at" style="color: #657422;">y =</span> whiskey_brands,<span class="at" style="color: #657422;">by =</span> <span class="st" style="color: #20794D;">'Brand'</span>)</span>
+<span id="cb18-7"><span class="fu" style="color: #4758AB;">ggplot</span>(wh_best.param,<span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">y=</span>Value,<span class="at" style="color: #657422;">x=</span>Brand,<span class="at" style="color: #657422;">fill=</span>Type))<span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb18-8">    <span class="fu" style="color: #4758AB;">geom_bar</span>(<span class="at" style="color: #657422;">stat=</span><span class="st" style="color: #20794D;">'identity'</span>)<span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb18-9">    <span class="fu" style="color: #4758AB;">coord_flip</span>()<span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb18-10">    <span class="fu" style="color: #4758AB;">facet_grid</span>(.<span class="sc" style="color: #5E5E5E;">~</span>Components)</span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="mixtures-of-regressions" class="level1">
+<h1>Mixtures of Regressions</h1>
+<p>The next example in the paper is the patent data in Wang et al.&nbsp;(1998). The help file <code>?patent</code> notes that the data consists of the number of patents, R&amp;D spending and sales in millions of dollar for 70 pharmaceutical and biomedical companies in 1976, taken from the National Bureau of Economic Research R&amp;D Masterfile.</p>
+<section id="quick-eda-1" class="level2">
+<h2 class="anchored" data-anchor-id="quick-eda-1">Quick EDA</h2>
+<p>The dependant variable here is <code>Patents</code>. Independant variable is <code>lgRD</code> which is the log of R&amp;D spending. The objective in this exercise is to try and find how many may clusters exist within this bi-variate dataset. When I started this exercise, it seemed quite moot to me, since visually, I couldn’t really tell any distict clusters. But, the results show otherwise.</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-10_f281a77c04245ee8124b30f0ab5d69de">
+<div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><span class="fu" style="color: #4758AB;">data</span>(<span class="st" style="color: #20794D;">"patent"</span>)</span>
+<span id="cb19-2">df_patent <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">tbl_df</span>(patent)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `tbl_df()` was deprecated in dplyr 1.0.0.
+Please use `tibble::as_tibble()` instead.
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1">df_patent</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 70 × 4
+   Company                                    Patents    RDS   lgRD
+   &lt;chr&gt;                                        &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+ 1 "ABBOTT LABORATORIES                     "      42 0.0549  4.09 
+ 2 "AFFILIATED HOSPITAL PRDS                "       1 0.0032 -2.08 
+ 3 "ALBERTO-CULVER CO                       "       3 0.0078  0.119
+ 4 "ALCON LABORATORIES                      "       2 0.0803  1.88 
+ 5 "ALLERGAN PHARMACEUTICALS INC            "       3 0.0686  1.10 
+ 6 "ALZA CORP-CL A                          "      40 3.33    2.08 
+ 7 "AMERICAN HOME PRODUCTS CORP             "      60 0.0243  4.10 
+ 8 "AMERICAN HOSPITAL SUPPLY                "      30 0.0128  2.83 
+ 9 "AMERICAN STERILIZER CO                  "       7 0.0252  1.39 
+10 "AVON PRODUCTS                           "       3 0.0094  2.60 
+# … with 60 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><span class="fu" style="color: #4758AB;">plot</span>(Patents<span class="sc" style="color: #5E5E5E;">~</span>lgRD,df_patent)</span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="model-building-1" class="level2">
+<h2 class="anchored" data-anchor-id="model-building-1">Model Building</h2>
+<p>The paper mentions that Wang et al.&nbsp;(1998) chose a finite mixture of three Poisson regression models to represent the data. The <code>FLXMRglm()</code> is used for the Poisson model with a concomitant variable modeled using <code>FLXPmultinom()</code>.</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-11_f676748b445f32d26bd04674149025da">
+<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1">pat_mix <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">flexmix</span>(Patents <span class="sc" style="color: #5E5E5E;">~</span> lgRD, <span class="at" style="color: #657422;">k =</span> <span class="dv" style="color: #AD0000;">3</span>, <span class="at" style="color: #657422;">data =</span> df_patent, <span class="at" style="color: #657422;">model =</span> <span class="fu" style="color: #4758AB;">FLXMRglm</span>(<span class="at" style="color: #657422;">family =</span> <span class="st" style="color: #20794D;">"poisson"</span>), <span class="at" style="color: #657422;">concomitant =</span> <span class="fu" style="color: #4758AB;">FLXPmultinom</span>(<span class="sc" style="color: #5E5E5E;">~</span>RDS))</span>
+<span id="cb24-2">pat_mix</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+flexmix(formula = Patents ~ lgRD, data = df_patent, k = 3, model = FLXMRglm(family = "poisson"), 
+    concomitant = FLXPmultinom(~RDS))
+
+Cluster sizes:
+ 1  2  3 
+12 13 45 
+
+convergence after 33 iterations</code></pre>
+</div>
+</div>
+<p>The clusters obtained from the analysis are given by a <code>cluster()</code> function.</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-12_a1fe287216974219cb51cec143debcb3">
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="fu" style="color: #4758AB;">clusters</span>(pat_mix)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 3 3 1 3 2 3 3 3 1 3 2 3 3 1 3 1 2 3 3 1 1 2 3 2 3 3 3 3 1 3 3 3 3 2 3 3 1
+[39] 2 3 3 3 3 2 3 3 1 3 2 3 3 1 3 3 3 3 3 1 3 3 3 3 2 3 2 2 3 3 2 3</code></pre>
+</div>
+</div>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>The data is replotted but with colors for the clusters and additional splines. As we can see, the model beautifully models three lines through three clusters in the data.</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-13_82cc303ef6bd59ba1de5b376d44c94ce">
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1">Components <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">factor</span>(<span class="fu" style="color: #4758AB;">clusters</span>(pat_mix))</span>
+<span id="cb28-2"><span class="fu" style="color: #4758AB;">xyplot</span>(Patents<span class="sc" style="color: #5E5E5E;">~</span>lgRD,<span class="at" style="color: #657422;">groups =</span> Components,df_patent,<span class="at" style="color: #657422;">type=</span><span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">'p'</span>,<span class="st" style="color: #20794D;">'spline'</span>))</span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="further-investigation" class="level2">
+<h2 class="anchored" data-anchor-id="further-investigation">Further investigation</h2>
+<p>The <code>flexmix</code> package has a function to plot rootograms of the posterior probabilities of observations. Observations where the a-posteriori probability is large for component #1 and #3 are indicated. As we can see where component #1 has highest probabilities indicated in the 1st bucket, they are lowest in #2 and #3 buckets.</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-14_1b2ed1c1a21b574785dd9ed5ad31afd3">
+<div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><span class="fu" style="color: #4758AB;">plot</span>(pat_mix,<span class="at" style="color: #657422;">mark=</span><span class="dv" style="color: #AD0000;">1</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><span class="fu" style="color: #4758AB;">plot</span>(pat_mix,<span class="at" style="color: #657422;">mark=</span><span class="dv" style="color: #AD0000;">3</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>A summary of the mixture model results show the estimated priors, number of observations within each cluster (size), number of observations with p&gt;10^-4 (post&gt;0), and a ratio of the two. The rations of 0.58, 0.42 and 0.18 indicate big overlaps of the clusters. This can also be observed by the large portion of values in the mid-section of the rootogram above.</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-15_bc8fdab72a7bcd44275a51b4a82e565e">
+<div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><span class="fu" style="color: #4758AB;">summary</span>(pat_mix)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+flexmix(formula = Patents ~ lgRD, data = df_patent, k = 3, model = FLXMRglm(family = "poisson"), 
+    concomitant = FLXPmultinom(~RDS))
+
+       prior size post&gt;0 ratio
+Comp.1 0.201   12     48 0.250
+Comp.2 0.184   13     47 0.277
+Comp.3 0.615   45     63 0.714
+
+'log Lik.' -197.6752 (df=10)
+AIC: 415.3505   BIC: 437.8354 </code></pre>
+</div>
+</div>
+<p>Tests of significance of the coefficients are obtained by the <code>refit()</code>. In each cluster the intercept and lgRD are both statistically significant at the 0.05 level. The black bars in the plot are 95% CI over the point estimates.</p>
+<div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-16_c48331d3940704371c4028a1b93b2cbe">
+<div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1">rm <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">refit</span>(pat_mix)</span>
+<span id="cb33-2"><span class="fu" style="color: #4758AB;">summary</span>(rm)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$Comp.1
+            Estimate Std. Error z value  Pr(&gt;|z|)    
+(Intercept) -2.63638    0.62672 -4.2067 2.592e-05 ***
+lgRD         1.58644    0.13393 11.8454 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+$Comp.2
+            Estimate Std. Error z value  Pr(&gt;|z|)    
+(Intercept) 1.962173   0.176485  11.118 &lt; 2.2e-16 ***
+lgRD        0.671908   0.045639  14.722 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+$Comp.3
+            Estimate Std. Error z value  Pr(&gt;|z|)    
+(Intercept) 0.508194   0.160927  3.1579  0.001589 ** 
+lgRD        0.879702   0.040249 21.8564 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><span class="fu" style="color: #4758AB;">plot</span>(rm,<span class="at" style="color: #657422;">bycluster=</span>F)</span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The authors note that “estimates vary between all components even though the co- efficients for lgRD are similar for the first and third component”.</p>
+</section>
+</section>
+<section id="notes" class="level1">
+<h1>Notes</h1>
+<ul>
+<li>For both the models, although I’m using the exact datasets and seed values, I observe different values for proportions in each cluster (for model #1) as well as P values for significance etc (for model #2). This could be due to some changes in the underlying flexmix codes since 2007.</li>
+</ul>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ul>
+<li>http://ro.uow.edu.au/cgi/viewcontent.cgi?article=3410&amp;context=commpapers</li>
+<li>http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.491.3320&amp;rep=rep1&amp;type=pdf</li>
+<li>https://cran.r-project.org/web/packages/flexmix/index.html</li>
+<li>https://cran.r-project.org/web/packages/flexmix/vignettes/mixture-regressions.pdf</li>
+<li>https://cran.r-project.org/web/packages/flexmix/vignettes/flexmix-intro.pdf</li>
+<li>https://cran.r-project.org/web/packages/flexmix/vignettes/bootstrapping.pdf</li>
+<li><a href="https://www.researchgate.net/profile/Greg_Allenby/publication/247837327_Multivariate_Analysis_of_Multiple_Response_Data/links/547480910cf2778985abe334.pdf">https://www.researchgate.net/profile/Greg_Allenby/…/…e334.pdf</a></li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <category>Flexmix</category>
+  <category>Mixture Modeling</category>
+  <guid>https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html</guid>
+  <pubDate>Wed, 01 Feb 2017 08:00:00 GMT</pubDate>
+  <media:content url="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/graph.png" medium="image" type="image/png" height="103" width="144"/>
+</item>
+<item>
+  <title>Factor Analysis of Personality Traits</title>
+  <dc:creator>Rahul</dc:creator>
+  <link>https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/2016-09-03-factor-analysis-of-personality-traits.html</link>
+  <description><![CDATA[ 
+
+
+
+<section id="background" class="level3">
+<h3 class="anchored" data-anchor-id="background">Background</h3>
+<p>In the course <a href="http://sps.northwestern.edu/program-areas/graduate/predictive-analytics/program-courses.php?course_id=2809&amp;term=4640">Predict-410</a>: Linear Regression &amp; Multivariate Analyses, taught by the excellent <a href="http://www.syamalasrinivasan.com/">Prof Srinivasan</a>, we were taught Factor Analysis (FA). FA is a technique used to identify ‘latent’ or ‘hidden’ factors common to a larger pool of observable or measurable variables. These factors would cause the measurable variables to behave the way they do. Typically, the aim is to identify a smaller set of factors (k) compared to the number of variables (n), i.e.&nbsp;k&lt;&lt;&lt;n.&nbsp;We expect a smaller set of common factors to cause the variances in the measured variables. This is a useful method of dimension reduction.</p>
+<p>In course of learning about factor analysis, I found a few good resources on the subject. One of them, <a href="http://web.stanford.edu/class/psych253/tutorials/FactorAnalysis.html">here</a>, applies factor analysis to a data set collected by Prof Malle of Brown University. <a href="https://www.brown.edu/Departments/CLPS/people/bertram-malle">Prof Malle</a> collected data on 32 personality traits, as reported via a self-evaluation of 240 participants.</p>
+</section>
+<section id="objective" class="level3">
+<h3 class="anchored" data-anchor-id="objective">Objective</h3>
+<p>The objective of the original study, as stated by the article: ‘… it’s unlikely there are actually 32 different dimensions of personality; rather people probably vary along a small number of dimensions…’.</p>
+<p>My objective:</p>
+<ol type="1">
+<li>Recreate this study and see for myself: Can I replicate the results?</li>
+<li>How many factors will I need to account for most of the variation?</li>
+<li>How would I interpret the factors I find? How would these align to my expectations about overall personality traits and align ?</li>
+</ol>
+</section>
+<section id="duplication-of-the-survey" class="level3">
+<h3 class="anchored" data-anchor-id="duplication-of-the-survey">Duplication of the Survey</h3>
+<p>I re-created a version of Prof Malle’s survey on <a href="https://www.surveymonkey.com/r/MN82SJ7">survey monkey</a>. The survey is still open, so feel free to take it. At the point of writing this post, I had a total of 61 responses from my Facebook friends. It would be nice to match Prof Malle’s sample size of 240.</p>
+<p>The survey asks:</p>
+<ul>
+<li><p>“How strongly do the following personality traits describe you?</p></li>
+<li><p>Distant, Talkative, Careless, Hardworking, Anxious, Agreeable, Tense, Kind, Relaxed, Disorganised, Outgoing, Approving, Shy, Disciplined, Harsh, Perseverant, Friendly, Worrying, Responsible, Contradictory, Sociable, Lazy, Cooperative, Quiet, Organized, Critical, Lax, Laidback, Withdrawn, Give up easily, Easy going.”</p></li>
+</ul>
+</section>
+<section id="results" class="level3">
+<h3 class="anchored" data-anchor-id="results">Results</h3>
+<section id="how-do-the-traits-relate-to-one-another" class="level4">
+<h4 class="anchored" data-anchor-id="how-do-the-traits-relate-to-one-another">How do the traits relate to one another?</h4>
+<p>A correlation plot with the 32 traits ordered using hierarchical clustering using <a href="https://arxiv.org/pdf/1111.6285.pdf">Ward’s minimum variance agglomeration method</a>. The <a href="https://cran.r-project.org/web/packages/corrplot/corrplot.pdf">corrplot</a> package in R implements this method.</p>
+<p>The X and Y axes of this plot are the 32 traits sorted according to Ward’s method. The sorting results in very intelligent grouping. The intensity of the colour and size of the colored square in each cell indicates the strength of Pearson’s correlation coefficient between each pair.</p>
+<p>I have highlighted 8 <strong>black</strong> rectangles which show grouping between <strong>similar</strong> traits. For example, the first box contains <em>Worrying</em>, <em>Anxious</em>, and <em>Tense</em>, traits very similar to one another. The third box contains <em>Disciplined</em>, <em>Organized</em>, <em>Hardworking</em>, and <em>Responsible.</em></p>
+<p>Three <strong>red</strong> boxes highlight dissimilar or opposite traits. Take the first red box (top mid). On the X axis, we have <em>Easy Going</em>, <em>Relaxed</em> and <em>Laidback</em>, while on the Y axis, we have <em>Worrying</em>, <em>Anxious</em>, and <em>Tense</em>.</p>
+<p><img src="https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/corrplot.png" class="img-fluid"></p>
+<p>The groupings in the correlation plot &amp; their magnitudes agree very well with Prof Malle’s findings.</p>
+</section>
+</section>
+<section id="what-does-the-factor-analysis-tell-us" class="level3">
+<h3 class="anchored" data-anchor-id="what-does-the-factor-analysis-tell-us">What does the factor analysis tell us?</h3>
+<p>Again, the objective here is: are there a few “factors” that explain personalities well as measured by the 32 personality traits? After <a href="http://sites.stat.psu.edu/~ajw13/stat505/fa06/17_factor/13_factor_varimax.html">varimax rotations</a> on the factors, the factor plots show wonderful results!</p>
+<p>To read the graphs, read the personality trait labels at the very extremes of the X and Y axes. These represent the traits with the highest loadings for each factor. The rotated factor plots were surprisingly intuitive to read.</p>
+<p>Factor 1 is Introvert/Extrovert. Factor 2 is the propensity to worry, or Anxiety Level.</p>
+<p><img src="https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/f1vsf2nf9.png" class="img-fluid" width="450"></p>
+<p>Factor 3 seems to be Friendliness (or Approachable vs Reserved).</p>
+<p><img src="https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/f2vsf3nf9.png" class="img-fluid" width="450"></p>
+<p>Factor 4 clearly is Organized vs Disorganized.</p>
+<p><img src="https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/f3vsf4nf9.png" class="img-fluid" width="450"></p>
+<p>Factor 5 can be defined as Conscientiousness, or the willingness to be perseverant, to do hard work.</p>
+<p><img src="https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/f4vsf5nf9.png" class="img-fluid" width="450"></p>
+</section>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<ul>
+<li>We have been able to reduce 32 personality traits into 5 common traits:
+<ul>
+<li>Introvert/Extrovert</li>
+<li>Propensity for Anxiety</li>
+<li>Friendliness</li>
+<li>Organized/Disorganized</li>
+<li>Conscientiousness</li>
+</ul></li>
+<li>I was pleased to find that my result agreed very well with Prof Malle’s study. All in all, the factors extracted make intuitive sense when one thinks about overarching personality traits.</li>
+</ul>
+<p>How exciting is factor analysis? :D</p>
+</section>
+<section id="how-many-factors-to-select" class="level3">
+<h3 class="anchored" data-anchor-id="how-many-factors-to-select">How many factors to select?</h3>
+<p>There are a couple of methods to select the number of factors to keep. A scree plot plots the eigenvalues of the correlation matrix of the manifest variables against the factor number. The <a href="https://cran.r-project.org/web/packages/nFactors/nFactors.pdf">nscree package</a> can help get Scree plots.</p>
+<p><img src="https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/scree.png" class="img-fluid" width="500"></p>
+<ol type="1">
+<li>Kaiser rule (select factors with eigenvalues &gt; 1 for corr matrices) results in 9 factors to be selected.</li>
+<li>Visual inspection of the scree plot: The knee in the plot is at 4 factors. This is numerically computed as the Acceleration Factor (AF).</li>
+<li>Optimal Coordinates (OC) results in selection of 5 factors.</li>
+</ol>
+<p>Another way to test the number of factors required is to look at the results of the chi-square test for the hypothesis test:</p>
+<p>H0: ‘n’ factors are sufficient Ha: More factors are needed</p>
+<p>For the 5 factor model, the chi square statistic is 403.6 for 320 degrees of freedom. The p-value is 0.00104, so we can strongly reject the null hypothesis that 5 factors are sufficient. Increasing to the 9 factor model, the chi square statistic is 241 on 222 degrees of freedom. P-value is 0.18, so we fail to reject the null hypothesis.</p>
+<p>I’ve tested using 5 factors as well as 9 factors. The order of the factors and their interpretation change depending on how many factors are selected. This is unlike a PCA. Also, for the 9 factor case, the plots really do not reveal anything interesting beyond 5 factors.</p>
+</section>
+<section id="wheres-the-r-code" class="level3">
+<h3 class="anchored" data-anchor-id="wheres-the-r-code">Where’s the R code?</h3>
+<p>The raw data and the R code is stored on <a href="https://github.com/rsangole/PersonalityTraitFactorAnalysis">Github</a>.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Factor Analysis</category>
+  <category>Multivariate</category>
+  <guid>https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/2016-09-03-factor-analysis-of-personality-traits.html</guid>
+  <pubDate>Sat, 03 Sep 2016 07:00:00 GMT</pubDate>
+  <media:content url="https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/corrplot.png" medium="image" type="image/png" height="134" width="144"/>
+</item>
+</channel>
+</rss>

@@ -13,6 +13,8 @@ website:
         text: ~/
       - href: blog.qmd
         text: ~/blog
+      - href: projects.qmd
+        text: ~/projects
   page-footer:
     center: "2022 rahul s"
   google-analytics: "UA-106573867-1"

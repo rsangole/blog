@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.37">
+<meta name="generator" content="quarto-1.0.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -137,11 +137,14 @@ ga('send', {
 
 <link rel="stylesheet" href="../../styles.css">
 <meta name="twitter:title" content="yHat - TidyTuesday - Transit Costs">
+<meta name="twitter:image" content="https://www.rsangole.com/posts/2021-01-11-tidytuesday-transit-costs/graph.png">
 <meta name="twitter:creator" content="@rsangole">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image-height" content="1728">
+<meta name="twitter:image-width" content="1344">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed">
+<body class="floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -170,12 +173,14 @@ ga('send', {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    
+</nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -269,8 +274,6 @@ $ avg_len          &lt;dbl&gt; 26.73974, 16.57143, 16.68154, 22.99545, 24.83818,
 $ avg_cost         &lt;dbl&gt; 5143.101, 2417.324, 2948.474, 4054.324, 3806.395, 364…
 $ cc_id            &lt;chr&gt; "CN Beijing", "CN Changchun", "CN Changsha", "CN Chen…</code></pre>
 </div>
-</div>
-<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>label_dat_india <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="st">"India"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>         city <span class="sc">!=</span> <span class="st">"Gurgaon"</span>)</span>
@@ -282,129 +285,106 @@ $ cc_id            &lt;chr&gt; "CN Beijing", "CN Changchun", "CN Changsha", "CN 
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cc_id <span class="sc">%in%</span> dat<span class="sc">$</span>cc_id,</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>         country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"CN"</span>, <span class="st">"IN"</span>),</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>         length <span class="sc">&lt;</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country =</span> <span class="fu">ifelse</span>(country <span class="sc">==</span> <span class="st">"CN"</span>, <span class="st">"China"</span>, <span class="st">"India"</span>))</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(to_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 192
-Columns: 21
-$ e                &lt;int&gt; 7288, 7289, 7290, 7291, 7296, 7297, 7298, 7299, 7304,…
-$ country          &lt;chr&gt; "India", "India", "India", "India", "India", "India",…
-$ city             &lt;chr&gt; "Mumbai", "Mumbai", "Mumbai", "Mumbai", "Mumbai", "Mu…
-$ line             &lt;chr&gt; "Monorail", "Line 3", "Line 2A", "Line 2B", "Line 4",…
-$ start_year       &lt;chr&gt; "2009", "2016", "2016", "2018", "2018", "2019", "2017…
-$ end_year         &lt;chr&gt; "2019", "2022", "2021", "2023", "2022", "2022", "2024…
-$ rr               &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
-$ length           &lt;dbl&gt; 20.20, 33.50, 18.60, 23.50, 32.30, 2.70, 24.90, 14.50…
-$ tunnel_per       &lt;dbl&gt; 0.00, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.0…
-$ tunnel           &lt;dbl&gt; 0.000, 33.500, 0.000, 0.000, 0.000, 0.000, 0.000, 0.0…
-$ stations         &lt;int&gt; 17, 27, 17, 22, 32, 2, 16, 13, 16, 11, 4, 10, 17, 46,…
-$ source1          &lt;chr&gt; "Plan", "Media", "Media", "Plan", "Plan", "Plan", "Pl…
-$ cost             &lt;dbl&gt; 30000.00, 320000.00, 64100.00, 109860.00, 145490.00, …
-$ currency         &lt;chr&gt; "INR", "INR", "INR", "INR", "INR", "INR", "INR", "INR…
-$ year             &lt;int&gt; 2014, 2019, 2018, 2020, 2020, 2017, 2020, 2016, 2018,…
-$ ppp_rate         &lt;dbl&gt; 0.0540, 0.0470, 0.0480, 0.0470, 0.0470, 0.0480, 0.047…
-$ real_cost        &lt;dbl&gt; 1620.000, 15040.000, 3076.800, 5163.420, 6838.030, 37…
-$ cost_km_millions &lt;dbl&gt; 80.19802, 448.95522, 165.41935, 219.72000, 211.70372,…
-$ source2          &lt;chr&gt; "Media", "Trade", "Media", "Plan", "Plan", "Plan", "P…
-$ reference        &lt;chr&gt; "https://indianexpress.com/article/cities/mumbai/indi…
-$ cc_id            &lt;chr&gt; "IN Mumbai", "IN Mumbai", "IN Mumbai", "IN Mumbai", "…</code></pre>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country =</span> <span class="fu">ifelse</span>(country <span class="sc">==</span> <span class="st">"CN"</span>, <span class="st">"China"</span>, <span class="st">"India"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>in_color <span class="ot">&lt;-</span> <span class="st">"#2a9d8f"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cn_color <span class="ot">&lt;-</span> <span class="st">"#fca311"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>chennai <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(city <span class="sc">==</span> <span class="st">"Chennai"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>chennai_stations <span class="ot">&lt;-</span> chennai<span class="sc">$</span>total_stations</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>chennai_projects <span class="ot">&lt;-</span> chennai<span class="sc">$</span>total_projects</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>chennai_x <span class="ot">&lt;-</span> chennai<span class="sc">$</span>avg_len</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>chennai_y <span class="ot">&lt;-</span> chennai<span class="sc">$</span>avg_stations</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>chennai_cost <span class="ot">&lt;-</span> chennai<span class="sc">$</span>total_cost</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>to_plot <span class="sc">%&gt;%</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(length, stations)) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#8d99ae"</span>, <span class="at">size =</span> <span class="fl">0.8</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(city<span class="sc">!=</span><span class="st">"Wenzhou"</span>),</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(avg_len, avg_stations, <span class="at">color =</span> country),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">size=</span><span class="fl">0.3</span>, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">span =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> dat,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(avg_len, avg_stations, <span class="at">color =</span> country, <span class="at">size =</span> total_cost<span class="sc">^</span><span class="fl">1.3</span>),</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">data =</span> label_dat_india,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">aes</span>(avg_len, avg_stations,</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">label =</span> city,</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">color =</span> country),</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">min.segment.length =</span> <span class="dv">1</span>,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>                   <span class="at">box.padding =</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">"line"</span>),</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>                   <span class="at">nudge_x =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>                   <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"curve"</span>,</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>           <span class="at">xend =</span> label_dat_china<span class="sc">$</span>avg_len[<span class="dv">1</span>], <span class="at">yend =</span> label_dat_china<span class="sc">$</span>avg_stations[<span class="dv">1</span>],</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> label_dat_china<span class="sc">$</span>avg_len[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">6</span>, <span class="at">y =</span> label_dat_china<span class="sc">$</span>avg_stations[<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">6</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>           <span class="at">curvature =</span> .<span class="dv">3</span>, <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"mm"</span>)), <span class="at">color =</span> <span class="st">"#fca311"</span>) <span class="sc">+</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"text"</span>,</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> label_dat_china<span class="sc">$</span>avg_len[<span class="dv">1</span>] <span class="sc">+</span> <span class="fl">5.5</span>, <span class="at">y =</span> label_dat_china<span class="sc">$</span>avg_stations[<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">7</span>,</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Shanghai &amp; Beijing"</span>, <span class="at">hjust =</span> <span class="st">"left"</span>, <span class="at">size =</span> <span class="fl">3.4</span>, <span class="at">color =</span> <span class="st">"#fca311"</span>) <span class="sc">+</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"curve"</span>,</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>           <span class="at">xend =</span> <span class="dv">2</span>, <span class="at">yend =</span> <span class="dv">0</span>,</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">7</span>, <span class="at">y =</span> <span class="dv">0</span> <span class="sc">-</span> <span class="dv">11</span>,</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>           <span class="at">curvature =</span> <span class="sc">-</span>.<span class="dv">3</span>, <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="st">"mm"</span>)), <span class="at">color =</span> <span class="st">"#8d99ae"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"text"</span>,</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fl">7.5</span>, <span class="at">y =</span> <span class="dv">0</span> <span class="sc">-</span> <span class="fl">11.5</span>,</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Each point is a transit line"</span>, <span class="at">hjust =</span> <span class="st">"left"</span>, <span class="at">size =</span> <span class="fl">3.4</span>, <span class="at">color =</span> <span class="st">"#8d99ae"</span>) <span class="sc">+</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"curve"</span>,</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>           <span class="at">xend =</span> chennai_x, <span class="at">yend =</span> chennai_y <span class="sc">+</span> <span class="dv">2</span>,</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> chennai_x, <span class="at">y =</span> chennai_y <span class="sc">+</span> <span class="dv">16</span>,</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>           <span class="at">curvature =</span> <span class="dv">0</span>, <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"mm"</span>)), <span class="at">color =</span> in_color, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"text"</span>,</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> chennai_x <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">y =</span> chennai_y <span class="sc">+</span> <span class="dv">13</span>,</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> glue<span class="sc">::</span><span class="fu">glue</span>(</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>             <span class="st">"{cost} over {stations} stations</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="st">             in {chennai_projects} lines"</span>,</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>             <span class="at">x =</span> scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">accuracy =</span> <span class="dv">1</span>, <span class="at">suffix =</span> <span class="st">" km"</span>)(chennai_x),</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> chennai_y,</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>             <span class="at">stations =</span> chennai_stations,</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>             <span class="at">chennai_projects =</span> chennai_projects,</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>             <span class="at">cost =</span> scales<span class="sc">::</span><span class="fu">label_dollar</span>(<span class="at">accuracy =</span> <span class="dv">1</span>, <span class="at">suffix =</span> <span class="st">"M"</span>)(chennai_cost)</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>             ),</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="st">"left"</span>, <span class="at">size =</span> <span class="fl">3.4</span>, <span class="at">color =</span> in_color) <span class="sc">+</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dark_theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">90</span>, <span class="dv">20</span>)) <span class="sc">+</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">70</span>, <span class="dv">20</span>)) <span class="sc">+</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">name =</span> <span class="st">"Total City Cost"</span>,</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>             <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">20</span><span class="sc">^</span><span class="fl">1.3</span>, <span class="dv">50</span><span class="sc">^</span><span class="fl">1.3</span>, <span class="dv">80</span><span class="sc">^</span><span class="fl">1.3</span>),</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>             <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"$20M"</span>, <span class="st">"$50M"</span>,<span class="st">"$80M"</span>),</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>             <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">10</span>)</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>             ) <span class="sc">+</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">90</span>), <span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"The Cost of Transit in the 21&lt;sup&gt;st&lt;/sup&gt; Century"</span>,</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"&lt;span style='color:{cn_color};font-family:Inter-Medium;'&gt;China: &lt;/span&gt;253 projects in 28 cities, totaling $1T since 1998&lt;br /&gt;&lt;span style='color:{in_color};font-family:Inter-Medium;'&gt;India: &lt;/span&gt; 29 projects in 7 cities, totaling $2B since 2011&lt;br /&gt;&lt;span style='color:{in_color};font-family:Inter-Medium;'&gt;India&lt;/span&gt; has longer transit lines with more stations than &lt;span style='color:{cn_color};font-family:Inter-Medium;'&gt;China&lt;/span&gt;, driving up costs &lt;br /&gt;for each city."</span>),</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Average Length"</span>,</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Average Stations"</span>,</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"#tidytuesday</span><span class="sc">\n</span><span class="st">@rsangole"</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray60"</span>),</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span>  <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray60"</span>),</span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.x.bottom =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"gray30"</span>,<span class="at">size =</span> <span class="fl">0.5</span>),</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y.left =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"gray30"</span>),</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> .<span class="dv">9</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">"italic"</span>, <span class="at">color =</span> <span class="st">"gray60"</span>),</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> .<span class="dv">9</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">"italic"</span>, <span class="at">color =</span> <span class="st">"gray60"</span>),</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_markdown</span>(<span class="at">family =</span> <span class="st">"Inter-Medium"</span>, <span class="at">color =</span> <span class="st">"#f8f8f2"</span>, <span class="at">size =</span> <span class="dv">22</span>,</span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="at">unit =</span> <span class="st">"line"</span>)),</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span>,</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_markdown</span>(<span class="at">color =</span> <span class="st">"#f8f8f2"</span>, <span class="at">size =</span> <span class="dv">12</span>, <span class="at">lineheight =</span> <span class="fl">1.2</span>,</span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="at">unit =</span> <span class="st">"line"</span>)),</span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="dv">1</span>, <span class="fl">1.5</span>, <span class="at">unit =</span> <span class="st">"line"</span>),</span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.9</span>,<span class="fl">0.1</span>)</span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_discrete_manual</span>(<span class="at">aesthetics =</span> <span class="st">"color"</span>,</span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>                        <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"India"</span> <span class="ot">=</span> in_color, <span class="st">"China"</span> <span class="ot">=</span> cn_color),</span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>                        <span class="at">guide =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display column-page">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2021-01-11-tidytuesday-transit-costs_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>in_color <span class="ot">&lt;-</span> <span class="st">"#2a9d8f"</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cn_color <span class="ot">&lt;-</span> <span class="st">"#fca311"</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>chennai <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(city <span class="sc">==</span> <span class="st">"Chennai"</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>chennai_stations <span class="ot">&lt;-</span> chennai<span class="sc">$</span>total_stations</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>chennai_projects <span class="ot">&lt;-</span> chennai<span class="sc">$</span>total_projects</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>chennai_x <span class="ot">&lt;-</span> chennai<span class="sc">$</span>avg_len</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>chennai_y <span class="ot">&lt;-</span> chennai<span class="sc">$</span>avg_stations</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>chennai_cost <span class="ot">&lt;-</span> chennai<span class="sc">$</span>total_cost</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>to_plot <span class="sc">%&gt;%</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(length, stations)) <span class="sc">+</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#8d99ae"</span>, <span class="at">size =</span> <span class="fl">0.8</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(city<span class="sc">!=</span><span class="st">"Wenzhou"</span>),</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(avg_len, avg_stations, <span class="at">color =</span> country),</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">size=</span><span class="fl">0.3</span>, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">span =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> dat,</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(avg_len, avg_stations, <span class="at">color =</span> country, <span class="at">size =</span> total_cost<span class="sc">^</span><span class="fl">1.3</span>),</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">data =</span> label_dat_india,</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">aes</span>(avg_len, avg_stations,</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">label =</span> city,</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">color =</span> country),</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">min.segment.length =</span> <span class="dv">1</span>,</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>                   <span class="at">box.padding =</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">"line"</span>),</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                   <span class="at">nudge_x =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>                   <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"curve"</span>,</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>           <span class="at">xend =</span> label_dat_china<span class="sc">$</span>avg_len[<span class="dv">1</span>], <span class="at">yend =</span> label_dat_china<span class="sc">$</span>avg_stations[<span class="dv">1</span>],</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> label_dat_china<span class="sc">$</span>avg_len[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">6</span>, <span class="at">y =</span> label_dat_china<span class="sc">$</span>avg_stations[<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">6</span>,</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>           <span class="at">curvature =</span> .<span class="dv">3</span>, <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"mm"</span>)), <span class="at">color =</span> <span class="st">"#fca311"</span>) <span class="sc">+</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"text"</span>,</span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> label_dat_china<span class="sc">$</span>avg_len[<span class="dv">1</span>] <span class="sc">+</span> <span class="fl">5.5</span>, <span class="at">y =</span> label_dat_china<span class="sc">$</span>avg_stations[<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">7</span>,</span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Shanghai &amp; Beijing"</span>, <span class="at">hjust =</span> <span class="st">"left"</span>, <span class="at">size =</span> <span class="fl">3.4</span>, <span class="at">color =</span> <span class="st">"#fca311"</span>) <span class="sc">+</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"curve"</span>,</span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>           <span class="at">xend =</span> <span class="dv">2</span>, <span class="at">yend =</span> <span class="dv">0</span>,</span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">7</span>, <span class="at">y =</span> <span class="dv">0</span> <span class="sc">-</span> <span class="dv">11</span>,</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>           <span class="at">curvature =</span> <span class="sc">-</span>.<span class="dv">3</span>, <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="st">"mm"</span>)), <span class="at">color =</span> <span class="st">"#8d99ae"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"text"</span>,</span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fl">7.5</span>, <span class="at">y =</span> <span class="dv">0</span> <span class="sc">-</span> <span class="fl">11.5</span>,</span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Each point is a transit line"</span>, <span class="at">hjust =</span> <span class="st">"left"</span>, <span class="at">size =</span> <span class="fl">3.4</span>, <span class="at">color =</span> <span class="st">"#8d99ae"</span>) <span class="sc">+</span></span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"curve"</span>,</span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>           <span class="at">xend =</span> chennai_x, <span class="at">yend =</span> chennai_y <span class="sc">+</span> <span class="dv">2</span>,</span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> chennai_x, <span class="at">y =</span> chennai_y <span class="sc">+</span> <span class="dv">16</span>,</span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>           <span class="at">curvature =</span> <span class="dv">0</span>, <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"mm"</span>)), <span class="at">color =</span> in_color, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"text"</span>,</span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> chennai_x <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">y =</span> chennai_y <span class="sc">+</span> <span class="dv">13</span>,</span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> glue<span class="sc">::</span><span class="fu">glue</span>(</span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>             <span class="st">"{cost} over {stations} stations</span></span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="st">             in {chennai_projects} lines"</span>,</span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>             <span class="at">x =</span> scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">accuracy =</span> <span class="dv">1</span>, <span class="at">suffix =</span> <span class="st">" km"</span>)(chennai_x),</span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> chennai_y,</span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>             <span class="at">stations =</span> chennai_stations,</span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>             <span class="at">chennai_projects =</span> chennai_projects,</span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>             <span class="at">cost =</span> scales<span class="sc">::</span><span class="fu">label_dollar</span>(<span class="at">accuracy =</span> <span class="dv">1</span>, <span class="at">suffix =</span> <span class="st">"M"</span>)(chennai_cost)</span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>             ),</span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="st">"left"</span>, <span class="at">size =</span> <span class="fl">3.4</span>, <span class="at">color =</span> in_color) <span class="sc">+</span></span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dark_theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">90</span>, <span class="dv">20</span>)) <span class="sc">+</span></span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">70</span>, <span class="dv">20</span>)) <span class="sc">+</span></span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">name =</span> <span class="st">"Total City Cost"</span>,</span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>             <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">20</span><span class="sc">^</span><span class="fl">1.3</span>, <span class="dv">50</span><span class="sc">^</span><span class="fl">1.3</span>, <span class="dv">80</span><span class="sc">^</span><span class="fl">1.3</span>),</span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>             <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"$20M"</span>, <span class="st">"$50M"</span>,<span class="st">"$80M"</span>),</span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>             <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">10</span>)</span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>             ) <span class="sc">+</span></span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">90</span>), <span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"The Cost of Transit in the 21&lt;sup&gt;st&lt;/sup&gt; Century"</span>,</span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"&lt;span style='color:{cn_color};font-family:Inter-Medium;'&gt;China: &lt;/span&gt;253 projects in 28 cities, totaling $1T since 1998&lt;br /&gt;&lt;span style='color:{in_color};font-family:Inter-Medium;'&gt;India: &lt;/span&gt; 29 projects in 7 cities, totaling $2B since 2011&lt;br /&gt;&lt;span style='color:{in_color};font-family:Inter-Medium;'&gt;India&lt;/span&gt; has longer transit lines with more stations than &lt;span style='color:{cn_color};font-family:Inter-Medium;'&gt;China&lt;/span&gt;, driving up costs &lt;br /&gt;for each city."</span>),</span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Average Length"</span>,</span>
-<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Average Stations"</span>,</span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"#tidytuesday</span><span class="sc">\n</span><span class="st">@rsangole"</span></span>
-<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray60"</span>),</span>
-<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span>  <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray60"</span>),</span>
-<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.x.bottom =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"gray30"</span>,<span class="at">size =</span> <span class="fl">0.5</span>),</span>
-<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y.left =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"gray30"</span>),</span>
-<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> .<span class="dv">9</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">"italic"</span>, <span class="at">color =</span> <span class="st">"gray60"</span>),</span>
-<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> .<span class="dv">9</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">"italic"</span>, <span class="at">color =</span> <span class="st">"gray60"</span>),</span>
-<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_markdown</span>(<span class="at">family =</span> <span class="st">"Inter-Medium"</span>, <span class="at">color =</span> <span class="st">"#f8f8f2"</span>, <span class="at">size =</span> <span class="dv">22</span>,</span>
-<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="at">unit =</span> <span class="st">"line"</span>)),</span>
-<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span>,</span>
-<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_markdown</span>(<span class="at">color =</span> <span class="st">"#f8f8f2"</span>, <span class="at">size =</span> <span class="dv">12</span>, <span class="at">lineheight =</span> <span class="fl">1.2</span>,</span>
-<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="at">unit =</span> <span class="st">"line"</span>)),</span>
-<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="dv">1</span>, <span class="fl">1.5</span>, <span class="at">unit =</span> <span class="st">"line"</span>),</span>
-<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.9</span>,<span class="fl">0.1</span>)</span>
-<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_discrete_manual</span>(<span class="at">aesthetics =</span> <span class="st">"color"</span>,</span>
-<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>                        <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"India"</span> <span class="ot">=</span> in_color, <span class="st">"China"</span> <span class="ot">=</span> cn_color),</span>
-<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>                        <span class="at">guide =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="2021-01-11-tidytuesday-transit-costs_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 

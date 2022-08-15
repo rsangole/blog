@@ -4,6 +4,7 @@ date: '2021-01-19'
 categories:
   - TidyTuesday
   - Visualization
+image: graph.png
 ---
 
 ```{r echo=FALSE}
@@ -99,7 +100,12 @@ to_plot <- rbindlist(datlist)
 glimpse(to_plot)
 ```
 
-```{r fig.height=14, fig.width=12, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
+#| column: page
+#| fig-align: center
+#| fig-width: 6
+#| fig-height: 6
+
 make_plot <- function(to_plot) {
     categories <- unique(to_plot[, .(medium_cleaned, color)])
     xleg <- c(1.0,  2.8,  4.6,  6.8,  8.2, 10.0)

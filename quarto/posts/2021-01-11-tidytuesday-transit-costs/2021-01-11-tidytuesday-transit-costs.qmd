@@ -4,6 +4,7 @@ date: '2021-01-11'
 categories:
   - TidyTuesday
   - Visualization
+image: graph.png
 ---
 
 ```{r echo=FALSE}
@@ -48,8 +49,7 @@ dat <- transit_cost %>%
   mutate(cc_id = paste(country,city),
          country = ifelse(country == "CN", "China", "India"))
 glimpse(dat)
-```
-```{r message=FALSE, warning=FALSE}
+
 label_dat_india <- dat %>%
   filter(country %in% "India",
          city != "Gurgaon")
@@ -62,11 +62,14 @@ to_plot <- transit_cost %>%
          country %in% c("CN", "IN"),
          length < 100) %>%
   mutate(country = ifelse(country == "CN", "China", "India"))
-
-glimpse(to_plot)
 ```
 
-```{r fig.height=9, fig.width=7, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
+#| column: page
+#| fig-align: center
+#| fig-width: 7
+#| fig-height: 10
+
 in_color <- "#2a9d8f"
 cn_color <- "#fca311"
 

@@ -4,6 +4,7 @@ date: '2021-01-06'
 categories:
   - TidyTuesday
   - Visualization
+image: graph.png
 ---
 
 ```{r echo=FALSE}
@@ -61,50 +62,130 @@ bigmac_value_dat %>%
 glimpse(to_plot)
 ```
 
-```{r fig.height=9, fig.width=7, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
+#| column: page
+#| fig-align: center
+#| fig-width: 7
+#| fig-height: 10
+
 to_plot %>%
   ggplot(aes(y = name, color = bw)) +
-  geom_hline(yintercept = 3, color = "gray80", size = 0.3) +
-  geom_vline(xintercept = 0, color = "gray90", size = 0.2) +
+  geom_hline(yintercept = 3,
+             color = "gray80",
+             size = 0.3) +
+  geom_vline(xintercept = 0,
+             color = "gray90",
+             size = 0.2) +
   geom_point(aes(x = x2015_07_01), color = "gray70", size = 1.5) +
   geom_segment(aes(x = x2020_07_01, xend = x2015_07_01, yend = name), color = "gray70") +
-  geom_point(data = to_plot %>% filter(name != "United States"),
-             mapping = aes(x = x2020_07_01), size = 2) +
-  geom_text(data = to_plot %>% filter(bw == "Valuation worse in 5 years"),
-            mapping = aes(x = label_pos, y = name, label = name),
-            size = 3.5, hjust = 0, show.legend = FALSE) +
-  geom_text(data = to_plot %>% filter(bw == "Valuation better in 5 years"),
-            mapping = aes(x = label_pos, y = name, label = name),
-            size = 3.5, hjust = 1, show.legend = FALSE) +
-  geom_label(data = data.frame(x = c(-0.5, -0.25, 0, 0.25, 0.50, 0.75), y = c(3, 3, 3, 3, 3, 3)),
-             mapping = aes(x = x, y = y, label = scales::label_percent()(x)),
-            size = 2.8, color = "gray30", hjust = 0.5,
-            label.size = 0, label.padding = unit(0.2, "lines")) +
-  annotate(geom = "curve", xend = 0.674, yend = 42.5, x = 0.674 + 0.04, y = 44,
-    curvature = .3, arrow = arrow(length = unit(2, "mm")), color = "#e76f51") +
-  annotate(geom = "text", x = 0.674 + 0.04 + 0.006, y = 44,
-           label = "2020", hjust = "left", size = 3.4, color = "#e76f51") +
-  annotate(geom = "curve", xend = 0.563, yend = 42.5, x = 0.563 + 0.04, y = 44,
-           curvature = .3, arrow = arrow(length = unit(2, "mm")), color = "gray70") +
-  annotate(geom = "text", x = 0.563 + 0.04 + 0.006, y = 44,
-           label = "2015", hjust = "left", size = 3.4, color = "gray70") +
+  geom_point(
+    data = to_plot %>% filter(name != "United States"),
+    mapping = aes(x = x2020_07_01),
+    size = 2
+  ) +
+  geom_text(
+    data = to_plot %>% filter(bw == "Valuation worse in 5 years"),
+    mapping = aes(x = label_pos, y = name, label = name),
+    size = 3.5,
+    hjust = 0,
+    show.legend = FALSE
+  ) +
+  geom_text(
+    data = to_plot %>% filter(bw == "Valuation better in 5 years"),
+    mapping = aes(x = label_pos, y = name, label = name),
+    size = 3.5,
+    hjust = 1,
+    show.legend = FALSE
+  ) +
+  geom_label(
+    data = data.frame(
+      x = c(-0.5, -0.25, 0, 0.25, 0.50, 0.75),
+      y = c(3, 3, 3, 3, 3, 3)
+    ),
+    mapping = aes(
+      x = x,
+      y = y,
+      label = scales::label_percent()(x)
+    ),
+    size = 2.8,
+    color = "gray30",
+    hjust = 0.5,
+    label.size = 0,
+    label.padding = unit(0.2, "lines")
+  ) +
+  annotate(
+    geom = "curve",
+    xend = 0.674,
+    yend = 42.5,
+    x = 0.674 + 0.04,
+    y = 44,
+    curvature = .3,
+    arrow = arrow(length = unit(2, "mm")),
+    color = "#e76f51"
+  ) +
+  annotate(
+    geom = "text",
+    x = 0.674 + 0.04 + 0.006,
+    y = 44,
+    label = "2020",
+    hjust = "left",
+    size = 3.4,
+    color = "#e76f51"
+  ) +
+  annotate(
+    geom = "curve",
+    xend = 0.563,
+    yend = 42.5,
+    x = 0.563 + 0.04,
+    y = 44,
+    curvature = .3,
+    arrow = arrow(length = unit(2, "mm")),
+    color = "gray70"
+  ) +
+  annotate(
+    geom = "text",
+    x = 0.563 + 0.04 + 0.006,
+    y = 44,
+    label = "2015",
+    hjust = "left",
+    size = 3.4,
+    color = "gray70"
+  ) +
   theme_minimal() +
-  theme(axis.text = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        axis.title.x = element_text(color = "#264653")) +
-  theme(legend.position = c(0.14, 0.2),
-        legend.title = element_blank(),
-        legend.text = element_text(color = "#264653", size = 9.5)) +
+  theme(
+    axis.text = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.title.x = element_text(color = "#264653")
+  ) +
+  theme(
+    legend.position = c(0.14, 0.2),
+    legend.title = element_blank(),
+    legend.text = element_text(color = "#264653", size = 9.5)
+  ) +
   scale_color_manual(values = c("#e76f51", "#2a9d8f")) +
-  scale_x_continuous(labels = scales::label_percent(),
-                     breaks = c(-0.5, -0.25, 0, 0.25, 0.5, 0.75),
-                     expand = c(0, 0.1)) +
-  scale_y_discrete(expand = c(-0.1, 7))+
-  annotate(geom = "text", x = -0.3, y = 44,
-           label = "Over Valued", size = 3.4, color = "#264653") +
-  annotate(geom = "text", x = 0.3, y = 44,
-           label = "Under Valued", size = 3.4, color = "#264653") +
+  scale_x_continuous(
+    labels = scales::label_percent(),
+    breaks = c(-0.5, -0.25, 0, 0.25, 0.5, 0.75),
+    expand = c(0, 0.1)
+  ) +
+  scale_y_discrete(expand = c(-0.1, 7)) +
+  annotate(
+    geom = "text",
+    x = -0.3,
+    y = 44,
+    label = "Over Valued",
+    size = 3.4,
+    color = "#264653"
+  ) +
+  annotate(
+    geom = "text",
+    x = 0.3,
+    y = 44,
+    label = "Under Valued",
+    size = 3.4,
+    color = "#264653"
+  ) +
   labs(x = "Big Mac Exchange Rate Valuation", y = "")
 ```
 

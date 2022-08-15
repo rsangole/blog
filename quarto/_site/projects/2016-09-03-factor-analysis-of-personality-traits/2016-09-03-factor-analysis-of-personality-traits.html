@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Rahul">
+<meta name="dcterms.date" content="2016-09-03">
+<meta name="description" content="Here, I replicate a paper end to end - survey design, data collection and analysis - by a professor from Brown Univ. The paper applies factor analysis to extract insights on respondant’s personality traits.">
+
+<title>yHat - Factor Analysis of Personality Traits</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-106573867-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta name="twitter:title" content="yHat - Factor Analysis of Personality Traits">
+<meta name="twitter:description" content="Here, I replicate a paper end to end - survey design, data collection and analysis - by a professor from Brown Univ. The paper applies factor analysis to extract insights on respondant’s personality traits.">
+<meta name="twitter:creator" content="@rsangole">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">yHat</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">~/</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html">~/blog</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html">~/projects</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background">Background</a></li>
+  <li><a href="#objective" id="toc-objective" class="nav-link" data-scroll-target="#objective">Objective</a></li>
+  <li><a href="#duplication-of-the-survey" id="toc-duplication-of-the-survey" class="nav-link" data-scroll-target="#duplication-of-the-survey">Duplication of the Survey</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#what-does-the-factor-analysis-tell-us" id="toc-what-does-the-factor-analysis-tell-us" class="nav-link" data-scroll-target="#what-does-the-factor-analysis-tell-us">What does the factor analysis tell us?</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#how-many-factors-to-select" id="toc-how-many-factors-to-select" class="nav-link" data-scroll-target="#how-many-factors-to-select">How many factors to select?</a></li>
+  <li><a href="#wheres-the-r-code" id="toc-wheres-the-r-code" class="nav-link" data-scroll-target="#wheres-the-r-code">Where’s the R code?</a></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Factor Analysis of Personality Traits</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Factor Analysis</div>
+    <div class="quarto-category">Multivariate</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Here, I replicate a paper end to end - survey design, data collection and analysis - by a professor from Brown Univ. The paper applies factor analysis to extract insights on respondant’s personality traits.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Rahul </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 3, 2016</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<section id="background" class="level3">
+<h3 class="anchored" data-anchor-id="background">Background</h3>
+<p>In the course <a href="http://sps.northwestern.edu/program-areas/graduate/predictive-analytics/program-courses.php?course_id=2809&amp;term=4640">Predict-410</a>: Linear Regression &amp; Multivariate Analyses, taught by the excellent <a href="http://www.syamalasrinivasan.com/">Prof Srinivasan</a>, we were taught Factor Analysis (FA). FA is a technique used to identify ‘latent’ or ‘hidden’ factors common to a larger pool of observable or measurable variables. These factors would cause the measurable variables to behave the way they do. Typically, the aim is to identify a smaller set of factors (k) compared to the number of variables (n), i.e.&nbsp;k&lt;&lt;&lt;n.&nbsp;We expect a smaller set of common factors to cause the variances in the measured variables. This is a useful method of dimension reduction.</p>
+<p>In course of learning about factor analysis, I found a few good resources on the subject. One of them, <a href="http://web.stanford.edu/class/psych253/tutorials/FactorAnalysis.html">here</a>, applies factor analysis to a data set collected by Prof Malle of Brown University. <a href="https://www.brown.edu/Departments/CLPS/people/bertram-malle">Prof Malle</a> collected data on 32 personality traits, as reported via a self-evaluation of 240 participants.</p>
+</section>
+<section id="objective" class="level3">
+<h3 class="anchored" data-anchor-id="objective">Objective</h3>
+<p>The objective of the original study, as stated by the article: ‘… it’s unlikely there are actually 32 different dimensions of personality; rather people probably vary along a small number of dimensions…’.</p>
+<p>My objective:</p>
+<ol type="1">
+<li>Recreate this study and see for myself: Can I replicate the results?</li>
+<li>How many factors will I need to account for most of the variation?</li>
+<li>How would I interpret the factors I find? How would these align to my expectations about overall personality traits and align ?</li>
+</ol>
+</section>
+<section id="duplication-of-the-survey" class="level3">
+<h3 class="anchored" data-anchor-id="duplication-of-the-survey">Duplication of the Survey</h3>
+<p>I re-created a version of Prof Malle’s survey on <a href="https://www.surveymonkey.com/r/MN82SJ7">survey monkey</a>. The survey is still open, so feel free to take it. At the point of writing this post, I had a total of 61 responses from my Facebook friends. It would be nice to match Prof Malle’s sample size of 240.</p>
+<p>The survey asks:</p>
+<ul>
+<li><p>“How strongly do the following personality traits describe you?</p></li>
+<li><p>Distant, Talkative, Careless, Hardworking, Anxious, Agreeable, Tense, Kind, Relaxed, Disorganised, Outgoing, Approving, Shy, Disciplined, Harsh, Perseverant, Friendly, Worrying, Responsible, Contradictory, Sociable, Lazy, Cooperative, Quiet, Organized, Critical, Lax, Laidback, Withdrawn, Give up easily, Easy going.”</p></li>
+</ul>
+</section>
+<section id="results" class="level3">
+<h3 class="anchored" data-anchor-id="results">Results</h3>
+<section id="how-do-the-traits-relate-to-one-another" class="level4">
+<h4 class="anchored" data-anchor-id="how-do-the-traits-relate-to-one-another">How do the traits relate to one another?</h4>
+<p>A correlation plot with the 32 traits ordered using hierarchical clustering using <a href="https://arxiv.org/pdf/1111.6285.pdf">Ward’s minimum variance agglomeration method</a>. The <a href="https://cran.r-project.org/web/packages/corrplot/corrplot.pdf">corrplot</a> package in R implements this method.</p>
+<p>The X and Y axes of this plot are the 32 traits sorted according to Ward’s method. The sorting results in very intelligent grouping. The intensity of the colour and size of the colored square in each cell indicates the strength of Pearson’s correlation coefficient between each pair.</p>
+<p>I have highlighted 8 <strong>black</strong> rectangles which show grouping between <strong>similar</strong> traits. For example, the first box contains <em>Worrying</em>, <em>Anxious</em>, and <em>Tense</em>, traits very similar to one another. The third box contains <em>Disciplined</em>, <em>Organized</em>, <em>Hardworking</em>, and <em>Responsible.</em></p>
+<p>Three <strong>red</strong> boxes highlight dissimilar or opposite traits. Take the first red box (top mid). On the X axis, we have <em>Easy Going</em>, <em>Relaxed</em> and <em>Laidback</em>, while on the Y axis, we have <em>Worrying</em>, <em>Anxious</em>, and <em>Tense</em>.</p>
+<p><img src="corrplot.png" class="img-fluid"></p>
+<p>The groupings in the correlation plot &amp; their magnitudes agree very well with Prof Malle’s findings.</p>
+</section>
+</section>
+<section id="what-does-the-factor-analysis-tell-us" class="level3">
+<h3 class="anchored" data-anchor-id="what-does-the-factor-analysis-tell-us">What does the factor analysis tell us?</h3>
+<p>Again, the objective here is: are there a few “factors” that explain personalities well as measured by the 32 personality traits? After <a href="http://sites.stat.psu.edu/~ajw13/stat505/fa06/17_factor/13_factor_varimax.html">varimax rotations</a> on the factors, the factor plots show wonderful results!</p>
+<p>To read the graphs, read the personality trait labels at the very extremes of the X and Y axes. These represent the traits with the highest loadings for each factor. The rotated factor plots were surprisingly intuitive to read.</p>
+<p>Factor 1 is Introvert/Extrovert. Factor 2 is the propensity to worry, or Anxiety Level.</p>
+<p><img src="f1vsf2nf9.png" class="img-fluid" width="450"></p>
+<p>Factor 3 seems to be Friendliness (or Approachable vs Reserved).</p>
+<p><img src="f2vsf3nf9.png" class="img-fluid" width="450"></p>
+<p>Factor 4 clearly is Organized vs Disorganized.</p>
+<p><img src="f3vsf4nf9.png" class="img-fluid" width="450"></p>
+<p>Factor 5 can be defined as Conscientiousness, or the willingness to be perseverant, to do hard work.</p>
+<p><img src="f4vsf5nf9.png" class="img-fluid" width="450"></p>
+</section>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<ul>
+<li>We have been able to reduce 32 personality traits into 5 common traits:
+<ul>
+<li>Introvert/Extrovert</li>
+<li>Propensity for Anxiety</li>
+<li>Friendliness</li>
+<li>Organized/Disorganized</li>
+<li>Conscientiousness</li>
+</ul></li>
+<li>I was pleased to find that my result agreed very well with Prof Malle’s study. All in all, the factors extracted make intuitive sense when one thinks about overarching personality traits.</li>
+</ul>
+<p>How exciting is factor analysis? :D</p>
+</section>
+<section id="how-many-factors-to-select" class="level3">
+<h3 class="anchored" data-anchor-id="how-many-factors-to-select">How many factors to select?</h3>
+<p>There are a couple of methods to select the number of factors to keep. A scree plot plots the eigenvalues of the correlation matrix of the manifest variables against the factor number. The <a href="https://cran.r-project.org/web/packages/nFactors/nFactors.pdf">nscree package</a> can help get Scree plots.</p>
+<p><img src="scree.png" class="img-fluid" width="500"></p>
+<ol type="1">
+<li>Kaiser rule (select factors with eigenvalues &gt; 1 for corr matrices) results in 9 factors to be selected.</li>
+<li>Visual inspection of the scree plot: The knee in the plot is at 4 factors. This is numerically computed as the Acceleration Factor (AF).</li>
+<li>Optimal Coordinates (OC) results in selection of 5 factors.</li>
+</ol>
+<p>Another way to test the number of factors required is to look at the results of the chi-square test for the hypothesis test:</p>
+<p>H0: ‘n’ factors are sufficient Ha: More factors are needed</p>
+<p>For the 5 factor model, the chi square statistic is 403.6 for 320 degrees of freedom. The p-value is 0.00104, so we can strongly reject the null hypothesis that 5 factors are sufficient. Increasing to the 9 factor model, the chi square statistic is 241 on 222 degrees of freedom. P-value is 0.18, so we fail to reject the null hypothesis.</p>
+<p>I’ve tested using 5 factors as well as 9 factors. The order of the factors and their interpretation change depending on how many factors are selected. This is unlike a PCA. Also, for the 9 factor case, the plots really do not reveal anything interesting beyond 5 factors.</p>
+</section>
+<section id="wheres-the-r-code" class="level3">
+<h3 class="anchored" data-anchor-id="wheres-the-r-code">Where’s the R code?</h3>
+<p>The raw data and the R code is stored on <a href="https://github.com/rsangole/PersonalityTraitFactorAnalysis">Github</a>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<div>
+<hr>
+
+<p> Subscribe to my newsletter! </p>
+
+<iframe id="beehiiv-form" src="https://embeds.beehiiv.com/f1edc1d7-9d22-462b-935c-78e350a21f60?slim=true" data-test-id="beehiiv-embed" frameborder="0" scrolling="no" style="margin: 0; border-radius: 0px !important; background-color: transparent; height: 55px;"></iframe>
+
+</div>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="rsangole/blog_comments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">2022 rahul s</div>
+  </div>
+</footer>
+
+
+
+</body></html>

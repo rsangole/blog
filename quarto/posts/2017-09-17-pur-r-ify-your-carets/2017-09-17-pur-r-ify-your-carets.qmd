@@ -1,0 +1,262 @@
+---
+title: Pur(r)ify Your Carets
+date: '2017-09-17'
+categories:
+  - Programming Practices
+description: You'll learn how to use `purrr`, `caret` and `list-cols` to quickly create hundreds of dataset + model combinations, store data & model objects neatly in one tibble, and post process programatically. These tools enable succinct functional programming in which a lot gets done with just a few lines of code.
+image: carrots.jpg
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+## The motivation
+
+I want to write a quick blogpost on two phenomenal pieces of code written by Kuhn et al, and Wickham et al, namely - [purrr](https://cran.r-project.org/web/packages/purrr/index.html), [caret](https://cran.r-project.org/web/packages/caret/index.html). These play so well with the [tidyverse](https://cran.r-project.org/web/packages/tidyverse/index.html) that they have become an indispensible part of my repertoire. 
+
+In any datascience project, I want to investigate the effect of various combinations of:
+
+* Variable transformations
+* Variable selection
+* Grouped vs ungrouped categorical variables
+* Models of different types
+* Different hyperparameter tuning methods
+
+For each of the various combinations possible, I want to quantify model performance using common performance metrics like AIC or SBC. Commonly, I'll select the model that has the 'best' possible performance among all such models.
+
+Traditionally, I end up with many R objects: one for each new combination of transformation-model_type-tuning_method. For example, `boostFit`, `xgbFit`, `glmFit`, `elastinetFit` for untransformed variables. If I have any transformations, I might also have `boostFit.xform`, `xgbFit.xform`, `glmFit.xform` etc. Add to that, investigation of grouped vs ungrouped variables... `boostFit.xform.grouped`, `xgbFit.xform.ungrouped` etc. You get the idea. 
+
+The challenge with this approach is that the data and the models remain separated, there's a lot of repeat code for object management, manipulation and plotting, and in order to compare all the models together, we have to somehow stitch the results together. (For the last point, `resamples()` in `caret` works beautifully, but requires the same number of resamples in each model.)
+
+The approach I'm presenting below is a combination of a few approaches I learnt through the [APM](http://appliedpredictivemodeling.com/) book, the `caret` documentation,  grammar and verbage in `tidyverse`, as well as a couple of useful talks in the 2017 R Studio conferenence in Orlando [Notably ones on [purrr](https://www.rstudio.com/resources/videos/happy-r-users-purrr/) and  [list-cols](https://www.rstudio.com/resources/videos/using-list-cols-in-your-dataframe/)]. What you'll also see is that the code is extremely succint, which is simply a joy to write and read.
+
+  
+## An example using `BostonHousing` data
+  
+  
+### Load libs & data
+
+The libraries I'm using here are `tidyr`, `tibble`, `dplyr`, `magrittr`, `purrr`, and `caret`. The dataset is from `mlbench`. 
+
+```{r message=FALSE, warning=FALSE}
+library(tidyr)
+library(tibble)
+library(dplyr)
+library(magrittr)
+library(purrr)
+library(caret)
+library(mlbench)
+library(xgboost)
+data("BostonHousing")
+```
+***
+  
+#### Transformations on Xs
+
+For the purposes of this demonstration, I'll simply create two new sets variables using a Box-Cox transformation - `caret`'s `preProcess()` makes this easy - and the squared values of the originals. Save each new variable-set in a new character vector which follows the naming convention `preds.xxxx`.[^1]
+
+[^1]: This makes it super easy to find all such variable sets quickly using `ls(pattern = 'preds')` and store it in a character vector.
+
+```{r}
+# The originals
+response <- 'medv'
+preds.original <- colnames(BostonHousing[,1:13])
+
+# Box-Cox transformation
+prepTrain <- preProcess(x = BostonHousing[,preds.original], method = c('BoxCox'))
+boxcoxed <- predict(prepTrain,newdata = BostonHousing[,preds.original])
+colnames(boxcoxed) <- paste0(colnames(boxcoxed),'.boxed')
+preds.boxcoxed <- colnames(boxcoxed)
+
+# Squaring
+squared <- (BostonHousing[,c(1:3,5:13)])^2
+colnames(squared) <- paste0(colnames(squared),'.sq')
+preds.sq <- colnames(squared)
+
+# All together now...
+BostonHousing %<>% 
+  cbind(boxcoxed,squared)
+
+# Make sure everything is a numerical (for xgboost to work), and also NOT a tibble (some caret functions have trouble with tibbles)
+BostonHousing %<>% 
+  map_df(.f = ~as.numeric(.x)) %>% as.data.frame()
+
+str(BostonHousing)
+```
+
+Here's our new predictor variable sets:
+```{r}
+pred_varsets <- ls(pattern = 'preds')
+pred_varsets
+```
+***
+### Create a starter dataframe
+
+I first create a starter dataframe where the input data is repeated as many times as the number of predictor variable sets. `enframe()` allows us to embed objects a dataframe column.
+
+```{r}
+num_var_select <- length(pred_varsets)
+list(BostonHousing) %>% 
+    rep(num_var_select) %>% 
+    enframe(name = 'id', value = 'rawdata') %>% 
+    mutate(pred_varsets = pred_varsets) -> starter_df
+starter_df
+```
+
+Now, I split the raw data into `train.X` column which houses data only for those predictor variables identified in the `pred_varsets` column. `map2` is a great function which allows a mapping to be done over two variables and passed to a function.  
+
+I also create a `train.Y` for the response variable here.
+
+```{r message=FALSE, warning=FALSE}
+# Function to select columns in the raw data
+filterColumns <- function(x,y){
+    x[,(colnames(x) %in% eval(parse(text=y)))]
+}
+
+# Create X and Y columns
+starter_df %<>% 
+  transmute(
+  id,
+  pred_varsets,
+  train.X = map2(rawdata, pred_varsets,  ~ filterColumns(.x, .y)),
+  train.Y = map(rawdata, ~ .x$medv)
+  )
+
+starter_df
+```
+***
+### Select the models
+
+This is where I can select which models I want in the analysis. Each model should be in a function of this style:
+
+    modelName <- function(X, Y){
+        ctrl <- trainControl(
+            ...
+        )
+        train(
+            x = X,
+            y = Y,
+            trContrl = ctrl,
+            method = '## modelname ##',
+            ...
+        )
+    }
+
+I'm using `caret` exclusively, so each function needs a `trainControl()` and a `train()`. Learn more about `caret` [here](http://topepo.github.io/caret/index.html).
+
+```{r message=FALSE, warning=FALSE}
+rpartModel <- function(X, Y) {
+    ctrl <- trainControl(
+        ## 5-fold CV
+        method = "repeatedcv",
+        number = 5
+    )
+    train(
+        x = X,
+        y = Y,
+        method = 'rpart2',
+        trControl = ctrl,
+        tuneGrid = data.frame(maxdepth=c(2,3,4,5)),
+        preProc = c('center', 'scale')
+    )
+}
+xgbTreeModel <- function(X,Y){
+    ctrl <- trainControl(
+        ## 5-fold CV
+        method = "repeatedcv",
+        number = 5
+    )
+    train(
+        x=X,
+        y=Y,
+        method = 'xgbTree',
+        trControl = ctrl,
+        tuneGrid = expand.grid(nrounds = c(100,300,500), 
+                              max_depth = c(2,4,6) ,
+                              eta = 0.1,
+                              gamma = 1, 
+                              colsample_bytree = 1, 
+                              min_child_weight = 1, 
+                              subsample = 1),
+        preProc = c('center', 'scale')
+    )
+}
+```
+
+Once these functions are setup, `enframe` these into a dataframe.
+
+```{r}
+model_list <- list(rpartModel=rpartModel,
+                   xgbModel=xgbTreeModel) %>%
+    enframe(name = 'modelName',value = 'model')
+
+model_list
+```
+***
+### Create data-model combinations
+
+Now, we're ready to combine the two together. `train_df` has all the predictor varset combinations, `model_list` has the list of all models. I'm assuming I want to run each combination of the two; so if I have 3 variable sets, and 2 models, I have a total of 6 models to run. This code sets that up:
+
+```{r}
+train_df <-
+    starter_df[rep(1:nrow(starter_df),nrow(model_list)),]
+
+train_df %<>%
+    bind_cols(
+        model_list[rep(1:nrow(model_list),nrow(starter_df)),] %>% arrange(modelName)
+    ) %>%
+    mutate(id=1:nrow(.))
+train_df
+```
+***
+### Solve the models
+
+The data is almost all setup now. `invoke_map()` is a function which can call functions and pass it arguments. Since we need to pass both `train.X` and `train.Y` together, there's an intermediate call to `map2()` to "listify" these first into `params`.
+
+All them models solve, and their results (the model object itself) is stored in `modelFits`.
+
+```{r message=FALSE, warning=FALSE}
+train_df %<>%
+  mutate(params = map2(train.X, train.Y,  ~ list(X = .x, Y = .y)),
+                 modelFits=invoke_map(model,params)
+         )
+train_df %>% dplyr::select(pred_varsets,modelName,params,modelFits)
+```
+***
+### Extract results
+
+Now, I can extract pretty much any model performance or hypertuning parameter using `purrr`. Since `caret` is so lovingly standardized, it doesn't matter if I'm using a glm, xgboost, rpart2, or ann - the code remains the same. 
+
+```{r}
+train_df %<>% 
+    mutate(
+        RMSE=map_dbl(modelFits,~max(.x$results$RMSE)),
+        RMSESD=map_dbl(modelFits,~max(.x$results$RMSESD)),
+        Rsq=map_dbl(modelFits,~max(.x$results$Rsquared)),
+        bestTune=map(modelFits,~.x$bestTune)
+    )
+train_df %>% dplyr::select(-train.X,-train.Y,-params,-modelFits)
+```
+
+This allows us to very quickly visualize the results using `lattice` or `ggplot` *across all models*.
+
+```{r}
+lattice::dotplot(Rsq~pred_varsets|modelName,train_df)
+train_df %>% 
+    ggplot(aes(x=pred_varsets,color=modelName))+
+    geom_point(aes(y=RMSE),size=2)+
+    geom_errorbar(aes(ymin = RMSE-RMSESD,ymax= RMSE+RMSESD),size=.5,width=.15)
+```
+
+Since the model fit objects themselves are embedded, I can still look *at each model's* internals. For example, to plot the results of the 5-fold CV on the grid search for the xgboost model:
+
+```{r}
+plot(train_df$modelFits[train_df$modelName=='xgbModel' & train_df$pred_varsets=='preds.original'][[1]])
+```
+
+
+## In conclusion
+
+These packages make investigating a *very* large number of datasets and models easy. With just a few lines of code, I ran a total of 6 different models - and for each model: a 5-fold cross validation, and for the xgboost models: a grid search across two tuning parameters - to select the best model on any number of performance criteria. Yet, everything remains neatly arranged in one dataframe, which can be saved as .RData and retrived later.
+
+Also remember that the raw data replicated in the `data` column of `starter_df` doesn't have to be the exact same dataset for each row either. so you could leverage this methodology for a train-validate-test approach, or for resampled training sets, where each row has completely different datasets embedded within. Really depends on your creativity and how you write subsequent code. You're definitely going to find more material online on this topic, be sure to check [r-bloggers](https://www.google.com/url?q=https://www.r-bloggers.com&sa=D&ust=1506507002058000&usg=AFQjCNGK9mqK55zVwsCvoDn7e40KFBTrbg).
