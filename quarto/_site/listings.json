@@ -1,5 +1,12 @@
 [
   {
+    "listing": "/projects.html",
+    "items": [
+      "/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html",
+      "/projects/2016-09-03-factor-analysis-of-personality-traits/2016-09-03-factor-analysis-of-personality-traits.html"
+    ]
+  },
+  {
     "listing": "/blog.html",
     "items": [
       "/posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html",
@@ -18,13 +25,6 @@
       "/posts/2018-01-27-visualize-lda/2018-01-27-visualize-lda.html",
       "/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html",
       "/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets.html"
-    ]
-  },
-  {
-    "listing": "/projects.html",
-    "items": [
-      "/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html",
-      "/projects/2016-09-03-factor-analysis-of-personality-traits/2016-09-03-factor-analysis-of-personality-traits.html"
     ]
   }
 ]
