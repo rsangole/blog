@@ -1,0 +1,65 @@
+[
+  {
+    "nick": "monte",
+    "name": "Monte Bello Open Space Preserve",
+    "lat": 37.3255,
+    "long": -122.1787,
+    "address": "Portola Valley, CA 94028, United States"
+  },
+  {
+    "nick": "umun",
+    "name": "Mount Umunhum",
+    "lat": 37.1595,
+    "long": -121.8991,
+    "address": "Mount Umunhum Rd, Los Gatos, CA 95032, United States"
+  },
+  {
+    "nick": "mendoza",
+    "name": "Mendoza Ranch",
+    "lat": 37.0706,
+    "long": -121.5223,
+    "address": "4495 Roop Rd, Gilroy, CA 95020, United States"
+  },
+  {
+    "nick": "coyote",
+    "name": "North Coyote Lake",
+    "lat": 37.118,
+    "long": -121.5505,
+    "address": "Coyote Lake Harvey Bear Ranch County Park, San Martin, CA 95046, United States"
+  },
+  {
+    "nick": "uvas",
+    "name": "Little Uvas",
+    "lat": 37.0941,
+    "long": -121.7202,
+    "address": "16541-16905 Uvas Rd, Morgan Hill, CA 95037, United States"
+  },
+  {
+    "nick": "mhill",
+    "name": "Montgomery Hill Observatory",
+    "lat": 37.3019,
+    "long": -121.7605,
+    "address": "Evergreen Valley College, San Jose, CA 95135, United States"
+  },
+  {
+    "nick": "pwest",
+    "name": "Pinnacles West",
+    "lat": 36.4782,
+    "long": -121.2263,
+    "address": "CA-146,Paicines, CA 95043, United States"
+  },
+  {
+    "nick": "home",
+    "name": "Home",
+    "lat": 37.334886,
+    "long": -122.008988,
+    "address": "One Apple Park Way, Cupertino, CA 95014, United States"
+  },
+  {
+    "nick": "rcdo",
+    "name": "Rancho Cañada Del Oro Open Space Preserve",
+    "lat": 37.14778,
+    "long": -121.77464,
+    "address": "Casa Loma Rd, Morgan Hill, CA 95037, United States"
+  }
+]

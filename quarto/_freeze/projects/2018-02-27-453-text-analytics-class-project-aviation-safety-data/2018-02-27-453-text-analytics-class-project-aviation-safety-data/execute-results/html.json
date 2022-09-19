@@ -1,0 +1,18 @@
+{
+  "hash": "cd8bd9501427ce99980a3a254ccb57ed",
+  "result": {
+    "markdown": "---\ntitle: \"Text Analysis of Aviation Safety Data\"\nauthor: \"Rahul\"\ndescription: \"Words go here\"\nformat: \n    revealjs:\n        smaller: true\n        theme: moon\neditor: visual\n---\n\n\n## Contents\n\n-   Data Source\n-   Approach\n-   Input Data\n-   Exploratory Data Analysis\n-   Data Preprocessing\n-   Modeling\n-   TF-IDF\n-   tSNE\n-   Structural Topic Modeling\n-   Lessons Learnt\n-   sReferences\n\n## Data Source\n\n-   This is the dataset used for the SIAM 2007 Text Mining competition^1^.\n-   This competition focused on developing text mining algorithms for document classification.\n-   The documents in question were aviation safety reports that documented one or more problems that occurred during certain flights.\n-   The goal was to label the documents with respect to the types of problems that were described. This is a subset of the Aviation Safety Reporting System (ASRS) dataset, which is publicly available.\n\nhttps://c3.nasa.gov/dashlink/resources/138/\n\n## Approach\n\n\n::: {.cell}\n\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {
+      "include-after-body": [
+        "\n<script>\n  // htmlwidgets need to know to resize themselves when slides are shown/hidden.\n  // Fire the \"slideenter\" event (handled by htmlwidgets.js) when the current\n  // slide changes (different for each slide format).\n  (function () {\n    function fireSlideChanged(previousSlide, currentSlide) {\n\n      // dispatch for htmlwidgets\n      const event = window.document.createEvent(\"Event\");\n      event.initEvent(\"slideenter\", true, true);\n      window.document.dispatchEvent(event);\n\n      // dispatch for shiny\n      if (window.jQuery) {\n        if (previousSlide) {\n          window.jQuery(previousSlide).trigger(\"hidden\");\n        }\n        if (currentSlide) {\n          window.jQuery(currentSlide).trigger(\"shown\");\n        }\n      }\n    }\n\n    // hookup for reveal\n    if (window.Reveal) {\n      window.Reveal.addEventListener(\"slidechanged\", function(event) {\n        fireSlideChanged(event.previousSlide, event.currentSlide);\n      });\n    }\n\n    // hookup for slidy\n    if (window.w3c_slidy) {\n      window.w3c_slidy.add_observer(function (slide_num) {\n        // slide_num starts at position 1\n        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);\n      });\n    }\n\n  })();\n</script>\n\n"
+      ]
+    },
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

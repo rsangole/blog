@@ -1,0 +1,132 @@
+---
+title: Performance Benchmarking Data Read Write
+date: '2022-09-17'
+description: Which of the popular data read write methods is faster? Let's find out.
+image: _image.jpg
+categories:
+  - Benchmarking
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	message = FALSE,
+	warning = FALSE,
+	cache = TRUE
+)
+library(ggplot2)
+library(patchwork)
+fs::file_copy("~/github/github.com/perf-tests/exports/plots.qs", "plots.qs", overwrite = TRUE)
+```
+
+# Background
+
+In a recent conversation, I was asked how to speed up execution of scripts dealing with computation on big data sets (biggish i.e. in-memory). The scripts had some data read and write features with some ETL sandwiched in between. Upon reviewing the code base, I found some immediate improvements by moving a bunch of ETL code from `{dplyr}` to `{data.table}`, which has been my defacto go to for large data sets.
+
+On the data read/write side of the equation, I used to be an ardent `{qs}` user with intermittent forays into `{data.table::fread/fwrite}` functions. However, recently, I've switched majority of my work to `{arrow}` which has proven itself a strong ally in the war against slow data transaction times.
+
+The question remains - which one works better? Particularly, which one works better on the machines I'm using as well as the server I have access to? My configuration has changed from my last performance review posting. I'm now running:
+
+-   MacBook Pro, running MacOS 12.5
+-   2.4 GHz 8-Core Intel Core i9
+-   64 GB 2667 MHz DDR4
+-   R version 4.2.0 on x86_64-apple-darwin17.0 (64-bit)
+
+# Execution
+
+At a high level, the method is quite simple.
+
+1.  Create fake large data sets
+2.  For each, measure read and write speed for all approaches
+3.  Plot and compare
+
+The devil is in the details though, especially concerning scaling this approach. While myy first approaches were linear script based, this quickly uncovered the ineffectiveness of scripts - the lack of ability to cache & reference previous results (at least without significant coding). I quickly pivoted to using `{targets}` to build this measurement pipeline, learning 'dynamic branching' along the way, and I must say - I'm glad I did so.
+
+::: column-margin
+In case you're not familiar, `{targets}` is a "*...Make-like pipeline tool for Statistics and data science ... \[to\] maintain a reproducible workflows...*" Learn more [here](https://books.ropensci.org/targets/).
+:::
+
+Not only is the pipeline *much* easier to grok, but is extremely salable. Since `{targets}` caches previous runs, I can very rapidly experiment with data, modeling & plotting combinations while maintaining end-to-end verifyable reproducibility, without wasting any time reexecuting long-running experiments.
+
+I won't delve into how I created this pipeline in this post, but the code base is available [here](https://github.com/rsangole/perf-tests).
+
+## Data
+
+```{r}
+#| column: margin
+#| echo: false
+
+knitr::kable(data.table::fread("sample.csv")[1:4, ], digits = 2) |> 
+    kableExtra::kable_classic_2()
+```
+
+I created some fake data with categoricals, numerics and date-time vars. I've used 'long' data here, since it represented the use case I typically have, although I wonder if the results would change if the data were wider. After a few iterations, I settled on number of rows: 100k, 1M, and 5M. The results for number of rows = 1M+ did not change, to be honest.
+
+## Approaches
+
+I tested the packages I tend to use the most, along with a new one `vroom` and the traditional RDS format from R. All in all, I tested:
+
+1.  `data.table` - both the traditional CSV, and `yaml = TRUE` formulations
+2.  `arrow` - two configurations: `parquet` and `arrow_csv`
+3.  `qs`
+4.  `vroom`
+5.  `RDS`
+
+Each approach is shown by a green square in the middle here. Each square represents a read and write using `{microbenchmark}` to measure the execution times. In total, this pipeline runs {7 read/write approaches x 3 data sets x 10 repeats} for a total of 210 runs.
+
+```{r}
+#| echo: false
+qs::qread("tar_network.qs")
+```
+
+# Results
+
+So what do the results look like? To be honest, they quite agree with what I had experienced in my work with large data sets.
+
+## Speeds
+
+The plots below show the absolute read & write speeds on the left (measured in seconds), with relative speed decrease as compared to the best performer on the right.
+
+**tldr**
+
+-   `arrow-parquet` are the clear winner when it comes to read-speed. The next best is `vroom` which is 2x slower. Almost every other option is 5x-7x slower than `arrow`.
+
+-   `qs` performs the best for write-speeds. `arrow` and `data.table` are the next best at 2-3x slower speeds than `qs`.
+
+-   For `data.table` , the `yaml = TRUE` setting doesn't make any difference to read-speeds. *This one surprised me, since I thought it would speed it up at least a bit.*
+
+-   `rds` is the slowest, unsurprisingly, at 20-30x slower than `arrow`
+
+```{r}
+#| echo: false
+#| column: screen
+#| layout-ncol: 1
+#| fig-width: 14
+#| fig-height: 8
+#| fig-column: screen-inset-shaded
+#| fig-align: center
+plots <- qs::qread("plots.qs")
+
+p1 = plots[[1]] +
+    labs(title = "Read & Write Speeds Compared",
+         caption = NULL)
+p2 = plots[[2]] +
+    labs(title = "Comparison to the Best Performer")
+    #      subtitle = NULL)
+
+p1 | p2
+```
+
+## File Sizes
+
+This one is a doozey! For large 5M row data sets, there's a marked level shift between the compressed and uncompressed file formats!
+
+```{r}
+#| echo: false
+plots[[3]]
+```
+
+I'm curious to see if this result varies for wider datasets, or datasets with more/less characters and numerics.
+
+# Takeaway
+
+For the foreseeable future, I'm indexing very heavily to arrow for my structured datasets. It's fast read and write times, combined with ability for lazy execution of queries on partitioned data makes it a clear winner for large data for my use cases.

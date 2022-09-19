@@ -14,6 +14,8 @@ website:
         text: ~/blog
       - href: projects.qmd
         text: ~/projects
+      - href: astronomy.qmd
+        text: ~/astronomy
   page-footer:
     center: "2022 rahul-s"
   google-analytics: "UA-106573867-1"

@@ -10,7 +10,191 @@
 <atom:link href="https://rsangole.netlify.app/blog.xml" rel="self" type="application/rss+xml"/>
 <description>rahul's blog on data science</description>
 <generator>quarto-1.0.38</generator>
-<lastBuildDate>Wed, 18 Aug 2021 07:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 17 Sep 2022 07:00:00 GMT</lastBuildDate>
+<item>
+  <title>Performance Benchmarking Data Read Write</title>
+  <dc:creator>Rahul</dc:creator>
+  <link>https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</link>
+  <description><![CDATA[ 
+
+
+
+<section id="background" class="level1">
+<h1>Background</h1>
+<p>In a recent conversation, I was asked how to speed up execution of scripts dealing with computation on big data sets (biggish i.e.&nbsp;in-memory). The scripts had some data read and write features with some ETL sandwiched in between. Upon reviewing the code base, I found some immediate improvements by moving a bunch of ETL code from <code>{dplyr}</code> to <code>{data.table}</code>, which has been my defacto go to for large data sets.</p>
+<p>On the data read/write side of the equation, I used to be an ardent <code>{qs}</code> user with intermittent forays into <code>{data.table::fread/fwrite}</code> functions. However, recently, I’ve switched majority of my work to <code>{arrow}</code> which has proven itself a strong ally in the war against slow data transaction times.</p>
+<p>The question remains - which one works better? Particularly, which one works better on the machines I’m using as well as the server I have access to? My configuration has changed from my last performance review posting. I’m now running:</p>
+<ul>
+<li>MacBook Pro, running MacOS 12.5</li>
+<li>2.4 GHz 8-Core Intel Core i9</li>
+<li>64 GB 2667 MHz DDR4</li>
+<li>R version 4.2.0 on x86_64-apple-darwin17.0 (64-bit)</li>
+</ul>
+</section>
+<section id="execution" class="level1 page-columns page-full">
+<h1>Execution</h1>
+<p>At a high level, the method is quite simple.</p>
+<ol type="1">
+<li>Create fake large data sets</li>
+<li>For each, measure read and write speed for all approaches</li>
+<li>Plot and compare</li>
+</ol>
+<p>The devil is in the details though, especially concerning scaling this approach. While myy first approaches were linear script based, this quickly uncovered the ineffectiveness of scripts - the lack of ability to cache &amp; reference previous results (at least without significant coding). I quickly pivoted to using <code>{targets}</code> to build this measurement pipeline, learning ‘dynamic branching’ along the way, and I must say - I’m glad I did so.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>In case you’re not familiar, <code>{targets}</code> is a “<em>…Make-like pipeline tool for Statistics and data science … [to] maintain a reproducible workflows…</em>” Learn more <a href="https://books.ropensci.org/targets/">here</a>.</p>
+</div></div><p>Not only is the pipeline <em>much</em> easier to grok, but is extremely salable. Since <code>{targets}</code> caches previous runs, I can very rapidly experiment with data, modeling &amp; plotting combinations while maintaining end-to-end verifyable reproducibility, without wasting any time reexecuting long-running experiments.</p>
+<p>I won’t delve into how I created this pipeline in this post, but the code base is available <a href="https://github.com/rsangole/perf-tests">here</a>.</p>
+<section id="data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<div class="cell page-columns page-full" data-hash="data-read-write-perf_cache/html/unnamed-chunk-1_9fe00822f668201a19cbb2a77d1c008d">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+
+<table class=" lightable-classic-2" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> cat_A </th>
+   <th style="text-align:left;"> cat_B </th>
+   <th style="text-align:left;"> date </th>
+   <th style="text-align:right;"> num_1 </th>
+   <th style="text-align:right;"> num_2 </th>
+   <th style="text-align:right;"> num_3 </th>
+   <th style="text-align:right;"> num_4 </th>
+   <th style="text-align:left;"> chr_1 </th>
+   <th style="text-align:left;"> chr_2 </th>
+   <th style="text-align:left;"> chr_3 </th>
+   <th style="text-align:left;"> chr_4 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Alabama </td>
+   <td style="text-align:left;"> B </td>
+   <td style="text-align:left;"> 2023-03-01 </td>
+   <td style="text-align:right;"> 0.67 </td>
+   <td style="text-align:right;"> 0.13 </td>
+   <td style="text-align:right;"> 0.83 </td>
+   <td style="text-align:right;"> 0.04 </td>
+   <td style="text-align:left;"> h </td>
+   <td style="text-align:left;"> p </td>
+   <td style="text-align:left;"> i </td>
+   <td style="text-align:left;"> u </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Alabama </td>
+   <td style="text-align:left;"> B </td>
+   <td style="text-align:left;"> 2022-10-18 </td>
+   <td style="text-align:right;"> 0.52 </td>
+   <td style="text-align:right;"> 0.63 </td>
+   <td style="text-align:right;"> 0.29 </td>
+   <td style="text-align:right;"> 0.14 </td>
+   <td style="text-align:left;"> s </td>
+   <td style="text-align:left;"> o </td>
+   <td style="text-align:left;"> h </td>
+   <td style="text-align:left;"> a </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Alaska </td>
+   <td style="text-align:left;"> A </td>
+   <td style="text-align:left;"> 2023-03-20 </td>
+   <td style="text-align:right;"> 0.42 </td>
+   <td style="text-align:right;"> 0.24 </td>
+   <td style="text-align:right;"> 0.45 </td>
+   <td style="text-align:right;"> 0.21 </td>
+   <td style="text-align:left;"> n </td>
+   <td style="text-align:left;"> g </td>
+   <td style="text-align:left;"> l </td>
+   <td style="text-align:left;"> n </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Arkansas </td>
+   <td style="text-align:left;"> B </td>
+   <td style="text-align:left;"> 2023-08-07 </td>
+   <td style="text-align:right;"> 0.60 </td>
+   <td style="text-align:right;"> 0.12 </td>
+   <td style="text-align:right;"> 0.46 </td>
+   <td style="text-align:right;"> 1.00 </td>
+   <td style="text-align:left;"> c </td>
+   <td style="text-align:left;"> p </td>
+   <td style="text-align:left;"> r </td>
+   <td style="text-align:left;"> b </td>
+  </tr>
+</tbody>
+</table>
+
+</div></div></div>
+<p>I created some fake data with categoricals, numerics and date-time vars. I’ve used ‘long’ data here, since it represented the use case I typically have, although I wonder if the results would change if the data were wider. After a few iterations, I settled on number of rows: 100k, 1M, and 5M. The results for number of rows = 1M+ did not change, to be honest.</p>
+</section>
+<section id="approaches" class="level2">
+<h2 class="anchored" data-anchor-id="approaches">Approaches</h2>
+<p>I tested the packages I tend to use the most, along with a new one <code>vroom</code> and the traditional RDS format from R. All in all, I tested:</p>
+<ol type="1">
+<li><code>data.table</code> - both the traditional CSV, and <code>yaml = TRUE</code> formulations</li>
+<li><code>arrow</code> - two configurations: <code>parquet</code> and <code>arrow_csv</code></li>
+<li><code>qs</code></li>
+<li><code>vroom</code></li>
+<li><code>RDS</code></li>
+</ol>
+<p>Each approach is shown by a green square in the middle here. Each square represents a read and write using <code>{microbenchmark}</code> to measure the execution times. In total, this pipeline runs {7 read/write approaches x 3 data sets x 10 repeats} for a total of 210 runs.</p>
+<div class="cell" data-hash="data-read-write-perf_cache/html/unnamed-chunk-2_9651d2b1bc6827b6ec87a479318d34bc">
+<div class="cell-output-display">
+
+<div id="htmlwidget-061ae233854d8c8cdc98" style="width:100%;height:464px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-061ae233854d8c8cdc98">{"x":{"nodes":{"name":["arrow_csv","arrow_parquet","data","datatable_classic","datatable_yaml","desired_nrows","export","plot_comparison","plot_comparison_scaled","plot_sizes","qs","rds","results","vroom"],"type":["pattern","pattern","pattern","pattern","pattern","stem","stem","stem","stem","stem","pattern","pattern","stem","pattern"],"status":["uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate"],"seconds":[64.381,34.753,3.416,45.842,0,0.522,0.11,0.047,0.154,0.082,27.987,445.982,0.01,114.748],"bytes":[398,391,114360337,332,0,61,247454,96348,96901,67200,323,333,3811,330],"branches":[3,3,3,3,3,null,null,null,null,null,3,3,null,3],"label":["arrow_csv","arrow_parquet","data","datatable_classic","datatable_yaml","desired_nrows","export","plot_comparison","plot_comparison_scaled","plot_sizes","qs","rds","results","vroom"],"color":["#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823"],"id":["arrow_csv","arrow_parquet","data","datatable_classic","datatable_yaml","desired_nrows","export","plot_comparison","plot_comparison_scaled","plot_sizes","qs","rds","results","vroom"],"level":[3,3,2,3,3,1,6,5,5,5,3,3,4,3],"shape":["square","square","square","square","square","dot","dot","dot","dot","dot","square","square","dot","square"]},"edges":{"from":["data","data","plot_comparison","plot_comparison_scaled","plot_sizes","data","data","data","results","data","desired_nrows","results","arrow_csv","arrow_parquet","datatable_classic","datatable_yaml","qs","rds","vroom","data","results"],"to":["qs","datatable_yaml","export","export","export","datatable_classic","vroom","rds","plot_comparison_scaled","arrow_csv","data","plot_sizes","results","results","results","results","results","results","results","arrow_parquet","plot_comparison"],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Pattern","Stem"],"color":["#354823","#899DA4","#899DA4"],"shape":["dot","square","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+</section>
+<section id="results" class="level1 page-columns page-full">
+<h1>Results</h1>
+<p>So what do the results look like? To be honest, they quite agree with what I had experienced in my work with large data sets.</p>
+<section id="speeds" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="speeds">Speeds</h2>
+<p>The plots below show the absolute read &amp; write speeds on the left (measured in seconds), with relative speed decrease as compared to the best performer on the right.</p>
+<p><strong>tldr</strong></p>
+<ul>
+<li><p><code>arrow-parquet</code> are the clear winner when it comes to read-speed. The next best is <code>vroom</code> which is 2x slower. Almost every other option is 5x-7x slower than <code>arrow</code>.</p></li>
+<li><p><code>qs</code> performs the best for write-speeds. <code>arrow</code> and <code>data.table</code> are the next best at 2-3x slower speeds than <code>qs</code>.</p></li>
+<li><p>For <code>data.table</code> , the <code>yaml = TRUE</code> setting doesn’t make any difference to read-speeds. <em>This one surprised me, since I thought it would speed it up at least a bit.</em></p></li>
+<li><p><code>rds</code> is the slowest, unsurprisingly, at 20-30x slower than <code>arrow</code></p></li>
+</ul>
+<div class="cell column-screen fig-column-screen-inset-shaded quarto-layout-panel" data-hash="data-read-write-perf_cache/html/unnamed-chunk-3_86c1f08d2b023daf32b2c53c4e1157cd">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="1344"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="file-sizes" class="level2">
+<h2 class="anchored" data-anchor-id="file-sizes">File Sizes</h2>
+<p>This one is a doozey! For large 5M row data sets, there’s a marked level shift between the compressed and uncompressed file formats!</p>
+<div class="cell" data-hash="data-read-write-perf_cache/html/unnamed-chunk-4_f8a65df556b7b2112a396f01f60fa882">
+<div class="cell-output-display">
+<p><img src="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>I’m curious to see if this result varies for wider datasets, or datasets with more/less characters and numerics.</p>
+</section>
+</section>
+<section id="takeaway" class="level1">
+<h1>Takeaway</h1>
+<p>For the foreseeable future, I’m indexing very heavily to arrow for my structured datasets. It’s fast read and write times, combined with ability for lazy execution of queries on partitioned data makes it a clear winner for large data for my use cases.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Benchmarking</category>
+  <guid>https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</guid>
+  <pubDate>Sat, 17 Sep 2022 07:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/_image.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
   <title>Making the Anomaly Database</title>
   <dc:creator>Rahul</dc:creator>
@@ -2261,7 +2445,191 @@ font-style: italic;">## <?xml version="1.0" encoding="UTF-8"?>
 <atom:link href="https://rsangole.netlify.app/blog.xml" rel="self" type="application/rss+xml"/>
 <description>rahul's blog on data science</description>
 <generator>quarto-1.0.38</generator>
-<lastBuildDate>Wed, 18 Aug 2021 07:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 17 Sep 2022 07:00:00 GMT</lastBuildDate>
+<item>
+  <title>Performance Benchmarking Data Read Write</title>
+  <dc:creator>Rahul</dc:creator>
+  <link>https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</link>
+  <description><![CDATA[ 
+
+
+
+<section id="background" class="level1">
+<h1>Background</h1>
+<p>In a recent conversation, I was asked how to speed up execution of scripts dealing with computation on big data sets (biggish i.e.&nbsp;in-memory). The scripts had some data read and write features with some ETL sandwiched in between. Upon reviewing the code base, I found some immediate improvements by moving a bunch of ETL code from <code>{dplyr}</code> to <code>{data.table}</code>, which has been my defacto go to for large data sets.</p>
+<p>On the data read/write side of the equation, I used to be an ardent <code>{qs}</code> user with intermittent forays into <code>{data.table::fread/fwrite}</code> functions. However, recently, I’ve switched majority of my work to <code>{arrow}</code> which has proven itself a strong ally in the war against slow data transaction times.</p>
+<p>The question remains - which one works better? Particularly, which one works better on the machines I’m using as well as the server I have access to? My configuration has changed from my last performance review posting. I’m now running:</p>
+<ul>
+<li>MacBook Pro, running MacOS 12.5</li>
+<li>2.4 GHz 8-Core Intel Core i9</li>
+<li>64 GB 2667 MHz DDR4</li>
+<li>R version 4.2.0 on x86_64-apple-darwin17.0 (64-bit)</li>
+</ul>
+</section>
+<section id="execution" class="level1 page-columns page-full">
+<h1>Execution</h1>
+<p>At a high level, the method is quite simple.</p>
+<ol type="1">
+<li>Create fake large data sets</li>
+<li>For each, measure read and write speed for all approaches</li>
+<li>Plot and compare</li>
+</ol>
+<p>The devil is in the details though, especially concerning scaling this approach. While myy first approaches were linear script based, this quickly uncovered the ineffectiveness of scripts - the lack of ability to cache &amp; reference previous results (at least without significant coding). I quickly pivoted to using <code>{targets}</code> to build this measurement pipeline, learning ‘dynamic branching’ along the way, and I must say - I’m glad I did so.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>In case you’re not familiar, <code>{targets}</code> is a “<em>…Make-like pipeline tool for Statistics and data science … [to] maintain a reproducible workflows…</em>” Learn more <a href="https://books.ropensci.org/targets/">here</a>.</p>
+</div></div><p>Not only is the pipeline <em>much</em> easier to grok, but is extremely salable. Since <code>{targets}</code> caches previous runs, I can very rapidly experiment with data, modeling &amp; plotting combinations while maintaining end-to-end verifyable reproducibility, without wasting any time reexecuting long-running experiments.</p>
+<p>I won’t delve into how I created this pipeline in this post, but the code base is available <a href="https://github.com/rsangole/perf-tests">here</a>.</p>
+<section id="data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<div class="cell page-columns page-full" data-hash="data-read-write-perf_cache/html/unnamed-chunk-1_9fe00822f668201a19cbb2a77d1c008d">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+
+<table class=" lightable-classic-2" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> cat_A </th>
+   <th style="text-align:left;"> cat_B </th>
+   <th style="text-align:left;"> date </th>
+   <th style="text-align:right;"> num_1 </th>
+   <th style="text-align:right;"> num_2 </th>
+   <th style="text-align:right;"> num_3 </th>
+   <th style="text-align:right;"> num_4 </th>
+   <th style="text-align:left;"> chr_1 </th>
+   <th style="text-align:left;"> chr_2 </th>
+   <th style="text-align:left;"> chr_3 </th>
+   <th style="text-align:left;"> chr_4 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Alabama </td>
+   <td style="text-align:left;"> B </td>
+   <td style="text-align:left;"> 2023-03-01 </td>
+   <td style="text-align:right;"> 0.67 </td>
+   <td style="text-align:right;"> 0.13 </td>
+   <td style="text-align:right;"> 0.83 </td>
+   <td style="text-align:right;"> 0.04 </td>
+   <td style="text-align:left;"> h </td>
+   <td style="text-align:left;"> p </td>
+   <td style="text-align:left;"> i </td>
+   <td style="text-align:left;"> u </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Alabama </td>
+   <td style="text-align:left;"> B </td>
+   <td style="text-align:left;"> 2022-10-18 </td>
+   <td style="text-align:right;"> 0.52 </td>
+   <td style="text-align:right;"> 0.63 </td>
+   <td style="text-align:right;"> 0.29 </td>
+   <td style="text-align:right;"> 0.14 </td>
+   <td style="text-align:left;"> s </td>
+   <td style="text-align:left;"> o </td>
+   <td style="text-align:left;"> h </td>
+   <td style="text-align:left;"> a </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Alaska </td>
+   <td style="text-align:left;"> A </td>
+   <td style="text-align:left;"> 2023-03-20 </td>
+   <td style="text-align:right;"> 0.42 </td>
+   <td style="text-align:right;"> 0.24 </td>
+   <td style="text-align:right;"> 0.45 </td>
+   <td style="text-align:right;"> 0.21 </td>
+   <td style="text-align:left;"> n </td>
+   <td style="text-align:left;"> g </td>
+   <td style="text-align:left;"> l </td>
+   <td style="text-align:left;"> n </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Arkansas </td>
+   <td style="text-align:left;"> B </td>
+   <td style="text-align:left;"> 2023-08-07 </td>
+   <td style="text-align:right;"> 0.60 </td>
+   <td style="text-align:right;"> 0.12 </td>
+   <td style="text-align:right;"> 0.46 </td>
+   <td style="text-align:right;"> 1.00 </td>
+   <td style="text-align:left;"> c </td>
+   <td style="text-align:left;"> p </td>
+   <td style="text-align:left;"> r </td>
+   <td style="text-align:left;"> b </td>
+  </tr>
+</tbody>
+</table>
+
+</div></div></div>
+<p>I created some fake data with categoricals, numerics and date-time vars. I’ve used ‘long’ data here, since it represented the use case I typically have, although I wonder if the results would change if the data were wider. After a few iterations, I settled on number of rows: 100k, 1M, and 5M. The results for number of rows = 1M+ did not change, to be honest.</p>
+</section>
+<section id="approaches" class="level2">
+<h2 class="anchored" data-anchor-id="approaches">Approaches</h2>
+<p>I tested the packages I tend to use the most, along with a new one <code>vroom</code> and the traditional RDS format from R. All in all, I tested:</p>
+<ol type="1">
+<li><code>data.table</code> - both the traditional CSV, and <code>yaml = TRUE</code> formulations</li>
+<li><code>arrow</code> - two configurations: <code>parquet</code> and <code>arrow_csv</code></li>
+<li><code>qs</code></li>
+<li><code>vroom</code></li>
+<li><code>RDS</code></li>
+</ol>
+<p>Each approach is shown by a green square in the middle here. Each square represents a read and write using <code>{microbenchmark}</code> to measure the execution times. In total, this pipeline runs {7 read/write approaches x 3 data sets x 10 repeats} for a total of 210 runs.</p>
+<div class="cell" data-hash="data-read-write-perf_cache/html/unnamed-chunk-2_9651d2b1bc6827b6ec87a479318d34bc">
+<div class="cell-output-display">
+
+<div id="htmlwidget-061ae233854d8c8cdc98" style="width:100%;height:464px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-061ae233854d8c8cdc98">{"x":{"nodes":{"name":["arrow_csv","arrow_parquet","data","datatable_classic","datatable_yaml","desired_nrows","export","plot_comparison","plot_comparison_scaled","plot_sizes","qs","rds","results","vroom"],"type":["pattern","pattern","pattern","pattern","pattern","stem","stem","stem","stem","stem","pattern","pattern","stem","pattern"],"status":["uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate"],"seconds":[64.381,34.753,3.416,45.842,0,0.522,0.11,0.047,0.154,0.082,27.987,445.982,0.01,114.748],"bytes":[398,391,114360337,332,0,61,247454,96348,96901,67200,323,333,3811,330],"branches":[3,3,3,3,3,null,null,null,null,null,3,3,null,3],"label":["arrow_csv","arrow_parquet","data","datatable_classic","datatable_yaml","desired_nrows","export","plot_comparison","plot_comparison_scaled","plot_sizes","qs","rds","results","vroom"],"color":["#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823"],"id":["arrow_csv","arrow_parquet","data","datatable_classic","datatable_yaml","desired_nrows","export","plot_comparison","plot_comparison_scaled","plot_sizes","qs","rds","results","vroom"],"level":[3,3,2,3,3,1,6,5,5,5,3,3,4,3],"shape":["square","square","square","square","square","dot","dot","dot","dot","dot","square","square","dot","square"]},"edges":{"from":["data","data","plot_comparison","plot_comparison_scaled","plot_sizes","data","data","data","results","data","desired_nrows","results","arrow_csv","arrow_parquet","datatable_classic","datatable_yaml","qs","rds","vroom","data","results"],"to":["qs","datatable_yaml","export","export","export","datatable_classic","vroom","rds","plot_comparison_scaled","arrow_csv","data","plot_sizes","results","results","results","results","results","results","results","arrow_parquet","plot_comparison"],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Pattern","Stem"],"color":["#354823","#899DA4","#899DA4"],"shape":["dot","square","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+</section>
+<section id="results" class="level1 page-columns page-full">
+<h1>Results</h1>
+<p>So what do the results look like? To be honest, they quite agree with what I had experienced in my work with large data sets.</p>
+<section id="speeds" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="speeds">Speeds</h2>
+<p>The plots below show the absolute read &amp; write speeds on the left (measured in seconds), with relative speed decrease as compared to the best performer on the right.</p>
+<p><strong>tldr</strong></p>
+<ul>
+<li><p><code>arrow-parquet</code> are the clear winner when it comes to read-speed. The next best is <code>vroom</code> which is 2x slower. Almost every other option is 5x-7x slower than <code>arrow</code>.</p></li>
+<li><p><code>qs</code> performs the best for write-speeds. <code>arrow</code> and <code>data.table</code> are the next best at 2-3x slower speeds than <code>qs</code>.</p></li>
+<li><p>For <code>data.table</code> , the <code>yaml = TRUE</code> setting doesn’t make any difference to read-speeds. <em>This one surprised me, since I thought it would speed it up at least a bit.</em></p></li>
+<li><p><code>rds</code> is the slowest, unsurprisingly, at 20-30x slower than <code>arrow</code></p></li>
+</ul>
+<div class="cell column-screen fig-column-screen-inset-shaded quarto-layout-panel" data-hash="data-read-write-perf_cache/html/unnamed-chunk-3_86c1f08d2b023daf32b2c53c4e1157cd">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="1344"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="file-sizes" class="level2">
+<h2 class="anchored" data-anchor-id="file-sizes">File Sizes</h2>
+<p>This one is a doozey! For large 5M row data sets, there’s a marked level shift between the compressed and uncompressed file formats!</p>
+<div class="cell" data-hash="data-read-write-perf_cache/html/unnamed-chunk-4_f8a65df556b7b2112a396f01f60fa882">
+<div class="cell-output-display">
+<p><img src="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>I’m curious to see if this result varies for wider datasets, or datasets with more/less characters and numerics.</p>
+</section>
+</section>
+<section id="takeaway" class="level1">
+<h1>Takeaway</h1>
+<p>For the foreseeable future, I’m indexing very heavily to arrow for my structured datasets. It’s fast read and write times, combined with ability for lazy execution of queries on partitioned data makes it a clear winner for large data for my use cases.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Benchmarking</category>
+  <guid>https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</guid>
+  <pubDate>Sat, 17 Sep 2022 07:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/_image.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
   <title>Making the Anomaly Database</title>
   <dc:creator>Rahul</dc:creator>
@@ -4430,7 +4798,191 @@ font-style: italic;">## <?xml version="1.0" encoding="UTF-8"?>
 <atom:link href="https://rsangole.netlify.app/blog.xml" rel="self" type="application/rss+xml"/>
 <description>rahul's blog on data science</description>
 <generator>quarto-1.0.38</generator>
-<lastBuildDate>Wed, 18 Aug 2021 07:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 17 Sep 2022 07:00:00 GMT</lastBuildDate>
+<item>
+  <title>Performance Benchmarking Data Read Write</title>
+  <dc:creator>Rahul</dc:creator>
+  <link>https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</link>
+  <description><![CDATA[ 
+
+
+
+<section id="background" class="level1">
+<h1>Background</h1>
+<p>In a recent conversation, I was asked how to speed up execution of scripts dealing with computation on big data sets (biggish i.e.&nbsp;in-memory). The scripts had some data read and write features with some ETL sandwiched in between. Upon reviewing the code base, I found some immediate improvements by moving a bunch of ETL code from <code>{dplyr}</code> to <code>{data.table}</code>, which has been my defacto go to for large data sets.</p>
+<p>On the data read/write side of the equation, I used to be an ardent <code>{qs}</code> user with intermittent forays into <code>{data.table::fread/fwrite}</code> functions. However, recently, I’ve switched majority of my work to <code>{arrow}</code> which has proven itself a strong ally in the war against slow data transaction times.</p>
+<p>The question remains - which one works better? Particularly, which one works better on the machines I’m using as well as the server I have access to? My configuration has changed from my last performance review posting. I’m now running:</p>
+<ul>
+<li>MacBook Pro, running MacOS 12.5</li>
+<li>2.4 GHz 8-Core Intel Core i9</li>
+<li>64 GB 2667 MHz DDR4</li>
+<li>R version 4.2.0 on x86_64-apple-darwin17.0 (64-bit)</li>
+</ul>
+</section>
+<section id="execution" class="level1 page-columns page-full">
+<h1>Execution</h1>
+<p>At a high level, the method is quite simple.</p>
+<ol type="1">
+<li>Create fake large data sets</li>
+<li>For each, measure read and write speed for all approaches</li>
+<li>Plot and compare</li>
+</ol>
+<p>The devil is in the details though, especially concerning scaling this approach. While myy first approaches were linear script based, this quickly uncovered the ineffectiveness of scripts - the lack of ability to cache &amp; reference previous results (at least without significant coding). I quickly pivoted to using <code>{targets}</code> to build this measurement pipeline, learning ‘dynamic branching’ along the way, and I must say - I’m glad I did so.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>In case you’re not familiar, <code>{targets}</code> is a “<em>…Make-like pipeline tool for Statistics and data science … [to] maintain a reproducible workflows…</em>” Learn more <a href="https://books.ropensci.org/targets/">here</a>.</p>
+</div></div><p>Not only is the pipeline <em>much</em> easier to grok, but is extremely salable. Since <code>{targets}</code> caches previous runs, I can very rapidly experiment with data, modeling &amp; plotting combinations while maintaining end-to-end verifyable reproducibility, without wasting any time reexecuting long-running experiments.</p>
+<p>I won’t delve into how I created this pipeline in this post, but the code base is available <a href="https://github.com/rsangole/perf-tests">here</a>.</p>
+<section id="data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<div class="cell page-columns page-full" data-hash="data-read-write-perf_cache/html/unnamed-chunk-1_9fe00822f668201a19cbb2a77d1c008d">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+
+<table class=" lightable-classic-2" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> cat_A </th>
+   <th style="text-align:left;"> cat_B </th>
+   <th style="text-align:left;"> date </th>
+   <th style="text-align:right;"> num_1 </th>
+   <th style="text-align:right;"> num_2 </th>
+   <th style="text-align:right;"> num_3 </th>
+   <th style="text-align:right;"> num_4 </th>
+   <th style="text-align:left;"> chr_1 </th>
+   <th style="text-align:left;"> chr_2 </th>
+   <th style="text-align:left;"> chr_3 </th>
+   <th style="text-align:left;"> chr_4 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Alabama </td>
+   <td style="text-align:left;"> B </td>
+   <td style="text-align:left;"> 2023-03-01 </td>
+   <td style="text-align:right;"> 0.67 </td>
+   <td style="text-align:right;"> 0.13 </td>
+   <td style="text-align:right;"> 0.83 </td>
+   <td style="text-align:right;"> 0.04 </td>
+   <td style="text-align:left;"> h </td>
+   <td style="text-align:left;"> p </td>
+   <td style="text-align:left;"> i </td>
+   <td style="text-align:left;"> u </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Alabama </td>
+   <td style="text-align:left;"> B </td>
+   <td style="text-align:left;"> 2022-10-18 </td>
+   <td style="text-align:right;"> 0.52 </td>
+   <td style="text-align:right;"> 0.63 </td>
+   <td style="text-align:right;"> 0.29 </td>
+   <td style="text-align:right;"> 0.14 </td>
+   <td style="text-align:left;"> s </td>
+   <td style="text-align:left;"> o </td>
+   <td style="text-align:left;"> h </td>
+   <td style="text-align:left;"> a </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Alaska </td>
+   <td style="text-align:left;"> A </td>
+   <td style="text-align:left;"> 2023-03-20 </td>
+   <td style="text-align:right;"> 0.42 </td>
+   <td style="text-align:right;"> 0.24 </td>
+   <td style="text-align:right;"> 0.45 </td>
+   <td style="text-align:right;"> 0.21 </td>
+   <td style="text-align:left;"> n </td>
+   <td style="text-align:left;"> g </td>
+   <td style="text-align:left;"> l </td>
+   <td style="text-align:left;"> n </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Arkansas </td>
+   <td style="text-align:left;"> B </td>
+   <td style="text-align:left;"> 2023-08-07 </td>
+   <td style="text-align:right;"> 0.60 </td>
+   <td style="text-align:right;"> 0.12 </td>
+   <td style="text-align:right;"> 0.46 </td>
+   <td style="text-align:right;"> 1.00 </td>
+   <td style="text-align:left;"> c </td>
+   <td style="text-align:left;"> p </td>
+   <td style="text-align:left;"> r </td>
+   <td style="text-align:left;"> b </td>
+  </tr>
+</tbody>
+</table>
+
+</div></div></div>
+<p>I created some fake data with categoricals, numerics and date-time vars. I’ve used ‘long’ data here, since it represented the use case I typically have, although I wonder if the results would change if the data were wider. After a few iterations, I settled on number of rows: 100k, 1M, and 5M. The results for number of rows = 1M+ did not change, to be honest.</p>
+</section>
+<section id="approaches" class="level2">
+<h2 class="anchored" data-anchor-id="approaches">Approaches</h2>
+<p>I tested the packages I tend to use the most, along with a new one <code>vroom</code> and the traditional RDS format from R. All in all, I tested:</p>
+<ol type="1">
+<li><code>data.table</code> - both the traditional CSV, and <code>yaml = TRUE</code> formulations</li>
+<li><code>arrow</code> - two configurations: <code>parquet</code> and <code>arrow_csv</code></li>
+<li><code>qs</code></li>
+<li><code>vroom</code></li>
+<li><code>RDS</code></li>
+</ol>
+<p>Each approach is shown by a green square in the middle here. Each square represents a read and write using <code>{microbenchmark}</code> to measure the execution times. In total, this pipeline runs {7 read/write approaches x 3 data sets x 10 repeats} for a total of 210 runs.</p>
+<div class="cell" data-hash="data-read-write-perf_cache/html/unnamed-chunk-2_9651d2b1bc6827b6ec87a479318d34bc">
+<div class="cell-output-display">
+
+<div id="htmlwidget-061ae233854d8c8cdc98" style="width:100%;height:464px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-061ae233854d8c8cdc98">{"x":{"nodes":{"name":["arrow_csv","arrow_parquet","data","datatable_classic","datatable_yaml","desired_nrows","export","plot_comparison","plot_comparison_scaled","plot_sizes","qs","rds","results","vroom"],"type":["pattern","pattern","pattern","pattern","pattern","stem","stem","stem","stem","stem","pattern","pattern","stem","pattern"],"status":["uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate"],"seconds":[64.381,34.753,3.416,45.842,0,0.522,0.11,0.047,0.154,0.082,27.987,445.982,0.01,114.748],"bytes":[398,391,114360337,332,0,61,247454,96348,96901,67200,323,333,3811,330],"branches":[3,3,3,3,3,null,null,null,null,null,3,3,null,3],"label":["arrow_csv","arrow_parquet","data","datatable_classic","datatable_yaml","desired_nrows","export","plot_comparison","plot_comparison_scaled","plot_sizes","qs","rds","results","vroom"],"color":["#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823"],"id":["arrow_csv","arrow_parquet","data","datatable_classic","datatable_yaml","desired_nrows","export","plot_comparison","plot_comparison_scaled","plot_sizes","qs","rds","results","vroom"],"level":[3,3,2,3,3,1,6,5,5,5,3,3,4,3],"shape":["square","square","square","square","square","dot","dot","dot","dot","dot","square","square","dot","square"]},"edges":{"from":["data","data","plot_comparison","plot_comparison_scaled","plot_sizes","data","data","data","results","data","desired_nrows","results","arrow_csv","arrow_parquet","datatable_classic","datatable_yaml","qs","rds","vroom","data","results"],"to":["qs","datatable_yaml","export","export","export","datatable_classic","vroom","rds","plot_comparison_scaled","arrow_csv","data","plot_sizes","results","results","results","results","results","results","results","arrow_parquet","plot_comparison"],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Pattern","Stem"],"color":["#354823","#899DA4","#899DA4"],"shape":["dot","square","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+</section>
+<section id="results" class="level1 page-columns page-full">
+<h1>Results</h1>
+<p>So what do the results look like? To be honest, they quite agree with what I had experienced in my work with large data sets.</p>
+<section id="speeds" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="speeds">Speeds</h2>
+<p>The plots below show the absolute read &amp; write speeds on the left (measured in seconds), with relative speed decrease as compared to the best performer on the right.</p>
+<p><strong>tldr</strong></p>
+<ul>
+<li><p><code>arrow-parquet</code> are the clear winner when it comes to read-speed. The next best is <code>vroom</code> which is 2x slower. Almost every other option is 5x-7x slower than <code>arrow</code>.</p></li>
+<li><p><code>qs</code> performs the best for write-speeds. <code>arrow</code> and <code>data.table</code> are the next best at 2-3x slower speeds than <code>qs</code>.</p></li>
+<li><p>For <code>data.table</code> , the <code>yaml = TRUE</code> setting doesn’t make any difference to read-speeds. <em>This one surprised me, since I thought it would speed it up at least a bit.</em></p></li>
+<li><p><code>rds</code> is the slowest, unsurprisingly, at 20-30x slower than <code>arrow</code></p></li>
+</ul>
+<div class="cell column-screen fig-column-screen-inset-shaded quarto-layout-panel" data-hash="data-read-write-perf_cache/html/unnamed-chunk-3_86c1f08d2b023daf32b2c53c4e1157cd">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="1344"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="file-sizes" class="level2">
+<h2 class="anchored" data-anchor-id="file-sizes">File Sizes</h2>
+<p>This one is a doozey! For large 5M row data sets, there’s a marked level shift between the compressed and uncompressed file formats!</p>
+<div class="cell" data-hash="data-read-write-perf_cache/html/unnamed-chunk-4_f8a65df556b7b2112a396f01f60fa882">
+<div class="cell-output-display">
+<p><img src="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>I’m curious to see if this result varies for wider datasets, or datasets with more/less characters and numerics.</p>
+</section>
+</section>
+<section id="takeaway" class="level1">
+<h1>Takeaway</h1>
+<p>For the foreseeable future, I’m indexing very heavily to arrow for my structured datasets. It’s fast read and write times, combined with ability for lazy execution of queries on partitioned data makes it a clear winner for large data for my use cases.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Benchmarking</category>
+  <guid>https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</guid>
+  <pubDate>Sat, 17 Sep 2022 07:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/_image.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
   <title>Making the Anomaly Database</title>
   <dc:creator>Rahul</dc:creator>
@@ -6591,7 +7143,191 @@ font-style: italic;">## <?xml version="1.0" encoding="UTF-8"?>
 <atom:link href="https://rsangole.netlify.app/blog.xml" rel="self" type="application/rss+xml"/>
 <description>rahul's blog on data science</description>
 <generator>quarto-1.0.38</generator>
-<lastBuildDate>Wed, 18 Aug 2021 07:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 17 Sep 2022 07:00:00 GMT</lastBuildDate>
+<item>
+  <title>Performance Benchmarking Data Read Write</title>
+  <dc:creator>Rahul</dc:creator>
+  <link>https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</link>
+  <description><![CDATA[ 
+
+
+
+<section id="background" class="level1">
+<h1>Background</h1>
+<p>In a recent conversation, I was asked how to speed up execution of scripts dealing with computation on big data sets (biggish i.e.&nbsp;in-memory). The scripts had some data read and write features with some ETL sandwiched in between. Upon reviewing the code base, I found some immediate improvements by moving a bunch of ETL code from <code>{dplyr}</code> to <code>{data.table}</code>, which has been my defacto go to for large data sets.</p>
+<p>On the data read/write side of the equation, I used to be an ardent <code>{qs}</code> user with intermittent forays into <code>{data.table::fread/fwrite}</code> functions. However, recently, I’ve switched majority of my work to <code>{arrow}</code> which has proven itself a strong ally in the war against slow data transaction times.</p>
+<p>The question remains - which one works better? Particularly, which one works better on the machines I’m using as well as the server I have access to? My configuration has changed from my last performance review posting. I’m now running:</p>
+<ul>
+<li>MacBook Pro, running MacOS 12.5</li>
+<li>2.4 GHz 8-Core Intel Core i9</li>
+<li>64 GB 2667 MHz DDR4</li>
+<li>R version 4.2.0 on x86_64-apple-darwin17.0 (64-bit)</li>
+</ul>
+</section>
+<section id="execution" class="level1 page-columns page-full">
+<h1>Execution</h1>
+<p>At a high level, the method is quite simple.</p>
+<ol type="1">
+<li>Create fake large data sets</li>
+<li>For each, measure read and write speed for all approaches</li>
+<li>Plot and compare</li>
+</ol>
+<p>The devil is in the details though, especially concerning scaling this approach. While myy first approaches were linear script based, this quickly uncovered the ineffectiveness of scripts - the lack of ability to cache &amp; reference previous results (at least without significant coding). I quickly pivoted to using <code>{targets}</code> to build this measurement pipeline, learning ‘dynamic branching’ along the way, and I must say - I’m glad I did so.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>In case you’re not familiar, <code>{targets}</code> is a “<em>…Make-like pipeline tool for Statistics and data science … [to] maintain a reproducible workflows…</em>” Learn more <a href="https://books.ropensci.org/targets/">here</a>.</p>
+</div></div><p>Not only is the pipeline <em>much</em> easier to grok, but is extremely salable. Since <code>{targets}</code> caches previous runs, I can very rapidly experiment with data, modeling &amp; plotting combinations while maintaining end-to-end verifyable reproducibility, without wasting any time reexecuting long-running experiments.</p>
+<p>I won’t delve into how I created this pipeline in this post, but the code base is available <a href="https://github.com/rsangole/perf-tests">here</a>.</p>
+<section id="data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<div class="cell page-columns page-full" data-hash="data-read-write-perf_cache/html/unnamed-chunk-1_9fe00822f668201a19cbb2a77d1c008d">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+
+<table class=" lightable-classic-2" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> cat_A </th>
+   <th style="text-align:left;"> cat_B </th>
+   <th style="text-align:left;"> date </th>
+   <th style="text-align:right;"> num_1 </th>
+   <th style="text-align:right;"> num_2 </th>
+   <th style="text-align:right;"> num_3 </th>
+   <th style="text-align:right;"> num_4 </th>
+   <th style="text-align:left;"> chr_1 </th>
+   <th style="text-align:left;"> chr_2 </th>
+   <th style="text-align:left;"> chr_3 </th>
+   <th style="text-align:left;"> chr_4 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Alabama </td>
+   <td style="text-align:left;"> B </td>
+   <td style="text-align:left;"> 2023-03-01 </td>
+   <td style="text-align:right;"> 0.67 </td>
+   <td style="text-align:right;"> 0.13 </td>
+   <td style="text-align:right;"> 0.83 </td>
+   <td style="text-align:right;"> 0.04 </td>
+   <td style="text-align:left;"> h </td>
+   <td style="text-align:left;"> p </td>
+   <td style="text-align:left;"> i </td>
+   <td style="text-align:left;"> u </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Alabama </td>
+   <td style="text-align:left;"> B </td>
+   <td style="text-align:left;"> 2022-10-18 </td>
+   <td style="text-align:right;"> 0.52 </td>
+   <td style="text-align:right;"> 0.63 </td>
+   <td style="text-align:right;"> 0.29 </td>
+   <td style="text-align:right;"> 0.14 </td>
+   <td style="text-align:left;"> s </td>
+   <td style="text-align:left;"> o </td>
+   <td style="text-align:left;"> h </td>
+   <td style="text-align:left;"> a </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Alaska </td>
+   <td style="text-align:left;"> A </td>
+   <td style="text-align:left;"> 2023-03-20 </td>
+   <td style="text-align:right;"> 0.42 </td>
+   <td style="text-align:right;"> 0.24 </td>
+   <td style="text-align:right;"> 0.45 </td>
+   <td style="text-align:right;"> 0.21 </td>
+   <td style="text-align:left;"> n </td>
+   <td style="text-align:left;"> g </td>
+   <td style="text-align:left;"> l </td>
+   <td style="text-align:left;"> n </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Arkansas </td>
+   <td style="text-align:left;"> B </td>
+   <td style="text-align:left;"> 2023-08-07 </td>
+   <td style="text-align:right;"> 0.60 </td>
+   <td style="text-align:right;"> 0.12 </td>
+   <td style="text-align:right;"> 0.46 </td>
+   <td style="text-align:right;"> 1.00 </td>
+   <td style="text-align:left;"> c </td>
+   <td style="text-align:left;"> p </td>
+   <td style="text-align:left;"> r </td>
+   <td style="text-align:left;"> b </td>
+  </tr>
+</tbody>
+</table>
+
+</div></div></div>
+<p>I created some fake data with categoricals, numerics and date-time vars. I’ve used ‘long’ data here, since it represented the use case I typically have, although I wonder if the results would change if the data were wider. After a few iterations, I settled on number of rows: 100k, 1M, and 5M. The results for number of rows = 1M+ did not change, to be honest.</p>
+</section>
+<section id="approaches" class="level2">
+<h2 class="anchored" data-anchor-id="approaches">Approaches</h2>
+<p>I tested the packages I tend to use the most, along with a new one <code>vroom</code> and the traditional RDS format from R. All in all, I tested:</p>
+<ol type="1">
+<li><code>data.table</code> - both the traditional CSV, and <code>yaml = TRUE</code> formulations</li>
+<li><code>arrow</code> - two configurations: <code>parquet</code> and <code>arrow_csv</code></li>
+<li><code>qs</code></li>
+<li><code>vroom</code></li>
+<li><code>RDS</code></li>
+</ol>
+<p>Each approach is shown by a green square in the middle here. Each square represents a read and write using <code>{microbenchmark}</code> to measure the execution times. In total, this pipeline runs {7 read/write approaches x 3 data sets x 10 repeats} for a total of 210 runs.</p>
+<div class="cell" data-hash="data-read-write-perf_cache/html/unnamed-chunk-2_9651d2b1bc6827b6ec87a479318d34bc">
+<div class="cell-output-display">
+
+<div id="htmlwidget-061ae233854d8c8cdc98" style="width:100%;height:464px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-061ae233854d8c8cdc98">{"x":{"nodes":{"name":["arrow_csv","arrow_parquet","data","datatable_classic","datatable_yaml","desired_nrows","export","plot_comparison","plot_comparison_scaled","plot_sizes","qs","rds","results","vroom"],"type":["pattern","pattern","pattern","pattern","pattern","stem","stem","stem","stem","stem","pattern","pattern","stem","pattern"],"status":["uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate"],"seconds":[64.381,34.753,3.416,45.842,0,0.522,0.11,0.047,0.154,0.082,27.987,445.982,0.01,114.748],"bytes":[398,391,114360337,332,0,61,247454,96348,96901,67200,323,333,3811,330],"branches":[3,3,3,3,3,null,null,null,null,null,3,3,null,3],"label":["arrow_csv","arrow_parquet","data","datatable_classic","datatable_yaml","desired_nrows","export","plot_comparison","plot_comparison_scaled","plot_sizes","qs","rds","results","vroom"],"color":["#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823"],"id":["arrow_csv","arrow_parquet","data","datatable_classic","datatable_yaml","desired_nrows","export","plot_comparison","plot_comparison_scaled","plot_sizes","qs","rds","results","vroom"],"level":[3,3,2,3,3,1,6,5,5,5,3,3,4,3],"shape":["square","square","square","square","square","dot","dot","dot","dot","dot","square","square","dot","square"]},"edges":{"from":["data","data","plot_comparison","plot_comparison_scaled","plot_sizes","data","data","data","results","data","desired_nrows","results","arrow_csv","arrow_parquet","datatable_classic","datatable_yaml","qs","rds","vroom","data","results"],"to":["qs","datatable_yaml","export","export","export","datatable_classic","vroom","rds","plot_comparison_scaled","arrow_csv","data","plot_sizes","results","results","results","results","results","results","results","arrow_parquet","plot_comparison"],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Pattern","Stem"],"color":["#354823","#899DA4","#899DA4"],"shape":["dot","square","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+</section>
+<section id="results" class="level1 page-columns page-full">
+<h1>Results</h1>
+<p>So what do the results look like? To be honest, they quite agree with what I had experienced in my work with large data sets.</p>
+<section id="speeds" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="speeds">Speeds</h2>
+<p>The plots below show the absolute read &amp; write speeds on the left (measured in seconds), with relative speed decrease as compared to the best performer on the right.</p>
+<p><strong>tldr</strong></p>
+<ul>
+<li><p><code>arrow-parquet</code> are the clear winner when it comes to read-speed. The next best is <code>vroom</code> which is 2x slower. Almost every other option is 5x-7x slower than <code>arrow</code>.</p></li>
+<li><p><code>qs</code> performs the best for write-speeds. <code>arrow</code> and <code>data.table</code> are the next best at 2-3x slower speeds than <code>qs</code>.</p></li>
+<li><p>For <code>data.table</code> , the <code>yaml = TRUE</code> setting doesn’t make any difference to read-speeds. <em>This one surprised me, since I thought it would speed it up at least a bit.</em></p></li>
+<li><p><code>rds</code> is the slowest, unsurprisingly, at 20-30x slower than <code>arrow</code></p></li>
+</ul>
+<div class="cell column-screen fig-column-screen-inset-shaded quarto-layout-panel" data-hash="data-read-write-perf_cache/html/unnamed-chunk-3_86c1f08d2b023daf32b2c53c4e1157cd">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="1344"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="file-sizes" class="level2">
+<h2 class="anchored" data-anchor-id="file-sizes">File Sizes</h2>
+<p>This one is a doozey! For large 5M row data sets, there’s a marked level shift between the compressed and uncompressed file formats!</p>
+<div class="cell" data-hash="data-read-write-perf_cache/html/unnamed-chunk-4_f8a65df556b7b2112a396f01f60fa882">
+<div class="cell-output-display">
+<p><img src="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>I’m curious to see if this result varies for wider datasets, or datasets with more/less characters and numerics.</p>
+</section>
+</section>
+<section id="takeaway" class="level1">
+<h1>Takeaway</h1>
+<p>For the foreseeable future, I’m indexing very heavily to arrow for my structured datasets. It’s fast read and write times, combined with ability for lazy execution of queries on partitioned data makes it a clear winner for large data for my use cases.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Benchmarking</category>
+  <guid>https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</guid>
+  <pubDate>Sat, 17 Sep 2022 07:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/_image.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
   <title>Making the Anomaly Database</title>
   <dc:creator>Rahul</dc:creator>

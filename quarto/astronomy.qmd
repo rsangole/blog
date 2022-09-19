@@ -1,0 +1,35 @@
+---
+title: ""
+listing:
+  contents: astronomy
+  sort: "date desc"
+  type: default
+  categories: false
+  feed: true
+  fields: 
+    - date
+    - title
+    - reading-time
+    - categories
+    - description
+    - image
+page-layout: full
+title-block-banner: true
+---
+
+```{r}
+#| include: false
+box::use(./astronomy/obs[...])
+```
+
+```{r}
+#| column: screen
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 15
+#| fig-height: 2
+#| fig-align: center
+read_obs() |> 
+    plot_moons()
+```
