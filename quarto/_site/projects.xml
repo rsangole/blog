@@ -6,15 +6,15 @@
       version="2.0">
 <channel>
 <title>yHat</title>
-<link>https://rsangole.netlify.app/projects.html</link>
-<atom:link href="https://rsangole.netlify.app/projects.xml" rel="self" type="application/rss+xml"/>
+<link>https://www.rsangole.com/projects.html</link>
+<atom:link href="https://www.rsangole.com/projects.xml" rel="self" type="application/rss+xml"/>
 <description>rahul's blog on data science</description>
 <generator>quarto-1.0.38</generator>
 <lastBuildDate>Wed, 01 Feb 2017 08:00:00 GMT</lastBuildDate>
 <item>
   <title>Finite Mixture Modeling using Flexmix</title>
   <dc:creator>Rahul</dc:creator>
-  <link>https://rsangole.netlify.app/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html</link>
+  <link>https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html</link>
   <description><![CDATA[ 
 
 
@@ -88,7 +88,7 @@
 <span id="cb8-3">d1 <span class="ot" style="color: #003B4F;">&lt;-</span> d1 <span class="sc" style="color: #5E5E5E;">%&gt;%</span> <span class="fu" style="color: #4758AB;">left_join</span>(whiskey_brands) <span class="sc" style="color: #5E5E5E;">%&gt;%</span> <span class="fu" style="color: #4758AB;">arrange</span>(<span class="sc" style="color: #5E5E5E;">-</span>counts)</span>
 <span id="cb8-4"><span class="fu" style="color: #4758AB;">ggplot</span>(d1,<span class="fu" style="color: #4758AB;">aes</span>(<span class="fu" style="color: #4758AB;">reorder</span>(Brand,counts),counts,<span class="at" style="color: #657422;">fill=</span>Type))<span class="sc" style="color: #5E5E5E;">+</span><span class="fu" style="color: #4758AB;">geom_bar</span>(<span class="at" style="color: #657422;">stat=</span><span class="st" style="color: #20794D;">'identity'</span>)<span class="sc" style="color: #5E5E5E;">+</span><span class="fu" style="color: #4758AB;">coord_flip</span>()<span class="sc" style="color: #5E5E5E;">+</span><span class="fu" style="color: #4758AB;">labs</span>(<span class="at" style="color: #657422;">y=</span><span class="st" style="color: #20794D;">'Counts'</span>,<span class="at" style="color: #657422;">x=</span><span class="st" style="color: #20794D;">'Whiskey Brand'</span>)</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://rsangole.netlify.app/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -123,7 +123,7 @@
 <div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><span class="fu" style="color: #4758AB;">plot</span>(<span class="fu" style="color: #4758AB;">BIC</span>(wh_mix),<span class="at" style="color: #657422;">type=</span><span class="st" style="color: #20794D;">'b'</span>,<span class="at" style="color: #657422;">ylab=</span><span class="st" style="color: #20794D;">'BIC'</span>)</span>
 <span id="cb13-2"><span class="fu" style="color: #4758AB;">points</span>(<span class="at" style="color: #657422;">x =</span> <span class="fu" style="color: #4758AB;">which.min</span>(<span class="fu" style="color: #4758AB;">BIC</span>(wh_mix)),<span class="fu" style="color: #4758AB;">min</span>(<span class="fu" style="color: #4758AB;">BIC</span>(wh_mix)),<span class="at" style="color: #657422;">col=</span><span class="st" style="color: #20794D;">'red'</span>,<span class="at" style="color: #657422;">pch=</span><span class="dv" style="color: #AD0000;">20</span>)</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://rsangole.netlify.app/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">wh_best <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">getModel</span>(wh_mix,<span class="st" style="color: #20794D;">'BIC'</span>)</span>
 <span id="cb14-2"><span class="fu" style="color: #4758AB;">print</span>(wh_best)</span></code></pre></div>
@@ -162,7 +162,7 @@ convergence after 127 iterations</code></pre>
 <span id="cb18-9">    <span class="fu" style="color: #4758AB;">coord_flip</span>()<span class="sc" style="color: #5E5E5E;">+</span></span>
 <span id="cb18-10">    <span class="fu" style="color: #4758AB;">facet_grid</span>(.<span class="sc" style="color: #5E5E5E;">~</span>Components)</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://rsangole.netlify.app/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="768"></p>
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="768"></p>
 </div>
 </div>
 </section>
@@ -201,7 +201,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 </div>
 <div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><span class="fu" style="color: #4758AB;">plot</span>(Patents<span class="sc" style="color: #5E5E5E;">~</span>lgRD,df_patent)</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://rsangole.netlify.app/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -240,7 +240,7 @@ convergence after 33 iterations</code></pre>
 <div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1">Components <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">factor</span>(<span class="fu" style="color: #4758AB;">clusters</span>(pat_mix))</span>
 <span id="cb28-2"><span class="fu" style="color: #4758AB;">xyplot</span>(Patents<span class="sc" style="color: #5E5E5E;">~</span>lgRD,<span class="at" style="color: #657422;">groups =</span> Components,df_patent,<span class="at" style="color: #657422;">type=</span><span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">'p'</span>,<span class="st" style="color: #20794D;">'spline'</span>))</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://rsangole.netlify.app/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -250,11 +250,11 @@ convergence after 33 iterations</code></pre>
 <div class="cell" data-hash="2017-02-01-finite-mixture-modeling-using-flexmix_cache/html/unnamed-chunk-14_1b2ed1c1a21b574785dd9ed5ad31afd3">
 <div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><span class="fu" style="color: #4758AB;">plot</span>(pat_mix,<span class="at" style="color: #657422;">mark=</span><span class="dv" style="color: #AD0000;">1</span>)</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://rsangole.netlify.app/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><span class="fu" style="color: #4758AB;">plot</span>(pat_mix,<span class="at" style="color: #657422;">mark=</span><span class="dv" style="color: #AD0000;">3</span>)</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://rsangole.netlify.app/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid" width="672"></p>
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>A summary of the mixture model results show the estimated priors, number of observations within each cluster (size), number of observations with p&gt;10^-4 (post&gt;0), and a ratio of the two. The rations of 0.58, 0.42 and 0.18 indicate big overlaps of the clusters. This can also be observed by the large portion of values in the mid-section of the rootogram above.</p>
@@ -303,7 +303,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb35" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><span class="fu" style="color: #4758AB;">plot</span>(rm,<span class="at" style="color: #657422;">bycluster=</span>F)</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://rsangole.netlify.app/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>The authors note that “estimates vary between all components even though the co- efficients for lgRD are similar for the first and third component”.</p>
@@ -333,14 +333,14 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
  ]]></description>
   <category>Flexmix</category>
   <category>Mixture Modeling</category>
-  <guid>https://rsangole.netlify.app/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html</guid>
+  <guid>https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html</guid>
   <pubDate>Wed, 01 Feb 2017 08:00:00 GMT</pubDate>
-  <media:content url="https://rsangole.netlify.app/projects/2017-02-01-finite-mixture-modeling-using-flexmix/graph.png" medium="image" type="image/png" height="103" width="144"/>
+  <media:content url="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/graph.png" medium="image" type="image/png" height="103" width="144"/>
 </item>
 <item>
   <title>Factor Analysis of Personality Traits</title>
   <dc:creator>Rahul</dc:creator>
-  <link>https://rsangole.netlify.app/projects/2016-09-03-factor-analysis-of-personality-traits/2016-09-03-factor-analysis-of-personality-traits.html</link>
+  <link>https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/2016-09-03-factor-analysis-of-personality-traits.html</link>
   <description><![CDATA[ 
 
 
@@ -377,7 +377,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>The X and Y axes of this plot are the 32 traits sorted according to Ward’s method. The sorting results in very intelligent grouping. The intensity of the colour and size of the colored square in each cell indicates the strength of Pearson’s correlation coefficient between each pair.</p>
 <p>I have highlighted 8 <strong>black</strong> rectangles which show grouping between <strong>similar</strong> traits. For example, the first box contains <em>Worrying</em>, <em>Anxious</em>, and <em>Tense</em>, traits very similar to one another. The third box contains <em>Disciplined</em>, <em>Organized</em>, <em>Hardworking</em>, and <em>Responsible.</em></p>
 <p>Three <strong>red</strong> boxes highlight dissimilar or opposite traits. Take the first red box (top mid). On the X axis, we have <em>Easy Going</em>, <em>Relaxed</em> and <em>Laidback</em>, while on the Y axis, we have <em>Worrying</em>, <em>Anxious</em>, and <em>Tense</em>.</p>
-<p><img src="https://rsangole.netlify.app/projects/2016-09-03-factor-analysis-of-personality-traits/corrplot.png" class="img-fluid"></p>
+<p><img src="https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/corrplot.png" class="img-fluid"></p>
 <p>The groupings in the correlation plot &amp; their magnitudes agree very well with Prof Malle’s findings.</p>
 </section>
 </section>
@@ -386,13 +386,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>Again, the objective here is: are there a few “factors” that explain personalities well as measured by the 32 personality traits? After <a href="http://sites.stat.psu.edu/~ajw13/stat505/fa06/17_factor/13_factor_varimax.html">varimax rotations</a> on the factors, the factor plots show wonderful results!</p>
 <p>To read the graphs, read the personality trait labels at the very extremes of the X and Y axes. These represent the traits with the highest loadings for each factor. The rotated factor plots were surprisingly intuitive to read.</p>
 <p>Factor 1 is Introvert/Extrovert. Factor 2 is the propensity to worry, or Anxiety Level.</p>
-<p><img src="https://rsangole.netlify.app/projects/2016-09-03-factor-analysis-of-personality-traits/f1vsf2nf9.png" class="img-fluid" width="450"></p>
+<p><img src="https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/f1vsf2nf9.png" class="img-fluid" width="450"></p>
 <p>Factor 3 seems to be Friendliness (or Approachable vs Reserved).</p>
-<p><img src="https://rsangole.netlify.app/projects/2016-09-03-factor-analysis-of-personality-traits/f2vsf3nf9.png" class="img-fluid" width="450"></p>
+<p><img src="https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/f2vsf3nf9.png" class="img-fluid" width="450"></p>
 <p>Factor 4 clearly is Organized vs Disorganized.</p>
-<p><img src="https://rsangole.netlify.app/projects/2016-09-03-factor-analysis-of-personality-traits/f3vsf4nf9.png" class="img-fluid" width="450"></p>
+<p><img src="https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/f3vsf4nf9.png" class="img-fluid" width="450"></p>
 <p>Factor 5 can be defined as Conscientiousness, or the willingness to be perseverant, to do hard work.</p>
-<p><img src="https://rsangole.netlify.app/projects/2016-09-03-factor-analysis-of-personality-traits/f4vsf5nf9.png" class="img-fluid" width="450"></p>
+<p><img src="https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/f4vsf5nf9.png" class="img-fluid" width="450"></p>
 </section>
 <section id="conclusion" class="level3">
 <h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
@@ -412,7 +412,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <section id="how-many-factors-to-select" class="level3">
 <h3 class="anchored" data-anchor-id="how-many-factors-to-select">How many factors to select?</h3>
 <p>There are a couple of methods to select the number of factors to keep. A scree plot plots the eigenvalues of the correlation matrix of the manifest variables against the factor number. The <a href="https://cran.r-project.org/web/packages/nFactors/nFactors.pdf">nscree package</a> can help get Scree plots.</p>
-<p><img src="https://rsangole.netlify.app/projects/2016-09-03-factor-analysis-of-personality-traits/scree.png" class="img-fluid" width="500"></p>
+<p><img src="https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/scree.png" class="img-fluid" width="500"></p>
 <ol type="1">
 <li>Kaiser rule (select factors with eigenvalues &gt; 1 for corr matrices) results in 9 factors to be selected.</li>
 <li>Visual inspection of the scree plot: The knee in the plot is at 4 factors. This is numerically computed as the Acceleration Factor (AF).</li>
@@ -433,9 +433,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
  ]]></description>
   <category>Factor Analysis</category>
   <category>Multivariate</category>
-  <guid>https://rsangole.netlify.app/projects/2016-09-03-factor-analysis-of-personality-traits/2016-09-03-factor-analysis-of-personality-traits.html</guid>
+  <guid>https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/2016-09-03-factor-analysis-of-personality-traits.html</guid>
   <pubDate>Sat, 03 Sep 2016 07:00:00 GMT</pubDate>
-  <media:content url="https://rsangole.netlify.app/projects/2016-09-03-factor-analysis-of-personality-traits/corrplot.png" medium="image" type="image/png" height="134" width="144"/>
+  <media:content url="https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/corrplot.png" medium="image" type="image/png" height="134" width="144"/>
 </item>
 </channel>
 </rss>

@@ -18,7 +18,7 @@
     "href": "posts/2022-09-14_data-read-write-performance/data-read-write-perf.html#approaches",
     "title": "Performance Benchmarking Data Read Write",
     "section": "Approaches",
-    "text": "Approaches\nI tested the packages I tend to use the most, along with a new one vroom and the traditional RDS format from R. All in all, I tested:\n\ndata.table - both the traditional CSV, and yaml = TRUE formulations\narrow - two configurations: parquet and arrow_csv\nqs\nvroom\nRDS\n\nEach approach is shown by a green square in the middle here. Each square represents a read and write using {microbenchmark} to measure the execution times. In total, this pipeline runs {7 read/write approaches x 3 data sets x 10 repeats} for a total of 210 runs."
+    "text": "Approaches\nI tested the packages I tend to use the most, along with a new one vroom and the traditional RDS format from R. All in all, I tested:\n\ndata.table - both the traditional CSV, and yaml = TRUE formulations\narrow - two configurations: parquet and arrow_csv\nqs\nvroom\nRDS\nfeather\nfst\n\nEach approach is shown by a green square in the middle here. Each square represents a read and write using {microbenchmark} to measure the execution times. In total, this pipeline runs {10 read/write approaches x 3 data sets x 10 repeats} for a total of 300 runs."
   },
   {
     "objectID": "posts/2022-09-14_data-read-write-performance/data-read-write-perf.html#speeds",
@@ -32,7 +32,7 @@
     "href": "posts/2022-09-14_data-read-write-performance/data-read-write-perf.html#file-sizes",
     "title": "Performance Benchmarking Data Read Write",
     "section": "File Sizes",
-    "text": "File Sizes\nThis one is a doozey! For large 5M row data sets, there’s a marked level shift between the compressed and uncompressed file formats!\n\n\n\n\n\nI’m curious to see if this result varies for wider datasets, or datasets with more/less characters and numerics."
+    "text": "File Sizes\nThis one is a doozey! For large 5M row data sets, there’s a marked level shift between the compressed and uncompressed file formats!\n\n\n\n\n\nI’m curious to see if this result varies for wider data sets, or data sets with more/less characters and numerics."
   },
   {
     "objectID": "posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets.html",

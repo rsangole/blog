@@ -1,1 +1,1 @@
-Sitemap: https://rsangole.netlify.app/sitemap.xml
+Sitemap: https://www.rsangole.com/sitemap.xml
