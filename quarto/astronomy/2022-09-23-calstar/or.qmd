@@ -1,0 +1,160 @@
+---
+title: Calstar 2022
+date: '2022-09-24'
+description: The 24th Calstar Party at Lake San Antonio.
+filters:
+   - lightbox
+lightbox: auto
+---
+
+[CalStar 2022](https://calstar.observers.org) this year was the 24th year of the star party, where astronomers congregate to watch the night skies together. It's held at the Lake San Antonio 'field of dreams'. This was my first attempt at CalStar, and I was in for a treat.
+
+![](images/6ECD2EFA-5B46-451B-9066-97B9CDCE67DA_1_105_c.jpeg){group="day-1" fig-align="center" width="506"}
+
+The highlight of the star party was most certainly the community - Jeff, Jamie, Les, Dan, Randy, and Akshay, among many others. They went out of their way to make new comers like me feel welcome in the community; there was plenty of astro-nerding, banter and laughter, and gobs of delicious food cooked by Chefs Dan and Randy. Thanks Les for the Gaffers tape and sharing some of that precious ice with me on day two when things got pretty hot.
+
+It was an event to remember, and I'm also ready looking forward to the one next year.
+
+## Day 1 - Sep 23
+
+::: {layout-ncol="2"}
+![](images/FA9569E7-E4EC-45EA-A02C-F4D12B5CB38A_1_105_c.jpeg){group="day-1-1"}
+
+![](images/432C15DD-6BF1-467F-98DB-75265F0CC91A_1_105_c.jpeg){group="day-1-1"}
+:::
+
+I reached the field of dreams at 6p. The weather was perfect, a calm 85F. I setup the campsite by 7p and had the scopes cooling outside after the hot 3 hour drive. Les was my welcoming neighbor, who offered up Gaffers tape for my bright lights.
+
+::: {layout-ncol="2"}
+![](images/38C02911-1E9F-4CF7-8CE3-9DB3600AB395_1_105_c.jpeg){group="day-1-2"}
+
+![](images/62BC18A1-7E2B-4D30-9541-F5DCB00067A6_1_105_c.jpeg){group="day-1-2"}
+:::
+
+Vega and the summer triangle made a bright appearance at 730p. With the temperature dropping, I noticed everyone had their dinners done, and were relaxing looking up at the skies. Lots of laughter and banter, the atmosphere was quite jovial. I could tell, even from a distance, that this was a well knit group with friendships formed over years of observing the skies together. I made some hot choco for the night, and settled in my chair awaiting the night ahead.
+
+By 9p, the skies were dark, the shadows and details in the milky way had made their majestic appearance accompanied by plenty of satellites zooming across the sky. A jewel-like gorgeous bright trail of the skylink satellite trail made it's debut which garnered a whole lot of oohs and aahs from the entire field. It was actually one of three "ooohs" through the night. The others being two massively bright (mag -2, -1?) fireballs streaking across the southern skies. Fatigued due to the drive & setup, the night ended early for me at 1a, with \~80% power left on the power source which was powering the dew heater. Even so, I had gone through an impressive list of targets on the first day. Here's the list of what I saw that night.
+
+**Jupiter & Saturn :** Beautiful and breath taking as always. I was pleasently surprised at the amount of detail the ED80CF gave me with the 6.5mm Baader Morpheus.
+
+**NGC 5985, 5982, 5981 Galaxy Group :** Jeff fetched me and introduced me to Randy, and his stunning 20" dob. We started with the Draco trio, two spirals at different angles and an elliptical galaxy.
+
+**M17 - Swan Nebula :** We moved on to the Swan, which was lovely as always.
+
+**M22** **:** This one was shocking... I've seen my fair share of globalars, but never through a 20 incher. So-Many-Stars! I was blown away!
+
+**M31 - Andromeda Galaxy**
+
+**M57 - Ring Nebula :** Another crowd favorite didn't disappoint. But, as much as I tried, I couldn't see the central star unlike some of the other more experienced observers. Perhaps the next time.
+
+**Cr 399 Coathanger**
+
+**NGC 7662** B**lue Snowball :** This planetary nebula in Andromeda was certainly my favorite object of the night. Using a 35-Panoptic and then the 17 Delos on my C9.25, the object was at zenith at roughly 12:45a. Just a beautiful blue fuzzy ball of beauty. I spent a lot of time on this object.
+
+**NGC 7009 - Saturn Nebula :** Fuzzier than the neighboring stars, this one was hard to tell at first. The 9mm on c9 showed me some blue color and slight elongation.
+
+**NGC 7027 - Jewel Bug Nebula**
+
+**NGC 7331 - Deer Lick Galaxy** **:** These faint fuzzies in Pegasus were a jot to look at using the 17mm Delos. I could even just about make out the distant "fleas". The 17mm worked better than the 35-Panoptic for more enjoyable gray fuzziness.
+
+**NGC 55 - Strings of Pearls Galaxy**
+
+**NGC 404 - Mirach's Ghost :** A galaxy hiding in the glare of Mirach, this was was very faint. I could just make it out in the background using averted vision and by introducing some vibrations in the tube and looking for changes in contrast.
+
+**NGC 457 - Owl Cluster** : One of my all time favorites using a wide angled like the 35-Panoptic or ES40-82 on the C9.25, the owl cluster is a joy to look at. Those crisp, bright stars at eyes of the owl make me want to explore space in the USS enterprise.
+
+**M33 - Triangulum galaxy :** - With the 35-Pan, this was big blurry at first. Over time, I could *almost* tell some of arms radiating spirally from center. Or perhaps my mind wanted to see them... I couldn't be sure. But I'd like to think I did witness those spirals in person.
+
+**M7 - Ptolemy's Cluster**
+
+As I zipped up for the night, I witnessed Orion and Mars rising on the East which was a sight to behold as a dozed off to sleep.
+
+<div>
+
+![*The view from my tent*](images/IMG_6064.jpeg){fig-align="center" width="414"}
+
+</div>
+
+## Day 2 - Sep 24
+
+Day 2 started surprisingly early. I was up by 8a not because I was well rested, but because the tent was already starting to heat up. I had the pleasure of experiencing Chef Dan's famous morning breakfasts. And I must say, what a spread it was. To be in the middle of the field of dreams and get hot coffee, eggs, sausages, juice and cereal and fresh Pineapple! Can't get better than that.
+
+::: {layout-ncol="3"}
+![](images/8115E519-0AFD-42D9-B662-D5923D5C6906_1_105_c.jpeg){group="day-2-1"}
+
+![](images/CD879333-8126-492F-A34E-158DE36A4328_1_105_c.jpeg){group="day-2-1"}
+
+![](images/3F3D81CF-D965-4774-96E8-F3FE2B40E577_1_105_c.jpeg){group="day-2-1"}
+:::
+
+Through the day, I had to learn more about tarp and guy lines and bowline knots than I had hoped I'd have to. Frequently had to make changes to keep myself and the equipment cool from the blazing heat. Having some freshly cooked tomato and eggs with sticky rice was a welcome respite from the sun.
+
+::: {layout-ncol="2"}
+![](images/F5A0B8DF-20F3-4366-869A-E68154A23196_1_105_c.jpeg){group="day-2-2"}
+
+![](images/211D05B6-2F28-4A60-9B7D-EB3816A33134_1_105_c.jpeg){group="day-2-2"}
+
+![](images/5A8510D3-97DC-4859-A9D5-375162C41DC1_1_105_c.jpeg){group="day-2-2"}
+
+![](images/5C65389B-976B-4D28-BAF6-B61D37258F32_1_105_c.jpeg){group="day-2-2"}
+:::
+
+Neil's book kept me busy for the rest of the afternoon.
+
+![](images/2036548A-654D-4208-853D-58B210EE5082_1_105_c.jpeg){group="day-2-2" fig-align="center" width="375"}
+
+Lots of big and interesting scopes around the field.
+
+::: {layout-ncol="2"}
+![](images/D00DF487-4C6F-463A-BE49-DCFE35AFBF62_1_105_c.jpeg){group="day-2-3"}
+
+![](images/725A889C-549F-4318-867C-A9FC2EAA66DB_1_105_c.jpeg){group="day-2-3"}
+:::
+
+With more time to prepare for the night, I heavily used Akarsh's observing lists as my master guide. I decided to attack one constellation at a time and shortlisted a good 30 odd targets. The night started off poorly though, with scope troubles on my C9. I spent 1.5 hours trying to understand why my perfectly functioning mount on the previous night completely refused to align or maintain alignment on this night. At times it was off a good 15 degrees! After running a fault tree analysis, I realized I had made *one change* based on the wisdom of the internet (at times, not so wise). I had pushed my OTA all the way to the edge to allow the 2" diag to clear the mount, causing a *heavy* imbalance on the altitude axis - something the forum post *promised* is "no issue for the Evolution mount at all". That turned out to be a big bag of balony. After resetting the scope and my frustrations from the false start (thank you Akash), I attacked my list with some renewed vigor. Here's what I was able to cover that night...
+
+**Scorpio**
+
+-   M4
+
+**Sagittarius**
+
+-   M8 - Lagoon Nebula
+-   M20 - Trifid Nebula
+
+**Draco**
+
+-   NGC 6543
+-   Cats Eye Nebula
+-   NGC 5866
+
+**Scutum**
+
+-   M11
+-   Wild Duck Cluster
+
+**Lyra**
+
+-   Double Double
+
+**Cygnus**
+
+-   NGC 6888
+-   NGC 6946
+-   Fireworks Galaxy
+-   NGC 6960, 6992
+-   Veil Nebula Group
+
+**Hercules**
+
+-   Hercules Cluster
+
+**Solar System Objects**
+
+-   Jupiter
+-   Saturn
+-   Uranus
+-   Neptune and it's moon Nereid
+-   Mars
+
+This night was almost exclusively with the C9 given the lists were all deep sky objects. The ES80 didn't get much play. Overall, Day 2 seemed much quieter. Either folks were exhausted from the heat of the day, or everyone was much more focussed on getting through their observing lists. There was less banter, fewer laughs and less movement on the field. I ended my session at 2a after observing Mars.

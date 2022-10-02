@@ -72,6 +72,7 @@ I tested the packages I tend to use the most, along with a new one `vroom` and t
 5.  `RDS`
 6.  `feather`
 7.  `fst`
+8.  `duckdb`
 
 Each approach is shown by a green square in the middle here. Each square represents a read and write using `{microbenchmark}` to measure the execution times. In total, this pipeline runs {10 read/write approaches x 3 data sets x 10 repeats} for a total of 300 runs.
 
@@ -91,7 +92,7 @@ Let's just look at the largest data size of 5 million rows.
 
 **tldr**
 
-- _updated!_ `feather` (as oppopsed to `arrow-parquet`) is now the clear winner for read speeds! The next best is `arrow-parquet` at 2.5x slower. `feather` is simply _blazing!_ At sub-second read speeds, I had to confirm something wasn't going wrong in the code-base!
+- _updated!_ `feather` (as opposed to `arrow-parquet`) is now the clear winner for read speeds! The next best is `arrow-parquet` at 2.5x slower. `feather` is simply _blazing!_ At sub-second read speeds, I had to confirm something wasn't going wrong in the code-base!
 
 -   `qs`, `fst` and `feather` all perform admirably for write-speeds. `arrow` and `data.table` are the next best at 2-3x slower speeds than `qs`.
 

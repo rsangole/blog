@@ -61,5 +61,12 @@
     "lat": 37.14778,
     "long": -121.77464,
     "address": "Casa Loma Rd, Morgan Hill, CA 95037, United States"
+  },
+  {
+    "nick": "calstar",
+    "name": "CalStar Lake San Antonio",
+    "lat": 35.819806,
+    "long": -120.959556,
+    "address": "Lake San Antonio Recreational Area, Bradley, CA 93426, United States"
   }
 ]

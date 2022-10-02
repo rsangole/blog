@@ -1,6 +1,24 @@
 box::use(./obs)
 
 obs$new_obs(
+    .dt = "2022-09-23 22:00:00 PDT",
+    .duration = "6H",
+    .nick = "calstar",
+    .seeing = "VG",
+    .trans = 6,
+    .notes = "1st night at 2022 Calstar"
+)
+
+obs$new_obs(
+    .dt = "2022-09-24 22:00:00 PDT",
+    .duration = "7H",
+    .nick = "calstar",
+    .seeing = "VG",
+    .trans = 6,
+    .notes = "2nd night at 2022 Calstar"
+)
+
+obs$new_obs(
     .dt = "2022-09-03 22:00:00 PDT",
     .duration = "2H",
     .location = "Pine Mountain Club",

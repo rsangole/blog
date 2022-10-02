@@ -1,7 +1,9 @@
 [
   {
     "listing": "/astronomy.html",
-    "items": []
+    "items": [
+      "/astronomy/2022-09-23-calstar/or.html"
+    ]
   },
   {
     "listing": "/projects.html",

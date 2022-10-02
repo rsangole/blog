@@ -137,6 +137,7 @@
 <li><code>RDS</code></li>
 <li><code>feather</code></li>
 <li><code>fst</code></li>
+<li><code>duckdb</code></li>
 </ol>
 <p>Each approach is shown by a green square in the middle here. Each square represents a read and write using <code>{microbenchmark}</code> to measure the execution times. In total, this pipeline runs {10 read/write approaches x 3 data sets x 10 repeats} for a total of 300 runs.</p>
 <div class="column-page">
@@ -154,12 +155,14 @@
 <section id="speeds" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="speeds">Speeds</h2>
 <p>The plots below show the absolute read &amp; write speeds on the left (measured in seconds), with relative speed decrease as compared to the best performer on the right.</p>
+<p>Let’s just look at the largest data size of 5 million rows.</p>
 <p><strong>tldr</strong></p>
 <ul>
-<li><p><code>arrow-parquet</code> are the clear winner when it comes to read-speed. The next best is <code>vroom</code> which is 2x slower. Almost every other option is 5x-7x slower than <code>arrow</code>.</p></li>
-<li><p><code>qs</code> performs the best for write-speeds. <code>arrow</code> and <code>data.table</code> are the next best at 2-3x slower speeds than <code>qs</code>.</p></li>
+<li><p><em>updated!</em> <code>feather</code> (as opposed to <code>arrow-parquet</code>) is now the clear winner for read speeds! The next best is <code>arrow-parquet</code> at 2.5x slower. <code>feather</code> is simply <em>blazing!</em> At sub-second read speeds, I had to confirm something wasn’t going wrong in the code-base!</p></li>
+<li><p><code>qs</code>, <code>fst</code> and <code>feather</code> all perform admirably for write-speeds. <code>arrow</code> and <code>data.table</code> are the next best at 2-3x slower speeds than <code>qs</code>.</p></li>
 <li><p>For <code>data.table</code> , the <code>yaml = TRUE</code> setting doesn’t make any difference to read-speeds. <em>This one surprised me, since I thought it would speed it up at least a bit.</em></p></li>
-<li><p><code>rds</code> is the slowest, unsurprisingly, at 20-30x slower than <code>arrow</code></p></li>
+<li><p><code>rds</code> is the slowest, unsurprisingly, at 20-30x slower than <code>arrow</code>.</p></li>
+<li><p><code>duckdb</code> and <code>vroom</code> performance were the middle of the pack.</p></li>
 </ul>
 <div class="cell column-screen fig-column-screen-inset-shaded quarto-layout-panel" data-hash="data-read-write-perf_cache/html/unnamed-chunk-2_fb6f5d14ed19d768572318900eb7817d">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -175,7 +178,7 @@
 </section>
 <section id="file-sizes" class="level2">
 <h2 class="anchored" data-anchor-id="file-sizes">File Sizes</h2>
-<p>This one is a doozey! For large 5M row data sets, there’s a marked level shift between the compressed and uncompressed file formats!</p>
+<p>This one is a doozey! Significant differences across all the packages, especially for large 5M row data sets. There seem to be three groupings: [qs, rds and arrow-parquet], [fst, feather &amp; duckdb], and finally [datatable, vroom and arrow-csv].</p>
 <div class="cell" data-hash="data-read-write-perf_cache/html/unnamed-chunk-3_ef07255b6743c1c08f06b9c9f099cfa9">
 <div class="cell-output-display">
 <p><img src="https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
@@ -186,7 +189,7 @@
 </section>
 <section id="takeaway" class="level1">
 <h1>Takeaway</h1>
-<p>For the foreseeable future, I’m indexing very heavily to arrow for my structured data sets. It’s fast read and write times, combined with ability for lazy execution of queries on partitioned data makes it a clear winner for large data for my use cases.</p>
+<p>For the foreseeable future, I’m <em>still</em> indexing very heavily to arrow for my structured data sets, despite <code>feather</code> being faster (for some other reasons). It’s fast read and write times, combined with ability for lazy execution of queries on partitioned data makes it a clear winner for large data for my use cases.</p>
 
 
 </section>
@@ -2574,6 +2577,7 @@ font-style: italic;">## <?xml version="1.0" encoding="UTF-8"?>
 <li><code>RDS</code></li>
 <li><code>feather</code></li>
 <li><code>fst</code></li>
+<li><code>duckdb</code></li>
 </ol>
 <p>Each approach is shown by a green square in the middle here. Each square represents a read and write using <code>{microbenchmark}</code> to measure the execution times. In total, this pipeline runs {10 read/write approaches x 3 data sets x 10 repeats} for a total of 300 runs.</p>
 <div class="column-page">
@@ -2591,12 +2595,14 @@ font-style: italic;">## <?xml version="1.0" encoding="UTF-8"?>
 <section id="speeds" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="speeds">Speeds</h2>
 <p>The plots below show the absolute read &amp; write speeds on the left (measured in seconds), with relative speed decrease as compared to the best performer on the right.</p>
+<p>Let’s just look at the largest data size of 5 million rows.</p>
 <p><strong>tldr</strong></p>
 <ul>
-<li><p><code>arrow-parquet</code> are the clear winner when it comes to read-speed. The next best is <code>vroom</code> which is 2x slower. Almost every other option is 5x-7x slower than <code>arrow</code>.</p></li>
-<li><p><code>qs</code> performs the best for write-speeds. <code>arrow</code> and <code>data.table</code> are the next best at 2-3x slower speeds than <code>qs</code>.</p></li>
+<li><p><em>updated!</em> <code>feather</code> (as opposed to <code>arrow-parquet</code>) is now the clear winner for read speeds! The next best is <code>arrow-parquet</code> at 2.5x slower. <code>feather</code> is simply <em>blazing!</em> At sub-second read speeds, I had to confirm something wasn’t going wrong in the code-base!</p></li>
+<li><p><code>qs</code>, <code>fst</code> and <code>feather</code> all perform admirably for write-speeds. <code>arrow</code> and <code>data.table</code> are the next best at 2-3x slower speeds than <code>qs</code>.</p></li>
 <li><p>For <code>data.table</code> , the <code>yaml = TRUE</code> setting doesn’t make any difference to read-speeds. <em>This one surprised me, since I thought it would speed it up at least a bit.</em></p></li>
-<li><p><code>rds</code> is the slowest, unsurprisingly, at 20-30x slower than <code>arrow</code></p></li>
+<li><p><code>rds</code> is the slowest, unsurprisingly, at 20-30x slower than <code>arrow</code>.</p></li>
+<li><p><code>duckdb</code> and <code>vroom</code> performance were the middle of the pack.</p></li>
 </ul>
 <div class="cell column-screen fig-column-screen-inset-shaded quarto-layout-panel" data-hash="data-read-write-perf_cache/html/unnamed-chunk-2_fb6f5d14ed19d768572318900eb7817d">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -2612,7 +2618,7 @@ font-style: italic;">## <?xml version="1.0" encoding="UTF-8"?>
 </section>
 <section id="file-sizes" class="level2">
 <h2 class="anchored" data-anchor-id="file-sizes">File Sizes</h2>
-<p>This one is a doozey! For large 5M row data sets, there’s a marked level shift between the compressed and uncompressed file formats!</p>
+<p>This one is a doozey! Significant differences across all the packages, especially for large 5M row data sets. There seem to be three groupings: [qs, rds and arrow-parquet], [fst, feather &amp; duckdb], and finally [datatable, vroom and arrow-csv].</p>
 <div class="cell" data-hash="data-read-write-perf_cache/html/unnamed-chunk-3_ef07255b6743c1c08f06b9c9f099cfa9">
 <div class="cell-output-display">
 <p><img src="https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
@@ -2623,7 +2629,7 @@ font-style: italic;">## <?xml version="1.0" encoding="UTF-8"?>
 </section>
 <section id="takeaway" class="level1">
 <h1>Takeaway</h1>
-<p>For the foreseeable future, I’m indexing very heavily to arrow for my structured data sets. It’s fast read and write times, combined with ability for lazy execution of queries on partitioned data makes it a clear winner for large data for my use cases.</p>
+<p>For the foreseeable future, I’m <em>still</em> indexing very heavily to arrow for my structured data sets, despite <code>feather</code> being faster (for some other reasons). It’s fast read and write times, combined with ability for lazy execution of queries on partitioned data makes it a clear winner for large data for my use cases.</p>
 
 
 </section>
@@ -4929,6 +4935,7 @@ font-style: italic;">## <?xml version="1.0" encoding="UTF-8"?>
 <li><code>RDS</code></li>
 <li><code>feather</code></li>
 <li><code>fst</code></li>
+<li><code>duckdb</code></li>
 </ol>
 <p>Each approach is shown by a green square in the middle here. Each square represents a read and write using <code>{microbenchmark}</code> to measure the execution times. In total, this pipeline runs {10 read/write approaches x 3 data sets x 10 repeats} for a total of 300 runs.</p>
 <div class="column-page">
@@ -4946,12 +4953,14 @@ font-style: italic;">## <?xml version="1.0" encoding="UTF-8"?>
 <section id="speeds" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="speeds">Speeds</h2>
 <p>The plots below show the absolute read &amp; write speeds on the left (measured in seconds), with relative speed decrease as compared to the best performer on the right.</p>
+<p>Let’s just look at the largest data size of 5 million rows.</p>
 <p><strong>tldr</strong></p>
 <ul>
-<li><p><code>arrow-parquet</code> are the clear winner when it comes to read-speed. The next best is <code>vroom</code> which is 2x slower. Almost every other option is 5x-7x slower than <code>arrow</code>.</p></li>
-<li><p><code>qs</code> performs the best for write-speeds. <code>arrow</code> and <code>data.table</code> are the next best at 2-3x slower speeds than <code>qs</code>.</p></li>
+<li><p><em>updated!</em> <code>feather</code> (as opposed to <code>arrow-parquet</code>) is now the clear winner for read speeds! The next best is <code>arrow-parquet</code> at 2.5x slower. <code>feather</code> is simply <em>blazing!</em> At sub-second read speeds, I had to confirm something wasn’t going wrong in the code-base!</p></li>
+<li><p><code>qs</code>, <code>fst</code> and <code>feather</code> all perform admirably for write-speeds. <code>arrow</code> and <code>data.table</code> are the next best at 2-3x slower speeds than <code>qs</code>.</p></li>
 <li><p>For <code>data.table</code> , the <code>yaml = TRUE</code> setting doesn’t make any difference to read-speeds. <em>This one surprised me, since I thought it would speed it up at least a bit.</em></p></li>
-<li><p><code>rds</code> is the slowest, unsurprisingly, at 20-30x slower than <code>arrow</code></p></li>
+<li><p><code>rds</code> is the slowest, unsurprisingly, at 20-30x slower than <code>arrow</code>.</p></li>
+<li><p><code>duckdb</code> and <code>vroom</code> performance were the middle of the pack.</p></li>
 </ul>
 <div class="cell column-screen fig-column-screen-inset-shaded quarto-layout-panel" data-hash="data-read-write-perf_cache/html/unnamed-chunk-2_fb6f5d14ed19d768572318900eb7817d">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -4967,7 +4976,7 @@ font-style: italic;">## <?xml version="1.0" encoding="UTF-8"?>
 </section>
 <section id="file-sizes" class="level2">
 <h2 class="anchored" data-anchor-id="file-sizes">File Sizes</h2>
-<p>This one is a doozey! For large 5M row data sets, there’s a marked level shift between the compressed and uncompressed file formats!</p>
+<p>This one is a doozey! Significant differences across all the packages, especially for large 5M row data sets. There seem to be three groupings: [qs, rds and arrow-parquet], [fst, feather &amp; duckdb], and finally [datatable, vroom and arrow-csv].</p>
 <div class="cell" data-hash="data-read-write-perf_cache/html/unnamed-chunk-3_ef07255b6743c1c08f06b9c9f099cfa9">
 <div class="cell-output-display">
 <p><img src="https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
@@ -4978,7 +4987,7 @@ font-style: italic;">## <?xml version="1.0" encoding="UTF-8"?>
 </section>
 <section id="takeaway" class="level1">
 <h1>Takeaway</h1>
-<p>For the foreseeable future, I’m indexing very heavily to arrow for my structured data sets. It’s fast read and write times, combined with ability for lazy execution of queries on partitioned data makes it a clear winner for large data for my use cases.</p>
+<p>For the foreseeable future, I’m <em>still</em> indexing very heavily to arrow for my structured data sets, despite <code>feather</code> being faster (for some other reasons). It’s fast read and write times, combined with ability for lazy execution of queries on partitioned data makes it a clear winner for large data for my use cases.</p>
 
 
 </section>
@@ -7276,6 +7285,7 @@ font-style: italic;">## <?xml version="1.0" encoding="UTF-8"?>
 <li><code>RDS</code></li>
 <li><code>feather</code></li>
 <li><code>fst</code></li>
+<li><code>duckdb</code></li>
 </ol>
 <p>Each approach is shown by a green square in the middle here. Each square represents a read and write using <code>{microbenchmark}</code> to measure the execution times. In total, this pipeline runs {10 read/write approaches x 3 data sets x 10 repeats} for a total of 300 runs.</p>
 <div class="column-page">
@@ -7293,12 +7303,14 @@ font-style: italic;">## <?xml version="1.0" encoding="UTF-8"?>
 <section id="speeds" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="speeds">Speeds</h2>
 <p>The plots below show the absolute read &amp; write speeds on the left (measured in seconds), with relative speed decrease as compared to the best performer on the right.</p>
+<p>Let’s just look at the largest data size of 5 million rows.</p>
 <p><strong>tldr</strong></p>
 <ul>
-<li><p><code>arrow-parquet</code> are the clear winner when it comes to read-speed. The next best is <code>vroom</code> which is 2x slower. Almost every other option is 5x-7x slower than <code>arrow</code>.</p></li>
-<li><p><code>qs</code> performs the best for write-speeds. <code>arrow</code> and <code>data.table</code> are the next best at 2-3x slower speeds than <code>qs</code>.</p></li>
+<li><p><em>updated!</em> <code>feather</code> (as opposed to <code>arrow-parquet</code>) is now the clear winner for read speeds! The next best is <code>arrow-parquet</code> at 2.5x slower. <code>feather</code> is simply <em>blazing!</em> At sub-second read speeds, I had to confirm something wasn’t going wrong in the code-base!</p></li>
+<li><p><code>qs</code>, <code>fst</code> and <code>feather</code> all perform admirably for write-speeds. <code>arrow</code> and <code>data.table</code> are the next best at 2-3x slower speeds than <code>qs</code>.</p></li>
 <li><p>For <code>data.table</code> , the <code>yaml = TRUE</code> setting doesn’t make any difference to read-speeds. <em>This one surprised me, since I thought it would speed it up at least a bit.</em></p></li>
-<li><p><code>rds</code> is the slowest, unsurprisingly, at 20-30x slower than <code>arrow</code></p></li>
+<li><p><code>rds</code> is the slowest, unsurprisingly, at 20-30x slower than <code>arrow</code>.</p></li>
+<li><p><code>duckdb</code> and <code>vroom</code> performance were the middle of the pack.</p></li>
 </ul>
 <div class="cell column-screen fig-column-screen-inset-shaded quarto-layout-panel" data-hash="data-read-write-perf_cache/html/unnamed-chunk-2_fb6f5d14ed19d768572318900eb7817d">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -7314,7 +7326,7 @@ font-style: italic;">## <?xml version="1.0" encoding="UTF-8"?>
 </section>
 <section id="file-sizes" class="level2">
 <h2 class="anchored" data-anchor-id="file-sizes">File Sizes</h2>
-<p>This one is a doozey! For large 5M row data sets, there’s a marked level shift between the compressed and uncompressed file formats!</p>
+<p>This one is a doozey! Significant differences across all the packages, especially for large 5M row data sets. There seem to be three groupings: [qs, rds and arrow-parquet], [fst, feather &amp; duckdb], and finally [datatable, vroom and arrow-csv].</p>
 <div class="cell" data-hash="data-read-write-perf_cache/html/unnamed-chunk-3_ef07255b6743c1c08f06b9c9f099cfa9">
 <div class="cell-output-display">
 <p><img src="https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
@@ -7325,7 +7337,7 @@ font-style: italic;">## <?xml version="1.0" encoding="UTF-8"?>
 </section>
 <section id="takeaway" class="level1">
 <h1>Takeaway</h1>
-<p>For the foreseeable future, I’m indexing very heavily to arrow for my structured data sets. It’s fast read and write times, combined with ability for lazy execution of queries on partitioned data makes it a clear winner for large data for my use cases.</p>
+<p>For the foreseeable future, I’m <em>still</em> indexing very heavily to arrow for my structured data sets, despite <code>feather</code> being faster (for some other reasons). It’s fast read and write times, combined with ability for lazy execution of queries on partitioned data makes it a clear winner for large data for my use cases.</p>
 
 
 </section>
