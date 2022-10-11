@@ -50,3 +50,5 @@ docs/
 
 # translation temp files
 po/*~
+
+/.quarto/

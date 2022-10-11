@@ -1,0 +1,82 @@
+---
+title: AL Globular Cluster Observing Challenge
+date: '2022-07-01'
+description: July through September is a prime time to observe globular clusters. The constellations of Ophiuchus (17 clusters) and Sagittarius (21 clusters) provide 38 globular clusters brighter than magnitude 10.
+filters:
+   - lightbox
+lightbox: auto
+image: "image.jpg"
+---
+
+[Yet another challenge](https://www.astroleague.org/content/al-observing-challenge-special-observing-award) suggested by John Goss, former Astronomical League President, and Coordinator of the Dark Skies Observing Program.
+
+13 items observed:
+
+- Item-1: M107
+- Item-2: M12
+- Item-3: M10
+- Item-4: M62
+- Item-5: M19
+- Item-8: NGC6293
+- Item-9: NGC6304
+- Item-11: M9
+- Item-12: NGC6342
+- Item-13: NGC6356
+- Item-15: NGC9366
+- Item-17: M14
+- Item-32: M22
+
+## Observation Logs
+
+All observations taken at RCDO (Rancho Cañada Del Oro Open Space Preserve).
+
+- Lat: 37.14778
+- Long: -121.7746
+- Date: Aug 17, 2022
+- Time: 21:22 PST - 00:15 PST
+- Seeing: G - VG
+- Transparency: 5 - 6
+- Equipment: C9.25 SCT, TV 35 Panoptic, TV 17.3 Delos
+
+**22:00**
+
+![](images/2-m12.jpeg)
+
+![](images/3-m10.jpeg)
+
+![](images/13-ngc6356.jpeg)
+
+![](images/17-m14.jpeg)
+
+![](images/15-ngc9366.jpeg)
+
+![](images/11-m9.jpeg)
+
+![](images/12-ngc6342.jpeg)
+
+![](images/1-m107.jpeg)
+
+**23:00**
+
+![](images/4-m62.jpeg)
+
+![](images/5-m19.jpeg)
+
+![](images/9-ngc6304.jpeg)
+
+![](images/8-ngc6293.jpeg)
+
+![](images/32-m22.jpeg)
+
+
+
+
+
+
+
+
+
+
+
+
+

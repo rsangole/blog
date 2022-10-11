@@ -1,0 +1,37 @@
+---
+title: Int'l Observe the Moon Night
+date: '2022-10-06'
+description: Global Observe the Moon Night hosted by NASA 
+filters:
+   - lightbox
+lightbox: auto
+image: "IOTMN-logo-full-text.png"
+---
+
+Oct 1st 2022 was the [International Observe the Moon night](https://moon.nasa.gov/observe-the-moon-night/about/overview/). It's a night dedicated to Luna, where we spend some time looking at our moon, raising awareness of it's history, the strong ties to cultures worldwide and get kids excited about science and astronomy.
+
+I conducted an event with Rajah in the elementary school for the 1st grades. We had ~80 folks show up - excited little ones and parents alike. Rajah and I manned three scopes in all, an 8 inch dob, a 9.25 SCT and a 80mm refractor. Plenty of oohs and aahs as first timers saw the moon, Saturn and Jupiter through these scopes. The seeing was quite excellent, with bands on the surface of Jupyter quite clear even for amateur observers to see. By the time we called it a night, by 9p, it was quite dewy; scopes and equipment were soaking wet.
+
+The kids loved the introduction to the night skies; perhaps this will be one of many events at the school.
+
+::: {layout-ncol="3"}
+
+![](images/IMG_6253.jpeg)
+
+![](images/IMG_6250.jpeg)
+
+![](images/IMG_6248.jpeg)
+
+![](images/IMG_6245.jpeg)
+
+![](images/IMG_6270.jpeg)
+
+![](images/IMG_6261.jpeg)
+
+![](images/IMG_6288.jpeg)
+
+![](images/IMG_6286.jpeg)
+
+![](images/IMG_6293.jpeg)
+
+:::
