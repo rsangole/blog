@@ -1,0 +1,14 @@
+{
+  "hash": "6479d03b7e741679b05a91b31c37a608",
+  "result": {
+    "markdown": "---\ntitle: \"2023 #30DayChallenge\"\ndate: '2023-04-03'\ndescription: A few charts related to time-series packages for the 30DayChallenge\nimage: day1.png\ncategories:\n    - Visualization\neditor_options: \n  chunk_output_type: console\n---\n\n\n\n\n# Part of a Whole\n\n![](day1.png)\n\n\n\n\n\n\n\n# Relationships\n\n![](day5-1.png)\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

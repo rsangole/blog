@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.38">
+<meta name="generator" content="quarto-1.3.433">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,10 +11,15 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
 </style>
 
 
@@ -52,7 +57,8 @@ ul.task-list{list-style: none;}
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script>
@@ -99,11 +105,15 @@ ga('send', {
 });
 </script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="alternate" type="application/rss+xml" title="yHat" href="blog.xml"><meta name="twitter:title" content="yHat -">
+<meta name="twitter:image" content="https://www.rsangole.com/posts/2023-04-01_30-day-chart-challenge/day1.png">
 <meta name="twitter:creator" content="@rsangole">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image-height" content="1418">
+<meta name="twitter:image-width" content="1314">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-fixed">
@@ -112,28 +122,36 @@ ga('send', {
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="./index.html">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">yHat</span>
-  </a>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html">~/</a>
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">~/</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./blog.html" aria-current="page">~/blog</a>
+    <a class="nav-link active" href="./blog.html" rel="" target="" aria-current="page">
+ <span class="menu-text">~/blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./projects.html">~/projects</a>
+    <a class="nav-link" href="./projects.html" rel="" target="">
+ <span class="menu-text">~/projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./astronomy.html">~/astronomy</a>
+    <a class="nav-link" href="./astronomy.html" rel="" target="">
+ <span class="menu-text">~/astronomy</span></a>
   </li>  
 </ul>
-              <div id="quarto-search" class="" title="Search"></div>
+            <div class="quarto-navbar-tools">
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -163,7 +181,34 @@ ga('send', {
 
 <div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="Benchmarking" data-listing-date-sort="1663398000000" data-listing-file-modified-sort="1664338961972" data-listing-reading-time-sort="4.655">
+<div class="g-col-1" data-index="0" data-categories="Visualization" data-listing-date-sort="1680505200000" data-listing-file-modified-sort="1690181648236" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="29">
+<a href="./posts/2023-04-01_30-day-chart-challenge/apr-30-day-challenge.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/2023-04-01_30-day-chart-challenge/day1.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+2023 #30DayChallenge
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Visualization'); return false;">
+Visualization
+</div>
+</div>
+<div class="card-text listing-description">
+A few charts related to time-series packages for the 30DayChallenge
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Apr 3, 2023
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="Benchmarking" data-listing-date-sort="1663398000000" data-listing-file-modified-sort="1680587901404" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
 <a href="./posts/2022-09-14_data-read-write-performance/data-read-write-perf.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -190,12 +235,10 @@ Sep 17, 2022
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-categories="Docker,Postgres" data-listing-date-sort="1629270000000" data-listing-file-modified-sort="1660529419551" data-listing-reading-time-sort="3.7">
+<div class="g-col-1" data-index="2" data-categories="Docker,Postgres" data-listing-date-sort="1629270000000" data-listing-file-modified-sort="1680587901376" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
 <a href="./posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/2021-08-18-making-an-anomaly-database/anomaly-db-vscode.gif" class="thumbnail-image card-img" style="height: 150px;">
-</p>
+<p class="card-img-top"><img src="posts/2021-08-18-making-an-anomaly-database/anomaly-db-vscode.gif" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
 Making the Anomaly Database
@@ -209,7 +252,7 @@ Postgres
 </div>
 </div>
 <div class="card-text listing-description">
-<em>This is part two of the two part post related to Docker, Postgres databases and Anomaly data-sets. Read Part 1, which teaches you how to setup a new postgres database using Docker.</em>
+<em>This is part two of the two part post related to Docker, Postgres databases and Anomaly data-sets. Read Part 1…</em>
 </div>
 <div class="card-attribution card-text-small end">
 <div class="listing-date">
@@ -220,12 +263,10 @@ Aug 18, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="2" data-categories="Docker,Postgres" data-listing-date-sort="1628319600000" data-listing-file-modified-sort="1660529419549" data-listing-reading-time-sort="6.465">
+<div class="g-col-1" data-index="3" data-categories="Docker,Postgres" data-listing-date-sort="1628319600000" data-listing-file-modified-sort="1680587901375" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
 <a href="./posts/2021-08-03_docker-based-rstudio-postgres/2021-08-03-docker-based-rstudio-postgres.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/2021-08-03_docker-based-rstudio-postgres/docker-compose.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
+<p class="card-img-top"><img src="posts/2021-08-03_docker-based-rstudio-postgres/docker-compose.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
 Docker based RStudio &amp; PostgreSQL
@@ -250,7 +291,7 @@ Aug 7, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="3" data-categories="Visualization" data-listing-date-sort="1626678000000" data-listing-file-modified-sort="1660532124367" data-listing-reading-time-sort="0.95">
+<div class="g-col-1" data-index="4" data-categories="Visualization" data-listing-date-sort="1626678000000" data-listing-file-modified-sort="1680587901374" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
 <a href="./posts/2021-07-19_enhance-etl-text-plots/2021-07-19-enhance-etl-text-plots.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -277,7 +318,7 @@ Jul 19, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="4" data-categories="Visualization" data-listing-date-sort="1618297200000" data-listing-file-modified-sort="1660537020741" data-listing-reading-time-sort="22.055">
+<div class="g-col-1" data-index="5" data-categories="Visualization" data-listing-date-sort="1618297200000" data-listing-file-modified-sort="1680587901369" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="23">
 <a href="./posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -304,7 +345,7 @@ Apr 13, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="5" data-categories="TidyTuesday,Visualization" data-listing-date-sort="1611043200000" data-listing-file-modified-sort="1660537523505" data-listing-reading-time-sort="6.21">
+<div class="g-col-1" data-index="6" data-categories="TidyTuesday,Visualization" data-listing-date-sort="1611043200000" data-listing-file-modified-sort="1680587901318" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
 <a href="./posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -323,7 +364,7 @@ Visualization
 </div>
 </div>
 <div class="card-text listing-description">
-Last week's #TidyTuesday. Had something very specific in mind &amp; it forced me to learn a new pkg and some base R to finish this plot.<br><br>I wanted to showcase the change in the dominant medium from Graphite to Screenprint, which we can see in this beeswarm plot.#rstats pic.twitter.com/6uMCLHag4P
+Last week's #TidyTuesday. Had something very specific in mind &amp; it forced me to learn a new pkg and some base R to finish this plot.<br><br>I wanted to showcase the change in the dominant medium from Graphite to…
 </div>
 <div class="card-attribution card-text-small end">
 <div class="listing-date">
@@ -334,7 +375,7 @@ Jan 19, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="6" data-categories="TidyTuesday,Visualization" data-listing-date-sort="1610352000000" data-listing-file-modified-sort="1660537462224" data-listing-reading-time-sort="7.77">
+<div class="g-col-1" data-index="7" data-categories="TidyTuesday,Visualization" data-listing-date-sort="1610352000000" data-listing-file-modified-sort="1680587901316" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
 <a href="./posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -353,7 +394,7 @@ Visualization
 </div>
 </div>
 <div class="card-text listing-description">
-Comparing Indian rail projects to our neighbour China, I find that, on average, Indian lines have a higher number of stations and longer lines than our Chinese counterparts. <br><br>Also, number of stations to track length is amazingly linear (duh).#TidyTuesday #rstats #dataviz pic.twitter.com/pL4eYBIKNE
+Comparing Indian rail projects to our neighbour China, I find that, on average, Indian lines have a higher number of stations and longer lines than our Chinese counterparts. <br><br>Also, number of stations to track length is amazingly linear…
 </div>
 <div class="card-attribution card-text-small end">
 <div class="listing-date">
@@ -364,7 +405,7 @@ Jan 11, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="7" data-categories="TidyTuesday,Visualization" data-listing-date-sort="1609920000000" data-listing-file-modified-sort="1660537345385" data-listing-reading-time-sort="5.7">
+<div class="g-col-1" data-index="8" data-categories="TidyTuesday,Visualization" data-listing-date-sort="1609920000000" data-listing-file-modified-sort="1680587901314" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
 <a href="./posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -383,7 +424,7 @@ Visualization
 </div>
 </div>
 <div class="card-text listing-description">
-For my first #TidyTuesday post, I've attempted a comparison of the 2015 to 2020 movement of the Big Mac index : https://t.co/AOGOvt3ve5#RStats #dataviz #r4ds #ggplot2 pic.twitter.com/1TZTpAo3s0
+For my first #TidyTuesday post, I've attempted a comparison of the 2015 to 2020 movement of the Big Mac index : https://t.co/AOGOvt3ve5#RStats #dataviz #r4ds #ggplot2 pic.twitter.com/1…
 </div>
 <div class="card-attribution card-text-small end">
 <div class="listing-date">
@@ -394,12 +435,10 @@ Jan 6, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="8" data-categories="Benchmarking" data-listing-date-sort="1608105600000" data-listing-file-modified-sort="1660529419457" data-listing-reading-time-sort="12.475">
+<div class="g-col-1" data-index="9" data-categories="Benchmarking" data-listing-date-sort="1608105600000" data-listing-file-modified-sort="1680587901312" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13">
 <a href="./posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/dummy.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
+<p class="card-img-top"><img src="posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/dummy.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
 Perf Benchmarking Dummy Variables - Part II
@@ -421,7 +460,7 @@ Dec 16, 2020
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="9" data-categories="Notes" data-listing-date-sort="1603954800000" data-listing-file-modified-sort="1660533419826" data-listing-reading-time-sort="4.035">
+<div class="g-col-1" data-index="10" data-categories="Notes" data-listing-date-sort="1603954800000" data-listing-file-modified-sort="1680587901189" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
 <a href="./posts/2020-10-29_m5-competition-notes/2020-10-29-m5-competition-notes.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -448,12 +487,10 @@ Oct 29, 2020
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="10" data-categories="Docker,Programming Practices" data-listing-date-sort="1602313200000" data-listing-file-modified-sort="1660529419251" data-listing-reading-time-sort="5.155">
+<div class="g-col-1" data-index="11" data-categories="Docker,Programming Practices" data-listing-date-sort="1602313200000" data-listing-file-modified-sort="1680587901188" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
 <a href="./posts/2020-10-10-reproducible-work-in-R/2020-10-10-reproducible-work-in-R.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/2020-10-10-reproducible-work-in-R/elephant.jpeg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
+<p class="card-img-top"><img src="posts/2020-10-10-reproducible-work-in-R/elephant.jpeg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
 Reproducible Work in R
@@ -478,12 +515,10 @@ Oct 10, 2020
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="11" data-categories="Programming Practices" data-listing-date-sort="1545292800000" data-listing-file-modified-sort="1660529419248" data-listing-reading-time-sort="8.94">
+<div class="g-col-1" data-index="12" data-categories="Programming Practices" data-listing-date-sort="1545292800000" data-listing-file-modified-sort="1680587901187" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9">
 <a href="./posts/2018-08-02-try-catch/2018-08-02-try-catch.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/2018-08-02-try-catch/trycatch.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
+<p class="card-img-top"><img src="posts/2018-08-02-try-catch/trycatch.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
 Using tryCatch for robust R scripts
@@ -505,7 +540,7 @@ Dec 20, 2018
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="12" data-categories="Benchmarking,Programming Practices" data-listing-date-sort="1523516400000" data-listing-file-modified-sort="1660535185975" data-listing-reading-time-sort="1.735">
+<div class="g-col-1" data-index="13" data-categories="Benchmarking,Programming Practices" data-listing-date-sort="1523516400000" data-listing-file-modified-sort="1680587901185" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2">
 <a href="./posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -535,12 +570,10 @@ Apr 12, 2018
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="13" data-categories="Books" data-listing-date-sort="1518508800000" data-listing-file-modified-sort="1660529419245" data-listing-reading-time-sort="0.83">
+<div class="g-col-1" data-index="14" data-categories="Books" data-listing-date-sort="1518508800000" data-listing-file-modified-sort="1680587901185" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
 <a href="./posts/2018-02-13-books-i-reference/2018-02-13-books-i-reference.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/2018-02-13-books-i-reference/books.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
+<p class="card-img-top"><img src="posts/2018-02-13-books-i-reference/books.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
 Books I Reference
@@ -562,7 +595,7 @@ Feb 13, 2018
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="14" data-categories="Shiny,Visualization" data-listing-date-sort="1517040000000" data-listing-file-modified-sort="1660536475664" data-listing-reading-time-sort="0.335">
+<div class="g-col-1" data-index="15" data-categories="Shiny,Visualization" data-listing-date-sort="1517040000000" data-listing-file-modified-sort="1680587901182" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
 <a href="./posts/2018-01-27-visualize-lda/2018-01-27-visualize-lda.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -592,12 +625,10 @@ Jan 27, 2018
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="15" data-categories="Benchmarking" data-listing-date-sort="1506495600000" data-listing-file-modified-sort="1660529419243" data-listing-reading-time-sort="6.685">
+<div class="g-col-1" data-index="16" data-categories="Benchmarking" data-listing-date-sort="1506495600000" data-listing-file-modified-sort="1680587901181" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
 <a href="./posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/2017-09-26_dummy-variables-one-hot-encoding/dummy.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
+<p class="card-img-top"><img src="posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding_files/figure-html/unnamed-chunk-8-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
 Performance Benchmarking for Dummy Variable Creation
@@ -619,7 +650,7 @@ Sep 27, 2017
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="16" data-categories="Programming Practices" data-listing-date-sort="1505631600000" data-listing-file-modified-sort="1660536330835" data-listing-reading-time-sort="8.82">
+<div class="g-col-1" data-index="17" data-categories="Programming Practices" data-listing-date-sort="1505631600000" data-listing-file-modified-sort="1680587901180" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9">
 <a href="./posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -678,9 +709,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -692,7 +737,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -720,38 +782,149 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-      <div class="nav-footer-center">2022 rahul-s</div>
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">2022 rahul-s</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
   </div>
 </footer>
 

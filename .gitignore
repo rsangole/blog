@@ -52,3 +52,5 @@ docs/
 po/*~
 
 /.quarto/
+
+/.luarc.json

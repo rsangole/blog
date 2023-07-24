@@ -1,0 +1,643 @@
+---
+title: "2023 #30DayChallenge"
+date: '2023-04-03'
+description: A few charts related to time-series packages for the 30DayChallenge
+image: day1.png
+categories:
+    - Visualization
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE, eval=FALSE}
+knitr::opts_chunk$set(
+	message = FALSE,
+	warning = FALSE,
+	cache = TRUE
+)
+library(purrr)
+library(ggplot2)
+library(patchwork)
+library(dplyr)
+library(purrr)
+library(jsonlite)
+library(ggrepel)
+library(geomtextpath)
+library(cranlogs)
+library(glue)
+library(ggtext)
+library(grid)
+```
+
+# Part of a Whole
+
+![](day1.png)
+
+```{r partofwhole, include=FALSE, eval=FALSE}
+r_pkgs <- c(
+    "tidyverts/fable",
+    "business-science/modeltime",
+    "business-science/timetk",
+    "robjhyndman/forecast",
+    "robjhyndman/tsfeatures",
+    "robjhyndman/forecast",
+    "RamiKrispin/TSstudio",
+    "earowang/hts",
+        "facebook/prophet",
+    "SteffenMoritz/imputeTS",
+    "config-i1/smooth"
+)
+py_pkgs <- c(
+    "WenjieDu/PyPOTS",
+    "Nixtla/statsforecast",
+    "Nixtla/tsfeatures",
+    "TDAmeritrade/stumpy",
+    "fraunhoferportugal/tsfel",
+    "sktime/sktime",
+    "awslabs/gluonts",
+    "blue-yonder/tsfresh",
+    "facebook/prophet",
+    "WenjieZ/TSCV",
+    "intive-DataScience/tbats",
+    "bashtage/arch",
+    "alkaline-ml/pmdarima",
+    "arundo/tsaug",
+    "MaxBenChrist/tspreprocess",
+    "facebookresearch/Kats",
+    "firmai/atspy"
+)
+
+# get_repo_info <- function(repo) {
+#     gh::gh(endpoint = paste0("GET /repos/", repo))
+# }
+# r_repo_info_list <- lapply(r_pkgs, get_repo_info)
+# py_repo_info_list <- lapply(py_pkgs, get_repo_info)
+# qs::qsave(r_repo_info_list, "files/r_repo_info_list.qs")
+# qs::qsave(py_repo_info_list, "files/py_repo_info_list.qs")
+
+r_repo_info_list <- qs::qread(here::here("posts/2023-04-01_30-day-chart-challenge/files/r_repo_info_list.qs"))
+py_repo_info_list <- qs::qread(here::here("posts/2023-04-01_30-day-chart-challenge/files/py_repo_info_list.qs"))
+
+THRESHOLD <- 0.03
+dat <- map_df(
+    c(r_repo_info_list, py_repo_info_list),
+    ~ tibble(
+        name = pluck(.x, "name"),
+        full_name = pluck(.x, "full_name"),
+        stars = pluck(.x, "stargazers_count"),
+        language = pluck(.x, "language")
+    )) |>
+    mutate(
+        language = case_when(name == "tsfresh" ~ "Python", 
+                             TRUE ~ language),
+        language = factor(language)) |>
+    add_row(
+        name = "R-prophet",
+        full_name = "facebook/prophet",
+        stars = NA_integer_,
+        language = "R"
+    ) |>
+    mutate(
+        name = ifelse(name == "prophet", "Py-prophet", name),
+        stars = ifelse(name == "Py-prophet", (15692 / 2), stars),
+        stars = ifelse(name == "R-prophet", (15692 / 2), stars)
+        ) |>
+    group_by(language) |> 
+    mutate(
+        pc_stars_wthin_lang = stars / sum(stars)
+    ) |> 
+    ungroup() |>
+    mutate(
+        name = case_when(
+            pc_stars_wthin_lang < THRESHOLD ~ "others",
+            TRUE ~ name),
+        full_name = case_when(
+            pc_stars_wthin_lang < THRESHOLD ~ "others",
+            TRUE ~ full_name),
+        name = case_when(
+            name == "others" & language == "R" ~ "R-others",
+            name == "others" & language == "Python" ~ "Py-others",
+            TRUE ~ name)
+    ) |> 
+    group_by(
+        name, full_name, language
+    ) |> 
+    summarise(
+        stars = sum(stars)
+    ) |> 
+    ungroup() |> 
+    mutate(
+        pc_stars = stars / sum(stars)
+    ) |> 
+    arrange(
+        language, -pc_stars
+    ) |> 
+    mutate(
+        uid = paste(language, full_name),
+        uid = forcats::fct_inorder(uid),
+        name = forcats::fct_inorder(name),
+        full_name = factor(full_name),
+        cumul_pc_stars = rev(cumsum(rev(pc_stars))),
+        cumul_pc_stars2 = cumul_pc_stars - (cumul_pc_stars -
+                                                dplyr::lead(cumul_pc_stars,
+                                                            default = 0)) / 2,
+        name = paste(
+            name, "\n", scales::label_percent(accuracy = 1)(pc_stars)
+        )
+    )
+lang_dat <- dat |>
+    group_by(language) |>
+    summarise(
+        total_count_by_language = sum(n()),
+        total_stars_by_language = sum(stars)
+    ) |>
+    ungroup() |>
+    mutate(
+        pc_stars = total_stars_by_language /
+            sum(total_stars_by_language),
+        pc_count = total_count_by_language / 
+            sum(total_count_by_language),
+        cumul_pc_stars = rev(cumsum(rev(pc_stars))),
+        cumul_pc_stars2 = cumul_pc_stars - (cumul_pc_stars - dplyr::lead(cumul_pc_stars,default = 0)) / 2 
+    )
+
+geom_curve_polar <- function(...) {
+  layer <- geom_curve(...)
+  new_layer <- ggproto(NULL, layer)
+  old_geom <- new_layer$geom
+  geom <- ggproto(
+    NULL, old_geom,
+    draw_panel = function(data, panel_params, coord, 
+                          curvature = 0.1, angle = 90, ncp = 5,
+                          arrow = NULL, arrow.fill = NULL,
+                          lineend = "butt", linejoin = "round",
+                          na.rm = FALSE) {
+      data <- ggplot2:::remove_missing(
+        data, na.rm = na.rm, c("x", "y", "xend", "yend", 
+                               "linetype", "size", "shape")
+      )
+      if (ggplot2:::empty(data)) {
+        return(zeroGrob())
+      }
+      coords <- coord$transform(data, panel_params)
+      ends <- transform(data, x = xend, y = yend)
+      ends <- coord$transform(ends, panel_params)
+      
+      arrow.fill <- if (!is.null(arrow.fill)) arrow.fill else coords$colour
+      return(grid::curveGrob(
+        coords$x, coords$y, ends$x, ends$y,
+        default.units = "native", gp = grid::gpar(
+          col = alpha(coords$colour, coords$alpha),
+          fill = alpha(arrow.fill, coords$alpha),
+          lwd = coords$size * .pt,
+          lty = coords$linetype,
+          lineend = lineend,
+          linejoin = linejoin
+        ),
+        curvature = curvature, angle = angle, ncp = ncp,
+        square = FALSE, squareShape = 1, inflect = FALSE, open = TRUE,
+        arrow = arrow
+      ))
+      
+    }
+  )
+  new_layer$geom <- geom
+  return(new_layer)
+}
+
+.title <- "Which Time Series Packages Are Popular?"
+.subtitle <- "How many Github stars do the top 27 time-series packages have for R and Python? 
+Python is by far the most popular language, snatching 3/4ths of the 50,000 stars. 
+The most popular package in both languages is (sadly) Prophet."
+
+ggplot() +
+    geom_col(
+        data = lang_dat,
+        aes(
+            x = 2,
+            y = pc_stars,
+            fill = language
+        ),
+        color = "white"
+    ) +
+    geom_col(
+        data = dat,
+        aes(
+            x = 3,
+            y = pc_stars,
+            fill = uid
+        ),
+        color = "white",
+        position = 'stack'
+    ) +
+    geom_curve_polar(
+        aes(
+            x = 3.5,
+            y = 0.00862/2,
+            xend = 4.15,
+            yend = .988
+        ),
+        arrow = arrow(length = unit(0, "cm"), type = "open"),
+        col = "gray90",
+        size = 0.5,
+        curvature = 0.1
+    ) +
+    geom_curve_polar(
+        aes(
+            x = 3.5,
+            y = 0.0100/2+0.00862,
+            xend = 4.4,
+            yend = 0.0100/2+0.00862
+        ),
+        arrow = arrow(length = unit(0, "cm"), type = "open"),
+        col = "gray90",
+        size = 0.5,
+        curvature = 0.01
+    ) +
+    geom_curve_polar(
+        aes(
+            x = 3.5,
+            y = 0.0108/2+0.0186,
+            xend = 4.2,
+            yend = 0.02/2+0.0186
+        ),
+        arrow = arrow(length = unit(0, "cm"), type = "open"),
+        col = "gray90",
+        size = 0.5,
+        curvature = -0.1
+    ) +
+    geom_text(
+        data = lang_dat,
+        aes(
+            x = 2,
+            y = cumul_pc_stars2,
+            label = paste(language, "\n",
+                          scales::label_percent(accuracy = 1)(pc_stars))
+        )
+    ) + 
+    geom_text_repel(
+        data = dat |>
+            filter(language == "R",
+                   pc_stars > 0.03),
+        aes(
+            x = 3.8,
+            y = cumul_pc_stars2,
+            label = name
+        ),
+        force = 0,
+        hjust = 0,
+        max.time = 2,
+        seed = 1,
+        min.segment.length = 10
+    ) +
+    geom_text_repel(
+        data = dat |>
+            filter(language == "R",
+                   full_name == "others"),
+        aes(
+            x = 3.8,
+            y = cumul_pc_stars2,
+            label = name
+        ),
+        point.padding = 5,
+        nudge_x = .03,
+        max.time = 2,
+        seed = 1,
+        force = 0,
+        min.segment.length = 10
+    ) +
+    geom_text_repel(
+        data = dat |>
+            filter(language == "R",
+                   pc_stars < 0.015),
+        aes(
+            x = 3.4,
+            y = cumul_pc_stars2,
+            label = name
+        ),
+        nudge_x = 1.1,
+        max.time = 2,
+        seed = 1,
+        force = 0.01,
+        min.segment.length = 10
+    ) +
+    geom_text_repel(
+        data = dat |>
+            filter(language == "Python",
+                   pc_stars > 0.09),
+        aes(
+            x = 3.21,
+            y = cumul_pc_stars2,
+            label = name
+        ),
+        hjust = 0,
+        nudge_x = 0.75,
+        max.time = 2,
+        seed = 5,
+        force = 10,
+        point.padding = 16,
+        min.segment.length = 10
+    ) +
+    geom_text_repel(
+        data = dat |>
+            filter(language == "Python",
+                   pc_stars < 0.09),
+        aes(
+            x = 3.05,
+            y = cumul_pc_stars2,
+            label = name
+        ),
+        hjust = 0,
+        nudge_x = 0.7,
+        max.time = 2,
+        seed = 5,
+        force = 10,
+        point.padding = 16,
+        min.segment.length = 10
+    ) +
+    scale_fill_manual(        
+        values = c(
+            "R"                            = "#0077B6", 
+            "Python"                       = "#F0CF56",
+            "Python facebook/prophet"      = "#ffe169",
+            "Python blue-yonder/tsfresh"   = "#fad643",
+            "Python sktime/sktime"         = "#edc531",
+            "Python facebookresearch/Kats" = "#dbb42c",
+            "Python awslabs/gluonts"       = "#c9a227",
+            "Python others"                = "#b69121",
+            "Python TDAmeritrade/stumpy"   = "#a47e1b",
+            "Python Nixtla/statsforecast"  = "#926c15",
+            "Python alkaline-ml/pmdarima"  = "#805b10",
+            "R facebook/prophet"           = "#ade8f4",
+            "R robjhyndman/forecast"       = "#90e0ef",
+            "R others"                     = "#48cae4",
+            "R business-science/timetk"    = "#0096c7",
+            "R tidyverts/fable"            = "#0077b6",
+            "R business-science/modeltime" = "#023e8a"
+        )
+    ) +
+    coord_polar("y") +
+    xlim(c(1, 4.4)) +
+    labs(
+        title = .title,
+        subtitle = .subtitle,
+        caption = "@rsangole \\ #30daychallenge \\ Day 1"
+    ) +
+    theme_void() +
+    theme(
+        legend.position = "none",
+        plot.title.position = "plot",
+        plot.margin = margin(1, 1, 1, 1, unit = "line"),
+        title = element_text(colour = "#173753", size = 16, face = "bold"),
+        plot.subtitle = element_text(color = "#173753", size = 12,face = "plain"),
+        plot.caption = element_text(colour = "gray50", size = 10, face = "plain", hjust = 1, margin = margin(0,0,0,0))
+    )
+```
+
+```{r interaction, include=FALSE, eval=FALSE}
+r_dl <- r_pkgs |> 
+    stringr::str_split("/", simplify = T) |> 
+    as_tibble() |> 
+    rename("publ" = "V1", "pkg" = "V2") |> 
+    mutate(
+        cran_dl = map(pkg, ~ cran_downloads(.x, when = "last-month")
+    )) |> 
+    tidyr::unnest(cran_dl) |> 
+    group_by(pkg) |> 
+    summarise(
+        last_month_dl = sum(count)
+    )
+
+safely_fromJSON <- function(x){
+    tryCatch(
+        fromJSON(x),
+        error = function(e){
+            NA_character_
+        }
+    )
+}
+
+py_dl <- py_pkgs |> 
+    stringr::str_split("/", simplify = T) |> 
+    as_tibble() |> 
+    rename("publ" = "V1", "pkg" = "V2") |> 
+    mutate(
+        url = paste0("https://pypistats.org/api/packages/",
+                     pkg, "/recent"),
+        json = map(url, ~ safely_fromJSON(.x))
+    ) |> 
+    filter(json != "") |> 
+    mutate(
+        last_month_dl = map_int(
+            json, ~ pluck(.x, "data", "last_month")
+        )
+    )
+
+dl_dat <- 
+    r_dl |> mutate(lang = "R", .before = 1) |> 
+    bind_rows(
+        py_dl |> 
+            select(
+                pkg,
+                last_month_dl
+            ) |> mutate(lang = "Python", .before = 1)
+    ) |> 
+    group_by(lang) |> 
+    mutate(
+        pc_dl = last_month_dl / sum(last_month_dl),
+        rank = rank(-pc_dl)
+    ) |> 
+    ungroup() |> 
+    arrange(rank)
+
+map_df(
+    c(r_repo_info_list, py_repo_info_list),
+    ~ tibble(
+        name = pluck(.x, "name"),
+        full_name = pluck(.x, "full_name"),
+        stars = pluck(.x, "stargazers_count"),
+        language = pluck(.x, "language")
+    )) |>
+    mutate(
+        language = case_when(name == "tsfresh" ~ "Python", 
+                             TRUE ~ language),
+        language = factor(language)) |>
+    add_row(
+        name = "R-prophet",
+        full_name = "facebook/prophet",
+        stars = NA_integer_,
+        language = "R"
+    ) |>
+    mutate(
+        name = ifelse(name == "prophet", "Py-prophet", name),
+        stars = ifelse(name == "Py-prophet", (15692 / 2), stars),
+        stars = ifelse(name == "R-prophet", (15692 / 2), stars)
+    ) |> 
+    select(
+        lang = language,
+        full_name,
+        stars
+    ) |> 
+    distinct() |> 
+    tidyr::separate(full_name, c("publ", "pkg"), sep = "/") |> 
+    left_join(
+        dl_dat |> select(lang, pkg, last_month_dl),
+        by = c("lang", "pkg")
+    ) |> 
+    tidyr::drop_na() |> 
+    group_by(lang) |> 
+    mutate(
+        rank_star = rank(-stars),
+        rank_dl = rank(-last_month_dl)
+    ) |> 
+    ungroup() |> 
+    arrange(rank_star, rank_dl) |> 
+    mutate(
+        ratio = last_month_dl / stars
+    ) -> rank_dat
+
+plot_one_interaction <- function(dat, .lang, .limits){
+    dat |>
+    filter(lang == .lang) |>
+    select(rank_star, rank_dl, pkg) |>
+    tidyr::pivot_longer(-pkg) |>
+    ggplot(aes(x = name, y = value, color = pkg)) +
+    geom_point() +
+    geom_segment(
+        data = rank_dat |> filter(lang == .lang),
+        aes(
+            x = "rank_dl",
+            xend = "rank_star",
+            y = rank_dl,
+            yend = rank_star,
+            color = pkg
+        )
+    ) +
+    geom_text(
+        data = dat |>
+            filter(lang == .lang) |>
+            select(rank_dl, pkg, last_month_dl),
+        aes(
+            x = "rank_dl",
+            y = rank_dl,
+            label = paste0("{", pkg, "}   ", scales::label_comma()(last_month_dl))
+        ),
+        nudge_x = -0.05,
+        hjust = 1
+    ) +
+    geom_text(
+        data = dat |>
+            filter(lang == .lang) |>
+            select(rank_star, pkg, stars),
+        aes(
+            x = "rank_star",
+            y = rank_star,
+            label = paste(scales::label_comma()(stars))
+        ),
+        nudge_x = 0.05,
+        hjust = 0
+    ) +
+    coord_cartesian(ylim = .limits) +
+    scale_y_reverse() +
+    theme_void() +
+    theme(legend.position = "none")
+}
+
+plot_one_interaction(rank_dat, "Python", c(13, 1))
+plot_one_interaction(rank_dat, "R", c(13, 1))
+```
+
+# Relationships
+
+![](day5-1.png)
+
+```{r scatter, include=FALSE, eval=FALSE}
+R_col = "#0077B6"
+py_col = "#fdc500"
+R_str <- glue("<span style='color:{R_col};'>R</span>")
+Py_str <- glue("<span style='color:{py_col};'>Python</span>")
+forecast_str <- glue("<span style='color:{R_col};'>{{forecast}}</span>")
+prophet_str <- glue("<span style='color:{py_col};'>{{prophet}}</span>")
+trad_str <- glue("<span style='color:{py_col};'>{{tbats}}, {{pmdarima}}</span>")
+.title <- "How do Github Stars & Downloads Relate?"
+.subtitle <- glue("Here are the top time-series packages: Nine from {R_str} & thirteen from {Py_str}.<br>
+                  Downloads for {R_str} are from CRAN, while those for {Py_str} are from PyPI.<br>
+                  {Py_str} packages are the most downloaded by a huge margin, except for<br>
+                  {forecast_str}. Traditional approaches like {trad_str} have a much higher 
+                   <br>Downloads/Stars ratio than trendier packages like {prophet_str}.<br> 
+                  ")
+.annot_txt <- glue("Larger Text = Higher downloads/stars ratio")
+.caption = "@rsangole \\ #30daychallenge \\ Day 5"
+
+grob <- grobTree(textGrob(
+    .annot_txt,
+    x = 1,
+    y = 1,
+    vjust = -1,
+    hjust = 1,
+    gp = gpar(
+        col = "gray70",
+        fontsize = 8,
+        fontface = "italic"
+    )
+))
+
+rank_dat |>
+    ggplot(aes(x = stars, y = last_month_dl, color = lang)) +
+    geom_text_repel(aes(label = pkg, size = ratio), force = 0.001) +
+    scale_color_manual(values = c("R" = R_col, "Python" = py_col)) +
+    coord_cartesian(ylim = c(100, 2e6), xlim = c(70, 10000), clip = "off") +
+    # annotate(x = 10e3, y = 5e6, label = .annot_txt, geom = "geom_textbox") +
+    scale_x_log10(labels = scales::label_comma()) +
+    scale_y_log10(labels = scales::label_comma()) +
+    # scale_x_log10(labels = scales::label_comma(), limits = c(70, 10000)) +
+    # scale_y_log10(labels = scales::label_comma(), limits = c(10, 2e6)) +
+    scale_size_continuous(range = c(3.5, 5)) +
+    theme_bw() +
+    theme(
+        legend.position = "none",
+        plot.title.position = "plot",
+        plot.margin = margin(1, 1, 1, 1, unit = "line"),
+        aspect.ratio = 1,
+        title = element_text(
+            colour = "#173753",
+            size = 16,
+            face = "bold"
+        ),
+        plot.subtitle = element_markdown(
+            color = "#173753",
+            size = 12,
+            face = "plain",
+            lineheight = 1.2,
+            margin = margin(10, 1, 20, 1)
+        ),
+        plot.caption = element_markdown(
+            colour = "gray50",
+            size = 10,
+            face = "plain",
+            hjust = 1,
+            margin = margin(15, 0, 0, 0)
+        ),
+        axis.title = element_text(size = 11, face = "plain", hjust = 1),
+        panel.grid = element_blank(),
+        panel.grid.major = element_line(
+            size = 0.1,
+            color = "gray60",
+            linetype = 3
+        ),
+        axis.ticks.length = unit(0, "mm"),
+        panel.border = element_rect(size = 0.3, color = "gray50")
+    ) +
+    labs(
+        title = .title,
+        subtitle = .subtitle,
+        caption = .caption,
+        x = "Github Stars",
+        y = "30 Day Downloads"
+    ) +
+    annotation_logticks(colour = "gray") + 
+    annotation_custom(grob) -> p
+p
+
+ggsave(filename = "day5-1.png", device = "png", width = 7, height = 8)
+```
