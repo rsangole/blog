@@ -10,14 +10,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include=FALSE, eval=FALSE}
-knitr::opts_chunk$set(
-	message = FALSE,
-	warning = FALSE,
-	cache = TRUE
-)
-```
-
 ![](lda_shiny_viz.jpg)
 
 After learning about Shiny for Python 🐍 in the last Posit PBC conference, I finally got around to implementing my first shiny dashboard in Python.

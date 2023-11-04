@@ -4,6 +4,7 @@ public/
 blogdown/
 .config/
 .local/
+_publish.yml
 
 # History files
 .Rhistory
