@@ -1,0 +1,14 @@
+{
+  "hash": "00ba7c5c0f1b241f443cf68324a873d5",
+  "result": {
+    "markdown": "---\ntitle: \"How LDA Works, Using Shiny for Python\"\ndate: '2023-11-01'\ndescription: A small Shiny for Python app exploring how LDA works\nimage: lda_shiny_viz.jpg\ncategories:\n    - Shiny\n    - Python\neditor_options: \n  chunk_output_type: console\n---\n\n\n\n\n![](lda_shiny_viz.jpg)\n\nAfter learning about Shiny for Python 🐍 in the last Posit PBC conference, I finally got around to implementing my first shiny dashboard in Python.\n\nAnd I must say - I absolutely love it.\n\nHere are some first impressions:\n\n1. ✅ If you're already a Shiny developer in R, the barrier to entry is very low. Posit have written some excellent documentation, and you won't have any trouble getting your app running in Python.\n1. Reactive values, observe events are created using decorators instead of functions like in R\n1. I love how readable the UI and server bits of the code are; though this could just be my preference for how clean & readable Python code is compared to other languages\n1. 📛 It is important to understand mutability in Python objects, and adjust your mental model of objects, especially if you're coming from a R-first paradigm. I spent way too much time trying to figure out why something simple wouldn't work, till I realized I was modifying a variable in place. Fortunately, Posit has an excellent page documenting this.\n1. 🚸 Shiny for Python is brand new, and quite a work in progress. There isn't the ecosystem of packages for Python as there is for R today. But, I suspect it's only a matter of time.\n1. With the app running live in VSCode, I loved the live preview on save. It made development a breeze.\n\n## Links\n\n[Live Shiny Dashboard](https://rsangole.shinyapps.io/LDA_Visual/)\n\n[GitHub Codebase](https://github.com/rsangole/shiny-python-lda/tree/main)",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

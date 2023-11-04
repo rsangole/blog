@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -72,7 +72,8 @@ ul.task-list li input[type="checkbox"] {
 
     const options = {
       valueNames: ['listing-date','listing-title','listing-categories','listing-description','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
+      page: 18,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
       searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
     };
 
@@ -109,10 +110,8 @@ ga('send', {
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="alternate" type="application/rss+xml" title="yHat" href="blog.xml"><meta name="twitter:title" content="yHat -">
-<meta name="twitter:image" content="https://www.rsangole.com/posts/2023-04-01_30-day-chart-challenge/day1.png">
+<meta name="twitter:image" content="https://www.rsangole.com/posts/2023-11-01_lda-with-shiny-for-python/lda_shiny_viz.jpg">
 <meta name="twitter:creator" content="@rsangole">
-<meta name="twitter:image-height" content="1418">
-<meta name="twitter:image-width" content="1314">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -162,7 +161,7 @@ ga('send', {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-cloud"><div class="category" data-category="Benchmarking"><span class="quarto-category-count category-cloud-3">Benchmarking</span></div><div class="category" data-category="Books"><span class="quarto-category-count category-cloud-1">Books</span></div><div class="category" data-category="Docker"><span class="quarto-category-count category-cloud-2">Docker</span></div><div class="category" data-category="Notes"><span class="quarto-category-count category-cloud-1">Notes</span></div><div class="category" data-category="Postgres"><span class="quarto-category-count category-cloud-2">Postgres</span></div><div class="category" data-category="Programming Practices"><span class="quarto-category-count category-cloud-3">Programming Practices</span></div><div class="category" data-category="Shiny"><span class="quarto-category-count category-cloud-1">Shiny</span></div><div class="category" data-category="TidyTuesday"><span class="quarto-category-count category-cloud-2">TidyTuesday</span></div><div class="category" data-category="Visualization"><span class="quarto-category-count category-cloud-4">Visualization</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-cloud"><div class="category" data-category="Benchmarking"><span class="quarto-category-count category-cloud-3">Benchmarking</span></div><div class="category" data-category="Books"><span class="quarto-category-count category-cloud-1">Books</span></div><div class="category" data-category="Docker"><span class="quarto-category-count category-cloud-2">Docker</span></div><div class="category" data-category="Notes"><span class="quarto-category-count category-cloud-1">Notes</span></div><div class="category" data-category="Postgres"><span class="quarto-category-count category-cloud-2">Postgres</span></div><div class="category" data-category="Programming Practices"><span class="quarto-category-count category-cloud-3">Programming Practices</span></div><div class="category" data-category="Python"><span class="quarto-category-count category-cloud-1">Python</span></div><div class="category" data-category="Shiny"><span class="quarto-category-count category-cloud-2">Shiny</span></div><div class="category" data-category="TidyTuesday"><span class="quarto-category-count category-cloud-2">TidyTuesday</span></div><div class="category" data-category="Visualization"><span class="quarto-category-count category-cloud-4">Visualization</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
@@ -181,7 +180,37 @@ ga('send', {
 
 <div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="Visualization" data-listing-date-sort="1680505200000" data-listing-file-modified-sort="1690181648236" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="29">
+<div class="g-col-1" data-index="0" data-categories="Shiny,Python" data-listing-date-sort="1698811200000" data-listing-file-modified-sort="1699068607453" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2">
+<a href="./posts/2023-11-01_lda-with-shiny-for-python/lda-with-shiny-for-python.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/2023-11-01_lda-with-shiny-for-python/lda_shiny_viz.jpg" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+How LDA Works, Using Shiny for Python
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Shiny'); return false;">
+Shiny
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
+Python
+</div>
+</div>
+<div class="card-text listing-description">
+A small Shiny for Python app exploring how LDA works
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Nov 1, 2023
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="Visualization" data-listing-date-sort="1680494400000" data-listing-file-modified-sort="1690181648236" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="29">
 <a href="./posts/2023-04-01_30-day-chart-challenge/apr-30-day-challenge.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -208,7 +237,7 @@ Apr 3, 2023
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-categories="Benchmarking" data-listing-date-sort="1663398000000" data-listing-file-modified-sort="1680587901404" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
+<div class="g-col-1" data-index="2" data-categories="Benchmarking" data-listing-date-sort="1663387200000" data-listing-file-modified-sort="1680587901404" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
 <a href="./posts/2022-09-14_data-read-write-performance/data-read-write-perf.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -235,7 +264,7 @@ Sep 17, 2022
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="2" data-categories="Docker,Postgres" data-listing-date-sort="1629270000000" data-listing-file-modified-sort="1680587901376" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
+<div class="g-col-1" data-index="3" data-categories="Docker,Postgres" data-listing-date-sort="1629259200000" data-listing-file-modified-sort="1680587901376" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
 <a href="./posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2021-08-18-making-an-anomaly-database/anomaly-db-vscode.gif" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -263,7 +292,7 @@ Aug 18, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="3" data-categories="Docker,Postgres" data-listing-date-sort="1628319600000" data-listing-file-modified-sort="1680587901375" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
+<div class="g-col-1" data-index="4" data-categories="Docker,Postgres" data-listing-date-sort="1628308800000" data-listing-file-modified-sort="1680587901375" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
 <a href="./posts/2021-08-03_docker-based-rstudio-postgres/2021-08-03-docker-based-rstudio-postgres.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2021-08-03_docker-based-rstudio-postgres/docker-compose.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -291,7 +320,7 @@ Aug 7, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="4" data-categories="Visualization" data-listing-date-sort="1626678000000" data-listing-file-modified-sort="1680587901374" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<div class="g-col-1" data-index="5" data-categories="Visualization" data-listing-date-sort="1626667200000" data-listing-file-modified-sort="1680587901374" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
 <a href="./posts/2021-07-19_enhance-etl-text-plots/2021-07-19-enhance-etl-text-plots.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -318,7 +347,7 @@ Jul 19, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="5" data-categories="Visualization" data-listing-date-sort="1618297200000" data-listing-file-modified-sort="1680587901369" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="23">
+<div class="g-col-1" data-index="6" data-categories="Visualization" data-listing-date-sort="1618286400000" data-listing-file-modified-sort="1680587901369" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="23">
 <a href="./posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -345,7 +374,7 @@ Apr 13, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="6" data-categories="TidyTuesday,Visualization" data-listing-date-sort="1611043200000" data-listing-file-modified-sort="1680587901318" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
+<div class="g-col-1" data-index="7" data-categories="TidyTuesday,Visualization" data-listing-date-sort="1611032400000" data-listing-file-modified-sort="1680587901318" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
 <a href="./posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -375,7 +404,7 @@ Jan 19, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="7" data-categories="TidyTuesday,Visualization" data-listing-date-sort="1610352000000" data-listing-file-modified-sort="1680587901316" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
+<div class="g-col-1" data-index="8" data-categories="TidyTuesday,Visualization" data-listing-date-sort="1610341200000" data-listing-file-modified-sort="1680587901316" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
 <a href="./posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -405,7 +434,7 @@ Jan 11, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="8" data-categories="TidyTuesday,Visualization" data-listing-date-sort="1609920000000" data-listing-file-modified-sort="1680587901314" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
+<div class="g-col-1" data-index="9" data-categories="TidyTuesday,Visualization" data-listing-date-sort="1609909200000" data-listing-file-modified-sort="1680587901314" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
 <a href="./posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -435,7 +464,7 @@ Jan 6, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="9" data-categories="Benchmarking" data-listing-date-sort="1608105600000" data-listing-file-modified-sort="1680587901312" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13">
+<div class="g-col-1" data-index="10" data-categories="Benchmarking" data-listing-date-sort="1608094800000" data-listing-file-modified-sort="1680587901312" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13">
 <a href="./posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/dummy.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -460,7 +489,7 @@ Dec 16, 2020
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="10" data-categories="Notes" data-listing-date-sort="1603954800000" data-listing-file-modified-sort="1680587901189" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
+<div class="g-col-1" data-index="11" data-categories="Notes" data-listing-date-sort="1603944000000" data-listing-file-modified-sort="1680587901189" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
 <a href="./posts/2020-10-29_m5-competition-notes/2020-10-29-m5-competition-notes.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -487,7 +516,7 @@ Oct 29, 2020
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="11" data-categories="Docker,Programming Practices" data-listing-date-sort="1602313200000" data-listing-file-modified-sort="1680587901188" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
+<div class="g-col-1" data-index="12" data-categories="Docker,Programming Practices" data-listing-date-sort="1602302400000" data-listing-file-modified-sort="1680587901188" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
 <a href="./posts/2020-10-10-reproducible-work-in-R/2020-10-10-reproducible-work-in-R.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2020-10-10-reproducible-work-in-R/elephant.jpeg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -515,7 +544,7 @@ Oct 10, 2020
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="12" data-categories="Programming Practices" data-listing-date-sort="1545292800000" data-listing-file-modified-sort="1680587901187" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9">
+<div class="g-col-1" data-index="13" data-categories="Programming Practices" data-listing-date-sort="1545282000000" data-listing-file-modified-sort="1680587901187" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9">
 <a href="./posts/2018-08-02-try-catch/2018-08-02-try-catch.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2018-08-02-try-catch/trycatch.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -540,7 +569,7 @@ Dec 20, 2018
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="13" data-categories="Benchmarking,Programming Practices" data-listing-date-sort="1523516400000" data-listing-file-modified-sort="1680587901185" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2">
+<div class="g-col-1" data-index="14" data-categories="Benchmarking,Programming Practices" data-listing-date-sort="1523505600000" data-listing-file-modified-sort="1680587901185" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2">
 <a href="./posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -570,7 +599,7 @@ Apr 12, 2018
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="14" data-categories="Books" data-listing-date-sort="1518508800000" data-listing-file-modified-sort="1680587901185" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<div class="g-col-1" data-index="15" data-categories="Books" data-listing-date-sort="1518498000000" data-listing-file-modified-sort="1680587901185" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
 <a href="./posts/2018-02-13-books-i-reference/2018-02-13-books-i-reference.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2018-02-13-books-i-reference/books.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -595,7 +624,7 @@ Feb 13, 2018
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="15" data-categories="Shiny,Visualization" data-listing-date-sort="1517040000000" data-listing-file-modified-sort="1680587901182" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<div class="g-col-1" data-index="16" data-categories="Shiny,Visualization" data-listing-date-sort="1517029200000" data-listing-file-modified-sort="1680587901182" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
 <a href="./posts/2018-01-27-visualize-lda/2018-01-27-visualize-lda.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -625,7 +654,7 @@ Jan 27, 2018
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="16" data-categories="Benchmarking" data-listing-date-sort="1506495600000" data-listing-file-modified-sort="1680587901181" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
+<div class="g-col-1" data-index="17" data-categories="Benchmarking" data-listing-date-sort="1506484800000" data-listing-file-modified-sort="1680587901181" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
 <a href="./posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding_files/figure-html/unnamed-chunk-8-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -650,11 +679,11 @@ Sep 27, 2017
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="17" data-categories="Programming Practices" data-listing-date-sort="1505631600000" data-listing-file-modified-sort="1680587901180" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9">
+<div class="g-col-1" data-index="18" data-categories="Programming Practices" data-listing-date-sort="1505620800000" data-listing-file-modified-sort="1680587901180" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9">
 <a href="./posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img src="./posts/2017-09-17-pur-r-ify-your-carets/carrots.jpg" class="thumbnail-image card-img" style="height: 150px;">
+<img data-src="./posts/2017-09-17-pur-r-ify-your-carets/carrots.jpg" class="thumbnail-image card-img" style="height: 150px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -681,6 +710,9 @@ Sep 17, 2017
 <div class="listing-no-matching d-none">
 No matching items
 </div>
+<nav id="listing-pagination" class="listing-pagination" aria-label="Page Navigation">
+  <ul class="pagination"></ul>
+</nav>
 </div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

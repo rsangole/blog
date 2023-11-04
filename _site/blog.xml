@@ -9,8 +9,43 @@
 <link>https://www.rsangole.com/blog.html</link>
 <atom:link href="https://www.rsangole.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description>rahul&#39;s blog on data science</description>
-<generator>quarto-1.3.433</generator>
-<lastBuildDate>Mon, 03 Apr 2023 07:00:00 GMT</lastBuildDate>
+<generator>quarto-1.3.450</generator>
+<lastBuildDate>Wed, 01 Nov 2023 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>How LDA Works, Using Shiny for Python</title>
+  <dc:creator>Rahul </dc:creator>
+  <link>https://www.rsangole.com/posts/2023-11-01_lda-with-shiny-for-python/lda-with-shiny-for-python.html</link>
+  <description><![CDATA[ 
+
+
+
+<p><img src="https://www.rsangole.com/posts/2023-11-01_lda-with-shiny-for-python/lda_shiny_viz.jpg" class="img-fluid"></p>
+<p>After learning about Shiny for Python 🐍 in the last Posit PBC conference, I finally got around to implementing my first shiny dashboard in Python.</p>
+<p>And I must say - I absolutely love it.</p>
+<p>Here are some first impressions:</p>
+<ol type="1">
+<li>✅ If you’re already a Shiny developer in R, the barrier to entry is very low. Posit have written some excellent documentation, and you won’t have any trouble getting your app running in Python.</li>
+<li>Reactive values, observe events are created using decorators instead of functions like in R</li>
+<li>I love how readable the UI and server bits of the code are; though this could just be my preference for how clean &amp; readable Python code is compared to other languages</li>
+<li>📛 It is important to understand mutability in Python objects, and adjust your mental model of objects, especially if you’re coming from a R-first paradigm. I spent way too much time trying to figure out why something simple wouldn’t work, till I realized I was modifying a variable in place. Fortunately, Posit has an excellent page documenting this.</li>
+<li>🚸 Shiny for Python is brand new, and quite a work in progress. There isn’t the ecosystem of packages for Python as there is for R today. But, I suspect it’s only a matter of time.</li>
+<li>With the app running live in VSCode, I loved the live preview on save. It made development a breeze.</li>
+</ol>
+<section id="links" class="level2">
+<h2 class="anchored" data-anchor-id="links">Links</h2>
+<p><a href="https://rsangole.shinyapps.io/LDA_Visual/">Live Shiny Dashboard</a></p>
+<p><a href="https://github.com/rsangole/shiny-python-lda/tree/main">GitHub Codebase</a></p>
+
+
+</section>
+
+ ]]></description>
+  <category>Shiny</category>
+  <category>Python</category>
+  <guid>https://www.rsangole.com/posts/2023-11-01_lda-with-shiny-for-python/lda-with-shiny-for-python.html</guid>
+  <pubDate>Wed, 01 Nov 2023 04:00:00 GMT</pubDate>
+  <media:content url="https://www.rsangole.com/posts/2023-11-01_lda-with-shiny-for-python/lda_shiny_viz.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
   <title>2023 #30DayChallenge</title>
   <dc:creator>Rahul </dc:creator>
@@ -33,7 +68,7 @@
  ]]></description>
   <category>Visualization</category>
   <guid>https://www.rsangole.com/posts/2023-04-01_30-day-chart-challenge/apr-30-day-challenge.html</guid>
-  <pubDate>Mon, 03 Apr 2023 07:00:00 GMT</pubDate>
+  <pubDate>Mon, 03 Apr 2023 04:00:00 GMT</pubDate>
   <media:content url="https://www.rsangole.com/posts/2023-04-01_30-day-chart-challenge/day1.png" medium="image" type="image/png" height="155" width="144"/>
 </item>
 <item>
@@ -222,7 +257,7 @@
  ]]></description>
   <category>Benchmarking</category>
   <guid>https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</guid>
-  <pubDate>Sat, 17 Sep 2022 07:00:00 GMT</pubDate>
+  <pubDate>Sat, 17 Sep 2022 04:00:00 GMT</pubDate>
   <media:content url="https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/_image.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
@@ -692,7 +727,7 @@ font-style: inherit;">60</span>)</span></code></pre></div>
   <category>Docker</category>
   <category>Postgres</category>
   <guid>https://www.rsangole.com/posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html</guid>
-  <pubDate>Wed, 18 Aug 2021 07:00:00 GMT</pubDate>
+  <pubDate>Wed, 18 Aug 2021 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Docker based RStudio &amp; PostgreSQL</title>
@@ -1285,7 +1320,7 @@ Storage icon by <a href="https://smashicons.com/" title="Smashicons">Smashicons<
   <category>Docker</category>
   <category>Postgres</category>
   <guid>https://www.rsangole.com/posts/2021-08-03_docker-based-rstudio-postgres/2021-08-03-docker-based-rstudio-postgres.html</guid>
-  <pubDate>Sat, 07 Aug 2021 07:00:00 GMT</pubDate>
+  <pubDate>Sat, 07 Aug 2021 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Enhance ETL pipeline monitoring with text plots</title>
@@ -1520,7 +1555,7 @@ font-style: inherit;">12</span>)</span></code></pre></div>
  ]]></description>
   <category>Visualization</category>
   <guid>https://www.rsangole.com/posts/2021-07-19_enhance-etl-text-plots/2021-07-19-enhance-etl-text-plots.html</guid>
-  <pubDate>Mon, 19 Jul 2021 07:00:00 GMT</pubDate>
+  <pubDate>Mon, 19 Jul 2021 04:00:00 GMT</pubDate>
   <media:content url="https://www.rsangole.com/posts/2021-07-19_enhance-etl-text-plots/graph.png" medium="image" type="image/png" height="59" width="144"/>
 </item>
 <item>
@@ -2719,7 +2754,7 @@ font-style: inherit;">PLOT BY @rsangole"</span></span>
  ]]></description>
   <category>Visualization</category>
   <guid>https://www.rsangole.com/posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge.html</guid>
-  <pubDate>Tue, 13 Apr 2021 07:00:00 GMT</pubDate>
+  <pubDate>Tue, 13 Apr 2021 04:00:00 GMT</pubDate>
   <media:content url="https://www.rsangole.com/posts/2021-04-13-30-day-chart-challenge/graph.png" medium="image" type="image/png" height="89" width="144"/>
 </item>
 <item>
@@ -3675,7 +3710,7 @@ font-style: inherit;">1</span></span>
   <category>TidyTuesday</category>
   <category>Visualization</category>
   <guid>https://www.rsangole.com/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection.html</guid>
-  <pubDate>Tue, 19 Jan 2021 08:00:00 GMT</pubDate>
+  <pubDate>Tue, 19 Jan 2021 05:00:00 GMT</pubDate>
   <media:content url="https://www.rsangole.com/posts/2021-01-19-tidytuesday-the-tate-collection/graph.png" medium="image" type="image/png" height="168" width="144"/>
 </item>
 <item>
@@ -4934,7 +4969,7 @@ font-style: inherit;">guide =</span> F)</span></code></pre></div>
   <category>TidyTuesday</category>
   <category>Visualization</category>
   <guid>https://www.rsangole.com/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs.html</guid>
-  <pubDate>Mon, 11 Jan 2021 08:00:00 GMT</pubDate>
+  <pubDate>Mon, 11 Jan 2021 05:00:00 GMT</pubDate>
   <media:content url="https://www.rsangole.com/posts/2021-01-11-tidytuesday-transit-costs/graph.png" medium="image" type="image/png" height="185" width="144"/>
 </item>
 <item>
@@ -5960,7 +5995,7 @@ font-style: inherit;">""</span>)</span></code></pre></div>
   <category>TidyTuesday</category>
   <category>Visualization</category>
   <guid>https://www.rsangole.com/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index.html</guid>
-  <pubDate>Wed, 06 Jan 2021 08:00:00 GMT</pubDate>
+  <pubDate>Wed, 06 Jan 2021 05:00:00 GMT</pubDate>
   <media:content url="https://www.rsangole.com/posts/2021-01-06-tidytuesday-big-mac-index/graph.png" medium="image" type="image/png" height="185" width="144"/>
 </item>
 <item>
@@ -6800,7 +6835,7 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
  ]]></description>
   <category>Benchmarking</category>
   <guid>https://www.rsangole.com/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii.html</guid>
-  <pubDate>Wed, 16 Dec 2020 08:00:00 GMT</pubDate>
+  <pubDate>Wed, 16 Dec 2020 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>M5 Competition Virtual Awards Ceremony</title>
@@ -6945,7 +6980,7 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
  ]]></description>
   <category>Notes</category>
   <guid>https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/2020-10-29-m5-competition-notes.html</guid>
-  <pubDate>Thu, 29 Oct 2020 07:00:00 GMT</pubDate>
+  <pubDate>Thu, 29 Oct 2020 04:00:00 GMT</pubDate>
   <media:content url="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/m5.jpeg" medium="image" type="image/jpeg"/>
 </item>
 <item>
@@ -7143,7 +7178,7 @@ font-style: inherit;">hatmatrix/blog:latest</span></span></code></pre></div>
   <category>Docker</category>
   <category>Programming Practices</category>
   <guid>https://www.rsangole.com/posts/2020-10-10-reproducible-work-in-R/2020-10-10-reproducible-work-in-R.html</guid>
-  <pubDate>Sat, 10 Oct 2020 07:00:00 GMT</pubDate>
+  <pubDate>Sat, 10 Oct 2020 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Using tryCatch for robust R scripts</title>
@@ -8022,7 +8057,7 @@ font-style: inherit;">0</span>, stlf_yhats[[i]])</span>
  ]]></description>
   <category>Programming Practices</category>
   <guid>https://www.rsangole.com/posts/2018-08-02-try-catch/2018-08-02-try-catch.html</guid>
-  <pubDate>Thu, 20 Dec 2018 08:00:00 GMT</pubDate>
+  <pubDate>Thu, 20 Dec 2018 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Performance Benchmarking for Date-Time conversions</title>
@@ -8285,7 +8320,7 @@ font-style: inherit;">'relative'</span>)</span></code></pre></div>
   <category>Benchmarking</category>
   <category>Programming Practices</category>
   <guid>https://www.rsangole.com/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions.html</guid>
-  <pubDate>Thu, 12 Apr 2018 07:00:00 GMT</pubDate>
+  <pubDate>Thu, 12 Apr 2018 04:00:00 GMT</pubDate>
   <media:content url="https://www.rsangole.com/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/clocks.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
@@ -8497,7 +8532,7 @@ font-style: inherit;">'relative'</span>)</span></code></pre></div>
 </section></div> ]]></description>
   <category>Books</category>
   <guid>https://www.rsangole.com/posts/2018-02-13-books-i-reference/2018-02-13-books-i-reference.html</guid>
-  <pubDate>Tue, 13 Feb 2018 08:00:00 GMT</pubDate>
+  <pubDate>Tue, 13 Feb 2018 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Visualising Linear Discriminant Analyses</title>
@@ -8521,7 +8556,7 @@ font-style: inherit;">'relative'</span>)</span></code></pre></div>
   <category>Shiny</category>
   <category>Visualization</category>
   <guid>https://www.rsangole.com/posts/2018-01-27-visualize-lda/2018-01-27-visualize-lda.html</guid>
-  <pubDate>Sat, 27 Jan 2018 08:00:00 GMT</pubDate>
+  <pubDate>Sat, 27 Jan 2018 05:00:00 GMT</pubDate>
   <media:content url="https://www.rsangole.com/posts/2018-01-27-visualize-lda/LDA_Discriminant_Line_Projections.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
@@ -9434,7 +9469,7 @@ font-style: inherit;">autoplot</span>(benchmarks)</span></code></pre></div>
 </section></div> ]]></description>
   <category>Benchmarking</category>
   <guid>https://www.rsangole.com/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html</guid>
-  <pubDate>Wed, 27 Sep 2017 07:00:00 GMT</pubDate>
+  <pubDate>Wed, 27 Sep 2017 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Pur(r)ify Your Carets</title>
@@ -10449,7 +10484,7 @@ font-style: inherit;">1</span>]])</span></code></pre></div>
 </section></div> ]]></description>
   <category>Programming Practices</category>
   <guid>https://www.rsangole.com/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets.html</guid>
-  <pubDate>Sun, 17 Sep 2017 07:00:00 GMT</pubDate>
+  <pubDate>Sun, 17 Sep 2017 04:00:00 GMT</pubDate>
   <media:content url="https://www.rsangole.com/posts/2017-09-17-pur-r-ify-your-carets/carrots.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>

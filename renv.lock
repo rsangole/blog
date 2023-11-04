@@ -535,17 +535,6 @@
       "Repository": "CRAN",
       "Hash": "f07821e9b0aada6c999d4692e22a2ea7"
     },
-    "cranlogs": {
-      "Package": "cranlogs",
-      "Version": "2.1.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "httr",
-        "jsonlite"
-      ],
-      "Hash": "cfa4eec97df94fd69cb8652368966020"
-    },
     "crayon": {
       "Package": "crayon",
       "Version": "1.5.2",
@@ -979,22 +968,6 @@
         "methods"
       ],
       "Hash": "15e9634c0fcd294799e9b2e929ed1b86"
-    },
-    "geomtextpath": {
-      "Package": "geomtextpath",
-      "Version": "0.1.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "ggplot2",
-        "grid",
-        "rlang",
-        "scales",
-        "systemfonts",
-        "textshaping"
-      ],
-      "Hash": "0fde68ff704fe1323dfe161e64669e3f"
     },
     "ggdark": {
       "Package": "ggdark",
@@ -1868,6 +1841,18 @@
       ],
       "Hash": "4b0115a395ea29f88b1c128dc483ced2"
     },
+    "packrat": {
+      "Package": "packrat",
+      "Version": "0.9.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "tools",
+        "utils"
+      ],
+      "Hash": "481428983c19a7c443f7ea1beff0a2de"
+    },
     "padr": {
       "Package": "padr",
       "Version": "0.6.2",
@@ -2390,6 +2375,28 @@
         "vctrs"
       ],
       "Hash": "cb0c54ebc268ec382be8e4d4a8c34557"
+    },
+    "rsconnect": {
+      "Package": "rsconnect",
+      "Version": "1.0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "cli",
+        "curl",
+        "digest",
+        "jsonlite",
+        "lifecycle",
+        "openssl",
+        "packrat",
+        "renv",
+        "rlang",
+        "rstudioapi",
+        "tools",
+        "yaml"
+      ],
+      "Hash": "00bed55b8a510c8a6b5bfe331ff03032"
     },
     "rstudioapi": {
       "Package": "rstudioapi",

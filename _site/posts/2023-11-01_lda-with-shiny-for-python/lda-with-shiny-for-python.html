@@ -2,15 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Rahul">
-<meta name="dcterms.date" content="2022-07-01">
-<meta name="description" content="July through September is a prime time to observe globular clusters. The constellations of Ophiuchus (17 clusters) and Sagittarius (21 clusters) provide 38 globular clusters brighter than magnitude 10.">
+<meta name="dcterms.date" content="2023-11-01">
+<meta name="description" content="A small Shiny for Python app exploring how LDA works">
 
-<title>yHat - AL Globular Cluster Observing Challenge</title>
+<title>yHat - How LDA Works, Using Shiny for Python</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -42,9 +42,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -81,9 +78,9 @@ ga('send', {
 </script>
 
 
-<meta name="twitter:title" content="yHat - AL Globular Cluster Observing Challenge">
-<meta name="twitter:description" content="July through September is a prime time to observe globular clusters. The constellations of Ophiuchus (17 clusters) and Sagittarius (21 clusters) provide 38 globular clusters brighter than magnitude 10.">
-<meta name="twitter:image" content="https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/image.jpg">
+<meta name="twitter:title" content="yHat - How LDA Works, Using Shiny for Python">
+<meta name="twitter:description" content="A small Shiny for Python app exploring how LDA works">
+<meta name="twitter:image" content="https://www.rsangole.com/posts/2023-11-01_lda-with-shiny-for-python/lda_shiny_viz.jpg">
 <meta name="twitter:creator" content="@rsangole">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -136,7 +133,7 @@ ga('send', {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#observation-logs" id="toc-observation-logs" class="nav-link active" data-scroll-target="#observation-logs">Observation Logs</a></li>
+  <li><a href="#links" id="toc-links" class="nav-link active" data-scroll-target="#links">Links</a></li>
   </ul>
 </nav>
 </nav>
@@ -149,12 +146,16 @@ ga('send', {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">AL Globular Cluster Observing Challenge</h1>
-</div>
+<h1 class="title">How LDA Works, Using Shiny for Python</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Shiny</div>
+    <div class="quarto-category">Python</div>
+  </div>
+  </div>
 
 <div>
   <div class="description">
-    July through September is a prime time to observe globular clusters. The constellations of Ophiuchus (17 clusters) and Sagittarius (21 clusters) provide 38 globular clusters brighter than magnitude 10.
+    A small Shiny for Python app exploring how LDA works
   </div>
 </div>
 
@@ -171,7 +172,7 @@ ga('send', {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 1, 2022</p>
+      <p class="date">November 1, 2023</p>
     </div>
   </div>
   
@@ -181,102 +182,22 @@ ga('send', {
 
 </header>
 
-<p><a href="https://www.astroleague.org/content/al-observing-challenge-special-observing-award">Yet another challenge</a> suggested by John Goss, former Astronomical League President, and Coordinator of the Dark Skies Observing Program.</p>
-<p>13 items observed:</p>
-<ul>
-<li>Item-1: M107</li>
-<li>Item-2: M12</li>
-<li>Item-3: M10</li>
-<li>Item-4: M62</li>
-<li>Item-5: M19</li>
-<li>Item-8: NGC6293</li>
-<li>Item-9: NGC6304</li>
-<li>Item-11: M9</li>
-<li>Item-12: NGC6342</li>
-<li>Item-13: NGC6356</li>
-<li>Item-15: NGC9366</li>
-<li>Item-17: M14</li>
-<li>Item-32: M22</li>
-</ul>
-<section id="observation-logs" class="level2">
-<h2 class="anchored" data-anchor-id="observation-logs">Observation Logs</h2>
-<p>All observations taken at RCDO (Rancho Cañada Del Oro Open Space Preserve).</p>
-<ul>
-<li>Lat: 37.14778</li>
-<li>Long: -121.7746</li>
-<li>Date: Aug 17, 2022</li>
-<li>Time: 21:22 PST - 00:15 PST</li>
-<li>Seeing: G - VG</li>
-<li>Transparency: 5 - 6</li>
-<li>Equipment: C9.25 SCT, TV 35 Panoptic, TV 17.3 Delos</li>
-</ul>
-<p><strong>22:00</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/2-m12.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/2-m12.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/3-m10.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/3-m10.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/13-ngc6356.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="images/13-ngc6356.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/17-m14.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="images/17-m14.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/15-ngc9366.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="images/15-ngc9366.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/11-m9.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="images/11-m9.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/12-ngc6342.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="images/12-ngc6342.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/1-m107.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="images/1-m107.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-<p><strong>23:00</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/4-m62.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="images/4-m62.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/5-m19.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="images/5-m19.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/9-ngc6304.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="images/9-ngc6304.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/8-ngc6293.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="images/8-ngc6293.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/32-m22.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="images/32-m22.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><img src="lda_shiny_viz.jpg" class="img-fluid"></p>
+<p>After learning about Shiny for Python 🐍 in the last Posit PBC conference, I finally got around to implementing my first shiny dashboard in Python.</p>
+<p>And I must say - I absolutely love it.</p>
+<p>Here are some first impressions:</p>
+<ol type="1">
+<li>✅ If you’re already a Shiny developer in R, the barrier to entry is very low. Posit have written some excellent documentation, and you won’t have any trouble getting your app running in Python.</li>
+<li>Reactive values, observe events are created using decorators instead of functions like in R</li>
+<li>I love how readable the UI and server bits of the code are; though this could just be my preference for how clean &amp; readable Python code is compared to other languages</li>
+<li>📛 It is important to understand mutability in Python objects, and adjust your mental model of objects, especially if you’re coming from a R-first paradigm. I spent way too much time trying to figure out why something simple wouldn’t work, till I realized I was modifying a variable in place. Fortunately, Posit has an excellent page documenting this.</li>
+<li>🚸 Shiny for Python is brand new, and quite a work in progress. There isn’t the ecosystem of packages for Python as there is for R today. But, I suspect it’s only a matter of time.</li>
+<li>With the app running live in VSCode, I loved the live preview on save. It made development a breeze.</li>
+</ol>
+<section id="links" class="level2">
+<h2 class="anchored" data-anchor-id="links">Links</h2>
+<p><a href="https://rsangole.shinyapps.io/LDA_Visual/">Live Shiny Dashboard</a></p>
+<p><a href="https://github.com/rsangole/shiny-python-lda/tree/main">GitHub Codebase</a></p>
 
 
 </section>
@@ -537,7 +458,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","descPosition":"bottom","loop":true,"selector":".lightbox","closeEffect":"zoom"});</script>
 
 
 

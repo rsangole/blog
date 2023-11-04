@@ -1,0 +1,40 @@
+---
+title: "How LDA Works, Using Shiny for Python"
+date: '2023-11-01'
+description: A small Shiny for Python app exploring how LDA works
+image: lda_shiny_viz.jpg
+categories:
+    - Shiny
+    - Python
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE, eval=FALSE}
+knitr::opts_chunk$set(
+	message = FALSE,
+	warning = FALSE,
+	cache = TRUE
+)
+```
+
+![](lda_shiny_viz.jpg)
+
+After learning about Shiny for Python 🐍 in the last Posit PBC conference, I finally got around to implementing my first shiny dashboard in Python.
+
+And I must say - I absolutely love it.
+
+Here are some first impressions:
+
+1. ✅ If you're already a Shiny developer in R, the barrier to entry is very low. Posit have written some excellent documentation, and you won't have any trouble getting your app running in Python.
+1. Reactive values, observe events are created using decorators instead of functions like in R
+1. I love how readable the UI and server bits of the code are; though this could just be my preference for how clean & readable Python code is compared to other languages
+1. 📛 It is important to understand mutability in Python objects, and adjust your mental model of objects, especially if you're coming from a R-first paradigm. I spent way too much time trying to figure out why something simple wouldn't work, till I realized I was modifying a variable in place. Fortunately, Posit has an excellent page documenting this.
+1. 🚸 Shiny for Python is brand new, and quite a work in progress. There isn't the ecosystem of packages for Python as there is for R today. But, I suspect it's only a matter of time.
+1. With the app running live in VSCode, I loved the live preview on save. It made development a breeze.
+
+## Links
+
+[Live Shiny Dashboard](https://rsangole.shinyapps.io/LDA_Visual/)
+
+[GitHub Codebase](https://github.com/rsangole/shiny-python-lda/tree/main)

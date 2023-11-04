@@ -9,8 +9,8 @@
 <link>https://www.rsangole.com/astronomy.html</link>
 <atom:link href="https://www.rsangole.com/astronomy.xml" rel="self" type="application/rss+xml"/>
 <description>rahul&#39;s blog on data science</description>
-<generator>quarto-1.3.433</generator>
-<lastBuildDate>Thu, 06 Oct 2022 07:00:00 GMT</lastBuildDate>
+<generator>quarto-1.3.450</generator>
+<lastBuildDate>Thu, 06 Oct 2022 04:00:00 GMT</lastBuildDate>
 <item>
   <title>Int’l Observe the Moon Night</title>
   <dc:creator>Rahul </dc:creator>
@@ -80,7 +80,7 @@
 
  ]]></description>
   <guid>https://www.rsangole.com/astronomy/2022-10-06_intl-moon-observing-day/post.html</guid>
-  <pubDate>Thu, 06 Oct 2022 07:00:00 GMT</pubDate>
+  <pubDate>Thu, 06 Oct 2022 04:00:00 GMT</pubDate>
   <media:content url="https://www.rsangole.com/astronomy/2022-10-06_intl-moon-observing-day/IOTMN-logo-full-text.png" medium="image" type="image/png" height="144" width="144"/>
 </item>
 <item>
@@ -152,7 +152,7 @@
 <div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/IMG_6064.jpeg" class="lightbox" title="The view from my tent" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/IMG_6064.jpeg" class="img-fluid figure-img" width="414"></a></p>
+<p><a href="images/IMG_6064.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="The view from my tent"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/IMG_6064.jpeg" class="img-fluid figure-img" width="414"></a></p>
 <figcaption class="figure-caption"><em>The view from my tent</em></figcaption>
 </figure>
 </div>
@@ -280,7 +280,7 @@
 
  ]]></description>
   <guid>https://www.rsangole.com/astronomy/2022-09-23_calstar/or.html</guid>
-  <pubDate>Sat, 24 Sep 2022 07:00:00 GMT</pubDate>
+  <pubDate>Sat, 24 Sep 2022 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>AL Globular Cluster Observing Challenge</title>
@@ -392,7 +392,7 @@
 
  ]]></description>
   <guid>https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/post.html</guid>
-  <pubDate>Fri, 01 Jul 2022 07:00:00 GMT</pubDate>
+  <pubDate>Fri, 01 Jul 2022 04:00:00 GMT</pubDate>
   <media:content url="https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/image.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>

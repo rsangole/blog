@@ -1,111 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.rsangole.com/blog.html</loc>
-    <lastmod>2023-07-24T06:54:14.306Z</lastmod>
+    <loc>https://rsangole.netlify.app/blog.html</loc>
+    <lastmod>2023-07-24T07:01:26.816Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/projects.html</loc>
-    <lastmod>2023-07-24T06:50:58.079Z</lastmod>
+    <loc>https://rsangole.netlify.app/projects.html</loc>
+    <lastmod>2023-07-24T07:01:02.827Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html</loc>
-    <lastmod>2023-07-24T06:50:52.486Z</lastmod>
+    <loc>https://rsangole.netlify.app/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html</loc>
+    <lastmod>2023-07-24T07:00:36.099Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/astronomy/2022-10-06_intl-moon-observing-day/post.html</loc>
-    <lastmod>2023-07-24T06:50:51.324Z</lastmod>
+    <loc>https://rsangole.netlify.app/astronomy/2022-10-06_intl-moon-observing-day/post.html</loc>
+    <lastmod>2023-07-24T07:00:34.950Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/post.html</loc>
-    <lastmod>2023-07-24T06:50:50.426Z</lastmod>
+    <loc>https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/post.html</loc>
+    <lastmod>2023-07-24T07:00:34.092Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2018-01-27-visualize-lda/2018-01-27-visualize-lda.html</loc>
-    <lastmod>2023-07-24T06:50:49.447Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2018-01-27-visualize-lda/2018-01-27-visualize-lda.html</loc>
+    <lastmod>2023-07-24T07:00:33.140Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2018-02-13-books-i-reference/2018-02-13-books-i-reference.html</loc>
-    <lastmod>2023-07-24T06:50:48.613Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2018-02-13-books-i-reference/2018-02-13-books-i-reference.html</loc>
+    <lastmod>2023-07-24T07:00:32.309Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2020-10-10-reproducible-work-in-R/2020-10-10-reproducible-work-in-R.html</loc>
-    <lastmod>2023-07-24T06:50:47.436Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2020-10-10-reproducible-work-in-R/2020-10-10-reproducible-work-in-R.html</loc>
+    <lastmod>2023-07-24T07:00:31.221Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index.html</loc>
-    <lastmod>2023-07-24T06:50:46.171Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index.html</loc>
+    <lastmod>2023-07-24T07:00:30.099Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2023-04-01_30-day-chart-challenge/apr-30-day-challenge.html</loc>
-    <lastmod>2023-07-24T06:54:12.597Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2023-04-01_30-day-chart-challenge/apr-30-day-challenge.html</loc>
+    <lastmod>2023-07-24T07:00:29.056Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html</loc>
-    <lastmod>2023-07-24T06:50:44.109Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html</loc>
+    <lastmod>2023-07-24T07:00:28.161Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/2020-10-29-m5-competition-notes.html</loc>
-    <lastmod>2023-07-24T06:50:42.791Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/2020-10-29-m5-competition-notes.html</loc>
+    <lastmod>2023-07-24T07:00:26.892Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs.html</loc>
-    <lastmod>2023-07-24T06:50:41.772Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs.html</loc>
+    <lastmod>2023-07-24T07:00:25.923Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</loc>
-    <lastmod>2023-07-24T06:50:40.420Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</loc>
+    <lastmod>2023-07-24T07:00:24.596Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets.html</loc>
-    <lastmod>2023-07-24T06:50:41.225Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets.html</loc>
+    <lastmod>2023-07-24T07:00:25.360Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection.html</loc>
-    <lastmod>2023-07-24T06:50:42.329Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection.html</loc>
+    <lastmod>2023-07-24T07:00:26.447Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii.html</loc>
-    <lastmod>2023-07-24T06:50:43.385Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii.html</loc>
+    <lastmod>2023-07-24T07:00:27.451Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge.html</loc>
-    <lastmod>2023-07-24T06:50:44.706Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge.html</loc>
+    <lastmod>2023-07-24T07:00:28.755Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions.html</loc>
-    <lastmod>2023-07-24T06:50:45.613Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions.html</loc>
+    <lastmod>2023-07-24T07:00:29.607Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2021-07-19_enhance-etl-text-plots/2021-07-19-enhance-etl-text-plots.html</loc>
-    <lastmod>2023-07-24T06:50:46.708Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2021-07-19_enhance-etl-text-plots/2021-07-19-enhance-etl-text-plots.html</loc>
+    <lastmod>2023-07-24T07:00:30.579Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2021-08-03_docker-based-rstudio-postgres/2021-08-03-docker-based-rstudio-postgres.html</loc>
-    <lastmod>2023-07-24T06:50:48.193Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2021-08-03_docker-based-rstudio-postgres/2021-08-03-docker-based-rstudio-postgres.html</loc>
+    <lastmod>2023-07-24T07:00:31.909Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html</loc>
-    <lastmod>2023-07-24T06:50:49.166Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html</loc>
+    <lastmod>2023-07-24T07:00:32.867Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/posts/2018-08-02-try-catch/2018-08-02-try-catch.html</loc>
-    <lastmod>2023-07-24T06:50:50.091Z</lastmod>
+    <loc>https://rsangole.netlify.app/posts/2018-08-02-try-catch/2018-08-02-try-catch.html</loc>
+    <lastmod>2023-07-24T07:00:33.766Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/astronomy/2022-09-23_calstar/or.html</loc>
-    <lastmod>2023-07-24T06:50:50.986Z</lastmod>
+    <loc>https://rsangole.netlify.app/astronomy/2022-09-23_calstar/or.html</loc>
+    <lastmod>2023-07-24T07:00:34.621Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/2016-09-03-factor-analysis-of-personality-traits.html</loc>
-    <lastmod>2023-07-24T06:50:51.809Z</lastmod>
+    <loc>https://rsangole.netlify.app/projects/2016-09-03-factor-analysis-of-personality-traits/2016-09-03-factor-analysis-of-personality-traits.html</loc>
+    <lastmod>2023-07-24T07:00:35.436Z</lastmod>
   </url>
   <url>
-    <loc>https://www.rsangole.com/astronomy.html</loc>
-    <lastmod>2023-07-24T06:50:57.708Z</lastmod>
+    <loc>https://rsangole.netlify.app/astronomy.html</loc>
+    <lastmod>2023-07-24T07:01:02.457Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rsangole.netlify.app/index.html</loc>
+    <lastmod>2023-07-24T07:01:25.528Z</lastmod>
   </url>
   <url>
     <loc>https://www.rsangole.com/index.html</loc>
-    <lastmod>2023-07-24T06:53:47.996Z</lastmod>
+    <lastmod>2023-11-04T03:23:12.040Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.rsangole.com/blog.html</loc>
+    <lastmod>2023-11-04T03:30:13.158Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.rsangole.com/projects.html</loc>
+    <lastmod>2023-11-04T03:24:56.105Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.rsangole.com/posts/2023-11-01_lda-with-shiny-for-python/lda-with-shiny-for-python.html</loc>
+    <lastmod>2023-11-04T03:30:11.062Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.rsangole.com/astronomy.html</loc>
+    <lastmod>2023-11-04T03:24:57.129Z</lastmod>
   </url>
 </urlset>

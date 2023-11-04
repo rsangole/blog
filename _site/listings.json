@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/2023-11-01_lda-with-shiny-for-python/lda-with-shiny-for-python.html",
       "/posts/2023-04-01_30-day-chart-challenge/apr-30-day-challenge.html",
       "/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html",
       "/posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html",

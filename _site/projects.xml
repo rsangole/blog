@@ -9,8 +9,8 @@
 <link>https://www.rsangole.com/projects.html</link>
 <atom:link href="https://www.rsangole.com/projects.xml" rel="self" type="application/rss+xml"/>
 <description>rahul&#39;s blog on data science</description>
-<generator>quarto-1.3.433</generator>
-<lastBuildDate>Wed, 01 Feb 2017 08:00:00 GMT</lastBuildDate>
+<generator>quarto-1.3.450</generator>
+<lastBuildDate>Wed, 01 Feb 2017 05:00:00 GMT</lastBuildDate>
 <item>
   <title>Finite Mixture Modeling using Flexmix</title>
   <dc:creator>Rahul </dc:creator>
@@ -708,7 +708,7 @@ font-style: inherit;">bycluster=</span>F)</span></code></pre></div>
   <category>Flexmix</category>
   <category>Mixture Modeling</category>
   <guid>https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html</guid>
-  <pubDate>Wed, 01 Feb 2017 08:00:00 GMT</pubDate>
+  <pubDate>Wed, 01 Feb 2017 05:00:00 GMT</pubDate>
   <media:content url="https://www.rsangole.com/projects/2017-02-01-finite-mixture-modeling-using-flexmix/graph.png" medium="image" type="image/png" height="103" width="144"/>
 </item>
 <item>
@@ -808,7 +808,7 @@ font-style: inherit;">bycluster=</span>F)</span></code></pre></div>
   <category>Factor Analysis</category>
   <category>Multivariate</category>
   <guid>https://www.rsangole.com/projects/2016-09-03-factor-analysis-of-personality-traits/2016-09-03-factor-analysis-of-personality-traits.html</guid>
-  <pubDate>Sat, 03 Sep 2016 07:00:00 GMT</pubDate>
+  <pubDate>Sat, 03 Sep 2016 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
