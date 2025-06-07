@@ -1,0 +1,19 @@
+---
+title: "2024 uROS Conference"
+date: '2024-11-27'
+description: Visualising Large Datasets using Shiny & Arrow
+image: uros2024_2.png
+categories:
+    - Shiny
+    - Arrow
+editor_options: 
+  chunk_output_type: console
+---
+
+I had the pleasure of talking about this topic at the [2024 uRos](https://r-project.ro/conference2024-live.html) conference held in Greece in Nov 2024. I spoke about how very simple tooling in {shiny}, combined with {arrow} can unlock the capability to develop some very powerful interactive tooling in R. I spoke about how we can be quickly scale up our development using shiny modules.
+
+Find the presentation and the code [here](https://github.com/rsangole/uros2024-interactive_baseplots).
+
+![](uros2024_1.png)
+
+![](uros2024_2.png)

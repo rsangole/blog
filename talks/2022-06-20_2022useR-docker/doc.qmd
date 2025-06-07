@@ -1,0 +1,22 @@
+---
+title: "2022 useR Conference: Docker for R Workshop"
+date: '2022-06-20'
+description: Workshop on Docker for R users
+image: talk.png
+categories:
+    - R
+    - Docker
+    - useR
+editor_options: 
+  chunk_output_type: console
+---
+
+I had the pleasure of presenting a workshop for _Docker for R Users_ at the [2022 useR Conference](https://user2022.r-project.org/program/tutorials/#docker-for-r-users) with Rami Krispin.
+
+Docker is one of the main tools for reproducibility, CI/CD and automation, productionize, and MLops. In this tutorial, you will learn the foundation of Docker with applications for R programming. That includes creating Docker images, setting an R development environment, and deploying R code on Github Actions with a container.
+
+The presentation is published [here](https://github.com/rsangole/user2022-r-for-docker/blob/main/Introduction%20to%20Docker%20for%20R%20users.pdf).
+
+Github code is [here](https://github.com/rsangole/user2022-r-for-docker).
+
+{{< video https://www.youtube.com/watch?v=oehhZ98o6Zk&t=69 >}}

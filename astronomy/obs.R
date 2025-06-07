@@ -60,13 +60,13 @@ read_obs <- function(obsfile = "astronomy/obs.json") {
 plot_cal <- function(dat) {
     dat <- dat |>
         dplyr::mutate(dt = lubridate::as_date(dt))
-    start_date = lubridate::round_date(min(dat$dt), unit = "month")
+    start_date <- lubridate::round_date(min(dat$dt), unit = "month")
     sdays <- as.numeric(dat$dt - start_date) + 1
     calendR::calendR(
         year = 2022,
         title = NULL,
-        start_date = start_date,
-        end_date = as.Date("2022-12-31"),
+        from = start_date,
+        to = as.Date("2022-12-31"),
         start = "M",
         special.days = sdays,
         special.col = "lightblue",

@@ -639,5 +639,5 @@ rank_dat |>
     annotation_custom(grob) -> p
 p
 
-ggsave(filename = "day5-1.png", device = "png", width = 7, height = 8)
+# ggsave(filename = "day5-1.png", device = "png", width = 7, height = 8)
 ```

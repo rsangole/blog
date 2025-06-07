@@ -6,20 +6,21 @@
       version="2.0">
 <channel>
 <title>yHat</title>
-<link>https://www.rsangole.com/blog.html</link>
-<atom:link href="https://www.rsangole.com/blog.xml" rel="self" type="application/rss+xml"/>
+<link>https://rsangole.netlify.app/blog.html</link>
+<atom:link href="https://rsangole.netlify.app/blog.xml" rel="self" type="application/rss+xml"/>
 <description>rahul&#39;s blog on data science</description>
-<generator>quarto-1.3.450</generator>
-<lastBuildDate>Wed, 01 Nov 2023 04:00:00 GMT</lastBuildDate>
+<generator>quarto-1.6.42</generator>
+<lastBuildDate>Wed, 01 Nov 2023 00:00:00 GMT</lastBuildDate>
 <item>
   <title>How LDA Works, Using Shiny for Python</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2023-11-01_lda-with-shiny-for-python/lda-with-shiny-for-python.html</link>
+  <link>https://rsangole.netlify.app/posts/2023-11-01_lda-with-shiny-for-python/lda-with-shiny-for-python.html</link>
   <description><![CDATA[ 
 
 
 
-<p><img src="https://www.rsangole.com/posts/2023-11-01_lda-with-shiny-for-python/lda_shiny_viz.jpg" class="img-fluid"></p>
+
+<p><img src="https://rsangole.netlify.app/posts/2023-11-01_lda-with-shiny-for-python/lda_shiny_viz.jpg" class="img-fluid"></p>
 <p>After learning about Shiny for Python 🐍 in the last Posit PBC conference, I finally got around to implementing my first shiny dashboard in Python.</p>
 <p>And I must say - I absolutely love it.</p>
 <p>Here are some first impressions:</p>
@@ -42,40 +43,42 @@
  ]]></description>
   <category>Shiny</category>
   <category>Python</category>
-  <guid>https://www.rsangole.com/posts/2023-11-01_lda-with-shiny-for-python/lda-with-shiny-for-python.html</guid>
-  <pubDate>Wed, 01 Nov 2023 04:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2023-11-01_lda-with-shiny-for-python/lda_shiny_viz.jpg" medium="image" type="image/jpeg"/>
+  <guid>https://rsangole.netlify.app/posts/2023-11-01_lda-with-shiny-for-python/lda-with-shiny-for-python.html</guid>
+  <pubDate>Wed, 01 Nov 2023 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2023-11-01_lda-with-shiny-for-python/lda_shiny_viz.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>2023 #30DayChallenge</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2023-04-01_30-day-chart-challenge/apr-30-day-challenge.html</link>
+  <link>https://rsangole.netlify.app/posts/2023-04-01_30-day-chart-challenge/apr-30-day-challenge.html</link>
   <description><![CDATA[ 
+
 
 
 
 <section id="part-of-a-whole" class="level1">
 <h1>Part of a Whole</h1>
-<p><img src="https://www.rsangole.com/posts/2023-04-01_30-day-chart-challenge/day1.png" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2023-04-01_30-day-chart-challenge/day1.png" class="img-fluid"></p>
 </section>
 <section id="relationships" class="level1">
 <h1>Relationships</h1>
-<p><img src="https://www.rsangole.com/posts/2023-04-01_30-day-chart-challenge/day5-1.png" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2023-04-01_30-day-chart-challenge/day5-1.png" class="img-fluid"></p>
 
 
 </section>
 
  ]]></description>
   <category>Visualization</category>
-  <guid>https://www.rsangole.com/posts/2023-04-01_30-day-chart-challenge/apr-30-day-challenge.html</guid>
-  <pubDate>Mon, 03 Apr 2023 04:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2023-04-01_30-day-chart-challenge/day1.png" medium="image" type="image/png" height="155" width="144"/>
+  <guid>https://rsangole.netlify.app/posts/2023-04-01_30-day-chart-challenge/apr-30-day-challenge.html</guid>
+  <pubDate>Mon, 03 Apr 2023 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2023-04-01_30-day-chart-challenge/day1.png" medium="image" type="image/png" height="155" width="144"/>
 </item>
 <item>
   <title>Performance Benchmarking Data Read Write</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</link>
+  <link>https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -110,7 +113,7 @@
 <div class="cell page-columns page-full" data-hash="data-read-write-perf_cache/html/unnamed-chunk-1_9fe00822f668201a19cbb2a77d1c008d">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<table class="lightable-classic-2 table table-sm table-striped small" data-quarto-postprocess="true">
+<table class="lightable-classic-2 caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">cat_A</th>
@@ -200,10 +203,10 @@
 <li><code>duckdb</code></li>
 </ol>
 <p>Each approach is shown by a green square in the middle here. Each square represents a read and write using <code>{microbenchmark}</code> to measure the execution times. In total, this pipeline runs {10 read/write approaches x 3 data sets x 10 repeats} for a total of 300 runs.</p>
-<div class="column-page">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/images/paste-925DBC69.png" class="img-fluid figure-img" width="861"></p>
+<div class="page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p class="page-columns page-full"><img src="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/images/paste-925DBC69.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-page" width="861"></p>
 </figure>
 </div>
 </div>
@@ -224,12 +227,15 @@
 <li><p><code>rds</code> is the slowest, unsurprisingly, at 20-30x slower than <code>arrow</code>.</p></li>
 <li><p><code>duckdb</code> and <code>vroom</code> performance were the middle of the pack.</p></li>
 </ul>
-<div class="cell column-screen fig-column-screen-inset-shaded quarto-layout-panel" data-hash="data-read-write-perf_cache/html/unnamed-chunk-2_fb6f5d14ed19d768572318900eb7817d">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="1344"></p>
+<div>
+
+</div>
+<div class="cell fig-column-screen-inset-shaded quarto-layout-panel page-columns page-full" data-layout-ncol="1" data-hash="data-read-write-perf_cache/html/unnamed-chunk-2_fb6f5d14ed19d768572318900eb7817d" data-layout-align="center">
+<div class="quarto-layout-row page-full">
+<div class="quarto-layout-cell page-columns page-full" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p class="page-columns page-full"><img src="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-screen" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -241,7 +247,11 @@
 <p>This one is a doozey! Significant differences across all the packages, especially for large 5M row data sets. There seem to be three groupings: [qs, rds and arrow-parquet], [fst, feather &amp; duckdb], and finally [datatable, vroom and arrow-csv].</p>
 <div class="cell" data-hash="data-read-write-perf_cache/html/unnamed-chunk-3_ef07255b6743c1c08f06b9c9f099cfa9">
 <div class="cell-output-display">
-<p><img src="https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>I’m curious to see if this result varies for wider data sets, or data sets with more/less characters and numerics.</p>
@@ -256,15 +266,16 @@
 
  ]]></description>
   <category>Benchmarking</category>
-  <guid>https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</guid>
-  <pubDate>Sat, 17 Sep 2022 04:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/_image.jpg" medium="image" type="image/jpeg"/>
+  <guid>https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</guid>
+  <pubDate>Sat, 17 Sep 2022 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/_image.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Making the Anomaly Database</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html</link>
+  <link>https://rsangole.netlify.app/posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -274,7 +285,7 @@
 <h1>Motivation</h1>
 <p>Continuing the theme of end-to-end reproducible workflows, I want to be able to recreate my raw database programmatically as well.</p>
 <p>At the end of this activity, I’m able to quickly load and manage ~6G of data for my personal use.</p>
-<p><img src="https://www.rsangole.com/posts/2021-08-18-making-an-anomaly-database/anomaly-db-vscode.gif" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2021-08-18-making-an-anomaly-database/anomaly-db-vscode.gif" class="img-fluid"></p>
 <p>The entire codebase for populating the database is in my <a href="https://github.com/rsangole/anomaly_db">GitHub repo</a>.</p>
 </section>
 <section id="who-should-read-this" class="level1">
@@ -326,6 +337,7 @@ background-color: null;
 font-style: inherit;"># create large_data/ if does not exist</span></span>
 <span id="cb2-2"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">!</span>fs<span class="sc" style="color: #5E5E5E;
@@ -373,6 +385,7 @@ font-style: inherit;">shuffle =</span> F</span>
 <span id="cb2-10">    )</span>
 <span id="cb2-11">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">!</span>resp)</span>
@@ -397,6 +410,7 @@ background-color: null;
 font-style: inherit;"># git but no gitignore?</span></span>
 <span id="cb2-17"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (fs<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
@@ -442,6 +456,7 @@ background-color: null;
 font-style: inherit;"># gitignore but large_data missing?</span></span>
 <span id="cb2-26"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (fs<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
@@ -492,6 +507,7 @@ font-style: inherit;">stop</span>()</span>
 <p>Here’s an example for the UCR dataset. The code for the rest of the datasets is pretty similar.</p>
 <div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span>(datasets<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span>ucr){</span>
@@ -509,6 +525,7 @@ background-color: null;
 font-style: inherit;">&lt;-</span> T</span>
 <span id="cb3-4">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span>(fs<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
@@ -543,6 +560,7 @@ font-style: inherit;">"large_data/UCRArchive_2018"</span>))</span>
 <span id="cb3-7">  }</span>
 <span id="cb3-8">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span>(resp){</span>
 <span id="cb3-9">    <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -641,6 +659,7 @@ font-style: inherit;">5432</span></span>
 <span id="cb4-10"></span>
 <span id="cb4-11"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (datasets<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span>ionosphere) {</span>
@@ -716,9 +735,9 @@ font-style: inherit;">*</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">60</span>)</span></code></pre></div>
 <p><strong>Data dictionaries</strong> can be stored directly in the DB too. I store the contents of each <code>README.md</code> in the <code>UCR_Archive2018/*</code> folder in a data dictionary table called <code>ucr_00_meta</code>. This allows me to programatically call the dictionary in downstream development.</p>
-<p><img src="https://www.rsangole.com/posts/2021-08-18-making-an-anomaly-database/ucr_00_meta.png" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2021-08-18-making-an-anomaly-database/ucr_00_meta.png" class="img-fluid"></p>
 <p><strong>Shiny</strong> can be effectively used for quick exploration. Here’s an example of something I’m building for myself. The dashboard pulls data from PostgreSQL directly. UCR metadata is also pulled from the db rendered at the top of each page, making it quick to browse through the datasets. As I add more datasets, I keep expanding this dashboard.</p>
-<p><img src="https://www.rsangole.com/posts/2021-08-18-making-an-anomaly-database/anomaly-db-shiny.gif" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2021-08-18-making-an-anomaly-database/anomaly-db-shiny.gif" class="img-fluid"></p>
 
 
 </section>
@@ -726,14 +745,15 @@ font-style: inherit;">60</span>)</span></code></pre></div>
  ]]></description>
   <category>Docker</category>
   <category>Postgres</category>
-  <guid>https://www.rsangole.com/posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html</guid>
-  <pubDate>Wed, 18 Aug 2021 04:00:00 GMT</pubDate>
+  <guid>https://rsangole.netlify.app/posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html</guid>
+  <pubDate>Wed, 18 Aug 2021 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Docker based RStudio &amp; PostgreSQL</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2021-08-03_docker-based-rstudio-postgres/2021-08-03-docker-based-rstudio-postgres.html</link>
+  <link>https://rsangole.netlify.app/posts/2021-08-03_docker-based-rstudio-postgres/2021-08-03-docker-based-rstudio-postgres.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -765,7 +785,7 @@ font-style: inherit;">60</span>)</span></code></pre></div>
 <li>For PostgreSQL: <code>$HOME/docker/volumes/postgres</code></li>
 <li>For R Projects: <code>$HOME/github</code></li>
 </ol>
-<p><img src="https://www.rsangole.com/posts/2021-08-03_docker-based-rstudio-postgres/docker-compose.png" class="img-fluid"><sup>3</sup></p>
+<p><img src="https://rsangole.netlify.app/posts/2021-08-03_docker-based-rstudio-postgres/docker-compose.png" class="img-fluid"><sup>3</sup></p>
 <p>None of these paths, except for the in-container PostgreSQL are special; you can customize the others to your liking. By default, <code>postgres:13.3</code> expects the database to be at <code>/var/lib/postgresql/data</code>. If you choose another database, modify this accordingly.</p>
 <p>I use <code>docker-compose</code> to launch both PostgreSQL and RStudio services together. It’s convenient while also ensuring the PostgreSQL service runs first followed by RStudio. It’s easy to start or stop all the services using just a few commands.</p>
 </section>
@@ -780,6 +800,7 @@ background-color: null;
 font-style: inherit;"># create directory if does not exist</span></span>
 <span id="cb1-2"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">[</span> <span class="ot" style="color: #003B4F;
@@ -795,6 +816,7 @@ background-color: null;
 font-style: inherit;">]</span> </span>
 <span id="cb1-3"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">then</span></span>
 <span id="cb1-4">    <span class="bu" style="color: null;
 background-color: null;
@@ -807,6 +829,7 @@ background-color: null;
 font-style: inherit;">/docker/volumes/postgres exists."</span> </span>
 <span id="cb1-5"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span></span>
 <span id="cb1-6">    <span class="bu" style="color: null;
 background-color: null;
@@ -826,6 +849,7 @@ background-color: null;
 font-style: inherit;">$HOME</span>/docker/volumes/postgres</span>
 <span id="cb1-8"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">fi</span></span></code></pre></div>
 </section>
 <section id="postgresql-setup" class="level3">
@@ -892,6 +916,7 @@ font-style: inherit;">"CREATE ROLE rahul WITH PASSWORD 'pass' CREATEDB LOGIN;</s
 background-color: null;
 font-style: inherit;">CREATE DATABASE work; CREATE DATABASE anomaly;"</span> <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">|</span> <span class="dt" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">\</span></span>
@@ -936,6 +961,7 @@ font-style: inherit;">docker-compose</span> up <span class="at" style="color: #6
 background-color: null;
 font-style: inherit;">-d</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">;</span> <span class="ex" style="color: null;
 background-color: null;
 font-style: inherit;">firefox</span> localhost:8787</span></code></pre></div>
@@ -960,6 +986,7 @@ font-style: inherit;">            up -d; firefox localhost:8787'</span> </span><
 background-color: null;
 font-style: inherit;">version</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="st" style="color: #20794D;
@@ -969,6 +996,7 @@ font-style: inherit;">"3.3"</span></span>
 background-color: null;
 font-style: inherit;">services</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span></span>
 <span id="cb5-3"><span class="at" style="color: #657422;
 background-color: null;
@@ -976,6 +1004,7 @@ font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">db</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span></span>
 <span id="cb5-4"><span class="at" style="color: #657422;
 background-color: null;
@@ -983,6 +1012,7 @@ font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">image</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> postgres:13.3</span></span>
@@ -992,6 +1022,7 @@ font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">restart</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> unless-stopped</span></span>
@@ -1001,6 +1032,7 @@ font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">environment</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span></span>
 <span id="cb5-7"><span class="at" style="color: #657422;
 background-color: null;
@@ -1008,6 +1040,7 @@ font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">POSTGRES_DB</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="st" style="color: #20794D;
@@ -1019,6 +1052,7 @@ font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">POSTGRES_USER</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="st" style="color: #20794D;
@@ -1030,6 +1064,7 @@ font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">POSTGRES_PASSWORD</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="st" style="color: #20794D;
@@ -1041,11 +1076,13 @@ font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ports</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span></span>
 <span id="cb5-11"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">-</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="st" style="color: #20794D;
@@ -1057,17 +1094,20 @@ font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">volumes</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span></span>
 <span id="cb5-13"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">-</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">type</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="st" style="color: #20794D;
@@ -1079,6 +1119,7 @@ font-style: inherit;">        </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">source</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="st" style="color: #20794D;
@@ -1090,6 +1131,7 @@ font-style: inherit;">        </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">target</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="st" style="color: #20794D;
@@ -1102,6 +1144,7 @@ font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">rstudio</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span></span>
 <span id="cb6-2"><span class="at" style="color: #657422;
 background-color: null;
@@ -1109,6 +1152,7 @@ font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">image</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> hatmatrix/blog:base</span></span>
@@ -1118,11 +1162,13 @@ font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ports</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span></span>
 <span id="cb6-4"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">-</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="st" style="color: #20794D;
@@ -1132,6 +1178,7 @@ font-style: inherit;">"8787:8787"</span></span>
 background-color: null;
 font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">-</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="st" style="color: #20794D;
@@ -1143,6 +1190,7 @@ font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">environment</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span></span>
 <span id="cb6-7"><span class="at" style="color: #657422;
 background-color: null;
@@ -1150,6 +1198,7 @@ font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">DISABLE_AUTH</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="st" style="color: #20794D;
@@ -1161,17 +1210,20 @@ font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">volumes</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span></span>
 <span id="cb6-9"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">-</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">type</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="st" style="color: #20794D;
@@ -1183,6 +1235,7 @@ font-style: inherit;">        </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">source</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="st" style="color: #20794D;
@@ -1194,6 +1247,7 @@ font-style: inherit;">        </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">target</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="st" style="color: #20794D;
@@ -1205,11 +1259,13 @@ font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">depends_on</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span></span>
 <span id="cb6-13"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">-</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="st" style="color: #20794D;
@@ -1319,14 +1375,15 @@ Storage icon by <a href="https://smashicons.com/" title="Smashicons">Smashicons<
 </section></div> ]]></description>
   <category>Docker</category>
   <category>Postgres</category>
-  <guid>https://www.rsangole.com/posts/2021-08-03_docker-based-rstudio-postgres/2021-08-03-docker-based-rstudio-postgres.html</guid>
-  <pubDate>Sat, 07 Aug 2021 04:00:00 GMT</pubDate>
+  <guid>https://rsangole.netlify.app/posts/2021-08-03_docker-based-rstudio-postgres/2021-08-03-docker-based-rstudio-postgres.html</guid>
+  <pubDate>Sat, 07 Aug 2021 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Enhance ETL pipeline monitoring with text plots</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2021-07-19_enhance-etl-text-plots/2021-07-19-enhance-etl-text-plots.html</link>
+  <link>https://rsangole.netlify.app/posts/2021-07-19_enhance-etl-text-plots/2021-07-19-enhance-etl-text-plots.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -1554,15 +1611,16 @@ font-style: inherit;">12</span>)</span></code></pre></div>
 
  ]]></description>
   <category>Visualization</category>
-  <guid>https://www.rsangole.com/posts/2021-07-19_enhance-etl-text-plots/2021-07-19-enhance-etl-text-plots.html</guid>
-  <pubDate>Mon, 19 Jul 2021 04:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2021-07-19_enhance-etl-text-plots/graph.png" medium="image" type="image/png" height="59" width="144"/>
+  <guid>https://rsangole.netlify.app/posts/2021-07-19_enhance-etl-text-plots/2021-07-19-enhance-etl-text-plots.html</guid>
+  <pubDate>Mon, 19 Jul 2021 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2021-07-19_enhance-etl-text-plots/graph.png" medium="image" type="image/png" height="59" width="144"/>
 </item>
 <item>
   <title>Visualizing Correlations</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge.html</link>
+  <link>https://rsangole.netlify.app/posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -2351,10 +2409,10 @@ font-style: inherit;">\n</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">PLOT BY @rsangole"</span></span>
 <span id="cb1-128">  )</span></code></pre></div>
-<div class="cell-output-display column-page">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="1152"></p>
+<div class="cell-output-display page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p class="page-columns page-full"><img src="https://rsangole.netlify.app/posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-page" width="1152"></p>
 </figure>
 </div>
 </div>
@@ -2373,7 +2431,6 @@ font-style: inherit;">PLOT BY @rsangole"</span></span>
 <!--   curl_url <- glue::glue("curl -s '{BASE_URL}{END_PT}{rover_name}?api_key={Sys.getenv(\"NASA_API_KEY\")}'") -->
 <!--   jq <- "'.photo_manifest.photos[] | {sol: .sol, date: .earth_date, photos: .total_photos, cameras: .cameras | to_entries[]} | [.sol, .date, .photos, .cameras.value] | @tsv'" -->
 <!--   cmd <- glue::glue("{curl_url} | jq -r {jq}") -->
-
 <!--   data.table::fread( -->
 <!--     cmd = cmd, -->
 <!--     col.names = c("sol", "date", "photos", "camera") -->
@@ -2382,7 +2439,6 @@ font-style: inherit;">PLOT BY @rsangole"</span></span>
 <!-- } -->
 <!-- rovers <- c("curiosity", "opportunity", "spirit") -->
 <!-- dat <- lapply(rovers, download_mars_rover_manifests) %>%  -->
-
 <!--   data.table::rbindlist() -->
 <!-- dat[, date := as.Date(date)] -->
 <!-- ``` -->
@@ -2401,12 +2457,10 @@ font-style: inherit;">PLOT BY @rsangole"</span></span>
 <!-- #   tidyr::pivot_wider(names_from = "rover", values_from = "sol_photos", -->
 <!-- #                      values_fill = 0) %>%  -->
 <!-- #   ungroup() %>%  -->
-
 <!--   data.table::as.data.table()-> dat_long -->
 <!-- dat_long[, cur_cusum := cumsum(curiosity)] -->
 <!-- dat_long[, oppr_cusum := cumsum(curiosity)] -->
 <!-- dat_long <- dat[, .(sol_photos = sum(photos)), .(sol, rover)] -->
-
 <!-- data.table::setkey(dat_long, "sol") -->
 <!-- cumsum_photos <- dat_long[, .(sol_photos = cumsum(sol_photos)), .(rover)] -->
 <!-- cumsum_photos[, sol := 1:.N, rover] -->
@@ -2601,7 +2655,6 @@ font-style: inherit;">PLOT BY @rsangole"</span></span>
 <!-- ``` -->
 <!-- ```{r} -->
 <!-- dat_long_by_date <- dat[, .(sol_photos = sum(photos)), .(date, rover)] -->
-
 <!-- data.table::setkey(dat_long_by_date, "date") -->
 <!-- library(patchwork) -->
 <!-- p1 <- dat_long_by_date %>% -->
@@ -2753,15 +2806,16 @@ font-style: inherit;">PLOT BY @rsangole"</span></span>
 
  ]]></description>
   <category>Visualization</category>
-  <guid>https://www.rsangole.com/posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge.html</guid>
-  <pubDate>Tue, 13 Apr 2021 04:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2021-04-13-30-day-chart-challenge/graph.png" medium="image" type="image/png" height="89" width="144"/>
+  <guid>https://rsangole.netlify.app/posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge.html</guid>
+  <pubDate>Tue, 13 Apr 2021 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2021-04-13-30-day-chart-challenge/graph.png" medium="image" type="image/png" height="89" width="144"/>
 </item>
 <item>
   <title>TidyTuesday - The Tate Collection</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection.html</link>
+  <link>https://rsangole.netlify.app/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -3268,8 +3322,10 @@ background-color: null;
 font-style: inherit;">list</span>()</span>
 <span id="cb1-73"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> (i <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
@@ -3287,8 +3343,10 @@ background-color: null;
 font-style: inherit;">list</span>()</span>
 <span id="cb1-76">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> (j <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
@@ -3328,6 +3386,7 @@ $ cutpts_numeric &lt;int&gt; 9, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(to_plot) {</span>
 <span id="cb3-2">    categories <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -3438,6 +3497,7 @@ font-style: inherit;">0.9</span></span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(to_plot) {</span>
 <span id="cb3-24">    <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -3695,10 +3755,10 @@ font-style: inherit;">adj =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span></span>
 <span id="cb3-75">)</span></code></pre></div>
-<div class="cell-output-display column-page">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="1152"></p>
+<div class="cell-output-display page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p class="page-columns page-full"><img src="https://rsangole.netlify.app/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-page" width="1152"></p>
 </figure>
 </div>
 </div>
@@ -3709,15 +3769,16 @@ font-style: inherit;">1</span></span>
  ]]></description>
   <category>TidyTuesday</category>
   <category>Visualization</category>
-  <guid>https://www.rsangole.com/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection.html</guid>
-  <pubDate>Tue, 19 Jan 2021 05:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2021-01-19-tidytuesday-the-tate-collection/graph.png" medium="image" type="image/png" height="168" width="144"/>
+  <guid>https://rsangole.netlify.app/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection.html</guid>
+  <pubDate>Tue, 19 Jan 2021 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2021-01-19-tidytuesday-the-tate-collection/graph.png" medium="image" type="image/png" height="168" width="144"/>
 </item>
 <item>
   <title>TidyTuesday - Transit Costs</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs.html</link>
+  <link>https://rsangole.netlify.app/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -4954,10 +5015,10 @@ font-style: inherit;">=</span> cn_color),</span>
 <span id="cb4-91">                        <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">guide =</span> F)</span></code></pre></div>
-<div class="cell-output-display column-page">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p class="page-columns page-full"><img src="https://rsangole.netlify.app/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-page" width="672"></p>
 </figure>
 </div>
 </div>
@@ -4968,15 +5029,16 @@ font-style: inherit;">guide =</span> F)</span></code></pre></div>
  ]]></description>
   <category>TidyTuesday</category>
   <category>Visualization</category>
-  <guid>https://www.rsangole.com/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs.html</guid>
-  <pubDate>Mon, 11 Jan 2021 05:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2021-01-11-tidytuesday-transit-costs/graph.png" medium="image" type="image/png" height="185" width="144"/>
+  <guid>https://rsangole.netlify.app/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs.html</guid>
+  <pubDate>Mon, 11 Jan 2021 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2021-01-11-tidytuesday-transit-costs/graph.png" medium="image" type="image/png" height="185" width="144"/>
 </item>
 <item>
   <title>TidyTuesday - Big Mac Index</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index.html</link>
+  <link>https://rsangole.netlify.app/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -5980,10 +6042,10 @@ background-color: null;
 font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">""</span>)</span></code></pre></div>
-<div class="cell-output-display column-page">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p class="page-columns page-full"><img src="https://rsangole.netlify.app/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-page" width="672"></p>
 </figure>
 </div>
 </div>
@@ -5994,19 +6056,20 @@ font-style: inherit;">""</span>)</span></code></pre></div>
  ]]></description>
   <category>TidyTuesday</category>
   <category>Visualization</category>
-  <guid>https://www.rsangole.com/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index.html</guid>
-  <pubDate>Wed, 06 Jan 2021 05:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2021-01-06-tidytuesday-big-mac-index/graph.png" medium="image" type="image/png" height="185" width="144"/>
+  <guid>https://rsangole.netlify.app/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index.html</guid>
+  <pubDate>Wed, 06 Jan 2021 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2021-01-06-tidytuesday-big-mac-index/graph.png" medium="image" type="image/png" height="185" width="144"/>
 </item>
 <item>
   <title>Perf Benchmarking Dummy Variables - Part II</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii.html</link>
+  <link>https://rsangole.netlify.app/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii.html</link>
   <description><![CDATA[ 
 
 
 
-<p><img src="https://www.rsangole.com/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/dummy.png" class="img-fluid"></p>
+
+<p><img src="https://rsangole.netlify.app/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/dummy.png" class="img-fluid"></p>
 <section id="tldr" class="level2">
 <h2 class="anchored" data-anchor-id="tldr">tl;dr</h2>
 <ul>
@@ -6252,6 +6315,7 @@ font-style: inherit;">str</span>(input_data)</span></code></pre></div>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(dat) stats<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
@@ -6267,6 +6331,7 @@ font-style: inherit;">1</span>,dat)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(dat) dummies<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
@@ -6278,6 +6343,7 @@ font-style: inherit;">as.data.frame</span>(dat))</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(dat) dummy<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
@@ -6287,6 +6353,7 @@ font-style: inherit;">dummy</span>(dat)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(dat) {caret<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
@@ -6308,6 +6375,7 @@ font-style: inherit;">newdata =</span> dat)}</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(dat) fastDummies<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
@@ -6346,14 +6414,20 @@ background-color: null;
 font-style: inherit;">fastDummies_fn</span>(input_data),</span>
 <span id="cb4-13">    <span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">times =</span> 10L</span>
+font-style: inherit;">times =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>L</span>
 <span id="cb4-14">    ) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">%&gt;%</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">autoplot</span>()</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://www.rsangole.com/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p><code>stats</code> is still clearly the fastest of all the packages, for this moderately sized dataset.</p>
@@ -6367,6 +6441,7 @@ font-style: inherit;">autoplot</span>()</span></code></pre></div>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">NROW =</span> <span class="dv" style="color: #AD0000;
@@ -6389,6 +6464,7 @@ background-color: null;
 font-style: inherit;">:</span>NCOL, </span>
 <span id="cb5-3">           <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(x) <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">sample</span>(LETTERS[<span class="dv" style="color: #AD0000;
@@ -6415,6 +6491,7 @@ font-style: inherit;">as_tibble</span>()</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(dat){</span>
 <span id="cb5-10">    microbenchmark<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -6448,13 +6525,16 @@ background-color: null;
 font-style: inherit;">fastDummies_fn</span>(dat),</span>
 <span id="cb5-16">    <span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">times =</span> 10L</span>
+font-style: inherit;">times =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>L</span>
 <span id="cb5-17">    )</span>
 <span id="cb5-18">}</span>
 <span id="cb5-19">extract_median_time <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(benchmarks){</span>
 <span id="cb5-20">    <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -6834,14 +6914,15 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 
  ]]></description>
   <category>Benchmarking</category>
-  <guid>https://www.rsangole.com/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii.html</guid>
-  <pubDate>Wed, 16 Dec 2020 05:00:00 GMT</pubDate>
+  <guid>https://rsangole.netlify.app/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii.html</guid>
+  <pubDate>Wed, 16 Dec 2020 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>M5 Competition Virtual Awards Ceremony</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/2020-10-29-m5-competition-notes.html</link>
+  <link>https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/2020-10-29-m5-competition-notes.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -6857,7 +6938,7 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 <li>M3 competition was huge push forward, ~10% accuracy improvement</li>
 <li>M4 onwards, lots more machine learning solutions</li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.14.26 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.14.26 AM.png" class="img-fluid" width="550"></p>
 </section>
 <section id="m5-competition" class="level3">
 <h3 class="anchored" data-anchor-id="m5-competition">M5 Competition</h3>
@@ -6875,7 +6956,7 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 <li>Winning method <code>LightGBM</code> used by top 50 competitors</li>
 <li>Evidence that understanding the computational algorithms instead of forecasting itself is paying off</li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.22.47 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.22.47 AM.png" class="img-fluid" width="550"></p>
 </section>
 </section>
 <section id="chris-fry-google" class="level2">
@@ -6883,7 +6964,7 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 <ul>
 <li>Chris got involved by analyzing M4, it’s applicability to real world data sets. His critique and subsequent issues addressed in the M5 competition:</li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.31.22 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.31.22 AM.png" class="img-fluid" width="550"></p>
 <ul>
 <li>Spoke of the challenge of single time-window submission:
 <ul>
@@ -6897,20 +6978,20 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 </ul></li>
 </ul></li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.38.06 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.38.06 AM.png" class="img-fluid" width="550"></p>
 <ul>
 <li>75% of score is across top 9 levels. Bottom three are disaggregated intermittent noizy series.</li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.41.28 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.41.28 AM.png" class="img-fluid" width="550"></p>
 <ul>
 <li>Price weighting : 90% of the weight came from 11% of the total series. Competiton winners can focus on left sliver and win… but businesses do care about the right (inventory, spoilage etc).</li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.42.45 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.42.45 AM.png" class="img-fluid" width="550"></p>
 </section>
 <section id="brian-seaman-walmart" class="level2">
 <h2 class="anchored" data-anchor-id="brian-seaman-walmart">Brian Seaman / Walmart</h2>
 <p>Walmart sponsored the M5 competiton and offered their real world data for the competition.</p>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.46.14 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.46.14 AM.png" class="img-fluid" width="550"></p>
 <ul>
 <li>Why Walmart cares about forecasts?
 <ul>
@@ -6947,12 +7028,12 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 <li>This as a very eye-opening revalition!</li>
 </ul></li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 11.26.36 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 11.26.36 AM.png" class="img-fluid" width="550"></p>
 <ul>
 <li>He spoke about how competitions are an excellent platform for pushing our collective wisdom to solve complex problems. Look at these error bars for the same problem Martin solved, when picked up by teams!</li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 11.27.01 AM.png" class="img-fluid"> - Some insights into the M5 competition:</p>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 11.27.44 AM.png" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 11.27.01 AM.png" class="img-fluid"> - Some insights into the M5 competition:</p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 11.27.44 AM.png" class="img-fluid"></p>
 </section>
 <section id="len-tashman-editor-of-foresight" class="level2">
 <h2 class="anchored" data-anchor-id="len-tashman-editor-of-foresight">Len Tashman / Editor of <a href="https://foresight.forecasters.org">Foresight</a></h2>
@@ -6979,19 +7060,20 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 
  ]]></description>
   <category>Notes</category>
-  <guid>https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/2020-10-29-m5-competition-notes.html</guid>
-  <pubDate>Thu, 29 Oct 2020 04:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/m5.jpeg" medium="image" type="image/jpeg"/>
+  <guid>https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/2020-10-29-m5-competition-notes.html</guid>
+  <pubDate>Thu, 29 Oct 2020 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/m5.jpeg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Reproducible Work in R</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2020-10-10-reproducible-work-in-R/2020-10-10-reproducible-work-in-R.html</link>
+  <link>https://rsangole.netlify.app/posts/2020-10-10-reproducible-work-in-R/2020-10-10-reproducible-work-in-R.html</link>
   <description><![CDATA[ 
 
 
 
-<p><img src="https://www.rsangole.com/posts/2020-10-10-reproducible-work-in-R/elephant.jpeg" class="img-fluid"></p>
+
+<p><img src="https://rsangole.netlify.app/posts/2020-10-10-reproducible-work-in-R/elephant.jpeg" class="img-fluid"></p>
 <section id="source-of-pain" class="level1">
 <h1>Source of Pain</h1>
 <ul>
@@ -7026,7 +7108,7 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 <section id="mran-time-machine" class="level2">
 <h2 class="anchored" data-anchor-id="mran-time-machine">1. MRAN Time Machine</h2>
 <p>Microsoft R Application Network (MRAN) offers a “<a href="https://mran.microsoft.com/timemachine">time machine</a>”. This service takes a daily snapshot of the <a href="http://cran.r-project.org">CRAN repository</a> repository - going as far back as Sep 2014. You can browse the snapshots on their page:</p>
-<p><img src="https://www.rsangole.com/posts/2020-10-10-reproducible-work-in-R/rdocker-mran.png" class="img-fluid" width="450"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-10-reproducible-work-in-R/rdocker-mran.png" class="img-fluid" width="450"></p>
 <p>MRAN snapshots help us lock-down package versions using a date as the ‘index’. For example, running:</p>
 <div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7177,20 +7259,21 @@ font-style: inherit;">hatmatrix/blog:latest</span></span></code></pre></div>
  ]]></description>
   <category>Docker</category>
   <category>Programming Practices</category>
-  <guid>https://www.rsangole.com/posts/2020-10-10-reproducible-work-in-R/2020-10-10-reproducible-work-in-R.html</guid>
-  <pubDate>Sat, 10 Oct 2020 04:00:00 GMT</pubDate>
+  <guid>https://rsangole.netlify.app/posts/2020-10-10-reproducible-work-in-R/2020-10-10-reproducible-work-in-R.html</guid>
+  <pubDate>Sat, 10 Oct 2020 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Using tryCatch for robust R scripts</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2018-08-02-try-catch/2018-08-02-try-catch.html</link>
+  <link>https://rsangole.netlify.app/posts/2018-08-02-try-catch/2018-08-02-try-catch.html</link>
   <description><![CDATA[ 
+
 
 
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2018-08-02-try-catch/trycatch.png" class="img-fluid figure-img"></p>
+<p><img src="https://rsangole.netlify.app/posts/2018-08-02-try-catch/trycatch.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 <p>Using <code>tryCatch</code> to write robust R code can be a bit confusing. I found the help file dry to read. There are some resources which explore <code>tryCatch</code>, linked below. Over the years, I have developed a few programming paradigms which I’ve repeatedly found useful. A quick introduction to <code>tryCatch</code> below, followed by three use-cases I use on a regular basis.</p>
@@ -7224,6 +7307,7 @@ font-style: inherit;"># ...</span></span>
 background-color: null;
 font-style: inherit;">error =</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(e){ </span>
 <span id="cb1-8">        <span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -7236,6 +7320,7 @@ font-style: inherit;"># Do this if an error is caught...</span></span>
 background-color: null;
 font-style: inherit;">warning =</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(w){</span>
 <span id="cb1-12">        <span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -7264,6 +7349,7 @@ font-style: inherit;"># Do this at the end before quitting the tryCatch structur
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(x){</span>
 <span id="cb2-2">    <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7286,6 +7372,7 @@ font-style: inherit;">"Successfully executed the log(x) call."</span>)</span>
 background-color: null;
 font-style: inherit;">error =</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(e){</span>
 <span id="cb2-8">            <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7300,6 +7387,7 @@ font-style: inherit;">print</span>(e)</span>
 background-color: null;
 font-style: inherit;">warning =</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(w){</span>
 <span id="cb2-12">            <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7540,6 +7628,7 @@ background-color: null;
 font-style: inherit;">&lt;-</span></span>
 <span id="cb7-2">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(df) {</span>
 <span id="cb7-3">    df <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -7577,6 +7666,7 @@ background-color: null;
 font-style: inherit;">&lt;-</span></span>
 <span id="cb7-7">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(df) {</span>
 <span id="cb7-8">    df <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -7599,8 +7689,10 @@ font-style: inherit;">-</span>mpg)</span>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> (indx <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
@@ -7639,6 +7731,7 @@ font-style: inherit;">" successful."</span>)</span>
 background-color: null;
 font-style: inherit;">error =</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(e){</span>
 <span id="cb8-10">            <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7704,6 +7797,7 @@ font-style: italic;">## Iteration 3 successful.</span></span></code></pre></div>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(df, x, b, ...){</span>
 <span id="cb9-2">    <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7769,6 +7863,7 @@ font-style: inherit;">return</span>(df)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(...){<span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">message</span>(<span class="st" style="color: #20794D;
@@ -7778,6 +7873,7 @@ font-style: inherit;">"-- Building model..."</span>)}</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(...) {<span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">message</span>(<span class="st" style="color: #20794D;
@@ -7787,6 +7883,7 @@ font-style: inherit;">"-- Evaluating model..."</span>)}</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(...) {<span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">message</span>(<span class="st" style="color: #20794D;
@@ -7797,6 +7894,7 @@ font-style: inherit;">"-- Saving model..."</span>)}</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(...){</span>
 <span id="cb9-23">    <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7827,6 +7925,7 @@ font-style: inherit;">save_model</span>()</span>
 background-color: null;
 font-style: inherit;">error =</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(e){</span>
 <span id="cb9-31">            <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7854,6 +7953,7 @@ font-style: inherit;">#Custom logging function</span></span>
 background-color: null;
 font-style: inherit;">warning =</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(w){</span>
 <span id="cb9-36">            <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7910,8 +8010,10 @@ background-color: null;
 font-style: inherit;">length</span>(unique_shops))</span>
 <span id="cb10-2"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> (i <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">seq_along</span>(unique_shops)) {</span>
@@ -8001,6 +8103,7 @@ font-style: inherit;">'auto'</span>)},</span>
 background-color: null;
 font-style: inherit;">error =</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(e) { tr_data_ts <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">%&gt;%</span> <span class="fu" style="color: #4758AB;
@@ -8056,14 +8159,15 @@ font-style: inherit;">0</span>, stlf_yhats[[i]])</span>
 
  ]]></description>
   <category>Programming Practices</category>
-  <guid>https://www.rsangole.com/posts/2018-08-02-try-catch/2018-08-02-try-catch.html</guid>
-  <pubDate>Thu, 20 Dec 2018 05:00:00 GMT</pubDate>
+  <guid>https://rsangole.netlify.app/posts/2018-08-02-try-catch/2018-08-02-try-catch.html</guid>
+  <pubDate>Thu, 20 Dec 2018 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Performance Benchmarking for Date-Time conversions</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions.html</link>
+  <link>https://rsangole.netlify.app/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -8072,7 +8176,7 @@ font-style: inherit;">0</span>, stlf_yhats[[i]])</span>
 <p>Once more, there’s was an opportunity at work to optimize code and reduce run-time. The last time was for <a href="http://rsangole.netlify.com/post/dummy-variables-one-hot-encoding/">dummy-variable creation</a>. Upon querying large data from our hive tables, the returned dataframe contains values of class <code>character</code>. Thus, everything has to be first type converted before any processing can be done.</p>
 <p>The most time consuming of these has been <code>character</code> to <code>date-time</code> conversion for which I traditionally used <code>base::as.POSIXct</code>.</p>
 <p>Upon searching for some options myself, some help from Twitter, I’ve compared the performance of 6 functions on a 1e7 size character vector.</p>
-<p><img src="https://www.rsangole.com/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/Henning_on_Twitter.png" class="img-fluid" width="450"></p>
+<p><img src="https://rsangole.netlify.app/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/Henning_on_Twitter.png" class="img-fluid" width="450"></p>
 </section>
 <section id="performance-comparison" class="level2">
 <h2 class="anchored" data-anchor-id="performance-comparison">Performance comparison</h2>
@@ -8126,6 +8230,7 @@ font-style: inherit;">1e7</span>)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(tvec) <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">strptime</span>(tvec, <span class="at" style="color: #657422;
@@ -8141,6 +8246,7 @@ font-style: inherit;">'UTC'</span>)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(tvec) <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">as.POSIXct</span>(tvec, <span class="at" style="color: #657422;
@@ -8156,6 +8262,7 @@ font-style: inherit;">'UTC'</span>)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(tvec) lubridate<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
@@ -8173,6 +8280,7 @@ font-style: inherit;">'UTC'</span>)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(tvec) lubridate<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
@@ -8190,6 +8298,7 @@ font-style: inherit;">'UTC'</span>)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(tvec) lubridate<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
@@ -8207,6 +8316,7 @@ font-style: inherit;">'UTC'</span>)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(tvec) fasttime<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
@@ -8259,7 +8369,9 @@ background-color: null;
 font-style: inherit;">fasttime_fn</span>(tvec),</span>
 <span id="cb1-14">    <span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">times =</span> 30L, <span class="at" style="color: #657422;
+font-style: inherit;">times =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>L, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">unit =</span> <span class="st" style="color: #20794D;
 background-color: null;
@@ -8287,7 +8399,11 @@ font-style: inherit;">'relative'</span>)</span></code></pre></div>
 <h2 class="anchored" data-anchor-id="results">Results</h2>
 <div class="cell" data-hash="2018-04-12-performance-benchmarking-for-date-time-conversions_cache/html/unnamed-chunk-2_bfaf3caa7fe79b90c6c67dd68fd6d329">
 <div class="cell-output-display">
-<p><img src="https://www.rsangole.com/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The results are quite amazing. <code>fastPOSIXct</code> wins by a massive margin. <code>as.POSIXct</code> is 10x slower than <code>fastPOSIXct</code> and has a wider spread too.</p>
@@ -8319,23 +8435,24 @@ font-style: inherit;">'relative'</span>)</span></code></pre></div>
  ]]></description>
   <category>Benchmarking</category>
   <category>Programming Practices</category>
-  <guid>https://www.rsangole.com/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions.html</guid>
-  <pubDate>Thu, 12 Apr 2018 04:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/clocks.jpg" medium="image" type="image/jpeg"/>
+  <guid>https://rsangole.netlify.app/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions.html</guid>
+  <pubDate>Thu, 12 Apr 2018 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/clocks.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Books I Reference</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2018-02-13-books-i-reference/2018-02-13-books-i-reference.html</link>
+  <link>https://rsangole.netlify.app/posts/2018-02-13-books-i-reference/2018-02-13-books-i-reference.html</link>
   <description><![CDATA[ 
 
 
 
-<p><img src="https://www.rsangole.com/posts/2018-02-13-books-i-reference/books.png" class="img-fluid"></p>
+
+<p><img src="https://rsangole.netlify.app/posts/2018-02-13-books-i-reference/books.png" class="img-fluid"></p>
 <p>The full list of the books in my shelf is on my <a href="https://www.goodreads.com/review/list/28286118-rahul?utf8=%E2%9C%93&amp;utf8=%E2%9C%93&amp;print=true&amp;shelf=data-science&amp;title=rahul&amp;sort=position&amp;order=a&amp;per_page=75">Goodreads account</a> <sup>1</sup>. The ones I refer to the most are listed here:</p>
 <div class="cell-output-display">
 <div class="table-responsive">
-<table class="table table-striped table-hover table-condensed" data-quarto-postprocess="true">
+<table class="table table-striped table-hover table-condensed caption-top" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th"></th>
@@ -8531,14 +8648,15 @@ font-style: inherit;">'relative'</span>)</span></code></pre></div>
 </ol>
 </section></div> ]]></description>
   <category>Books</category>
-  <guid>https://www.rsangole.com/posts/2018-02-13-books-i-reference/2018-02-13-books-i-reference.html</guid>
-  <pubDate>Tue, 13 Feb 2018 05:00:00 GMT</pubDate>
+  <guid>https://rsangole.netlify.app/posts/2018-02-13-books-i-reference/2018-02-13-books-i-reference.html</guid>
+  <pubDate>Tue, 13 Feb 2018 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Visualising Linear Discriminant Analyses</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2018-01-27-visualize-lda/2018-01-27-visualize-lda.html</link>
+  <link>https://rsangole.netlify.app/posts/2018-01-27-visualize-lda/2018-01-27-visualize-lda.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -8548,22 +8666,23 @@ font-style: inherit;">'relative'</span>)</span></code></pre></div>
 <li>Hosted on shinyapps for free, at <a href="https://rsangole.shinyapps.io/LDA_Visual/">link</a></li>
 <li>Github code <a href="https://github.com/rsangole/r_shiny_visuals">here</a></li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2018-01-27-visualize-lda/LDA_Discriminant_Line_Projections.jpg" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2018-01-27-visualize-lda/LDA_Discriminant_Line_Projections.jpg" class="img-fluid"></p>
 
 
 
  ]]></description>
   <category>Shiny</category>
   <category>Visualization</category>
-  <guid>https://www.rsangole.com/posts/2018-01-27-visualize-lda/2018-01-27-visualize-lda.html</guid>
-  <pubDate>Sat, 27 Jan 2018 05:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2018-01-27-visualize-lda/LDA_Discriminant_Line_Projections.jpg" medium="image" type="image/jpeg"/>
+  <guid>https://rsangole.netlify.app/posts/2018-01-27-visualize-lda/2018-01-27-visualize-lda.html</guid>
+  <pubDate>Sat, 27 Jan 2018 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2018-01-27-visualize-lda/LDA_Discriminant_Line_Projections.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Performance Benchmarking for Dummy Variable Creation</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html</link>
+  <link>https://rsangole.netlify.app/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -8922,6 +9041,7 @@ font-style: inherit;">as.data.frame</span>(HairEyeColor)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(D){</span>
 <span id="cb15-5">    stats<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -8947,6 +9067,7 @@ font-style: inherit;">$</span>Y)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(D){</span>
 <span id="cb15-10">    dummies<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -8970,6 +9091,7 @@ font-style: inherit;">$</span>Y)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(D){</span>
 <span id="cb15-15">    dummy<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -8993,6 +9115,7 @@ font-style: inherit;">$</span>Y)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(D){</span>
 <span id="cb15-20">    dV <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -9058,7 +9181,9 @@ background-color: null;
 font-style: inherit;">D =</span> HairEyeColor),</span>
 <span id="cb15-30">    <span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">times =</span> 1000L,</span>
+font-style: inherit;">times =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span>L,</span>
 <span id="cb15-31">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">control =</span> <span class="fu" style="color: #4758AB;
@@ -9081,7 +9206,11 @@ font-style: inherit;">-&gt;</span> benchmarks</span>
 background-color: null;
 font-style: inherit;">autoplot</span>(benchmarks)</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://www.rsangole.com/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The results speak for themself. The <code>stats</code> is clearly the fastest with <code>dummies</code> and <code>caret</code> being a more distant 2nd &amp; 3rd.</p>
@@ -9282,6 +9411,7 @@ font-style: inherit;">as.data.frame</span>(data)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(D){</span>
 <span id="cb20-3">    stats<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -9307,6 +9437,7 @@ font-style: inherit;">$</span>Y)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(D){</span>
 <span id="cb20-8">    dummies<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -9330,6 +9461,7 @@ font-style: inherit;">$</span>Y)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(D){</span>
 <span id="cb20-13">    dummy<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -9353,6 +9485,7 @@ font-style: inherit;">$</span>Y)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(D){</span>
 <span id="cb20-18">    dV <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -9418,7 +9551,9 @@ background-color: null;
 font-style: inherit;">D =</span> data),</span>
 <span id="cb20-28">    <span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">times =</span> 30L,</span>
+font-style: inherit;">times =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>L,</span>
 <span id="cb20-29">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">control =</span> <span class="fu" style="color: #4758AB;
@@ -9436,7 +9571,11 @@ font-style: inherit;">-&gt;</span> benchmarks</span>
 background-color: null;
 font-style: inherit;">autoplot</span>(benchmarks)</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://www.rsangole.com/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Just like before, <code>stats</code> is clerly the fastest.</p>
@@ -9468,14 +9607,15 @@ font-style: inherit;">autoplot</span>(benchmarks)</span></code></pre></div>
 </ol>
 </section></div> ]]></description>
   <category>Benchmarking</category>
-  <guid>https://www.rsangole.com/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html</guid>
-  <pubDate>Wed, 27 Sep 2017 04:00:00 GMT</pubDate>
+  <guid>https://rsangole.netlify.app/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html</guid>
+  <pubDate>Wed, 27 Sep 2017 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Pur(r)ify Your Carets</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets.html</link>
+  <link>https://rsangole.netlify.app/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -9791,6 +9931,7 @@ font-style: inherit;"># Function to select columns in the raw data</span></span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(x,y){</span>
 <span id="cb8-3">    x[,(<span class="fu" style="color: #4758AB;
 background-color: null;
@@ -9869,6 +10010,7 @@ font-style: inherit;">$</span>medv)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(X, Y) {</span>
 <span id="cb11-2">    ctrl <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -9938,6 +10080,7 @@ font-style: inherit;">'scale'</span>)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(X,Y){</span>
 <span id="cb11-17">    ctrl <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -10384,7 +10527,11 @@ font-style: inherit;">~</span>pred_varsets<span class="sc" style="color: #5E5E5E
 background-color: null;
 font-style: inherit;">|</span>modelName,train_df)</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://www.rsangole.com/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1">train_df <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -10435,7 +10582,11 @@ font-style: inherit;">width=</span>.<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">15</span>)</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://www.rsangole.com/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Since the model fit objects themselves are embedded, I can still look <em>at each model’s</em> internals. For example, to plot the results of the 5-fold CV on the grid search for the xgboost model:</p>
@@ -10462,7 +10613,11 @@ font-style: inherit;">'preds.original'</span>][[<span class="dv" style="color: #
 background-color: null;
 font-style: inherit;">1</span>]])</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://www.rsangole.com/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -10483,9 +10638,9 @@ font-style: inherit;">1</span>]])</span></code></pre></div>
 </ol>
 </section></div> ]]></description>
   <category>Programming Practices</category>
-  <guid>https://www.rsangole.com/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets.html</guid>
-  <pubDate>Sun, 17 Sep 2017 04:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2017-09-17-pur-r-ify-your-carets/carrots.jpg" medium="image" type="image/jpeg"/>
+  <guid>https://rsangole.netlify.app/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets.html</guid>
+  <pubDate>Sun, 17 Sep 2017 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2017-09-17-pur-r-ify-your-carets/carrots.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>

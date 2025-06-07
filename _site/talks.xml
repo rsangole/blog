@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>yHat</title>
+<link>https://rsangole.netlify.app/talks.html</link>
+<atom:link href="https://rsangole.netlify.app/talks.xml" rel="self" type="application/rss+xml"/>
+<description>rahul&#39;s blog on data science</description>
+<generator>quarto-1.6.42</generator>
+<lastBuildDate>Wed, 27 Nov 2024 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>2024 uROS Conference</title>
+  <dc:creator>Rahul </dc:creator>
+  <link>https://rsangole.netlify.app/talks/2024-11-27_uros2024/doc.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>I had the pleasure of talking about this topic at the <a href="https://r-project.ro/conference2024-live.html">2024 uRos</a> conference held in Greece in Nov 2024. I spoke about how very simple tooling in {shiny}, combined with {arrow} can unlock the capability to develop some very powerful interactive tooling in R. I spoke about how we can be quickly scale up our development using shiny modules.</p>
+<p>Find the presentation and the code <a href="https://github.com/rsangole/uros2024-interactive_baseplots">here</a>.</p>
+<p><img src="https://rsangole.netlify.app/talks/2024-11-27_uros2024/uros2024_1.png" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/talks/2024-11-27_uros2024/uros2024_2.png" class="img-fluid"></p>
+
+
+
+ ]]></description>
+  <category>Shiny</category>
+  <category>Arrow</category>
+  <guid>https://rsangole.netlify.app/talks/2024-11-27_uros2024/doc.html</guid>
+  <pubDate>Wed, 27 Nov 2024 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/talks/2024-11-27_uros2024/uros2024_2.png" medium="image" type="image/png" height="96" width="144"/>
+</item>
+<item>
+  <title>Data Carpentry (Social Sciences with R)</title>
+  <dc:creator>Rahul </dc:creator>
+  <link>https://rsangole.netlify.app/talks/2023-11-15_carpCMU/doc.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p><img src="https://rsangole.netlify.app/talks/2023-11-15_carpCMU/talk.png" class="img-fluid"></p>
+<p>Course link: <a href="https://rsangole.github.io/2023-11-15-cmu-online/">https://rsangole.github.io/2023-11-15-cmu-online/</a></p>
+
+
+
+ ]]></description>
+  <category>R</category>
+  <category>Carpentries</category>
+  <guid>https://rsangole.netlify.app/talks/2023-11-15_carpCMU/doc.html</guid>
+  <pubDate>Wed, 15 Nov 2023 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/talks/2023-11-15_carpCMU/talk.png" medium="image" type="image/png" height="68" width="144"/>
+</item>
+<item>
+  <title>2023 Oman R Users</title>
+  <dc:creator>Rahul </dc:creator>
+  <link>https://rsangole.netlify.app/talks/2023-11-08_omanRusers/doc.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>I had the pleasure of presenting to the <a href="https://www.meetup.com/oman-r-user/">Oman R Users group</a>.</p>
+<p>Explore the nuances of handling large datasets in R through the Arrow package. My session aimed to provide an understanding of Arrow’s capabilities, detailing its application in real-world scenarios. It’s a package that’s not only easy to adopt, but one that will drastically improve your capability to handle massive datasets in R.</p>
+<p>The presentation is published <a href="https://rsangole.github.io/oman-rusers-arrow/presentation.html#/title-slide">here</a>.</p>
+<p>Find the code <a href="https://github.com/rsangole/oman-rusers-arrow">here</a>.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/KoigdN0gFnE" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+
+
+
+ ]]></description>
+  <category>Arrow</category>
+  <guid>https://rsangole.netlify.app/talks/2023-11-08_omanRusers/doc.html</guid>
+  <pubDate>Wed, 08 Nov 2023 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/talks/2023-11-08_omanRusers/talk.png" medium="image" type="image/png" height="78" width="144"/>
+</item>
+<item>
+  <title>2022 useR Conference: Docker for R Workshop</title>
+  <dc:creator>Rahul </dc:creator>
+  <link>https://rsangole.netlify.app/talks/2022-06-20_2022useR-docker/doc.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>I had the pleasure of presenting a workshop for <em>Docker for R Users</em> at the <a href="https://user2022.r-project.org/program/tutorials/#docker-for-r-users">2022 useR Conference</a> with Rami Krispin.</p>
+<p>Docker is one of the main tools for reproducibility, CI/CD and automation, productionize, and MLops. In this tutorial, you will learn the foundation of Docker with applications for R programming. That includes creating Docker images, setting an R development environment, and deploying R code on Github Actions with a container.</p>
+<p>The presentation is published <a href="https://github.com/rsangole/user2022-r-for-docker/blob/main/Introduction%20to%20Docker%20for%20R%20users.pdf">here</a>.</p>
+<p>Github code is <a href="https://github.com/rsangole/user2022-r-for-docker">here</a>.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/oehhZ98o6Zk" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+
+
+
+ ]]></description>
+  <category>R</category>
+  <category>Docker</category>
+  <category>useR</category>
+  <guid>https://rsangole.netlify.app/talks/2022-06-20_2022useR-docker/doc.html</guid>
+  <pubDate>Mon, 20 Jun 2022 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/talks/2022-06-20_2022useR-docker/talk.png" medium="image" type="image/png" height="90" width="144"/>
+</item>
+</channel>
+</rss>

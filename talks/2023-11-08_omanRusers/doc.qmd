@@ -1,0 +1,21 @@
+---
+title: "2023 Oman R Users"
+date: '2023-11-08'
+description: Exploring large datasets using Apache Arrow
+image: talk.png
+categories:
+    - Arrow
+editor_options: 
+  chunk_output_type: console
+---
+
+I had the pleasure of presenting to the [Oman R Users group](https://www.meetup.com/oman-r-user/).
+
+Explore the nuances of handling large datasets in R through the Arrow package. My session aimed to provide an understanding of Arrow's capabilities, detailing its application in real-world scenarios. It's a package that's not only easy to adopt, but one that will drastically improve your capability to handle massive datasets in R.
+
+The presentation is published [here](https://rsangole.github.io/oman-rusers-arrow/presentation.html#/title-slide).
+
+Find the code [here](https://github.com/rsangole/oman-rusers-arrow).
+
+{{< video https://www.youtube.com/watch?v=KoigdN0gFnE >}}
+

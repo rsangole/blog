@@ -1,0 +1,15 @@
+---
+title: Data Carpentry (Social Sciences with R)
+date: '2023-11-15'
+description: 1-day course on R
+image: talk.png
+categories:
+    - R
+    - Carpentries
+editor_options: 
+  chunk_output_type: console
+---
+
+![](talk.png)
+
+Course link: [https://rsangole.github.io/2023-11-15-cmu-online/](https://rsangole.github.io/2023-11-15-cmu-online/)

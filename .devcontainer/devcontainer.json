@@ -1,0 +1,17 @@
+{
+	"image": "hatmatrix/blog:latest",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode-remote.remote-containers",
+				"ms-azuretools.vscode-docker",
+				"REditorSupport.r",
+				"vscodevim.vim",
+				"quarto.quarto"
+			]
+		}
+	},
+	"remoteEnv": {
+		"NETLIFY_AUTH_TOKEN":"${localEnv:NETLIFY_AUTH_TOKEN}",
+	}
+}

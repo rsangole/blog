@@ -31,6 +31,15 @@
     ]
   },
   {
+    "listing": "/talks.html",
+    "items": [
+      "/talks/2024-11-27_uros2024/doc.html",
+      "/talks/2023-11-15_carpCMU/doc.html",
+      "/talks/2023-11-08_omanRusers/doc.html",
+      "/talks/2022-06-20_2022useR-docker/doc.html"
+    ]
+  },
+  {
     "listing": "/astronomy.html",
     "items": [
       "/astronomy/2022-10-06_intl-moon-observing-day/post.html",

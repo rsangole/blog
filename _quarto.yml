@@ -12,12 +12,14 @@ website:
         text: ~/
       - href: blog.qmd
         text: ~/blog
+      - href: talks.qmd
+        text: ~/talks
       - href: projects.qmd
         text: ~/projects
       - href: astronomy.qmd
         text: ~/astronomy
   page-footer:
-    center: "2022 rahul-s"
+    center: "2025 rahul-s"
   google-analytics: "UA-106573867-1"
 format:
   html:
