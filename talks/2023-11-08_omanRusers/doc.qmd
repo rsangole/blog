@@ -5,6 +5,7 @@ description: Exploring large datasets using Apache Arrow
 image: talk.png
 categories:
     - Arrow
+    - Talk
 editor_options: 
   chunk_output_type: console
 ---

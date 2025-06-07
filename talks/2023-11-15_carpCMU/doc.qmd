@@ -6,6 +6,7 @@ image: talk.png
 categories:
     - R
     - Carpentries
+    - Teaching
 editor_options: 
   chunk_output_type: console
 ---

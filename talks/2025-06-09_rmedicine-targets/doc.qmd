@@ -1,0 +1,18 @@
+---
+title: "2025 R/Medicine Conference"
+date: '2025-06-09'
+description: The power of {targets} for reproducible data science
+image: talk.png
+categories:
+    - Targets
+    - R
+    - Workshop
+editor_options: 
+  chunk_output_type: console
+---
+
+![](talk.png)
+
+_Coming soon..._
+
+Github: [https://github.com/rsangole/2025-R-Medicine_targets-workshop](https://github.com/rsangole/2025-R-Medicine_targets-workshop)

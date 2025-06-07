@@ -6,6 +6,7 @@ image: uros2024_2.png
 categories:
     - Shiny
     - Arrow
+    - Talk
 editor_options: 
   chunk_output_type: console
 ---

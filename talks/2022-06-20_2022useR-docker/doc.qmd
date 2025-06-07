@@ -1,5 +1,5 @@
 ---
-title: "2022 useR Conference: Docker for R Workshop"
+title: "2022 useR Conference"
 date: '2022-06-20'
 description: Workshop on Docker for R users
 image: talk.png
@@ -7,6 +7,7 @@ categories:
     - R
     - Docker
     - useR
+    - Workshop
 editor_options: 
   chunk_output_type: console
 ---

@@ -10,7 +10,30 @@
 <atom:link href="https://rsangole.netlify.app/talks.xml" rel="self" type="application/rss+xml"/>
 <description>rahul&#39;s blog on data science</description>
 <generator>quarto-1.6.42</generator>
-<lastBuildDate>Wed, 27 Nov 2024 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 09 Jun 2025 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>2025 R/Medicine Conference</title>
+  <dc:creator>Rahul </dc:creator>
+  <link>https://rsangole.netlify.app/talks/2025-06-09_rmedicine-targets/doc.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p><img src="https://rsangole.netlify.app/talks/2025-06-09_rmedicine-targets/talk.png" class="img-fluid"></p>
+<p><em>Coming soon…</em></p>
+<p>Github: <a href="https://github.com/rsangole/2025-R-Medicine_targets-workshop">https://github.com/rsangole/2025-R-Medicine_targets-workshop</a></p>
+
+
+
+ ]]></description>
+  <category>Targets</category>
+  <category>R</category>
+  <category>Workshop</category>
+  <guid>https://rsangole.netlify.app/talks/2025-06-09_rmedicine-targets/doc.html</guid>
+  <pubDate>Mon, 09 Jun 2025 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/talks/2025-06-09_rmedicine-targets/talk.png" medium="image" type="image/png" height="81" width="144"/>
+</item>
 <item>
   <title>2024 uROS Conference</title>
   <dc:creator>Rahul </dc:creator>
@@ -30,6 +53,7 @@
  ]]></description>
   <category>Shiny</category>
   <category>Arrow</category>
+  <category>Talk</category>
   <guid>https://rsangole.netlify.app/talks/2024-11-27_uros2024/doc.html</guid>
   <pubDate>Wed, 27 Nov 2024 00:00:00 GMT</pubDate>
   <media:content url="https://rsangole.netlify.app/talks/2024-11-27_uros2024/uros2024_2.png" medium="image" type="image/png" height="96" width="144"/>
@@ -51,6 +75,7 @@
  ]]></description>
   <category>R</category>
   <category>Carpentries</category>
+  <category>Teaching</category>
   <guid>https://rsangole.netlify.app/talks/2023-11-15_carpCMU/doc.html</guid>
   <pubDate>Wed, 15 Nov 2023 00:00:00 GMT</pubDate>
   <media:content url="https://rsangole.netlify.app/talks/2023-11-15_carpCMU/talk.png" medium="image" type="image/png" height="68" width="144"/>
@@ -74,12 +99,13 @@
 
  ]]></description>
   <category>Arrow</category>
+  <category>Talk</category>
   <guid>https://rsangole.netlify.app/talks/2023-11-08_omanRusers/doc.html</guid>
   <pubDate>Wed, 08 Nov 2023 00:00:00 GMT</pubDate>
   <media:content url="https://rsangole.netlify.app/talks/2023-11-08_omanRusers/talk.png" medium="image" type="image/png" height="78" width="144"/>
 </item>
 <item>
-  <title>2022 useR Conference: Docker for R Workshop</title>
+  <title>2022 useR Conference</title>
   <dc:creator>Rahul </dc:creator>
   <link>https://rsangole.netlify.app/talks/2022-06-20_2022useR-docker/doc.html</link>
   <description><![CDATA[ 
@@ -99,6 +125,7 @@
   <category>R</category>
   <category>Docker</category>
   <category>useR</category>
+  <category>Workshop</category>
   <guid>https://rsangole.netlify.app/talks/2022-06-20_2022useR-docker/doc.html</guid>
   <pubDate>Mon, 20 Jun 2022 00:00:00 GMT</pubDate>
   <media:content url="https://rsangole.netlify.app/talks/2022-06-20_2022useR-docker/talk.png" medium="image" type="image/png" height="90" width="144"/>
