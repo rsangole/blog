@@ -1,0 +1,12 @@
+---
+title: "SAE International"
+date: '2019-1-1'
+description: My work on the board of SAE's Indiana chapter 
+image: talk.png
+# categories:
+#     - Arrow
+# editor_options: 
+#   chunk_output_type: console
+---
+
+![](talk.png)

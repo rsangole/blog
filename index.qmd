@@ -6,9 +6,6 @@ about:
   links:
     - text: LinkedIn
       url: "https://linkedin.com/in/rahulsangole"
-    - text: Twitter
-      icon: twitter
-      url: "https://twitter.com/rsangole"
     - text: GitHub
       icon: github
       url: "https://github.com/rsangole"
@@ -18,13 +15,9 @@ comments: false
 ---
 ::: {.column-page}
 
-## 
+I'm Rahul. I’m a data science manager at Apple where my work focuses on time-series analyses and forecasting, building data science solutions with open-source tools like R, Python and Shiny. Before Apple, as a data science manager at [Cummins](https://www.cummins.com) I developed  time-series anomaly detection algorithms for [engine health monitoring](https://www.cummins.com/parts-and-service/digital-products-and-services/preventech-mining); as a 6 sigma black belt, I solved complex global business problems, and as mechanical engineer, I wore many hats in the areas of mechanical stress and vibration work.
 
-Hello, my name is Rahul. This is a blog where I write about R and data science.
-
-I’m a data scientist at Apple where my work focuses on time-series, R in production and Shiny dashboarding. Before [Apple](https://www.apple.com), I worked as a data science manager at [Cummins](https://www.cummins.com) where I focused on developing time-series anomaly detection algorithms for [engine health monitoring](https://www.cummins.com/parts-and-service/digital-products-and-services/preventech-mining). In my former career, I worked as a mechanical engineer with a focus on computational stress, vibration and fatigue modeling.
-
-I have a Master’s degree in Predictive Analytics from Northwestern University and another in Mechanical Engineering from the University of Michigan.
+I have a Master’s degree in Predictive Analytics from Northwestern University, and a Master's degree in Mechanical Engineering from the University of Michigan.
 
 :::
 

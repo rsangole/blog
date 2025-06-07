@@ -14,8 +14,8 @@ website:
         text: ~/blog
       - href: talks.qmd
         text: ~/talks
-      - href: projects.qmd
-        text: ~/projects
+      # - href: career.qmd
+      #   text: ~/career
       - href: astronomy.qmd
         text: ~/astronomy
   page-footer:

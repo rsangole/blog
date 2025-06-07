@@ -10642,5 +10642,736 @@ font-style: inherit;">1</span>]])</span></code></pre></div>
   <pubDate>Sun, 17 Sep 2017 00:00:00 GMT</pubDate>
   <media:content url="https://rsangole.netlify.app/posts/2017-09-17-pur-r-ify-your-carets/carrots.jpg" medium="image" type="image/jpeg"/>
 </item>
+<item>
+  <title>Finite Mixture Modeling using Flexmix</title>
+  <dc:creator>Rahul </dc:creator>
+  <link>https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>Here, I replicate the codes written by Grun &amp; Leish (2007) in <a href="http://ro.uow.edu.au/cgi/viewcontent.cgi?article=3410&amp;context=commpapers">‘FlexMix: An R package for finite mixture modelling’, University of Wollongong, Australia.</a> My intent here was to learn the <code>{flexmix}</code> package by replicating the results by the authors.</p>
+<section id="model-based-clustering" class="level1">
+<h1>Model Based Clustering</h1>
+<p>The model based clustering on the whiskey dataset. The whiskey dataset is from the Simmons Study of Media and Markets (Fall 1997), and contains the incidence matrix for scotch brands in households who reported consuming scotch for period of 1 year. The dataset is taken from <a href="https://www.researchgate.net/profile/Greg_Allenby/publication/247837327_Multivariate_Analysis_of_Multiple_Response_Data/links/547480910cf2778985abe334.pdf">Edwards and Allenby (2003).</a></p>
+<p>Load the necessary packges first: <code>tidyverse</code> and <code>flexmix</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(dplyr)</span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(flexmix)</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(ggplot2)</span>
+<span id="cb1-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyr)</span></code></pre></div>
+</div>
+<section id="quick-eda" class="level2">
+<h2 class="anchored" data-anchor-id="quick-eda">Quick EDA</h2>
+<p>Quick look at the data itself. The dataframe consists of 2 elements - frequency (numeric vector), and the incidence matrix. There are total of 484 observations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">data</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"whiskey"</span>)</span>
+<span id="cb2-2">df <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> whiskey</span>
+<span id="cb2-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">set.seed</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1802</span>)</span>
+<span id="cb2-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str</span>(df)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   484 obs. of  2 variables:
+ $ Freq     : int  1 1 10 14 10 23 9 8 1 12 ...
+ $ Incidence: num [1:484, 1:21] 1 0 0 0 0 0 0 0 0 0 ...
+  ..- attr(*, "dimnames")=List of 2
+  .. ..$ : chr [1:484] "1" "2" "3" "4" ...
+  .. ..$ : chr [1:21] "Singleton" "Knockando" "White Horse" "Scoresby Rare" ...</code></pre>
+</div>
+</div>
+<p>The column names of the <code>df$Incidence</code> matrix are the brands of whiskey.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">colnames</span>(df<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>Incidence)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Singleton"                  "Knockando"                 
+ [3] "White Horse"                "Scoresby Rare"             
+ [5] "Ushers"                     "Macallan"                  
+ [7] "Grant's"                    "Passport"                  
+ [9] "Black &amp; White"              "Clan MacGregor"            
+[11] "Ballantine"                 "Pinch (Haig)"              
+[13] "Other brands"               "Cutty Sark"                
+[15] "Glenfiddich"                "Glenlivet"                 
+[17] "J&amp;B"                        "Dewar's White Label"       
+[19] "Johnnie Walker Black Label" "Johnnie Walker Red Label"  
+[21] "Chivas Regal"              </code></pre>
+</div>
+</div>
+<p>The incidence matrix shows a relationship between two classes of variables - in this case: freqencies of the brand of whiskey in the past year, and the brand of whiskey itself. Quick look at a portion of the matrix:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">df<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>Incidence[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sample</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">484</span>,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>),<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sample</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">21</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Macallan Cutty Sark Black &amp; White
+119        0          1             0
+8          0          0             0
+245        0          0             1
+347        0          0             0
+26         0          1             0
+221        1          0             0
+1          0          0             0
+178        1          0             0
+411        0          0             0
+224        0          1             0</code></pre>
+</div>
+</div>
+<p>The popularity of the whiskeys can be seen here. Chivas Regal seems to be a favourite, which puts my personal preference in line with a larger population :)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">c <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">colSums</span>(df<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>Incidence)</span>
+<span id="cb8-2">d1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">data.frame</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Brand=</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">names</span>(c),<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">counts=</span>c,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">row.names =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span>)</span>
+<span id="cb8-3">d1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> d1 <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%&gt;%</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">left_join</span>(whiskey_brands) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%&gt;%</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">arrange</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>counts)</span>
+<span id="cb8-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(d1,<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">reorder</span>(Brand,counts),counts,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill=</span>Type))<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_bar</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">stat=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'identity'</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_flip</span>()<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'Counts'</span>,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'Whiskey Brand'</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="model-building" class="level2">
+<h2 class="anchored" data-anchor-id="model-building">Model building</h2>
+<p>The first model in the paper is a stepped Flexmix model, specific for binary variables using the <code>FLXMcvbinary()</code> model. Since the objective is to cluster the model based on the Incidence counts and Frequencies, the formula used is <code>Incidence ~ 1</code>. The frequencies themselves are input as <code>weights</code> in the formula.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1">wh_mix <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">stepFlexmix</span>(Incidence <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,</span>
+<span id="cb9-2">                      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">weights =</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> Freq, </span>
+<span id="cb9-3">                      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> df,</span>
+<span id="cb9-4">                      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">model =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">FLXMCmvbinary</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">truncated =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>),</span>
+<span id="cb9-5">                      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">control =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">minprior =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.005</span>),</span>
+<span id="cb9-6">                      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">k=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7</span>,</span>
+<span id="cb9-7">                      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">nrep=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1 : * * * * *
+2 : * * * * *
+3 : * * * * *
+4 : * * * * *
+5 : * * * * *
+6 : * * * * *
+7 : * * * * *</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summary</span>(wh_mix)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Length       Class        Mode 
+          1 stepFlexmix          S4 </code></pre>
+</div>
+</div>
+<p>A top model can be selecting using BIC or AIC criteria. The BIC criteria selects a model with 5 clusters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">BIC</span>(wh_mix),<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">type=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'b'</span>,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ylab=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'BIC'</span>)</span>
+<span id="cb13-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">points</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">which.min</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">BIC</span>(wh_mix)),<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">min</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">BIC</span>(wh_mix)),<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'red'</span>,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">pch=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">wh_best <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">getModel</span>(wh_mix,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'BIC'</span>)</span>
+<span id="cb14-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">print</span>(wh_best)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+stepFlexmix(Incidence ~ 1, weights = ~Freq, data = df, model = FLXMCmvbinary(truncated = TRUE), 
+    control = list(minprior = 0.005), k = 5, nrep = 5)
+
+Cluster sizes:
+  1   2   3   4   5 
+ 24 262 794 161 977 
+
+convergence after 127 iterations</code></pre>
+</div>
+</div>
+<p>The proportions of the observations in each cluster are shown here:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">round</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">prop.table</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">table</span>(wh_best<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">@</span>cluster)),<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   1    2    3    4    5 
+0.04 0.25 0.19 0.23 0.29 </code></pre>
+</div>
+</div>
+<p>The parameter estimates plotted for model with k=5 is shown below graphically. Component 3 (4% of households) contain the largest number of different brands. Component 1 (25% of households) seen to prefer single malt whiskeys. Component 4 (23% of households) are across the board with Brands, but perhaps show lesser of an interest in single malts, just like Component 5 (29% of the households).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># wh_best.prior &lt;- prior(wh_best)</span></span>
+<span id="cb18-2">wh_best.param <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">parameters</span>(wh_best)</span>
+<span id="cb18-3">wh_best.param <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">data.frame</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Brand=</span>stringr<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_replace</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rownames</span>(wh_best.param),<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">pattern =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'center.'</span>,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">replacement =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">''</span>),</span>
+<span id="cb18-4">wh_best.param,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">row.names =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span>) </span>
+<span id="cb18-5">wh_best.param <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> wh_best.param <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%&gt;%</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">gather</span>(Components,Value,Comp<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">.1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>Comp<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">.5</span>)</span>
+<span id="cb18-6">wh_best.param <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> wh_best.param <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%&gt;%</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">left_join</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> whiskey_brands,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'Brand'</span>)</span>
+<span id="cb18-7"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(wh_best.param,<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y=</span>Value,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x=</span>Brand,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill=</span>Type))<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb18-8">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_bar</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">stat=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'identity'</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb18-9">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_flip</span>()<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb18-10">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">facet_grid</span>(.<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span>Components)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="mixtures-of-regressions" class="level1">
+<h1>Mixtures of Regressions</h1>
+<p>The next example in the paper is the patent data in Wang et al.&nbsp;(1998). The help file <code>?patent</code> notes that the data consists of the number of patents, R&amp;D spending and sales in millions of dollar for 70 pharmaceutical and biomedical companies in 1976, taken from the National Bureau of Economic Research R&amp;D Masterfile.</p>
+<section id="quick-eda-1" class="level2">
+<h2 class="anchored" data-anchor-id="quick-eda-1">Quick EDA</h2>
+<p>The dependant variable here is <code>Patents</code>. Independant variable is <code>lgRD</code> which is the log of R&amp;D spending. The objective in this exercise is to try and find how many may clusters exist within this bi-variate dataset. When I started this exercise, it seemed quite moot to me, since visually, I couldn’t really tell any distict clusters. But, the results show otherwise.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">data</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"patent"</span>)</span>
+<span id="cb19-2">df_patent <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tbl_df</span>(patent)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `tbl_df()` was deprecated in dplyr 1.0.0.
+ℹ Please use `tibble::as_tibble()` instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1">df_patent</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 70 × 4
+   Company                                    Patents    RDS   lgRD
+   &lt;chr&gt;                                        &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+ 1 "ABBOTT LABORATORIES                     "      42 0.0549  4.09 
+ 2 "AFFILIATED HOSPITAL PRDS                "       1 0.0032 -2.08 
+ 3 "ALBERTO-CULVER CO                       "       3 0.0078  0.119
+ 4 "ALCON LABORATORIES                      "       2 0.0803  1.88 
+ 5 "ALLERGAN PHARMACEUTICALS INC            "       3 0.0686  1.10 
+ 6 "ALZA CORP-CL A                          "      40 3.33    2.08 
+ 7 "AMERICAN HOME PRODUCTS CORP             "      60 0.0243  4.10 
+ 8 "AMERICAN HOSPITAL SUPPLY                "      30 0.0128  2.83 
+ 9 "AMERICAN STERILIZER CO                  "       7 0.0252  1.39 
+10 "AVON PRODUCTS                           "       3 0.0094  2.60 
+# ℹ 60 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plot</span>(Patents<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span>lgRD,df_patent)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="model-building-1" class="level2">
+<h2 class="anchored" data-anchor-id="model-building-1">Model Building</h2>
+<p>The paper mentions that Wang et al.&nbsp;(1998) chose a finite mixture of three Poisson regression models to represent the data. The <code>FLXMRglm()</code> is used for the Poisson model with a concomitant variable modeled using <code>FLXPmultinom()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1">pat_mix <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">flexmix</span>(Patents <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> lgRD, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">k =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> df_patent, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">model =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">FLXMRglm</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">family =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"poisson"</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">concomitant =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">FLXPmultinom</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span>RDS))</span>
+<span id="cb24-2">pat_mix</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+flexmix(formula = Patents ~ lgRD, data = df_patent, k = 3, model = FLXMRglm(family = "poisson"), 
+    concomitant = FLXPmultinom(~RDS))
+
+Cluster sizes:
+ 1  2  3 
+12 13 45 
+
+convergence after 33 iterations</code></pre>
+</div>
+</div>
+<p>The clusters obtained from the analysis are given by a <code>cluster()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">clusters</span>(pat_mix)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 3 3 1 3 2 3 3 3 1 3 2 3 3 1 3 1 2 3 3 1 1 2 3 2 3 3 3 3 1 3 3 3 3 2 3 3 1
+[39] 2 3 3 3 3 2 3 3 1 3 2 3 3 1 3 3 3 3 3 1 3 3 3 3 2 3 2 2 3 3 2 3</code></pre>
+</div>
+</div>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>The data is replotted but with colors for the clusters and additional splines. As we can see, the model beautifully models three lines through three clusters in the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1">Components <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">factor</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">clusters</span>(pat_mix))</span>
+<span id="cb28-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">xyplot</span>(Patents<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span>lgRD,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">groups =</span> Components,df_patent,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">type=</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'p'</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'spline'</span>))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="further-investigation" class="level2">
+<h2 class="anchored" data-anchor-id="further-investigation">Further investigation</h2>
+<p>The <code>flexmix</code> package has a function to plot rootograms of the posterior probabilities of observations. Observations where the a-posteriori probability is large for component #1 and #3 are indicated. As we can see where component #1 has highest probabilities indicated in the 1st bucket, they are lowest in #2 and #3 buckets.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plot</span>(pat_mix,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mark=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plot</span>(pat_mix,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mark=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A summary of the mixture model results show the estimated priors, number of observations within each cluster (size), number of observations with p&gt;10^-4 (post&gt;0), and a ratio of the two. The rations of 0.58, 0.42 and 0.18 indicate big overlaps of the clusters. This can also be observed by the large portion of values in the mid-section of the rootogram above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summary</span>(pat_mix)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+flexmix(formula = Patents ~ lgRD, data = df_patent, k = 3, model = FLXMRglm(family = "poisson"), 
+    concomitant = FLXPmultinom(~RDS))
+
+       prior size post&gt;0 ratio
+Comp.1 0.201   12     48 0.250
+Comp.2 0.184   13     47 0.277
+Comp.3 0.615   45     63 0.714
+
+'log Lik.' -197.6752 (df=10)
+AIC: 415.3505   BIC: 437.8354 </code></pre>
+</div>
+</div>
+<p>Tests of significance of the coefficients are obtained by the <code>refit()</code>. In each cluster the intercept and lgRD are both statistically significant at the 0.05 level. The black bars in the plot are 95% CI over the point estimates.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1">rm <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">refit</span>(pat_mix)</span>
+<span id="cb33-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summary</span>(rm)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$Comp.1
+            Estimate Std. Error z value  Pr(&gt;|z|)    
+(Intercept) -2.63638    0.62672 -4.2067 2.592e-05 ***
+lgRD         1.58644    0.13393 11.8454 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+$Comp.2
+            Estimate Std. Error z value  Pr(&gt;|z|)    
+(Intercept) 1.962173   0.176485  11.118 &lt; 2.2e-16 ***
+lgRD        0.671908   0.045639  14.722 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+$Comp.3
+            Estimate Std. Error z value  Pr(&gt;|z|)    
+(Intercept) 0.508194   0.160927  3.1579  0.001589 ** 
+lgRD        0.879702   0.040249 21.8564 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plot</span>(rm,<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">bycluster=</span>F)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The authors note that “estimates vary between all components even though the co- efficients for lgRD are similar for the first and third component”.</p>
+</section>
+</section>
+<section id="notes" class="level1">
+<h1>Notes</h1>
+<ul>
+<li>For both the models, although I’m using the exact datasets and seed values, I observe different values for proportions in each cluster (for model #1) as well as P values for significance etc (for model #2). This could be due to some changes in the underlying flexmix codes since 2007.</li>
+</ul>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ul>
+<li>http://ro.uow.edu.au/cgi/viewcontent.cgi?article=3410&amp;context=commpapers</li>
+<li>http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.491.3320&amp;rep=rep1&amp;type=pdf</li>
+<li>https://cran.r-project.org/web/packages/flexmix/index.html</li>
+<li>https://cran.r-project.org/web/packages/flexmix/vignettes/mixture-regressions.pdf</li>
+<li>https://cran.r-project.org/web/packages/flexmix/vignettes/flexmix-intro.pdf</li>
+<li>https://cran.r-project.org/web/packages/flexmix/vignettes/bootstrapping.pdf</li>
+<li><a href="https://www.researchgate.net/profile/Greg_Allenby/publication/247837327_Multivariate_Analysis_of_Multiple_Response_Data/links/547480910cf2778985abe334.pdf">https://www.researchgate.net/profile/Greg_Allenby/…/…e334.pdf</a></li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <category>Flexmix</category>
+  <category>Mixture Modeling</category>
+  <guid>https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html</guid>
+  <pubDate>Wed, 01 Feb 2017 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/graph.png" medium="image" type="image/png" height="103" width="144"/>
+</item>
 </channel>
 </rss>

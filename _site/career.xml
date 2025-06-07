@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>yHat</title>
+<link>https://rsangole.netlify.app/career.html</link>
+<atom:link href="https://rsangole.netlify.app/career.xml" rel="self" type="application/rss+xml"/>
+<description>rahul&#39;s blog on data science</description>
+<generator>quarto-1.6.42</generator>
+<lastBuildDate>Tue, 01 Jan 2019 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Society of Automotive Engineers</title>
+  <dc:creator>Rahul </dc:creator>
+  <link>https://rsangole.netlify.app/career/sae/doc.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p><img src="https://rsangole.netlify.app/career/sae/talk.png" class="img-fluid"></p>
+
+
+
+ ]]></description>
+  <guid>https://rsangole.netlify.app/career/sae/doc.html</guid>
+  <pubDate>Tue, 01 Jan 2019 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/career/sae/talk.png" medium="image" type="image/png" height="42" width="144"/>
+</item>
+<item>
+  <title>SAE International</title>
+  <dc:creator>Rahul </dc:creator>
+  <link>https://rsangole.netlify.app/career/sae_board/doc.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p><img src="https://rsangole.netlify.app/career/sae_board/talk.png" class="img-fluid"></p>
+
+
+
+ ]]></description>
+  <guid>https://rsangole.netlify.app/career/sae_board/doc.html</guid>
+  <pubDate>Tue, 01 Jan 2019 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/career/sae_board/talk.png" medium="image" type="image/png" height="42" width="144"/>
+</item>
+<item>
+  <title>Cummins Chairmans Award</title>
+  <dc:creator>Rahul </dc:creator>
+  <link>https://rsangole.netlify.app/career/cummins_chairmans/doc.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p><img src="https://rsangole.netlify.app/career/cummins_chairmans/talk.png" class="img-fluid"></p>
+
+
+
+ ]]></description>
+  <guid>https://rsangole.netlify.app/career/cummins_chairmans/doc.html</guid>
+  <pubDate>Tue, 01 Jan 2019 00:00:00 GMT</pubDate>
+  <media:content url="https://rsangole.netlify.app/career/cummins_chairmans/talk.png" medium="image" type="image/png" height="81" width="144"/>
+</item>
+</channel>
+</rss>
