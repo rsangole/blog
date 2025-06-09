@@ -28,11 +28,18 @@
     "text": "Course link: https://rsangole.github.io/2023-11-15-cmu-online/"
   },
   {
-    "objectID": "talks/2025-06-09_rmedicine-targets/doc.html",
-    "href": "talks/2025-06-09_rmedicine-targets/doc.html",
+    "objectID": "talks/2025-06-09_rmedicine-targets/doc.html#setup-instructions",
+    "href": "talks/2025-06-09_rmedicine-targets/doc.html#setup-instructions",
     "title": "2025 R/Medicine Conference",
-    "section": "",
-    "text": "Coming soon…\nGithub: https://github.com/rsangole/2025-R-Medicine_targets-workshop"
+    "section": "Setup Instructions",
+    "text": "Setup Instructions\n\nHave R and RStudio installed and ready\nClone the Github repo\nOpen the project in RStudio, and run renv::restore() to install the needed packages\nFor Mac users, a few packages may fail. You may also have to install these dependencies:\n\nbrew install mbedtls\nbrew install cmake"
+  },
+  {
+    "objectID": "talks/2025-06-09_rmedicine-targets/doc.html#links",
+    "href": "talks/2025-06-09_rmedicine-targets/doc.html#links",
+    "title": "2025 R/Medicine Conference",
+    "section": "Links",
+    "text": "Links\n\nSlides: https://rsangole.github.io/2025-R-Medicine_targets-workshop/presentation.html\nGithub: https://github.com/rsangole/2025-R-Medicine_targets-workshop"
   },
   {
     "objectID": "astronomy/2022-10-06_intl-moon-observing-day/post.html",

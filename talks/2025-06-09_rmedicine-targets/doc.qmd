@@ -11,8 +11,19 @@ editor_options:
   chunk_output_type: console
 ---
 
-![](talk.png)
+![](talk.png){width=300}
 
-_Coming soon..._
+## Setup Instructions
 
-Github: [https://github.com/rsangole/2025-R-Medicine_targets-workshop](https://github.com/rsangole/2025-R-Medicine_targets-workshop)
+- Have R and RStudio installed and ready
+- Clone the [Github repo](https://github.com/rsangole/2025-R-Medicine_targets-workshop)
+- Open the project in RStudio, and run `renv::restore()` to install the needed packages
+- For Mac users, a few packages may fail. You may also have to install these dependencies:
+    - `brew install mbedtls`
+    - `brew install cmake`
+
+## Links
+
+- Slides: [https://rsangole.github.io/2025-R-Medicine_targets-workshop/presentation.html](https://rsangole.github.io/2025-R-Medicine_targets-workshop/presentation.html)
+
+- Github: [https://github.com/rsangole/2025-R-Medicine_targets-workshop](https://github.com/rsangole/2025-R-Medicine_targets-workshop)

@@ -20,11 +20,29 @@
 
 
 
-<p><img src="https://rsangole.netlify.app/talks/2025-06-09_rmedicine-targets/talk.png" class="img-fluid"></p>
-<p><em>Coming soon…</em></p>
-<p>Github: <a href="https://github.com/rsangole/2025-R-Medicine_targets-workshop">https://github.com/rsangole/2025-R-Medicine_targets-workshop</a></p>
+<p><img src="https://rsangole.netlify.app/talks/2025-06-09_rmedicine-targets/talk.png" class="img-fluid" width="300"></p>
+<section id="setup-instructions" class="level2">
+<h2 class="anchored" data-anchor-id="setup-instructions">Setup Instructions</h2>
+<ul>
+<li>Have R and RStudio installed and ready</li>
+<li>Clone the <a href="https://github.com/rsangole/2025-R-Medicine_targets-workshop">Github repo</a></li>
+<li>Open the project in RStudio, and run <code>renv::restore()</code> to install the needed packages</li>
+<li>For Mac users, a few packages may fail. You may also have to install these dependencies:
+<ul>
+<li><code>brew install mbedtls</code></li>
+<li><code>brew install cmake</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="links" class="level2">
+<h2 class="anchored" data-anchor-id="links">Links</h2>
+<ul>
+<li><p>Slides: <a href="https://rsangole.github.io/2025-R-Medicine_targets-workshop/presentation.html">https://rsangole.github.io/2025-R-Medicine_targets-workshop/presentation.html</a></p></li>
+<li><p>Github: <a href="https://github.com/rsangole/2025-R-Medicine_targets-workshop">https://github.com/rsangole/2025-R-Medicine_targets-workshop</a></p></li>
+</ul>
 
 
+</section>
 
  ]]></description>
   <category>Targets</category>
