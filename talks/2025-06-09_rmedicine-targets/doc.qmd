@@ -1,7 +1,7 @@
 ---
 title: "2025 R/Medicine Conference"
 date: '2025-06-09'
-description: The power of {targets} for reproducible data science
+description: The power of `{targets}` for reproducible data science
 image: talk.png
 categories:
     - Targets
@@ -11,19 +11,19 @@ editor_options:
   chunk_output_type: console
 ---
 
-![](talk.png){width=300}
+<!-- ![](talk.png){width=300} -->
 
-## Setup Instructions
 
-- Have R and RStudio installed and ready
-- Clone the [Github repo](https://github.com/rsangole/2025-R-Medicine_targets-workshop)
-- Open the project in RStudio, and run `renv::restore()` to install the needed packages
-- For Mac users, a few packages may fail. You may also have to install these dependencies:
-    - `brew install mbedtls`
-    - `brew install cmake`
+{{< video https://www.youtube.com/watch?v=2BtXjPRLGkQ >}}
 
-## Links
+
+Reproducibility is a cornerstone of credible and robust data science. This workshop introduces the powerful `{targets}` package in R, which streamlines and enhances reproducibility in data science workflows. You’ll learn how to build, manage, and scale analytical pipelines that are efficient, transparent, and easy to maintain.
+
+The `{targets}` package provides a comprehensive framework for pipeline management, enabling efficient dependency tracking, automated execution, and clear documentation of your entire analysis process. By the end of this session, you’ll be equipped to apply these tools to your own projects—from data import and cleaning, to modeling, visualization, and reporting.
+
+---
 
 - Slides: [https://rsangole.github.io/2025-R-Medicine_targets-workshop/presentation.html](https://rsangole.github.io/2025-R-Medicine_targets-workshop/presentation.html)
 
 - Github: [https://github.com/rsangole/2025-R-Medicine_targets-workshop](https://github.com/rsangole/2025-R-Medicine_targets-workshop)
+
