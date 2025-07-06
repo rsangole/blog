@@ -6,21 +6,21 @@
       version="2.0">
 <channel>
 <title>yHat</title>
-<link>https://www.rsangole.com/blog.html</link>
-<atom:link href="https://www.rsangole.com/blog.xml" rel="self" type="application/rss+xml"/>
+<link>https://rsangole.netlify.app/blog.html</link>
+<atom:link href="https://rsangole.netlify.app/blog.xml" rel="self" type="application/rss+xml"/>
 <description>rahul&#39;s blog on data science</description>
 <generator>quarto-1.6.42</generator>
 <lastBuildDate>Wed, 01 Nov 2023 00:00:00 GMT</lastBuildDate>
 <item>
   <title>How LDA Works, Using Shiny for Python</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2023-11-01_lda-with-shiny-for-python/lda-with-shiny-for-python.html</link>
+  <link>https://rsangole.netlify.app/posts/2023-11-01_lda-with-shiny-for-python/lda-with-shiny-for-python.html</link>
   <description><![CDATA[ 
 
 
 
 
-<p><img src="https://www.rsangole.com/posts/2023-11-01_lda-with-shiny-for-python/lda_shiny_viz.jpg" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2023-11-01_lda-with-shiny-for-python/lda_shiny_viz.jpg" class="img-fluid"></p>
 <p>After learning about Shiny for Python 🐍 in the last Posit PBC conference, I finally got around to implementing my first shiny dashboard in Python.</p>
 <p>And I must say - I absolutely love it.</p>
 <p>Here are some first impressions:</p>
@@ -43,14 +43,14 @@
  ]]></description>
   <category>Shiny</category>
   <category>Python</category>
-  <guid>https://www.rsangole.com/posts/2023-11-01_lda-with-shiny-for-python/lda-with-shiny-for-python.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2023-11-01_lda-with-shiny-for-python/lda-with-shiny-for-python.html</guid>
   <pubDate>Wed, 01 Nov 2023 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2023-11-01_lda-with-shiny-for-python/lda_shiny_viz.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://rsangole.netlify.app/posts/2023-11-01_lda-with-shiny-for-python/lda_shiny_viz.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>2023 #30DayChallenge</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2023-04-01_30-day-chart-challenge/apr-30-day-challenge.html</link>
+  <link>https://rsangole.netlify.app/posts/2023-04-01_30-day-chart-challenge/apr-30-day-challenge.html</link>
   <description><![CDATA[ 
 
 
@@ -58,25 +58,25 @@
 
 <section id="part-of-a-whole" class="level1">
 <h1>Part of a Whole</h1>
-<p><img src="https://www.rsangole.com/posts/2023-04-01_30-day-chart-challenge/day1.png" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2023-04-01_30-day-chart-challenge/day1.png" class="img-fluid"></p>
 </section>
 <section id="relationships" class="level1">
 <h1>Relationships</h1>
-<p><img src="https://www.rsangole.com/posts/2023-04-01_30-day-chart-challenge/day5-1.png" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2023-04-01_30-day-chart-challenge/day5-1.png" class="img-fluid"></p>
 
 
 </section>
 
  ]]></description>
   <category>Visualization</category>
-  <guid>https://www.rsangole.com/posts/2023-04-01_30-day-chart-challenge/apr-30-day-challenge.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2023-04-01_30-day-chart-challenge/apr-30-day-challenge.html</guid>
   <pubDate>Mon, 03 Apr 2023 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2023-04-01_30-day-chart-challenge/day1.png" medium="image" type="image/png" height="155" width="144"/>
+  <media:content url="https://rsangole.netlify.app/posts/2023-04-01_30-day-chart-challenge/day1.png" medium="image" type="image/png" height="155" width="144"/>
 </item>
 <item>
   <title>Performance Benchmarking Data Read Write</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</link>
+  <link>https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</link>
   <description><![CDATA[ 
 
 
@@ -206,7 +206,7 @@
 <div class="page-columns page-full">
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
-<p class="page-columns page-full"><img src="https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/images/paste-925DBC69.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-page" width="861"></p>
+<p class="page-columns page-full"><img src="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/images/paste-925DBC69.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-page" width="861"></p>
 </figure>
 </div>
 </div>
@@ -235,7 +235,7 @@
 <div class="quarto-layout-cell page-columns page-full" style="flex-basis: 100.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
-<p class="page-columns page-full"><img src="https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-screen" width="1344"></p>
+<p class="page-columns page-full"><img src="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-screen" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -249,7 +249,7 @@
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -266,14 +266,14 @@
 
  ]]></description>
   <category>Benchmarking</category>
-  <guid>https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/data-read-write-perf.html</guid>
   <pubDate>Sat, 17 Sep 2022 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2022-09-14_data-read-write-performance/_image.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://rsangole.netlify.app/posts/2022-09-14_data-read-write-performance/_image.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Making the Anomaly Database</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html</link>
+  <link>https://rsangole.netlify.app/posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html</link>
   <description><![CDATA[ 
 
 
@@ -285,7 +285,7 @@
 <h1>Motivation</h1>
 <p>Continuing the theme of end-to-end reproducible workflows, I want to be able to recreate my raw database programmatically as well.</p>
 <p>At the end of this activity, I’m able to quickly load and manage ~6G of data for my personal use.</p>
-<p><img src="https://www.rsangole.com/posts/2021-08-18-making-an-anomaly-database/anomaly-db-vscode.gif" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2021-08-18-making-an-anomaly-database/anomaly-db-vscode.gif" class="img-fluid"></p>
 <p>The entire codebase for populating the database is in my <a href="https://github.com/rsangole/anomaly_db">GitHub repo</a>.</p>
 </section>
 <section id="who-should-read-this" class="level1">
@@ -735,9 +735,9 @@ font-style: inherit;">*</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">60</span>)</span></code></pre></div>
 <p><strong>Data dictionaries</strong> can be stored directly in the DB too. I store the contents of each <code>README.md</code> in the <code>UCR_Archive2018/*</code> folder in a data dictionary table called <code>ucr_00_meta</code>. This allows me to programatically call the dictionary in downstream development.</p>
-<p><img src="https://www.rsangole.com/posts/2021-08-18-making-an-anomaly-database/ucr_00_meta.png" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2021-08-18-making-an-anomaly-database/ucr_00_meta.png" class="img-fluid"></p>
 <p><strong>Shiny</strong> can be effectively used for quick exploration. Here’s an example of something I’m building for myself. The dashboard pulls data from PostgreSQL directly. UCR metadata is also pulled from the db rendered at the top of each page, making it quick to browse through the datasets. As I add more datasets, I keep expanding this dashboard.</p>
-<p><img src="https://www.rsangole.com/posts/2021-08-18-making-an-anomaly-database/anomaly-db-shiny.gif" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2021-08-18-making-an-anomaly-database/anomaly-db-shiny.gif" class="img-fluid"></p>
 
 
 </section>
@@ -745,13 +745,13 @@ font-style: inherit;">60</span>)</span></code></pre></div>
  ]]></description>
   <category>Docker</category>
   <category>Postgres</category>
-  <guid>https://www.rsangole.com/posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2021-08-18-making-an-anomaly-database/2021-08-18-making-an-anomaly-database.html</guid>
   <pubDate>Wed, 18 Aug 2021 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Docker based RStudio &amp; PostgreSQL</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2021-08-03_docker-based-rstudio-postgres/2021-08-03-docker-based-rstudio-postgres.html</link>
+  <link>https://rsangole.netlify.app/posts/2021-08-03_docker-based-rstudio-postgres/2021-08-03-docker-based-rstudio-postgres.html</link>
   <description><![CDATA[ 
 
 
@@ -785,7 +785,7 @@ font-style: inherit;">60</span>)</span></code></pre></div>
 <li>For PostgreSQL: <code>$HOME/docker/volumes/postgres</code></li>
 <li>For R Projects: <code>$HOME/github</code></li>
 </ol>
-<p><img src="https://www.rsangole.com/posts/2021-08-03_docker-based-rstudio-postgres/docker-compose.png" class="img-fluid"><sup>3</sup></p>
+<p><img src="https://rsangole.netlify.app/posts/2021-08-03_docker-based-rstudio-postgres/docker-compose.png" class="img-fluid"><sup>3</sup></p>
 <p>None of these paths, except for the in-container PostgreSQL are special; you can customize the others to your liking. By default, <code>postgres:13.3</code> expects the database to be at <code>/var/lib/postgresql/data</code>. If you choose another database, modify this accordingly.</p>
 <p>I use <code>docker-compose</code> to launch both PostgreSQL and RStudio services together. It’s convenient while also ensuring the PostgreSQL service runs first followed by RStudio. It’s easy to start or stop all the services using just a few commands.</p>
 </section>
@@ -1375,13 +1375,13 @@ Storage icon by <a href="https://smashicons.com/" title="Smashicons">Smashicons<
 </section></div> ]]></description>
   <category>Docker</category>
   <category>Postgres</category>
-  <guid>https://www.rsangole.com/posts/2021-08-03_docker-based-rstudio-postgres/2021-08-03-docker-based-rstudio-postgres.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2021-08-03_docker-based-rstudio-postgres/2021-08-03-docker-based-rstudio-postgres.html</guid>
   <pubDate>Sat, 07 Aug 2021 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Enhance ETL pipeline monitoring with text plots</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2021-07-19_enhance-etl-text-plots/2021-07-19-enhance-etl-text-plots.html</link>
+  <link>https://rsangole.netlify.app/posts/2021-07-19_enhance-etl-text-plots/2021-07-19-enhance-etl-text-plots.html</link>
   <description><![CDATA[ 
 
 
@@ -1611,14 +1611,14 @@ font-style: inherit;">12</span>)</span></code></pre></div>
 
  ]]></description>
   <category>Visualization</category>
-  <guid>https://www.rsangole.com/posts/2021-07-19_enhance-etl-text-plots/2021-07-19-enhance-etl-text-plots.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2021-07-19_enhance-etl-text-plots/2021-07-19-enhance-etl-text-plots.html</guid>
   <pubDate>Mon, 19 Jul 2021 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2021-07-19_enhance-etl-text-plots/graph.png" medium="image" type="image/png" height="59" width="144"/>
+  <media:content url="https://rsangole.netlify.app/posts/2021-07-19_enhance-etl-text-plots/graph.png" medium="image" type="image/png" height="59" width="144"/>
 </item>
 <item>
   <title>Visualizing Correlations</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge.html</link>
+  <link>https://rsangole.netlify.app/posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge.html</link>
   <description><![CDATA[ 
 
 
@@ -2412,7 +2412,7 @@ font-style: inherit;">PLOT BY @rsangole"</span></span>
 <div class="cell-output-display page-columns page-full">
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
-<p class="page-columns page-full"><img src="https://www.rsangole.com/posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-page" width="1152"></p>
+<p class="page-columns page-full"><img src="https://rsangole.netlify.app/posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-page" width="1152"></p>
 </figure>
 </div>
 </div>
@@ -2806,14 +2806,14 @@ font-style: inherit;">PLOT BY @rsangole"</span></span>
 
  ]]></description>
   <category>Visualization</category>
-  <guid>https://www.rsangole.com/posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2021-04-13-30-day-chart-challenge/2021-04-13-30-day-chart-challenge.html</guid>
   <pubDate>Tue, 13 Apr 2021 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2021-04-13-30-day-chart-challenge/graph.png" medium="image" type="image/png" height="89" width="144"/>
+  <media:content url="https://rsangole.netlify.app/posts/2021-04-13-30-day-chart-challenge/graph.png" medium="image" type="image/png" height="89" width="144"/>
 </item>
 <item>
   <title>TidyTuesday - The Tate Collection</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection.html</link>
+  <link>https://rsangole.netlify.app/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection.html</link>
   <description><![CDATA[ 
 
 
@@ -3758,7 +3758,7 @@ font-style: inherit;">1</span></span>
 <div class="cell-output-display page-columns page-full">
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
-<p class="page-columns page-full"><img src="https://www.rsangole.com/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-page" width="1152"></p>
+<p class="page-columns page-full"><img src="https://rsangole.netlify.app/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-page" width="1152"></p>
 </figure>
 </div>
 </div>
@@ -3769,14 +3769,14 @@ font-style: inherit;">1</span></span>
  ]]></description>
   <category>TidyTuesday</category>
   <category>Visualization</category>
-  <guid>https://www.rsangole.com/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2021-01-19-tidytuesday-the-tate-collection/2021-01-19-tidytuesday-the-tate-collection.html</guid>
   <pubDate>Tue, 19 Jan 2021 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2021-01-19-tidytuesday-the-tate-collection/graph.png" medium="image" type="image/png" height="168" width="144"/>
+  <media:content url="https://rsangole.netlify.app/posts/2021-01-19-tidytuesday-the-tate-collection/graph.png" medium="image" type="image/png" height="168" width="144"/>
 </item>
 <item>
   <title>TidyTuesday - Transit Costs</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs.html</link>
+  <link>https://rsangole.netlify.app/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs.html</link>
   <description><![CDATA[ 
 
 
@@ -5018,7 +5018,7 @@ font-style: inherit;">guide =</span> F)</span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
-<p class="page-columns page-full"><img src="https://www.rsangole.com/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-page" width="672"></p>
+<p class="page-columns page-full"><img src="https://rsangole.netlify.app/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-page" width="672"></p>
 </figure>
 </div>
 </div>
@@ -5029,14 +5029,14 @@ font-style: inherit;">guide =</span> F)</span></code></pre></div>
  ]]></description>
   <category>TidyTuesday</category>
   <category>Visualization</category>
-  <guid>https://www.rsangole.com/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2021-01-11-tidytuesday-transit-costs/2021-01-11-tidytuesday-transit-costs.html</guid>
   <pubDate>Mon, 11 Jan 2021 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2021-01-11-tidytuesday-transit-costs/graph.png" medium="image" type="image/png" height="185" width="144"/>
+  <media:content url="https://rsangole.netlify.app/posts/2021-01-11-tidytuesday-transit-costs/graph.png" medium="image" type="image/png" height="185" width="144"/>
 </item>
 <item>
   <title>TidyTuesday - Big Mac Index</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index.html</link>
+  <link>https://rsangole.netlify.app/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index.html</link>
   <description><![CDATA[ 
 
 
@@ -6045,7 +6045,7 @@ font-style: inherit;">""</span>)</span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
-<p class="page-columns page-full"><img src="https://www.rsangole.com/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-page" width="672"></p>
+<p class="page-columns page-full"><img src="https://rsangole.netlify.app/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img column-page" width="672"></p>
 </figure>
 </div>
 </div>
@@ -6056,20 +6056,20 @@ font-style: inherit;">""</span>)</span></code></pre></div>
  ]]></description>
   <category>TidyTuesday</category>
   <category>Visualization</category>
-  <guid>https://www.rsangole.com/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2021-01-06-tidytuesday-big-mac-index/2021-01-06-tidytuesday-big-mac-index.html</guid>
   <pubDate>Wed, 06 Jan 2021 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2021-01-06-tidytuesday-big-mac-index/graph.png" medium="image" type="image/png" height="185" width="144"/>
+  <media:content url="https://rsangole.netlify.app/posts/2021-01-06-tidytuesday-big-mac-index/graph.png" medium="image" type="image/png" height="185" width="144"/>
 </item>
 <item>
   <title>Perf Benchmarking Dummy Variables - Part II</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii.html</link>
+  <link>https://rsangole.netlify.app/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii.html</link>
   <description><![CDATA[ 
 
 
 
 
-<p><img src="https://www.rsangole.com/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/dummy.png" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/dummy.png" class="img-fluid"></p>
 <section id="tldr" class="level2">
 <h2 class="anchored" data-anchor-id="tldr">tl;dr</h2>
 <ul>
@@ -6425,7 +6425,7 @@ font-style: inherit;">autoplot</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -6914,13 +6914,13 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 
  ]]></description>
   <category>Benchmarking</category>
-  <guid>https://www.rsangole.com/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2020-12-16-perf-benchmarking-dummy-variables-part-ii/2020-12-16-perf-benchmarking-dummy-variables-part-ii.html</guid>
   <pubDate>Wed, 16 Dec 2020 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>M5 Competition Virtual Awards Ceremony</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/2020-10-29-m5-competition-notes.html</link>
+  <link>https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/2020-10-29-m5-competition-notes.html</link>
   <description><![CDATA[ 
 
 
@@ -6938,7 +6938,7 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 <li>M3 competition was huge push forward, ~10% accuracy improvement</li>
 <li>M4 onwards, lots more machine learning solutions</li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.14.26 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.14.26 AM.png" class="img-fluid" width="550"></p>
 </section>
 <section id="m5-competition" class="level3">
 <h3 class="anchored" data-anchor-id="m5-competition">M5 Competition</h3>
@@ -6956,7 +6956,7 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 <li>Winning method <code>LightGBM</code> used by top 50 competitors</li>
 <li>Evidence that understanding the computational algorithms instead of forecasting itself is paying off</li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.22.47 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.22.47 AM.png" class="img-fluid" width="550"></p>
 </section>
 </section>
 <section id="chris-fry-google" class="level2">
@@ -6964,7 +6964,7 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 <ul>
 <li>Chris got involved by analyzing M4, it’s applicability to real world data sets. His critique and subsequent issues addressed in the M5 competition:</li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.31.22 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.31.22 AM.png" class="img-fluid" width="550"></p>
 <ul>
 <li>Spoke of the challenge of single time-window submission:
 <ul>
@@ -6978,20 +6978,20 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 </ul></li>
 </ul></li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.38.06 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.38.06 AM.png" class="img-fluid" width="550"></p>
 <ul>
 <li>75% of score is across top 9 levels. Bottom three are disaggregated intermittent noizy series.</li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.41.28 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.41.28 AM.png" class="img-fluid" width="550"></p>
 <ul>
 <li>Price weighting : 90% of the weight came from 11% of the total series. Competiton winners can focus on left sliver and win… but businesses do care about the right (inventory, spoilage etc).</li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.42.45 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.42.45 AM.png" class="img-fluid" width="550"></p>
 </section>
 <section id="brian-seaman-walmart" class="level2">
 <h2 class="anchored" data-anchor-id="brian-seaman-walmart">Brian Seaman / Walmart</h2>
 <p>Walmart sponsored the M5 competiton and offered their real world data for the competition.</p>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.46.14 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 10.46.14 AM.png" class="img-fluid" width="550"></p>
 <ul>
 <li>Why Walmart cares about forecasts?
 <ul>
@@ -7028,12 +7028,12 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 <li>This as a very eye-opening revalition!</li>
 </ul></li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 11.26.36 AM.png" class="img-fluid" width="550"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 11.26.36 AM.png" class="img-fluid" width="550"></p>
 <ul>
 <li>He spoke about how competitions are an excellent platform for pushing our collective wisdom to solve complex problems. Look at these error bars for the same problem Martin solved, when picked up by teams!</li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 11.27.01 AM.png" class="img-fluid"> - Some insights into the M5 competition:</p>
-<p><img src="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 11.27.44 AM.png" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 11.27.01 AM.png" class="img-fluid"> - Some insights into the M5 competition:</p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/Screen Shot 2020-10-29 at 11.27.44 AM.png" class="img-fluid"></p>
 </section>
 <section id="len-tashman-editor-of-foresight" class="level2">
 <h2 class="anchored" data-anchor-id="len-tashman-editor-of-foresight">Len Tashman / Editor of <a href="https://foresight.forecasters.org">Foresight</a></h2>
@@ -7060,20 +7060,20 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 
  ]]></description>
   <category>Notes</category>
-  <guid>https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/2020-10-29-m5-competition-notes.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/2020-10-29-m5-competition-notes.html</guid>
   <pubDate>Thu, 29 Oct 2020 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2020-10-29_m5-competition-notes/m5.jpeg" medium="image" type="image/jpeg"/>
+  <media:content url="https://rsangole.netlify.app/posts/2020-10-29_m5-competition-notes/m5.jpeg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Reproducible Work in R</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2020-10-10-reproducible-work-in-R/2020-10-10-reproducible-work-in-R.html</link>
+  <link>https://rsangole.netlify.app/posts/2020-10-10-reproducible-work-in-R/2020-10-10-reproducible-work-in-R.html</link>
   <description><![CDATA[ 
 
 
 
 
-<p><img src="https://www.rsangole.com/posts/2020-10-10-reproducible-work-in-R/elephant.jpeg" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-10-reproducible-work-in-R/elephant.jpeg" class="img-fluid"></p>
 <section id="source-of-pain" class="level1">
 <h1>Source of Pain</h1>
 <ul>
@@ -7108,7 +7108,7 @@ font-style: inherit;">"text"</span>)</span></code></pre></div>
 <section id="mran-time-machine" class="level2">
 <h2 class="anchored" data-anchor-id="mran-time-machine">1. MRAN Time Machine</h2>
 <p>Microsoft R Application Network (MRAN) offers a “<a href="https://mran.microsoft.com/timemachine">time machine</a>”. This service takes a daily snapshot of the <a href="http://cran.r-project.org">CRAN repository</a> repository - going as far back as Sep 2014. You can browse the snapshots on their page:</p>
-<p><img src="https://www.rsangole.com/posts/2020-10-10-reproducible-work-in-R/rdocker-mran.png" class="img-fluid" width="450"></p>
+<p><img src="https://rsangole.netlify.app/posts/2020-10-10-reproducible-work-in-R/rdocker-mran.png" class="img-fluid" width="450"></p>
 <p>MRAN snapshots help us lock-down package versions using a date as the ‘index’. For example, running:</p>
 <div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7259,13 +7259,13 @@ font-style: inherit;">hatmatrix/blog:latest</span></span></code></pre></div>
  ]]></description>
   <category>Docker</category>
   <category>Programming Practices</category>
-  <guid>https://www.rsangole.com/posts/2020-10-10-reproducible-work-in-R/2020-10-10-reproducible-work-in-R.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2020-10-10-reproducible-work-in-R/2020-10-10-reproducible-work-in-R.html</guid>
   <pubDate>Sat, 10 Oct 2020 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Using tryCatch for robust R scripts</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2018-08-02-try-catch/2018-08-02-try-catch.html</link>
+  <link>https://rsangole.netlify.app/posts/2018-08-02-try-catch/2018-08-02-try-catch.html</link>
   <description><![CDATA[ 
 
 
@@ -7273,7 +7273,7 @@ font-style: inherit;">hatmatrix/blog:latest</span></span></code></pre></div>
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2018-08-02-try-catch/trycatch.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+<p><img src="https://rsangole.netlify.app/posts/2018-08-02-try-catch/trycatch.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 <p>Using <code>tryCatch</code> to write robust R code can be a bit confusing. I found the help file dry to read. There are some resources which explore <code>tryCatch</code>, linked below. Over the years, I have developed a few programming paradigms which I’ve repeatedly found useful. A quick introduction to <code>tryCatch</code> below, followed by three use-cases I use on a regular basis.</p>
@@ -8159,13 +8159,13 @@ font-style: inherit;">0</span>, stlf_yhats[[i]])</span>
 
  ]]></description>
   <category>Programming Practices</category>
-  <guid>https://www.rsangole.com/posts/2018-08-02-try-catch/2018-08-02-try-catch.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2018-08-02-try-catch/2018-08-02-try-catch.html</guid>
   <pubDate>Thu, 20 Dec 2018 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Performance Benchmarking for Date-Time conversions</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions.html</link>
+  <link>https://rsangole.netlify.app/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions.html</link>
   <description><![CDATA[ 
 
 
@@ -8176,7 +8176,7 @@ font-style: inherit;">0</span>, stlf_yhats[[i]])</span>
 <p>Once more, there’s was an opportunity at work to optimize code and reduce run-time. The last time was for <a href="http://rsangole.netlify.com/post/dummy-variables-one-hot-encoding/">dummy-variable creation</a>. Upon querying large data from our hive tables, the returned dataframe contains values of class <code>character</code>. Thus, everything has to be first type converted before any processing can be done.</p>
 <p>The most time consuming of these has been <code>character</code> to <code>date-time</code> conversion for which I traditionally used <code>base::as.POSIXct</code>.</p>
 <p>Upon searching for some options myself, some help from Twitter, I’ve compared the performance of 6 functions on a 1e7 size character vector.</p>
-<p><img src="https://www.rsangole.com/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/Henning_on_Twitter.png" class="img-fluid" width="450"></p>
+<p><img src="https://rsangole.netlify.app/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/Henning_on_Twitter.png" class="img-fluid" width="450"></p>
 </section>
 <section id="performance-comparison" class="level2">
 <h2 class="anchored" data-anchor-id="performance-comparison">Performance comparison</h2>
@@ -8401,7 +8401,7 @@ font-style: inherit;">'relative'</span>)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://rsangole.netlify.app/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -8435,20 +8435,20 @@ font-style: inherit;">'relative'</span>)</span></code></pre></div>
  ]]></description>
   <category>Benchmarking</category>
   <category>Programming Practices</category>
-  <guid>https://www.rsangole.com/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/2018-04-12-performance-benchmarking-for-date-time-conversions.html</guid>
   <pubDate>Thu, 12 Apr 2018 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/clocks.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://rsangole.netlify.app/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/clocks.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Books I Reference</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2018-02-13-books-i-reference/2018-02-13-books-i-reference.html</link>
+  <link>https://rsangole.netlify.app/posts/2018-02-13-books-i-reference/2018-02-13-books-i-reference.html</link>
   <description><![CDATA[ 
 
 
 
 
-<p><img src="https://www.rsangole.com/posts/2018-02-13-books-i-reference/books.png" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2018-02-13-books-i-reference/books.png" class="img-fluid"></p>
 <p>The full list of the books in my shelf is on my <a href="https://www.goodreads.com/review/list/28286118-rahul?utf8=%E2%9C%93&amp;utf8=%E2%9C%93&amp;print=true&amp;shelf=data-science&amp;title=rahul&amp;sort=position&amp;order=a&amp;per_page=75">Goodreads account</a> <sup>1</sup>. The ones I refer to the most are listed here:</p>
 <div class="cell-output-display">
 <div class="table-responsive">
@@ -8648,13 +8648,13 @@ font-style: inherit;">'relative'</span>)</span></code></pre></div>
 </ol>
 </section></div> ]]></description>
   <category>Books</category>
-  <guid>https://www.rsangole.com/posts/2018-02-13-books-i-reference/2018-02-13-books-i-reference.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2018-02-13-books-i-reference/2018-02-13-books-i-reference.html</guid>
   <pubDate>Tue, 13 Feb 2018 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Visualising Linear Discriminant Analyses</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2018-01-27-visualize-lda/2018-01-27-visualize-lda.html</link>
+  <link>https://rsangole.netlify.app/posts/2018-01-27-visualize-lda/2018-01-27-visualize-lda.html</link>
   <description><![CDATA[ 
 
 
@@ -8666,21 +8666,21 @@ font-style: inherit;">'relative'</span>)</span></code></pre></div>
 <li>Hosted on shinyapps for free, at <a href="https://rsangole.shinyapps.io/LDA_Visual/">link</a></li>
 <li>Github code <a href="https://github.com/rsangole/r_shiny_visuals">here</a></li>
 </ul>
-<p><img src="https://www.rsangole.com/posts/2018-01-27-visualize-lda/LDA_Discriminant_Line_Projections.jpg" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/posts/2018-01-27-visualize-lda/LDA_Discriminant_Line_Projections.jpg" class="img-fluid"></p>
 
 
 
  ]]></description>
   <category>Shiny</category>
   <category>Visualization</category>
-  <guid>https://www.rsangole.com/posts/2018-01-27-visualize-lda/2018-01-27-visualize-lda.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2018-01-27-visualize-lda/2018-01-27-visualize-lda.html</guid>
   <pubDate>Sat, 27 Jan 2018 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2018-01-27-visualize-lda/LDA_Discriminant_Line_Projections.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://rsangole.netlify.app/posts/2018-01-27-visualize-lda/LDA_Discriminant_Line_Projections.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Performance Benchmarking for Dummy Variable Creation</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html</link>
+  <link>https://rsangole.netlify.app/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html</link>
   <description><![CDATA[ 
 
 
@@ -9208,7 +9208,7 @@ font-style: inherit;">autoplot</span>(benchmarks)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://rsangole.netlify.app/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -9573,7 +9573,7 @@ font-style: inherit;">autoplot</span>(benchmarks)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://rsangole.netlify.app/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -9607,13 +9607,13 @@ font-style: inherit;">autoplot</span>(benchmarks)</span></code></pre></div>
 </ol>
 </section></div> ]]></description>
   <category>Benchmarking</category>
-  <guid>https://www.rsangole.com/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2017-09-26_dummy-variables-one-hot-encoding/2017-09-26-dummy-variables-one-hot-encoding.html</guid>
   <pubDate>Wed, 27 Sep 2017 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Pur(r)ify Your Carets</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets.html</link>
+  <link>https://rsangole.netlify.app/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets.html</link>
   <description><![CDATA[ 
 
 
@@ -10529,7 +10529,7 @@ font-style: inherit;">|</span>modelName,train_df)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://rsangole.netlify.app/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -10584,7 +10584,7 @@ font-style: inherit;">15</span>)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://rsangole.netlify.app/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -10615,7 +10615,7 @@ font-style: inherit;">1</span>]])</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://rsangole.netlify.app/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -10638,14 +10638,14 @@ font-style: inherit;">1</span>]])</span></code></pre></div>
 </ol>
 </section></div> ]]></description>
   <category>Programming Practices</category>
-  <guid>https://www.rsangole.com/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2017-09-17-pur-r-ify-your-carets/2017-09-17-pur-r-ify-your-carets.html</guid>
   <pubDate>Sun, 17 Sep 2017 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2017-09-17-pur-r-ify-your-carets/carrots.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://rsangole.netlify.app/posts/2017-09-17-pur-r-ify-your-carets/carrots.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Finite Mixture Modeling using Flexmix</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html</link>
+  <link>https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html</link>
   <description><![CDATA[ 
 
 
@@ -10836,7 +10836,7 @@ font-style: inherit;">'Whiskey Brand'</span>)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -10951,7 +10951,7 @@ font-style: inherit;">20</span>)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -11094,7 +11094,7 @@ font-style: inherit;">~</span>Components)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="768"></p>
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
@@ -11147,7 +11147,7 @@ font-style: inherit;">~</span>lgRD,df_patent)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -11238,7 +11238,7 @@ font-style: inherit;">'spline'</span>))</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -11258,7 +11258,7 @@ font-style: inherit;">1</span>)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -11272,7 +11272,7 @@ font-style: inherit;">3</span>)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -11337,7 +11337,7 @@ font-style: inherit;">bycluster=</span>F)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://www.rsangole.com/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -11369,9 +11369,9 @@ font-style: inherit;">bycluster=</span>F)</span></code></pre></div>
  ]]></description>
   <category>Flexmix</category>
   <category>Mixture Modeling</category>
-  <guid>https://www.rsangole.com/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html</guid>
+  <guid>https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/2017-02-01-finite-mixture-modeling-using-flexmix.html</guid>
   <pubDate>Wed, 01 Feb 2017 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/posts/2017-02-01-finite-mixture-modeling-using-flexmix/graph.png" medium="image" type="image/png" height="103" width="144"/>
+  <media:content url="https://rsangole.netlify.app/posts/2017-02-01-finite-mixture-modeling-using-flexmix/graph.png" medium="image" type="image/png" height="103" width="144"/>
 </item>
 </channel>
 </rss>

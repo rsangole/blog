@@ -6,15 +6,15 @@
       version="2.0">
 <channel>
 <title>yHat</title>
-<link>https://www.rsangole.com/astronomy.html</link>
-<atom:link href="https://www.rsangole.com/astronomy.xml" rel="self" type="application/rss+xml"/>
+<link>https://rsangole.netlify.app/astronomy.html</link>
+<atom:link href="https://rsangole.netlify.app/astronomy.xml" rel="self" type="application/rss+xml"/>
 <description>rahul&#39;s blog on data science</description>
 <generator>quarto-1.6.42</generator>
 <lastBuildDate>Thu, 06 Oct 2022 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Int’l Observe the Moon Night</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/astronomy/2022-10-06_intl-moon-observing-day/post.html</link>
+  <link>https://rsangole.netlify.app/astronomy/2022-10-06_intl-moon-observing-day/post.html</link>
   <description><![CDATA[ 
 
 
@@ -29,35 +29,35 @@
 <div class="quarto-layout-panel" data-layout-ncol="3">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/IMG_6253.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.rsangole.com/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6253.jpeg" class="img-fluid"></a></p>
+<p><a href="images/IMG_6253.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://rsangole.netlify.app/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6253.jpeg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/IMG_6250.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.rsangole.com/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6250.jpeg" class="img-fluid"></a></p>
+<p><a href="images/IMG_6250.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://rsangole.netlify.app/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6250.jpeg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/IMG_6248.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.rsangole.com/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6248.jpeg" class="img-fluid"></a></p>
+<p><a href="images/IMG_6248.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://rsangole.netlify.app/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6248.jpeg" class="img-fluid"></a></p>
 </div>
 </div>
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/IMG_6245.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.rsangole.com/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6245.jpeg" class="img-fluid"></a></p>
+<p><a href="images/IMG_6245.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://rsangole.netlify.app/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6245.jpeg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/IMG_6270.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://www.rsangole.com/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6270.jpeg" class="img-fluid"></a></p>
+<p><a href="images/IMG_6270.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://rsangole.netlify.app/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6270.jpeg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/IMG_6261.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.rsangole.com/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6261.jpeg" class="img-fluid"></a></p>
+<p><a href="images/IMG_6261.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://rsangole.netlify.app/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6261.jpeg" class="img-fluid"></a></p>
 </div>
 </div>
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/IMG_6288.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.rsangole.com/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6288.jpeg" class="img-fluid"></a></p>
+<p><a href="images/IMG_6288.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://rsangole.netlify.app/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6288.jpeg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/IMG_6286.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.rsangole.com/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6286.jpeg" class="img-fluid"></a></p>
+<p><a href="images/IMG_6286.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="https://rsangole.netlify.app/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6286.jpeg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/IMG_6293.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://www.rsangole.com/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6293.jpeg" class="img-fluid"></a></p>
+<p><a href="images/IMG_6293.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://rsangole.netlify.app/astronomy/2022-10-06_intl-moon-observing-day/images/IMG_6293.jpeg" class="img-fluid"></a></p>
 </div>
 </div>
 </div>
@@ -65,14 +65,14 @@
 
 
  ]]></description>
-  <guid>https://www.rsangole.com/astronomy/2022-10-06_intl-moon-observing-day/post.html</guid>
+  <guid>https://rsangole.netlify.app/astronomy/2022-10-06_intl-moon-observing-day/post.html</guid>
   <pubDate>Thu, 06 Oct 2022 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/astronomy/2022-10-06_intl-moon-observing-day/IOTMN-logo-full-text.png" medium="image" type="image/png" height="144" width="144"/>
+  <media:content url="https://rsangole.netlify.app/astronomy/2022-10-06_intl-moon-observing-day/IOTMN-logo-full-text.png" medium="image" type="image/png" height="144" width="144"/>
 </item>
 <item>
   <title>Calstar 2022</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/astronomy/2022-09-23_calstar/or.html</link>
+  <link>https://rsangole.netlify.app/astronomy/2022-09-23_calstar/or.html</link>
   <description><![CDATA[ 
 
 
@@ -81,7 +81,7 @@
 <p><a href="https://calstar.observers.org">CalStar 2022</a> this year was the 24th year of the star party, where astronomers congregate to watch the night skies together. It’s held at the Lake San Antonio ‘field of dreams’. This was my first attempt at CalStar, and I was in for a treat.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/6ECD2EFA-5B46-451B-9066-97B9CDCE67DA_1_105_c.jpeg" class="lightbox" data-gallery="day-1"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/6ECD2EFA-5B46-451B-9066-97B9CDCE67DA_1_105_c.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="506"></a></p>
+<p><a href="images/6ECD2EFA-5B46-451B-9066-97B9CDCE67DA_1_105_c.jpeg" class="lightbox" data-gallery="day-1"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/6ECD2EFA-5B46-451B-9066-97B9CDCE67DA_1_105_c.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="506"></a></p>
 </figure>
 </div>
 <p>The highlight of the star party was most certainly the community - Jeff, Jamie, Les, Dan, Randy, and Akshay, among many others. They went out of their way to make new comers like me feel welcome in the community; there was plenty of astro-nerding, banter and laughter, and gobs of delicious food cooked by Chefs Dan and Randy. Thanks Les for the Gaffers tape and sharing some of that precious ice with me on day two when things got pretty hot.</p>
@@ -94,10 +94,10 @@
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="images/FA9569E7-E4EC-45EA-A02C-F4D12B5CB38A_1_105_c.jpeg" class="lightbox" data-gallery="day-1-1"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/FA9569E7-E4EC-45EA-A02C-F4D12B5CB38A_1_105_c.jpeg" class="img-fluid"></a></p>
+<p><a href="images/FA9569E7-E4EC-45EA-A02C-F4D12B5CB38A_1_105_c.jpeg" class="lightbox" data-gallery="day-1-1"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/FA9569E7-E4EC-45EA-A02C-F4D12B5CB38A_1_105_c.jpeg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="images/432C15DD-6BF1-467F-98DB-75265F0CC91A_1_105_c.jpeg" class="lightbox" data-gallery="day-1-1"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/432C15DD-6BF1-467F-98DB-75265F0CC91A_1_105_c.jpeg" class="img-fluid"></a></p>
+<p><a href="images/432C15DD-6BF1-467F-98DB-75265F0CC91A_1_105_c.jpeg" class="lightbox" data-gallery="day-1-1"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/432C15DD-6BF1-467F-98DB-75265F0CC91A_1_105_c.jpeg" class="img-fluid"></a></p>
 </div>
 </div>
 </div>
@@ -108,10 +108,10 @@
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="images/38C02911-1E9F-4CF7-8CE3-9DB3600AB395_1_105_c.jpeg" class="lightbox" data-gallery="day-1-2"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/38C02911-1E9F-4CF7-8CE3-9DB3600AB395_1_105_c.jpeg" class="img-fluid"></a></p>
+<p><a href="images/38C02911-1E9F-4CF7-8CE3-9DB3600AB395_1_105_c.jpeg" class="lightbox" data-gallery="day-1-2"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/38C02911-1E9F-4CF7-8CE3-9DB3600AB395_1_105_c.jpeg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="images/62BC18A1-7E2B-4D30-9541-F5DCB00067A6_1_105_c.jpeg" class="lightbox" data-gallery="day-1-2"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/62BC18A1-7E2B-4D30-9541-F5DCB00067A6_1_105_c.jpeg" class="img-fluid"></a></p>
+<p><a href="images/62BC18A1-7E2B-4D30-9541-F5DCB00067A6_1_105_c.jpeg" class="lightbox" data-gallery="day-1-2"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/62BC18A1-7E2B-4D30-9541-F5DCB00067A6_1_105_c.jpeg" class="img-fluid"></a></p>
 </div>
 </div>
 </div>
@@ -139,7 +139,7 @@
 <figure class="figure">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/IMG_6064.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="The view from my tent"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/IMG_6064.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="414" alt="The view from my tent"></a></p>
+<p><a href="images/IMG_6064.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="The view from my tent"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/IMG_6064.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="414" alt="The view from my tent"></a></p>
 </figure>
 </div>
 <figcaption><em>The view from my tent</em></figcaption>
@@ -156,13 +156,13 @@
 <div class="quarto-layout-panel" data-layout-ncol="3">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/8115E519-0AFD-42D9-B662-D5923D5C6906_1_105_c.jpeg" class="lightbox" data-gallery="day-2-1"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/8115E519-0AFD-42D9-B662-D5923D5C6906_1_105_c.jpeg" class="img-fluid"></a></p>
+<p><a href="images/8115E519-0AFD-42D9-B662-D5923D5C6906_1_105_c.jpeg" class="lightbox" data-gallery="day-2-1"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/8115E519-0AFD-42D9-B662-D5923D5C6906_1_105_c.jpeg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/CD879333-8126-492F-A34E-158DE36A4328_1_105_c.jpeg" class="lightbox" data-gallery="day-2-1"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/CD879333-8126-492F-A34E-158DE36A4328_1_105_c.jpeg" class="img-fluid"></a></p>
+<p><a href="images/CD879333-8126-492F-A34E-158DE36A4328_1_105_c.jpeg" class="lightbox" data-gallery="day-2-1"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/CD879333-8126-492F-A34E-158DE36A4328_1_105_c.jpeg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/3F3D81CF-D965-4774-96E8-F3FE2B40E577_1_105_c.jpeg" class="lightbox" data-gallery="day-2-1"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/3F3D81CF-D965-4774-96E8-F3FE2B40E577_1_105_c.jpeg" class="img-fluid"></a></p>
+<p><a href="images/3F3D81CF-D965-4774-96E8-F3FE2B40E577_1_105_c.jpeg" class="lightbox" data-gallery="day-2-1"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/3F3D81CF-D965-4774-96E8-F3FE2B40E577_1_105_c.jpeg" class="img-fluid"></a></p>
 </div>
 </div>
 </div>
@@ -173,25 +173,25 @@
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="images/F5A0B8DF-20F3-4366-869A-E68154A23196_1_105_c.jpeg" class="lightbox" data-gallery="day-2-2"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/F5A0B8DF-20F3-4366-869A-E68154A23196_1_105_c.jpeg" class="img-fluid"></a></p>
+<p><a href="images/F5A0B8DF-20F3-4366-869A-E68154A23196_1_105_c.jpeg" class="lightbox" data-gallery="day-2-2"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/F5A0B8DF-20F3-4366-869A-E68154A23196_1_105_c.jpeg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="images/211D05B6-2F28-4A60-9B7D-EB3816A33134_1_105_c.jpeg" class="lightbox" data-gallery="day-2-2"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/211D05B6-2F28-4A60-9B7D-EB3816A33134_1_105_c.jpeg" class="img-fluid"></a></p>
+<p><a href="images/211D05B6-2F28-4A60-9B7D-EB3816A33134_1_105_c.jpeg" class="lightbox" data-gallery="day-2-2"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/211D05B6-2F28-4A60-9B7D-EB3816A33134_1_105_c.jpeg" class="img-fluid"></a></p>
 </div>
 </div>
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="images/5A8510D3-97DC-4859-A9D5-375162C41DC1_1_105_c.jpeg" class="lightbox" data-gallery="day-2-2"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/5A8510D3-97DC-4859-A9D5-375162C41DC1_1_105_c.jpeg" class="img-fluid"></a></p>
+<p><a href="images/5A8510D3-97DC-4859-A9D5-375162C41DC1_1_105_c.jpeg" class="lightbox" data-gallery="day-2-2"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/5A8510D3-97DC-4859-A9D5-375162C41DC1_1_105_c.jpeg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="images/5C65389B-976B-4D28-BAF6-B61D37258F32_1_105_c.jpeg" class="lightbox" data-gallery="day-2-2"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/5C65389B-976B-4D28-BAF6-B61D37258F32_1_105_c.jpeg" class="img-fluid"></a></p>
+<p><a href="images/5C65389B-976B-4D28-BAF6-B61D37258F32_1_105_c.jpeg" class="lightbox" data-gallery="day-2-2"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/5C65389B-976B-4D28-BAF6-B61D37258F32_1_105_c.jpeg" class="img-fluid"></a></p>
 </div>
 </div>
 </div>
 <p>Neil’s book kept me busy for the rest of the afternoon.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/2036548A-654D-4208-853D-58B210EE5082_1_105_c.jpeg" class="lightbox" data-gallery="day-2-2"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/2036548A-654D-4208-853D-58B210EE5082_1_105_c.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="375"></a></p>
+<p><a href="images/2036548A-654D-4208-853D-58B210EE5082_1_105_c.jpeg" class="lightbox" data-gallery="day-2-2"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/2036548A-654D-4208-853D-58B210EE5082_1_105_c.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="375"></a></p>
 </figure>
 </div>
 <p>Lots of big and interesting scopes around the field.</p>
@@ -201,10 +201,10 @@
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="images/D00DF487-4C6F-463A-BE49-DCFE35AFBF62_1_105_c.jpeg" class="lightbox" data-gallery="day-2-3"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/D00DF487-4C6F-463A-BE49-DCFE35AFBF62_1_105_c.jpeg" class="img-fluid"></a></p>
+<p><a href="images/D00DF487-4C6F-463A-BE49-DCFE35AFBF62_1_105_c.jpeg" class="lightbox" data-gallery="day-2-3"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/D00DF487-4C6F-463A-BE49-DCFE35AFBF62_1_105_c.jpeg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="images/725A889C-549F-4318-867C-A9FC2EAA66DB_1_105_c.jpeg" class="lightbox" data-gallery="day-2-3"><img src="https://www.rsangole.com/astronomy/2022-09-23_calstar/images/725A889C-549F-4318-867C-A9FC2EAA66DB_1_105_c.jpeg" class="img-fluid"></a></p>
+<p><a href="images/725A889C-549F-4318-867C-A9FC2EAA66DB_1_105_c.jpeg" class="lightbox" data-gallery="day-2-3"><img src="https://rsangole.netlify.app/astronomy/2022-09-23_calstar/images/725A889C-549F-4318-867C-A9FC2EAA66DB_1_105_c.jpeg" class="img-fluid"></a></p>
 </div>
 </div>
 </div>
@@ -259,13 +259,13 @@
 </section>
 
  ]]></description>
-  <guid>https://www.rsangole.com/astronomy/2022-09-23_calstar/or.html</guid>
+  <guid>https://rsangole.netlify.app/astronomy/2022-09-23_calstar/or.html</guid>
   <pubDate>Sat, 24 Sep 2022 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>AL Globular Cluster Observing Challenge</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/post.html</link>
+  <link>https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/post.html</link>
   <description><![CDATA[ 
 
 
@@ -301,28 +301,28 @@
 <li>Equipment: C9.25 SCT, TV 35 Panoptic, TV 17.3 Delos</li>
 </ul>
 <p><strong>22:00</strong></p>
-<p><a href="images/2-m12.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/2-m12.jpeg" class="img-fluid"></a></p>
-<p><a href="images/3-m10.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/3-m10.jpeg" class="img-fluid"></a></p>
-<p><a href="images/13-ngc6356.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/13-ngc6356.jpeg" class="img-fluid"></a></p>
-<p><a href="images/17-m14.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/17-m14.jpeg" class="img-fluid"></a></p>
-<p><a href="images/15-ngc9366.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/15-ngc9366.jpeg" class="img-fluid"></a></p>
-<p><a href="images/11-m9.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/11-m9.jpeg" class="img-fluid"></a></p>
-<p><a href="images/12-ngc6342.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/12-ngc6342.jpeg" class="img-fluid"></a></p>
-<p><a href="images/1-m107.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/1-m107.jpeg" class="img-fluid"></a></p>
+<p><a href="images/2-m12.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/2-m12.jpeg" class="img-fluid"></a></p>
+<p><a href="images/3-m10.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/3-m10.jpeg" class="img-fluid"></a></p>
+<p><a href="images/13-ngc6356.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/13-ngc6356.jpeg" class="img-fluid"></a></p>
+<p><a href="images/17-m14.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/17-m14.jpeg" class="img-fluid"></a></p>
+<p><a href="images/15-ngc9366.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/15-ngc9366.jpeg" class="img-fluid"></a></p>
+<p><a href="images/11-m9.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/11-m9.jpeg" class="img-fluid"></a></p>
+<p><a href="images/12-ngc6342.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/12-ngc6342.jpeg" class="img-fluid"></a></p>
+<p><a href="images/1-m107.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/1-m107.jpeg" class="img-fluid"></a></p>
 <p><strong>23:00</strong></p>
-<p><a href="images/4-m62.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/4-m62.jpeg" class="img-fluid"></a></p>
-<p><a href="images/5-m19.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/5-m19.jpeg" class="img-fluid"></a></p>
-<p><a href="images/9-ngc6304.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/9-ngc6304.jpeg" class="img-fluid"></a></p>
-<p><a href="images/8-ngc6293.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/8-ngc6293.jpeg" class="img-fluid"></a></p>
-<p><a href="images/32-m22.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/32-m22.jpeg" class="img-fluid"></a></p>
+<p><a href="images/4-m62.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/4-m62.jpeg" class="img-fluid"></a></p>
+<p><a href="images/5-m19.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/5-m19.jpeg" class="img-fluid"></a></p>
+<p><a href="images/9-ngc6304.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/9-ngc6304.jpeg" class="img-fluid"></a></p>
+<p><a href="images/8-ngc6293.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/8-ngc6293.jpeg" class="img-fluid"></a></p>
+<p><a href="images/32-m22.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/images/32-m22.jpeg" class="img-fluid"></a></p>
 
 
 </section>
 
  ]]></description>
-  <guid>https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/post.html</guid>
+  <guid>https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/post.html</guid>
   <pubDate>Fri, 01 Jul 2022 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/astronomy/2022-07-01_astroleague-glob-clust-challenge/image.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://rsangole.netlify.app/astronomy/2022-07-01_astroleague-glob-clust-challenge/image.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>

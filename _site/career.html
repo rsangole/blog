@@ -143,7 +143,7 @@ window.Quarto = {
 </script>
 
 <link rel="alternate" type="application/rss+xml" title="yHat" href="career.xml" data-external="1"><meta name="twitter:title" content="– yHat">
-<meta name="twitter:image" content="https://www.rsangole.com/career/apple/talk.png">
+<meta name="twitter:image" content="https://rsangole.netlify.app/career/apple/talk.png">
 <meta name="twitter:creator" content="@rsangole">
 <meta name="twitter:image-height" content="2160">
 <meta name="twitter:image-width" content="3840">
@@ -178,10 +178,6 @@ window.Quarto = {
   <li class="nav-item">
     <a class="nav-link" href="./talks.html"> 
 <span class="menu-text">~/talks</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link active" href="./career.html" aria-current="page"> 
-<span class="menu-text">~/career</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./astronomy.html"> 
@@ -406,7 +402,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/www\.rsangole\.com");
+      var filterRegex = new RegExp("https:\/\/rsangole\.netlify\.app");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

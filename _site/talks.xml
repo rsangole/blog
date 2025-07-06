@@ -6,15 +6,15 @@
       version="2.0">
 <channel>
 <title>yHat</title>
-<link>https://www.rsangole.com/talks.html</link>
-<atom:link href="https://www.rsangole.com/talks.xml" rel="self" type="application/rss+xml"/>
+<link>https://rsangole.netlify.app/talks.html</link>
+<atom:link href="https://rsangole.netlify.app/talks.xml" rel="self" type="application/rss+xml"/>
 <description>rahul&#39;s blog on data science</description>
 <generator>quarto-1.6.42</generator>
 <lastBuildDate>Mon, 09 Jun 2025 00:00:00 GMT</lastBuildDate>
 <item>
   <title>2025 R/Medicine Conference</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/talks/2025-06-09_rmedicine-targets/doc.html</link>
+  <link>https://rsangole.netlify.app/talks/2025-06-09_rmedicine-targets/doc.html</link>
   <description><![CDATA[ 
 
 
@@ -36,14 +36,14 @@
   <category>Targets</category>
   <category>R</category>
   <category>Workshop</category>
-  <guid>https://www.rsangole.com/talks/2025-06-09_rmedicine-targets/doc.html</guid>
+  <guid>https://rsangole.netlify.app/talks/2025-06-09_rmedicine-targets/doc.html</guid>
   <pubDate>Mon, 09 Jun 2025 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/talks/2025-06-09_rmedicine-targets/talk.png" medium="image" type="image/png" height="81" width="144"/>
+  <media:content url="https://rsangole.netlify.app/talks/2025-06-09_rmedicine-targets/talk.png" medium="image" type="image/png" height="81" width="144"/>
 </item>
 <item>
   <title>2024 uROS Conference</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/talks/2024-11-27_uros2024/doc.html</link>
+  <link>https://rsangole.netlify.app/talks/2024-11-27_uros2024/doc.html</link>
   <description><![CDATA[ 
 
 
@@ -51,8 +51,8 @@
 
 <p>I had the pleasure of talking about this topic at the <a href="https://r-project.ro/conference2024-live.html">2024 uRos</a> conference held in Greece in Nov 2024. I spoke about how very simple tooling in {shiny}, combined with {arrow} can unlock the capability to develop some very powerful interactive tooling in R. I spoke about how we can be quickly scale up our development using shiny modules.</p>
 <p>Find the presentation and the code <a href="https://github.com/rsangole/uros2024-interactive_baseplots">here</a>.</p>
-<p><img src="https://www.rsangole.com/talks/2024-11-27_uros2024/uros2024_1.png" class="img-fluid"></p>
-<p><img src="https://www.rsangole.com/talks/2024-11-27_uros2024/uros2024_2.png" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/talks/2024-11-27_uros2024/uros2024_1.png" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/talks/2024-11-27_uros2024/uros2024_2.png" class="img-fluid"></p>
 
 
 
@@ -60,20 +60,20 @@
   <category>Shiny</category>
   <category>Arrow</category>
   <category>Talk</category>
-  <guid>https://www.rsangole.com/talks/2024-11-27_uros2024/doc.html</guid>
+  <guid>https://rsangole.netlify.app/talks/2024-11-27_uros2024/doc.html</guid>
   <pubDate>Wed, 27 Nov 2024 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/talks/2024-11-27_uros2024/uros2024_2.png" medium="image" type="image/png" height="96" width="144"/>
+  <media:content url="https://rsangole.netlify.app/talks/2024-11-27_uros2024/uros2024_2.png" medium="image" type="image/png" height="96" width="144"/>
 </item>
 <item>
   <title>Data Carpentry (Social Sciences with R)</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/talks/2023-11-15_carpCMU/doc.html</link>
+  <link>https://rsangole.netlify.app/talks/2023-11-15_carpCMU/doc.html</link>
   <description><![CDATA[ 
 
 
 
 
-<p><img src="https://www.rsangole.com/talks/2023-11-15_carpCMU/talk.png" class="img-fluid"></p>
+<p><img src="https://rsangole.netlify.app/talks/2023-11-15_carpCMU/talk.png" class="img-fluid"></p>
 <p>Course link: <a href="https://rsangole.github.io/2023-11-15-cmu-online/">https://rsangole.github.io/2023-11-15-cmu-online/</a></p>
 
 
@@ -82,14 +82,14 @@
   <category>R</category>
   <category>Carpentries</category>
   <category>Teaching</category>
-  <guid>https://www.rsangole.com/talks/2023-11-15_carpCMU/doc.html</guid>
+  <guid>https://rsangole.netlify.app/talks/2023-11-15_carpCMU/doc.html</guid>
   <pubDate>Wed, 15 Nov 2023 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/talks/2023-11-15_carpCMU/talk.png" medium="image" type="image/png" height="68" width="144"/>
+  <media:content url="https://rsangole.netlify.app/talks/2023-11-15_carpCMU/talk.png" medium="image" type="image/png" height="68" width="144"/>
 </item>
 <item>
   <title>2023 Oman R Users</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/talks/2023-11-08_omanRusers/doc.html</link>
+  <link>https://rsangole.netlify.app/talks/2023-11-08_omanRusers/doc.html</link>
   <description><![CDATA[ 
 
 
@@ -106,14 +106,14 @@
  ]]></description>
   <category>Arrow</category>
   <category>Talk</category>
-  <guid>https://www.rsangole.com/talks/2023-11-08_omanRusers/doc.html</guid>
+  <guid>https://rsangole.netlify.app/talks/2023-11-08_omanRusers/doc.html</guid>
   <pubDate>Wed, 08 Nov 2023 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/talks/2023-11-08_omanRusers/talk.png" medium="image" type="image/png" height="78" width="144"/>
+  <media:content url="https://rsangole.netlify.app/talks/2023-11-08_omanRusers/talk.png" medium="image" type="image/png" height="78" width="144"/>
 </item>
 <item>
   <title>2022 useR Conference</title>
   <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/talks/2022-06-20_2022useR-docker/doc.html</link>
+  <link>https://rsangole.netlify.app/talks/2022-06-20_2022useR-docker/doc.html</link>
   <description><![CDATA[ 
 
 
@@ -132,9 +132,9 @@
   <category>Docker</category>
   <category>useR</category>
   <category>Workshop</category>
-  <guid>https://www.rsangole.com/talks/2022-06-20_2022useR-docker/doc.html</guid>
+  <guid>https://rsangole.netlify.app/talks/2022-06-20_2022useR-docker/doc.html</guid>
   <pubDate>Mon, 20 Jun 2022 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/talks/2022-06-20_2022useR-docker/talk.png" medium="image" type="image/png" height="90" width="144"/>
+  <media:content url="https://rsangole.netlify.app/talks/2022-06-20_2022useR-docker/talk.png" medium="image" type="image/png" height="90" width="144"/>
 </item>
 </channel>
 </rss>

@@ -6,14 +6,14 @@
       version="2.0">
 <channel>
 <title>yHat</title>
-<link>https://www.rsangole.com/mechatronics.html</link>
-<atom:link href="https://www.rsangole.com/mechatronics.xml" rel="self" type="application/rss+xml"/>
+<link>https://rsangole.netlify.app/mechatronics.html</link>
+<atom:link href="https://rsangole.netlify.app/mechatronics.xml" rel="self" type="application/rss+xml"/>
 <description>rahul&#39;s blog on data science</description>
 <generator>quarto-1.6.42</generator>
 <lastBuildDate>Mon, 14 Mar 2016 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Baby Milk Tracker</title>
-  <link>https://www.rsangole.com/mechatronics/milk_tracker/doc.html</link>
+  <link>https://rsangole.netlify.app/mechatronics/milk_tracker/doc.html</link>
   <description><![CDATA[ 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
@@ -36,19 +36,19 @@
 <p>Maternity and paternity leaves are over; the parents are back to work. Baby is being fed via the&nbsp;bottle. Needless to say, this meant that we ‘needed’ an overengineering way to&nbsp;track his daily milk intake.</p>
 
 <div class="no-row-height column-margin column-container"><div class="">
-<p><a href="install1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.rsangole.com/mechatronics/milk_tracker/install1.jpg" class="img-fluid" style="width:50.0%"></a></p>
+<p><a href="install1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://rsangole.netlify.app/mechatronics/milk_tracker/install1.jpg" class="img-fluid" style="width:50.0%"></a></p>
 </div></div></section>
 <section id="the-solution" class="level3">
 <h3 class="anchored" data-anchor-id="the-solution">The Solution</h3>
 <p>Thus, is born the wifi-enabled-twitter-feed-doodoo-tracker.</p>
-<p><a href="install2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.rsangole.com/mechatronics/milk_tracker/install2.jpg" class="img-fluid" style="width:50.0%"></a></p>
+<p><a href="install2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://rsangole.netlify.app/mechatronics/milk_tracker/install2.jpg" class="img-fluid" style="width:50.0%"></a></p>
 <p>The system is built around a Spark Core v1.0 microcontroller that connects to the internet via WiFi. The device features two main controls:</p>
 <ul>
 <li><strong>Switch S1</strong>: Cycles through a 10-LED display, where each light represents 0.25 oz of milk consumed</li>
 <li><strong>Switch S2</strong>: Sends the current milk intake data to the cloud</li>
 </ul>
 <p>When S2 is pressed, the device transmits data through IFTTT (If This Then That) automation service, which then populates a secure Google Sheets spreadsheet. This allows parents to remotely monitor their baby’s feeding schedule and milk consumption throughout the day, even while at work.</p>
-<p><a href="schema.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.rsangole.com/mechatronics/milk_tracker/schema.png" class="img-fluid" style="width:50.0%"></a></p>
+<p><a href="schema.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://rsangole.netlify.app/mechatronics/milk_tracker/schema.png" class="img-fluid" style="width:50.0%"></a></p>
 
 
 </section>
@@ -56,13 +56,13 @@
  ]]></description>
   <category>Arduino</category>
   <category>IoT</category>
-  <guid>https://www.rsangole.com/mechatronics/milk_tracker/doc.html</guid>
+  <guid>https://rsangole.netlify.app/mechatronics/milk_tracker/doc.html</guid>
   <pubDate>Mon, 14 Mar 2016 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/mechatronics/milk_tracker/logo.png" medium="image" type="image/png" height="108" width="144"/>
+  <media:content url="https://rsangole.netlify.app/mechatronics/milk_tracker/logo.png" medium="image" type="image/png" height="108" width="144"/>
 </item>
 <item>
   <title>Park Assist</title>
-  <link>https://www.rsangole.com/mechatronics/park_bot/doc.html</link>
+  <link>https://rsangole.netlify.app/mechatronics/park_bot/doc.html</link>
   <description><![CDATA[ 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
@@ -147,13 +147,13 @@
 <p>The schematic shows all connections to the Arduino Nano. Fritzing is a fantastic tool for layout design—my final product looks almost exactly like the simulation.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="brains-schematic.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Brains Schematic"><img src="https://www.rsangole.com/mechatronics/park_bot/brains-schematic.png" class="img-fluid figure-img" alt="Brains Schematic"></a></p>
+<p><a href="brains-schematic.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Brains Schematic"><img src="https://rsangole.netlify.app/mechatronics/park_bot/brains-schematic.png" class="img-fluid figure-img" alt="Brains Schematic"></a></p>
 <figcaption>Brains Schematic</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="brains-layout.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Brains Layout"><img src="https://www.rsangole.com/mechatronics/park_bot/brains-layout.png" class="img-fluid figure-img" alt="Brains Layout"></a></p>
+<p><a href="brains-layout.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Brains Layout"><img src="https://rsangole.netlify.app/mechatronics/park_bot/brains-layout.png" class="img-fluid figure-img" alt="Brains Layout"></a></p>
 <figcaption>Brains Layout</figcaption>
 </figure>
 </div>
@@ -171,13 +171,13 @@
 <p>The board uses a diode-capacitor combination where the capacitor helps debounce the switch.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="interrupt-schematic.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Interrupt Board Schematic"><img src="https://www.rsangole.com/mechatronics/park_bot/interrupt-schematic.png" class="img-fluid figure-img" alt="Interrupt Board Schematic"></a></p>
+<p><a href="interrupt-schematic.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Interrupt Board Schematic"><img src="https://rsangole.netlify.app/mechatronics/park_bot/interrupt-schematic.png" class="img-fluid figure-img" alt="Interrupt Board Schematic"></a></p>
 <figcaption>Interrupt Board Schematic</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="interrupt-layout.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Interrupt Board Layout"><img src="https://www.rsangole.com/mechatronics/park_bot/interrupt-layout.png" class="img-fluid figure-img" alt="Interrupt Board Layout"></a></p>
+<p><a href="interrupt-layout.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Interrupt Board Layout"><img src="https://rsangole.netlify.app/mechatronics/park_bot/interrupt-layout.png" class="img-fluid figure-img" alt="Interrupt Board Layout"></a></p>
 <figcaption>Interrupt Board Layout</figcaption>
 </figure>
 </div>
@@ -280,15 +280,15 @@ font-style: inherit;">();</span></span></code></pre></div>
 </section>
 <section id="project-gallery" class="level2">
 <h2 class="anchored" data-anchor-id="project-gallery">Project Gallery</h2>
-<p><a href="breadboard.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://www.rsangole.com/mechatronics/park_bot/breadboard.png" class="img-fluid"></a></p>
-<p><a href="garage.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.rsangole.com/mechatronics/park_bot/garage.png" class="img-fluid"></a></p>
-<p><a href="interrupt_board.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.rsangole.com/mechatronics/park_bot/interrupt_board.png" class="img-fluid"></a></p>
-<p><a href="reed-schematic.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.rsangole.com/mechatronics/park_bot/reed-schematic.png" class="img-fluid"></a></p>
-<p><a href="breadboard.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://www.rsangole.com/mechatronics/park_bot/breadboard.png" class="img-fluid"></a></p>
-<p><a href="board1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="https://www.rsangole.com/mechatronics/park_bot/board1.jpg" class="img-fluid"></a></p>
-<p><a href="board2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="https://www.rsangole.com/mechatronics/park_bot/board2.jpg" class="img-fluid"></a></p>
-<p><a href="board3.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="https://www.rsangole.com/mechatronics/park_bot/board3.jpg" class="img-fluid"></a></p>
-<p><a href="board4.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="https://www.rsangole.com/mechatronics/park_bot/board4.jpg" class="img-fluid"></a></p>
+<p><a href="breadboard.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://rsangole.netlify.app/mechatronics/park_bot/breadboard.png" class="img-fluid"></a></p>
+<p><a href="garage.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://rsangole.netlify.app/mechatronics/park_bot/garage.png" class="img-fluid"></a></p>
+<p><a href="interrupt_board.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://rsangole.netlify.app/mechatronics/park_bot/interrupt_board.png" class="img-fluid"></a></p>
+<p><a href="reed-schematic.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="https://rsangole.netlify.app/mechatronics/park_bot/reed-schematic.png" class="img-fluid"></a></p>
+<p><a href="breadboard.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://rsangole.netlify.app/mechatronics/park_bot/breadboard.png" class="img-fluid"></a></p>
+<p><a href="board1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="https://rsangole.netlify.app/mechatronics/park_bot/board1.jpg" class="img-fluid"></a></p>
+<p><a href="board2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="https://rsangole.netlify.app/mechatronics/park_bot/board2.jpg" class="img-fluid"></a></p>
+<p><a href="board3.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="https://rsangole.netlify.app/mechatronics/park_bot/board3.jpg" class="img-fluid"></a></p>
+<p><a href="board4.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="https://rsangole.netlify.app/mechatronics/park_bot/board4.jpg" class="img-fluid"></a></p>
 
 
 </section>
@@ -297,13 +297,13 @@ font-style: inherit;">();</span></span></code></pre></div>
   <category>Arduino</category>
   <category>IoT</category>
   <category>Home Automation</category>
-  <guid>https://www.rsangole.com/mechatronics/park_bot/doc.html</guid>
+  <guid>https://rsangole.netlify.app/mechatronics/park_bot/doc.html</guid>
   <pubDate>Wed, 15 Jul 2015 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/mechatronics/park_bot/brains-schematic.png" medium="image" type="image/png" height="105" width="144"/>
+  <media:content url="https://rsangole.netlify.app/mechatronics/park_bot/brains-schematic.png" medium="image" type="image/png" height="105" width="144"/>
 </item>
 <item>
   <title>Turbocharger Vane Wear Analysis Using Statistical Image Processing</title>
-  <link>https://www.rsangole.com/mechatronics/vane_wear/doc.html</link>
+  <link>https://rsangole.netlify.app/mechatronics/vane_wear/doc.html</link>
   <description><![CDATA[ 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
@@ -350,18 +350,18 @@ font-style: inherit;">();</span></span></code></pre></div>
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="img_0158.jpg" class="lightbox" data-gallery="setup"><img src="https://www.rsangole.com/mechatronics/vane_wear/img_0158.jpg" class="img-fluid"></a></p>
+<p><a href="img_0158.jpg" class="lightbox" data-gallery="setup"><img src="https://rsangole.netlify.app/mechatronics/vane_wear/img_0158.jpg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="img_0159.jpg" class="lightbox" data-gallery="setup"><img src="https://www.rsangole.com/mechatronics/vane_wear/img_0159.jpg" class="img-fluid"></a></p>
+<p><a href="img_0159.jpg" class="lightbox" data-gallery="setup"><img src="https://rsangole.netlify.app/mechatronics/vane_wear/img_0159.jpg" class="img-fluid"></a></p>
 </div>
 </div>
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="img_0160.jpg" class="lightbox" data-gallery="setup"><img src="https://www.rsangole.com/mechatronics/vane_wear/img_0160.jpg" class="img-fluid"></a></p>
+<p><a href="img_0160.jpg" class="lightbox" data-gallery="setup"><img src="https://rsangole.netlify.app/mechatronics/vane_wear/img_0160.jpg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="img_0161.jpg" class="lightbox" data-gallery="setup"><img src="https://www.rsangole.com/mechatronics/vane_wear/img_0161.jpg" class="img-fluid"></a></p>
+<p><a href="img_0161.jpg" class="lightbox" data-gallery="setup"><img src="https://rsangole.netlify.app/mechatronics/vane_wear/img_0161.jpg" class="img-fluid"></a></p>
 </div>
 </div>
 </div>
@@ -387,16 +387,16 @@ font-style: inherit;">();</span></span></code></pre></div>
 <div class="quarto-layout-panel" data-layout-ncol="4">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
-<p><a href="original1.jpeg" class="lightbox" data-gallery="vane"><img src="https://www.rsangole.com/mechatronics/vane_wear/original1.jpeg" class="img-fluid"></a></p>
+<p><a href="original1.jpeg" class="lightbox" data-gallery="vane"><img src="https://rsangole.netlify.app/mechatronics/vane_wear/original1.jpeg" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
-<p><a href="overlay2.png" class="lightbox" data-gallery="vane"><img src="https://www.rsangole.com/mechatronics/vane_wear/overlay2.png" class="img-fluid"></a></p>
+<p><a href="overlay2.png" class="lightbox" data-gallery="vane"><img src="https://rsangole.netlify.app/mechatronics/vane_wear/overlay2.png" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
-<p><a href="canny.png" class="lightbox" data-gallery="vane"><img src="https://www.rsangole.com/mechatronics/vane_wear/canny.png" class="img-fluid"></a></p>
+<p><a href="canny.png" class="lightbox" data-gallery="vane"><img src="https://rsangole.netlify.app/mechatronics/vane_wear/canny.png" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
-<p><a href="edge.png" class="lightbox" data-gallery="vane"><img src="https://www.rsangole.com/mechatronics/vane_wear/edge.png" class="img-fluid"></a></p>
+<p><a href="edge.png" class="lightbox" data-gallery="vane"><img src="https://rsangole.netlify.app/mechatronics/vane_wear/edge.png" class="img-fluid"></a></p>
 </div>
 </div>
 </div>
@@ -530,7 +530,7 @@ font-style: inherit;">-composite</span> composite.jpg</span></code></pre></div>
 <h4 class="anchored" data-anchor-id="quantitative-measurements">Quantitative Measurements</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="rplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Statistical analysis of vane edge deviations"><img src="https://www.rsangole.com/mechatronics/vane_wear/rplot.png" class="img-fluid figure-img" alt="Statistical analysis of vane edge deviations"></a></p>
+<p><a href="rplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Statistical analysis of vane edge deviations"><img src="https://rsangole.netlify.app/mechatronics/vane_wear/rplot.png" class="img-fluid figure-img" alt="Statistical analysis of vane edge deviations"></a></p>
 <figcaption>Statistical analysis of vane edge deviations</figcaption>
 </figure>
 </div>
@@ -561,13 +561,13 @@ font-style: inherit;">-composite</span> composite.jpg</span></code></pre></div>
   <category>Image Processing</category>
   <category>Mechanical Engineering</category>
   <category>Arduino</category>
-  <guid>https://www.rsangole.com/mechatronics/vane_wear/doc.html</guid>
+  <guid>https://rsangole.netlify.app/mechatronics/vane_wear/doc.html</guid>
   <pubDate>Sat, 23 May 2015 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/mechatronics/vane_wear/img_0159.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://rsangole.netlify.app/mechatronics/vane_wear/img_0159.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Ardustat</title>
-  <link>https://www.rsangole.com/mechatronics/ardustat/doc.html</link>
+  <link>https://rsangole.netlify.app/mechatronics/ardustat/doc.html</link>
   <description><![CDATA[ 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
@@ -585,7 +585,7 @@ font-style: inherit;">-composite</span> composite.jpg</span></code></pre></div>
 
 
 
-<p><a href="ardustat2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.rsangole.com/mechatronics/ardustat/ardustat2.jpg" class="img-fluid" style="width:50.0%"></a></p>
+<p><a href="ardustat2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://rsangole.netlify.app/mechatronics/ardustat/ardustat2.jpg" class="img-fluid" style="width:50.0%"></a></p>
 <section id="overview" class="level3">
 <h3 class="anchored" data-anchor-id="overview">Overview</h3>
 <p>Last month I finally finished my first real Arduino project—a web-controlled thermostat. It’s pretty much the “Hello World” of Arduino home automation projects, but hey, we all start somewhere.</p>
@@ -706,7 +706,7 @@ font-style: inherit;">-composite</span> composite.jpg</span></code></pre></div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="ardustat1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Ardustat Overview"><img src="https://www.rsangole.com/mechatronics/ardustat/ardustat1.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Ardustat Overview"></a></p>
+<p><a href="ardustat1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Ardustat Overview"><img src="https://rsangole.netlify.app/mechatronics/ardustat/ardustat1.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Ardustat Overview"></a></p>
 <figcaption>Ardustat Overview</figcaption>
 </figure>
 </div>
@@ -714,7 +714,7 @@ font-style: inherit;">-composite</span> composite.jpg</span></code></pre></div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="assembly-1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Mechanical Assembly"><img src="https://www.rsangole.com/mechatronics/ardustat/assembly-1.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Mechanical Assembly"></a></p>
+<p><a href="assembly-1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Mechanical Assembly"><img src="https://rsangole.netlify.app/mechatronics/ardustat/assembly-1.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Mechanical Assembly"></a></p>
 <figcaption>Mechanical Assembly</figcaption>
 </figure>
 </div>
@@ -724,7 +724,7 @@ font-style: inherit;">-composite</span> composite.jpg</span></code></pre></div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="img_2781.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Hardware Implementation"><img src="https://www.rsangole.com/mechatronics/ardustat/img_2781.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Hardware Implementation"></a></p>
+<p><a href="img_2781.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Hardware Implementation"><img src="https://rsangole.netlify.app/mechatronics/ardustat/img_2781.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Hardware Implementation"></a></p>
 <figcaption>Hardware Implementation</figcaption>
 </figure>
 </div>
@@ -732,7 +732,7 @@ font-style: inherit;">-composite</span> composite.jpg</span></code></pre></div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="xively.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Xively Data Visualization"><img src="https://www.rsangole.com/mechatronics/ardustat/xively.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Xively Data Visualization"></a></p>
+<p><a href="xively.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Xively Data Visualization"><img src="https://rsangole.netlify.app/mechatronics/ardustat/xively.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Xively Data Visualization"></a></p>
 <figcaption>Xively Data Visualization</figcaption>
 </figure>
 </div>
@@ -742,7 +742,7 @@ font-style: inherit;">-composite</span> composite.jpg</span></code></pre></div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="ardudash.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Custom Dashboard"><img src="https://www.rsangole.com/mechatronics/ardustat/ardudash.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Custom Dashboard"></a></p>
+<p><a href="ardudash.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Custom Dashboard"><img src="https://rsangole.netlify.app/mechatronics/ardustat/ardudash.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Custom Dashboard"></a></p>
 <figcaption>Custom Dashboard</figcaption>
 </figure>
 </div>
@@ -750,7 +750,7 @@ font-style: inherit;">-composite</span> composite.jpg</span></code></pre></div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="9box1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="9-Box Feature Analysis"><img src="https://www.rsangole.com/mechatronics/ardustat/9box1.jpg" class="img-fluid figure-img" style="width:50.0%" alt="9-Box Feature Analysis"></a></p>
+<p><a href="9box1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="9-Box Feature Analysis"><img src="https://rsangole.netlify.app/mechatronics/ardustat/9box1.jpg" class="img-fluid figure-img" style="width:50.0%" alt="9-Box Feature Analysis"></a></p>
 <figcaption>9-Box Feature Analysis</figcaption>
 </figure>
 </div>
@@ -765,9 +765,9 @@ font-style: inherit;">-composite</span> composite.jpg</span></code></pre></div>
   <category>Arduino</category>
   <category>IoT</category>
   <category>Home Automation</category>
-  <guid>https://www.rsangole.com/mechatronics/ardustat/doc.html</guid>
+  <guid>https://rsangole.netlify.app/mechatronics/ardustat/doc.html</guid>
   <pubDate>Tue, 14 Jan 2014 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/mechatronics/ardustat/ardustat2.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://rsangole.netlify.app/mechatronics/ardustat/ardustat2.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>

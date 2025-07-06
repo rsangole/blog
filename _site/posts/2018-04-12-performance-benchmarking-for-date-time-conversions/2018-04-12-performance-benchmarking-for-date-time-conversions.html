@@ -121,7 +121,7 @@ ga('send', {
 
 <meta name="twitter:title" content="Performance Benchmarking for Date-Time conversions – yHat">
 <meta name="twitter:description" content="I have 6 methods compete against each other to figure out the fastest way to convert characters to date-time for large datasets.">
-<meta name="twitter:image" content="https://www.rsangole.com/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/clocks.jpg">
+<meta name="twitter:image" content="https://rsangole.netlify.app/posts/2018-04-12-performance-benchmarking-for-date-time-conversions/clocks.jpg">
 <meta name="twitter:creator" content="@rsangole">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -154,10 +154,6 @@ ga('send', {
   <li class="nav-item">
     <a class="nav-link" href="../../talks.html"> 
 <span class="menu-text">~/talks</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../career.html"> 
-<span class="menu-text">~/career</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../astronomy.html"> 
@@ -422,7 +418,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/www\.rsangole\.com");
+      var filterRegex = new RegExp("https:\/\/rsangole\.netlify\.app");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
