@@ -4,17 +4,17 @@ listing:
   contents: posts
   sort: "date desc"
   type: grid
-  categories: cloud
+  categories: numbered
   # sort-ui: true
   # filter-ui: true
   feed: true
   fields: 
     - date
     - title
-    # - reading-time
-    - categories
+    # - categories
     - description
     - image
+    # - reading-time
 page-layout: full
 title-block-banner: true
 ---

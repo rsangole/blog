@@ -1,0 +1,12 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<!-- MiniPreview stuff here -->
+<link href="../../css/jquery.minipreview.css" rel="stylesheet">
+<script src="../../js/jquery.minipreview.js"></script>
+<script>
+    $(function() {
+        $('#p1 a').miniPreview({ prefetch: 'pageload' });
+        $('#p2 a').miniPreview({ prefetch: 'parenthover' });
+        $('#p3 a').miniPreview({ prefetch: 'none' });
+    });
+</script>

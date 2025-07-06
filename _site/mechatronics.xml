@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>yHat</title>
+<link>https://www.rsangole.com/mechatronics.html</link>
+<atom:link href="https://www.rsangole.com/mechatronics.xml" rel="self" type="application/rss+xml"/>
+<description>rahul&#39;s blog on data science</description>
+<generator>quarto-1.6.42</generator>
+<lastBuildDate>Mon, 14 Mar 2016 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Baby Milk Tracker</title>
+  <link>https://www.rsangole.com/mechatronics/milk_tracker/doc.html</link>
+  <description><![CDATA[ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<!-- MiniPreview stuff here -->
+<link href="../../css/jquery.minipreview.css" rel="stylesheet">
+<script src="../../js/jquery.minipreview.js"></script>
+<script>
+    $(function() {
+        $('#p1 a').miniPreview({ prefetch: 'pageload' });
+        $('#p2 a').miniPreview({ prefetch: 'parenthover' });
+        $('#p3 a').miniPreview({ prefetch: 'none' });
+    });
+</script>
+
+
+
+
+<section id="the-problem" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="the-problem">The Problem</h3>
+<p>Maternity and paternity leaves are over; the parents are back to work. Baby is being fed via the&nbsp;bottle. Needless to say, this meant that we ‘needed’ an overengineering way to&nbsp;track his daily milk intake.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><a href="install1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.rsangole.com/mechatronics/milk_tracker/install1.jpg" class="img-fluid" style="width:50.0%"></a></p>
+</div></div></section>
+<section id="the-solution" class="level3">
+<h3 class="anchored" data-anchor-id="the-solution">The Solution</h3>
+<p>Thus, is born the wifi-enabled-twitter-feed-doodoo-tracker.</p>
+<p><a href="install2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.rsangole.com/mechatronics/milk_tracker/install2.jpg" class="img-fluid" style="width:50.0%"></a></p>
+<p>The system is built around a Spark Core v1.0 microcontroller that connects to the internet via WiFi. The device features two main controls:</p>
+<ul>
+<li><strong>Switch S1</strong>: Cycles through a 10-LED display, where each light represents 0.25 oz of milk consumed</li>
+<li><strong>Switch S2</strong>: Sends the current milk intake data to the cloud</li>
+</ul>
+<p>When S2 is pressed, the device transmits data through IFTTT (If This Then That) automation service, which then populates a secure Google Sheets spreadsheet. This allows parents to remotely monitor their baby’s feeding schedule and milk consumption throughout the day, even while at work.</p>
+<p><a href="schema.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.rsangole.com/mechatronics/milk_tracker/schema.png" class="img-fluid" style="width:50.0%"></a></p>
+
+
+</section>
+
+ ]]></description>
+  <category>Arduino</category>
+  <category>IoT</category>
+  <guid>https://www.rsangole.com/mechatronics/milk_tracker/doc.html</guid>
+  <pubDate>Mon, 14 Mar 2016 00:00:00 GMT</pubDate>
+  <media:content url="https://www.rsangole.com/mechatronics/milk_tracker/logo.png" medium="image" type="image/png" height="108" width="144"/>
+</item>
+<item>
+  <title>Park Assist</title>
+  <link>https://www.rsangole.com/mechatronics/park_bot/doc.html</link>
+  <description><![CDATA[ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<!-- MiniPreview stuff here -->
+<link href="../../css/jquery.minipreview.css" rel="stylesheet">
+<script src="../../js/jquery.minipreview.js"></script>
+<script>
+    $(function() {
+        $('#p1 a').miniPreview({ prefetch: 'pageload' });
+        $('#p2 a').miniPreview({ prefetch: 'parenthover' });
+        $('#p3 a').miniPreview({ prefetch: 'none' });
+    });
+</script>
+
+
+
+
+<section id="the-problem" class="level2">
+<h2 class="anchored" data-anchor-id="the-problem">The Problem</h2>
+<p>After I changed my car from a short Fiat 500 to a longer sedan, we had to peep over the hood and creep into the garage to be able to close the garage door. In fairness, we did get used to it pretty quickly and could park just fine, but hey, an engineer needs very little reason to work on fun weekend projects.</p>
+</section>
+<section id="the-vision" class="level2">
+<h2 class="anchored" data-anchor-id="the-vision">The Vision</h2>
+<p>I wanted to build a bot that:</p>
+<ul>
+<li>Turns on automatically when I open the garage door</li>
+<li>Guides me to just the right parking distance</li>
+<li>Looks visually appealing and intuitive to read</li>
+<li>Uses minimal energy and no ugly wall warts</li>
+<li>Stays cheap to build</li>
+</ul>
+</section>
+<section id="key-features" class="level2">
+<h2 class="anchored" data-anchor-id="key-features">Key Features</h2>
+<section id="power-parasite-design" class="level3">
+<h3 class="anchored" data-anchor-id="power-parasite-design">Power Parasite Design</h3>
+<p>I really wanted to avoid using a wall wart. Turns out the garage door opener sends 12V DC to power the infrared safety beam sensors. Perfect! I tapped into this to power both the brains and interrupt circuitry.</p>
+</section>
+<section id="sleepy-bot-architecture" class="level3">
+<h3 class="anchored" data-anchor-id="sleepy-bot-architecture">Sleepy Bot Architecture</h3>
+<p>The Arduino sleeps all day and only wakes up when the garage door opens. I use a powerful magnet on the garage door that travels past a reed switch, sending a pulse to ‘Interrupt 0’ (Digital Pin 2) to wake up the bot.</p>
+</section>
+<section id="papi-inspired-visual-guide" class="level3">
+<h3 class="anchored" data-anchor-id="papi-inspired-visual-guide">PAPI-Inspired Visual Guide</h3>
+<p>This was inspired by PAPI (Precision Approach Path Indicator)—a visual aid that helps pilots maintain the correct approach to an airport. As a huge MS Flight Sim fan, I loved the simplicity and intuitive design. I used a 10-bar LED display to mimic PAPI, with green LEDs flashing when you’ve reached optimal distance.</p>
+</section>
+<section id="smart-proximity-warnings" class="level3">
+<h3 class="anchored" data-anchor-id="smart-proximity-warnings">Smart Proximity Warnings</h3>
+<p>Too close to the wall? The green LEDs flash faster and faster as a warning.</p>
+</section>
+<section id="hardware-based-distance-adjustment" class="level3">
+<h3 class="anchored" data-anchor-id="hardware-based-distance-adjustment">Hardware-Based Distance Adjustment</h3>
+<p>New car? Need to change the parking distance? No reprogramming needed! Just park where you want, twist a screwdriver to adjust a resistor until the green LEDs flash, and you’re done.</p>
+</section>
+</section>
+<section id="hardware-list" class="level2">
+<h2 class="anchored" data-anchor-id="hardware-list">Hardware List</h2>
+<ul>
+<li><strong>Arduino Nano V3 5V</strong> - Chinese knockoff from eBay <em>Warning</em>: Uses CH340G USB chipset, required some finagling on Mac</li>
+<li><strong>Honeywell Reed Switch</strong> - From Amazon</li>
+<li><strong>10-Bar Red LED Display</strong></li>
+<li><strong>Various resistors, capacitors, and connectors</strong> - See Fritzing files for details</li>
+</ul>
+</section>
+<section id="project-complexity" class="level2">
+<h2 class="anchored" data-anchor-id="project-complexity">Project Complexity</h2>
+<p><strong>Difficulty: 3/10</strong> - Perfect weekend project that took about 4 days total to design, build, and code.</p>
+</section>
+<section id="system-design" class="level2">
+<h2 class="anchored" data-anchor-id="system-design">System Design</h2>
+<p>I split the system into three separate boards for optimal placement:</p>
+<ul>
+<li><strong>Brains board</strong> - Can be placed anywhere convenient</li>
+<li><strong>Visual display</strong> - Mounted high for visibility from the car</li>
+<li><strong>Sensor board</strong> - Positioned low, aligned with the car’s front bumper</li>
+</ul>
+</section>
+<section id="step-1-the-brains-board" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-the-brains-board">Step 1: The Brains Board</h2>
+<section id="schematic-design" class="level3">
+<h3 class="anchored" data-anchor-id="schematic-design">Schematic Design</h3>
+<p>The schematic shows all connections to the Arduino Nano. Fritzing is a fantastic tool for layout design—my final product looks almost exactly like the simulation.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="brains-schematic.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Brains Schematic"><img src="https://www.rsangole.com/mechatronics/park_bot/brains-schematic.png" class="img-fluid figure-img" alt="Brains Schematic"></a></p>
+<figcaption>Brains Schematic</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="brains-layout.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Brains Layout"><img src="https://www.rsangole.com/mechatronics/park_bot/brains-layout.png" class="img-fluid figure-img" alt="Brains Layout"></a></p>
+<figcaption>Brains Layout</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="step-2-interrupt-circuitry" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-interrupt-circuitry">Step 2: Interrupt Circuitry</h2>
+<section id="power-and-wake-up-system" class="level3">
+<h3 class="anchored" data-anchor-id="power-and-wake-up-system">Power and Wake-Up System</h3>
+<p>The 12V from the garage door safety beam provides perfect power. I use 2-pin jumpers to:</p>
+<ul>
+<li>Send power to the brains</li>
+<li>Route through the reed switch for interrupts</li>
+</ul>
+<p>The board uses a diode-capacitor combination where the capacitor helps debounce the switch.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="interrupt-schematic.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Interrupt Board Schematic"><img src="https://www.rsangole.com/mechatronics/park_bot/interrupt-schematic.png" class="img-fluid figure-img" alt="Interrupt Board Schematic"></a></p>
+<figcaption>Interrupt Board Schematic</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="interrupt-layout.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Interrupt Board Layout"><img src="https://www.rsangole.com/mechatronics/park_bot/interrupt-layout.png" class="img-fluid figure-img" alt="Interrupt Board Layout"></a></p>
+<figcaption>Interrupt Board Layout</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="step-3-the-code" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-the-code">Step 3: The Code</h2>
+<section id="required-headers" class="level3">
+<h3 class="anchored" data-anchor-id="required-headers">Required Headers</h3>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">#include </span><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">&lt;interrupt.h&gt;</span></span>
+<span id="cb1-2"><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">#include </span><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">&lt;avr/io.h&gt;</span></span>
+<span id="cb1-3"><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">#include </span><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">&lt;avr/sleep.h&gt;</span></span></code></pre></div>
+</section>
+<section id="main-functions" class="level3">
+<h3 class="anchored" data-anchor-id="main-functions">Main Functions</h3>
+<p><strong>setup()</strong> - Sets pin modes</p>
+<p><strong>loop()</strong> - Does four main things:</p>
+<ol type="1">
+<li><p><strong>Distance Control Reading</strong></p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">int</span> sensorValue <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> analogRead<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span>analogDistControl<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">);</span></span>
+<span id="cb2-2"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">int</span> distMin <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> map<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span>sensorValue<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1023</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">);</span></span></code></pre></div>
+<p>Reads the variable resistor and calculates target minimum distance using <code>map()</code>. This lets me adjust the parking distance with just a screwdriver!</p></li>
+<li><p><strong>Distance Measurement</strong></p>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">long</span> distance <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> readDist<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">();</span></span></code></pre></div>
+<p>Calls <code>readDist()</code> to get current distance to the wall.</p></li>
+<li><p><strong>LED Display Logic</strong></p>
+<ul>
+<li>Max distance capped at <code>distMax = 250</code> → calls <code>showmax()</code></li>
+<li>Distance ≤ <code>minDist</code> → calls <code>showmin()</code></li>
+<li>Everything else → activates appropriate number of LEDs</li>
+</ul></li>
+<li><p><strong>Sleep Management</strong> Checks if it’s time to sleep by comparing current <code>millis()</code> with <code>SLEEPDELAY</code>.</p></li>
+</ol>
+</section>
+<section id="key-functions" class="level3">
+<h3 class="anchored" data-anchor-id="key-functions">Key Functions</h3>
+<p><strong>readDist()</strong> - Returns average of 10 readings (configurable via <code>numReadings</code>). Max distance hard-coded to 250cm.</p>
+<p><strong>showmin()</strong> - Accepts float ‘d’ (ratio of distance to <code>distMin</code>). As the car gets closer beyond safe distance, ‘d’ gets smaller and green LEDs flash faster. Drama! 🎭</p>
+<p><strong>showmax()</strong> - Simply indicates the car is still out of range.</p>
+</section>
+</section>
+<section id="step-4-implementation" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-implementation">Step 4: Implementation</h2>
+<p>The final system looks clean and professional. All boards are designed to be as visually appealing as possible, and I think it turned out really well!</p>
+</section>
+<section id="get-the-code" class="level2">
+<h2 class="anchored" data-anchor-id="get-the-code">Get the Code</h2>
+<p>Complete project files available on GitHub: <a href="https://github.com/username/park-assist">Arduino Park Assist Project</a></p>
+<p>Includes: - Working Arduino code - Fritzing design files - Eagle PCB files - Assembly instructions</p>
+</section>
+<section id="project-gallery" class="level2">
+<h2 class="anchored" data-anchor-id="project-gallery">Project Gallery</h2>
+<p><a href="breadboard.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://www.rsangole.com/mechatronics/park_bot/breadboard.png" class="img-fluid"></a></p>
+<p><a href="garage.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.rsangole.com/mechatronics/park_bot/garage.png" class="img-fluid"></a></p>
+<p><a href="interrupt_board.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.rsangole.com/mechatronics/park_bot/interrupt_board.png" class="img-fluid"></a></p>
+<p><a href="reed-schematic.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.rsangole.com/mechatronics/park_bot/reed-schematic.png" class="img-fluid"></a></p>
+<p><a href="breadboard.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://www.rsangole.com/mechatronics/park_bot/breadboard.png" class="img-fluid"></a></p>
+<p><a href="board1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="https://www.rsangole.com/mechatronics/park_bot/board1.jpg" class="img-fluid"></a></p>
+<p><a href="board2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="https://www.rsangole.com/mechatronics/park_bot/board2.jpg" class="img-fluid"></a></p>
+<p><a href="board3.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="https://www.rsangole.com/mechatronics/park_bot/board3.jpg" class="img-fluid"></a></p>
+<p><a href="board4.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="https://www.rsangole.com/mechatronics/park_bot/board4.jpg" class="img-fluid"></a></p>
+
+
+</section>
+
+ ]]></description>
+  <category>Arduino</category>
+  <category>IoT</category>
+  <category>Home Automation</category>
+  <guid>https://www.rsangole.com/mechatronics/park_bot/doc.html</guid>
+  <pubDate>Wed, 15 Jul 2015 00:00:00 GMT</pubDate>
+  <media:content url="https://www.rsangole.com/mechatronics/park_bot/brains-schematic.png" medium="image" type="image/png" height="105" width="144"/>
+</item>
+<item>
+  <title>Turbocharger Vane Wear Analysis Using Statistical Image Processing</title>
+  <link>https://www.rsangole.com/mechatronics/vane_wear/doc.html</link>
+  <description><![CDATA[ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<!-- MiniPreview stuff here -->
+<link href="../../css/jquery.minipreview.css" rel="stylesheet">
+<script src="../../js/jquery.minipreview.js"></script>
+<script>
+    $(function() {
+        $('#p1 a').miniPreview({ prefetch: 'pageload' });
+        $('#p2 a').miniPreview({ prefetch: 'parenthover' });
+        $('#p3 a').miniPreview({ prefetch: 'none' });
+    });
+</script>
+
+
+
+
+<section id="objective" class="level3">
+<h3 class="anchored" data-anchor-id="objective">Objective</h3>
+<p>Develop a cost-effective, automated system for quantitative analysis of turbocharger vane wear using statistical image processing techniques ### Technology Stack</p>
+<p>The solution utilizes entirely open-source technologies:</p>
+<ol type="1">
+<li><strong>ImageMagick</strong> - Command-line image processing and analysis <a href="http://www.imagemagick.org/">imagemagick.org</a></li>
+<li><strong>R Statistical Computing</strong> - Statistical analysis and data visualization <a href="http://www.r-project.org/">r-project.org</a></li>
+<li><strong>Arduino</strong> - Hardware control for camera positioning and indexing <a href="http://arduino.cc/">arduino.cc</a></li>
+</ol>
+</section>
+<section id="test-protocol" class="level3">
+<h3 class="anchored" data-anchor-id="test-protocol">Test Protocol</h3>
+<ol type="1">
+<li><strong>Sample Positioning</strong>: Nozzle vane modules are mounted on a precision indexing table</li>
+<li><strong>Camera Alignment</strong>: Optical system positioned perpendicular to vane leading edge</li>
+<li><strong>Automated Capture</strong>: Indexing system rotates to capture all 14 vanes sequentially</li>
+<li><strong>Data Processing</strong>: R scripts execute ImageMagick routines for edge detection and statistical analysis</li>
+</ol>
+</section>
+<section id="experimental-setup" class="level3">
+<h3 class="anchored" data-anchor-id="experimental-setup">Experimental Setup</h3>
+<section id="hardware-configuration" class="level4">
+<h4 class="anchored" data-anchor-id="hardware-configuration">Hardware Configuration</h4>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="img_0158.jpg" class="lightbox" data-gallery="setup"><img src="https://www.rsangole.com/mechatronics/vane_wear/img_0158.jpg" class="img-fluid"></a></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="img_0159.jpg" class="lightbox" data-gallery="setup"><img src="https://www.rsangole.com/mechatronics/vane_wear/img_0159.jpg" class="img-fluid"></a></p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="img_0160.jpg" class="lightbox" data-gallery="setup"><img src="https://www.rsangole.com/mechatronics/vane_wear/img_0160.jpg" class="img-fluid"></a></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="img_0161.jpg" class="lightbox" data-gallery="setup"><img src="https://www.rsangole.com/mechatronics/vane_wear/img_0161.jpg" class="img-fluid"></a></p>
+</div>
+</div>
+</div>
+<p><strong>Key Components:</strong> - Precision indexing platform with tripod-mounted head for repeatable positioning - Canon 7D DSLR with 105mm Nikkor Macro lens (manual focus and exposure) - Dual lighting configuration: incident window light and backlight with red filter</p>
+</section>
+</section>
+<section id="illumination-strategy" class="level3">
+<h3 class="anchored" data-anchor-id="illumination-strategy">Illumination Strategy</h3>
+<p>Two lighting techniques were evaluated:</p>
+<ol type="1">
+<li><strong>Incident Illumination</strong>: Natural window light for surface detail capture</li>
+<li><strong>Backlight Silhouette</strong>: Red-filtered backlight creating high-contrast edge detection</li>
+</ol>
+<p>The backlight technique proved superior for automated processing, generating clear silhouettes where non-vane regions appear red, facilitating precise edge detection through color channel separation.</p>
+</section>
+<section id="image-processing-pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="image-processing-pipeline">Image Processing Pipeline</h3>
+<section id="sample-analysis-workflow" class="level4">
+<h4 class="anchored" data-anchor-id="sample-analysis-workflow">Sample Analysis Workflow</h4>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="4">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
+<p><a href="original1.jpeg" class="lightbox" data-gallery="vane"><img src="https://www.rsangole.com/mechatronics/vane_wear/original1.jpeg" class="img-fluid"></a></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
+<p><a href="overlay2.png" class="lightbox" data-gallery="vane"><img src="https://www.rsangole.com/mechatronics/vane_wear/overlay2.png" class="img-fluid"></a></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
+<p><a href="canny.png" class="lightbox" data-gallery="vane"><img src="https://www.rsangole.com/mechatronics/vane_wear/canny.png" class="img-fluid"></a></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
+<p><a href="edge.png" class="lightbox" data-gallery="vane"><img src="https://www.rsangole.com/mechatronics/vane_wear/edge.png" class="img-fluid"></a></p>
+</div>
+</div>
+</div>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Enhance contrast for improved edge detection</span></span>
+<span id="cb1-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">convert</span> red.jpg <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-contrast</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-contrast</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-contrast</span> red.jpg</span>
+<span id="cb1-3"></span>
+<span id="cb1-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Apply Canny edge detection algorithm</span></span>
+<span id="cb1-5"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">convert</span> red.jpg <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-canny</span> .001x1+16%+25% canny.jpg</span>
+<span id="cb1-6"></span>
+<span id="cb1-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Fill and isolate edge regions</span></span>
+<span id="cb1-8"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">convert</span> canny.jpg <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-bordercolor</span> white <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-fill</span> red <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-draw</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"color 120,1000 filltoborder"</span> cred.png</span>
+<span id="cb1-9"></span>
+<span id="cb1-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Generate binary edge image</span></span>
+<span id="cb1-11"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">convert</span> canny.jpg <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-fill</span> red <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-draw</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"color 0,0 floodfill"</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-alpha</span> off <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-fill</span> black +opaque red <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-fill</span> white <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-opaque</span> red binary.png</span>
+<span id="cb1-12"></span>
+<span id="cb1-13"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Extract final edge profile</span></span>
+<span id="cb1-14"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">convert</span> binary.png <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-background</span> none <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-fill</span> red <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-morphology</span> edgein octagon:1 edge.png</span>
+<span id="cb1-15"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">convert</span> edge.png <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-flip</span> edge.png</span>
+<span id="cb1-16"></span>
+<span id="cb1-17"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Export coordinate data for statistical analysis</span></span>
+<span id="cb1-18"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">convert</span> canny.jpg txt:- <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">|</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">grep</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"white\|gray(255)"</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">|</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sed</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-n</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'s/^\([0-9]*,[0-9]*\).*$/\1/p'</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> coordinates.txt</span>
+<span id="cb1-19"></span>
+<span id="cb1-20"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Generate Hough line detection overlay</span></span>
+<span id="cb1-21"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">convert</span> canny.jpg <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-background</span> none <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-fill</span> red <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-stroke</span> red <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-strokewidth</span> 1 <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-hough-lines</span> 20x20+210 hough.jpg</span>
+<span id="cb1-22"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">convert</span> canny.jpg hough.jpg <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-composite</span> composite.jpg</span></code></pre></div>
+</section>
+</section>
+<section id="results-and-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="results-and-analysis">Results and Analysis</h3>
+<section id="quantitative-measurements" class="level4">
+<h4 class="anchored" data-anchor-id="quantitative-measurements">Quantitative Measurements</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="rplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Statistical analysis of vane edge deviations"><img src="https://www.rsangole.com/mechatronics/vane_wear/rplot.png" class="img-fluid figure-img" alt="Statistical analysis of vane edge deviations"></a></p>
+<figcaption>Statistical analysis of vane edge deviations</figcaption>
+</figure>
+</div>
+<p><strong>Measurement Parameters:</strong> - <strong>Y-Axis</strong>: Distance from vane base to leading edge (mm) - <strong>X-Axis</strong>: Deviation from nominal straight-line edge profile (μm)</p>
+<p>The analysis reveals quantifiable deviations from the ideal vane geometry, enabling statistical characterization of wear patterns and severity assessment.</p>
+</section>
+</section>
+<section id="implementation-and-source-code" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-and-source-code">Implementation and Source Code</h3>
+<p>Complete implementation available on GitHub: <a href="https://github.com/rsangole/vanewear">rsangole/vanewear</a></p>
+</section>
+<section id="conclusions" class="level3">
+<h3 class="anchored" data-anchor-id="conclusions">Conclusions</h3>
+<p>This methodology demonstrates the feasibility of using open-source tools for precision measurement of mechanical component wear. The system provides:</p>
+<ul>
+<li>Automated, repeatable measurements</li>
+<li>Statistical quantification of wear patterns</li>
+<li>Cost-effective alternative to traditional metrology</li>
+<li>Scalable approach for production quality control</li>
+</ul>
+<p>Future development could include machine learning classification of wear patterns and integration with predictive maintenance systems.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Computer Vision</category>
+  <category>Image Processing</category>
+  <category>Mechanical Engineering</category>
+  <category>Arduino</category>
+  <guid>https://www.rsangole.com/mechatronics/vane_wear/doc.html</guid>
+  <pubDate>Sat, 23 May 2015 00:00:00 GMT</pubDate>
+  <media:content url="https://www.rsangole.com/mechatronics/vane_wear/img_0159.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>Ardustat</title>
+  <link>https://www.rsangole.com/mechatronics/ardustat/doc.html</link>
+  <description><![CDATA[ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<!-- MiniPreview stuff here -->
+<link href="../../css/jquery.minipreview.css" rel="stylesheet">
+<script src="../../js/jquery.minipreview.js"></script>
+<script>
+    $(function() {
+        $('#p1 a').miniPreview({ prefetch: 'pageload' });
+        $('#p2 a').miniPreview({ prefetch: 'parenthover' });
+        $('#p3 a').miniPreview({ prefetch: 'none' });
+    });
+</script>
+
+
+
+
+<p><a href="ardustat2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.rsangole.com/mechatronics/ardustat/ardustat2.jpg" class="img-fluid" style="width:50.0%"></a></p>
+<section id="overview" class="level3">
+<h3 class="anchored" data-anchor-id="overview">Overview</h3>
+<p>Last month I finally finished my first real Arduino project—a web-controlled thermostat. It’s pretty much the “Hello World” of Arduino home automation projects, but hey, we all start somewhere.</p>
+</section>
+<section id="whats-inside" class="level3">
+<h3 class="anchored" data-anchor-id="whats-inside">What’s Inside</h3>
+<ol type="1">
+<li><a href="http://www.adafruit.com/products/1469">Adafruit CC3000 WiFi Breakout Board</a></li>
+<li>Arduino Uno R3</li>
+<li>Generic Hobby Servo Motor</li>
+<li>1 10k Resistor</li>
+<li>1 Paperclip (yes, really!)</li>
+<li>1 DHT11 Temperature Humidity Sensor</li>
+</ol>
+</section>
+<section id="why-not-just-replace-the-thermostat" class="level3">
+<h3 class="anchored" data-anchor-id="why-not-just-replace-the-thermostat">Why Not Just Replace the Thermostat?</h3>
+<p>Since I’ve got a perfectly good Honeywell T87 thermostat and I’m renting (no major modifications allowed!), I decided to build a removable interface instead of going the more elegant relay route. Sometimes you gotta work with what you’ve got.</p>
+</section>
+<section id="planning-this-thing-out" class="level3">
+<h3 class="anchored" data-anchor-id="planning-this-thing-out">Planning This Thing Out</h3>
+<p>I only had 3 days to go from idea to working hardware, so I had to be smart about it:</p>
+<ol type="1">
+<li><strong>Brainstormed</strong> all the cool features I wanted</li>
+<li><strong>Used a 9-box matrix</strong> to plot features by difficulty vs.&nbsp;usefulness</li>
+<li><strong>Started simple</strong>: Focused on the “easy to implement” stuff first</li>
+</ol>
+<p>The 9-box technique is actually pretty awesome for this kind of planning. Breaking everything into “small victories” made the whole project way less overwhelming.</p>
+</section>
+<section id="the-mechanical-challenge-aka-the-fun-part" class="level3">
+<h3 class="anchored" data-anchor-id="the-mechanical-challenge-aka-the-fun-part">The Mechanical Challenge (AKA the Fun Part)</h3>
+<section id="the-problem" class="level4">
+<h4 class="anchored" data-anchor-id="the-problem">The Problem</h4>
+<p>How do you connect a servo to a thermostat without any proper tools or permanent modifications? This turned out to be way trickier than the electronics!</p>
+</section>
+</section>
+<section id="my-options" class="level3">
+<h3 class="anchored" data-anchor-id="my-options">My Options</h3>
+<ol type="1">
+<li>Build a 4-bar linkage</li>
+<li>Try some kind of belt/pulley system with rubber bands</li>
+</ol>
+</section>
+<section id="what-actually-worked" class="level3">
+<h3 class="anchored" data-anchor-id="what-actually-worked">What Actually Worked</h3>
+<p>I went with the 4-bar linkage using a bent paperclip as the connecting rod. On the thermostat side, I MacGyvered a pin joint with a cotter pin setup.</p>
+<p>Here’s the nerdy part: I actually photographed the whole assembly and used <a href="http://rsb.info.nih.gov/ij/">ImageJ</a> to measure distances and angles. Turns out 50°F to 80°F on the stat is exactly 90° of rotation—perfect for servo control!</p>
+</section>
+<section id="the-software-side" class="level2">
+<h2 class="anchored" data-anchor-id="the-software-side">The Software Side</h2>
+<section id="web-stuff" class="level3">
+<h3 class="anchored" data-anchor-id="web-stuff">Web Stuff</h3>
+<p>I used 99k.org to host my HTML and PHP code. The setup is pretty straightforward: - PHP generates a simple <code>tdata.html</code> file with the target temperature - Arduino downloads and parses this file - <a href="https://xively.com/">Xively</a> handles the data plotting (super handy!)</p>
+</section>
+</section>
+<section id="learning-the-hard-way" class="level2">
+<h2 class="anchored" data-anchor-id="learning-the-hard-way">Learning the Hard Way</h2>
+<section id="temperature-sensor-placement" class="level3">
+<h3 class="anchored" data-anchor-id="temperature-sensor-placement">Temperature Sensor Placement</h3>
+<p>Initially, I stuck the DHT sensor inside the plastic box. Big mistake! The thing was reading 3-4°C higher than actual temperature because of heat buildup. Moving it to the wall fixed that real quick.</p>
+</section>
+<section id="fitting-everything-in" class="level3">
+<h3 class="anchored" data-anchor-id="fitting-everything-in">Fitting Everything In</h3>
+<p>Getting all the hardware crammed into that little box was like playing Tetris, but I managed to position everything so I could still access the USB and power ports without opening it up.</p>
+</section>
+</section>
+<section id="see-it-in-action" class="level2">
+<h2 class="anchored" data-anchor-id="see-it-in-action">See It in Action</h2>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/z1s1mtyi8uU" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="round-two-custom-dashboard" class="level2">
+<h2 class="anchored" data-anchor-id="round-two-custom-dashboard">Round Two: Custom Dashboard</h2>
+<section id="why-i-switched-from-xively" class="level3">
+<h3 class="anchored" data-anchor-id="why-i-switched-from-xively">Why I Switched from Xively</h3>
+<p>I wanted more control over my data visualization, so I built a custom dashboard with gauges for temperature, humidity, and target temp, plus historical charts.</p>
+</section>
+<section id="the-tech-stack" class="level3">
+<h3 class="anchored" data-anchor-id="the-tech-stack">The Tech Stack</h3>
+<ul>
+<li><strong>Database</strong>: Free MySQL hosting on <a href="http://zymic.com/">zymic.com</a></li>
+<li><strong>Backend</strong>: PHP to talk to the database</li>
+<li><strong>Frontend</strong>: JavaScript with <a href="https://developers.google.com/chart/">Google Charts</a></li>
+<li><strong>Inspiration</strong>: Shoutout to Fermentation Riot for the Google Charts idea</li>
+</ul>
+</section>
+<section id="reality-check" class="level3">
+<h3 class="anchored" data-anchor-id="reality-check">Reality Check</h3>
+<p>I’m definitely not a web developer, so this was all copy-paste-modify from Stack Overflow and tutorials. Took me 2 solid days to get everything working, but if I can figure it out, anyone can!</p>
+</section>
+</section>
+<section id="whats-next" class="level2">
+<h2 class="anchored" data-anchor-id="whats-next">What’s Next</h2>
+<ul>
+<li>Scheduling based on time of day</li>
+<li>Manual controls on the thermostat itself</li>
+<li>Smarter polling intervals</li>
+<li>Upgrade to DHT22 for better accuracy</li>
+</ul>
+</section>
+<section id="hard-won-lessons" class="level2">
+<h2 class="anchored" data-anchor-id="hard-won-lessons">Hard-Won Lessons</h2>
+<ul>
+<li>Always use <code>servo.detach()</code> after moving the servo (prevents annoying flutter)</li>
+<li>Account for backlash in mechanical linkages—repeatability matters!</li>
+</ul>
+</section>
+<section id="get-the-code" class="level2">
+<h2 class="anchored" data-anchor-id="get-the-code">Get the Code</h2>
+<p>Everything’s on GitHub if you want to build your own: <a href="https://github.com/rsangole/Arduino-Thermostat-Project">https://github.com/rsangole/Arduino-Thermostat-Project</a></p>
+</section>
+<section id="project-gallery" class="level2">
+<h2 class="anchored" data-anchor-id="project-gallery">Project Gallery</h2>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="ardustat1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Ardustat Overview"><img src="https://www.rsangole.com/mechatronics/ardustat/ardustat1.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Ardustat Overview"></a></p>
+<figcaption>Ardustat Overview</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="assembly-1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Mechanical Assembly"><img src="https://www.rsangole.com/mechatronics/ardustat/assembly-1.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Mechanical Assembly"></a></p>
+<figcaption>Mechanical Assembly</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="img_2781.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Hardware Implementation"><img src="https://www.rsangole.com/mechatronics/ardustat/img_2781.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Hardware Implementation"></a></p>
+<figcaption>Hardware Implementation</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="xively.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Xively Data Visualization"><img src="https://www.rsangole.com/mechatronics/ardustat/xively.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Xively Data Visualization"></a></p>
+<figcaption>Xively Data Visualization</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="ardudash.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Custom Dashboard"><img src="https://www.rsangole.com/mechatronics/ardustat/ardudash.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Custom Dashboard"></a></p>
+<figcaption>Custom Dashboard</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="9box1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="9-Box Feature Analysis"><img src="https://www.rsangole.com/mechatronics/ardustat/9box1.jpg" class="img-fluid figure-img" style="width:50.0%" alt="9-Box Feature Analysis"></a></p>
+<figcaption>9-Box Feature Analysis</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+
+
+</section>
+
+ ]]></description>
+  <category>Arduino</category>
+  <category>IoT</category>
+  <category>Home Automation</category>
+  <guid>https://www.rsangole.com/mechatronics/ardustat/doc.html</guid>
+  <pubDate>Tue, 14 Jan 2014 00:00:00 GMT</pubDate>
+  <media:content url="https://www.rsangole.com/mechatronics/ardustat/ardustat2.jpg" medium="image" type="image/jpeg"/>
+</item>
+</channel>
+</rss>

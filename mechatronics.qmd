@@ -1,0 +1,20 @@
+---
+title: ""
+listing:
+  contents: mechatronics
+  sort: "date desc"
+  type: grid
+  categories: false
+  feed: true
+  fields: 
+    - date
+    - title
+    - categories
+    - description
+    - image
+    # - reading-time
+page-layout: full
+title-block-banner: true
+---
+
+![](mechatronics/board.png)

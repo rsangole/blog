@@ -3,7 +3,7 @@ title: ""
 listing:
   contents: astronomy
   sort: "date desc"
-  type: default
+  type: grid
   categories: false
   feed: true
   fields: 

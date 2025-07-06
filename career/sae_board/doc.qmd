@@ -1,7 +1,7 @@
 ---
 title: "SAE International"
 date: '2019-1-1'
-description: My work on the board of SAE's Indiana chapter 
+description: My work with SAE International's C-Suite 
 image: talk.png
 # categories:
 #     - Arrow
@@ -10,3 +10,9 @@ image: talk.png
 ---
 
 ![](talk.png)
+
+Growth of SAE International in Emerging Markets
+ Lead the Executive Team at SAE International, Warrandale, PA in a project to define the business
+model for growth of SAE Int’l in India
+ Identified Indian market requirements via Process Mapping, Voice of Business, KJ, and Voice of
+Customer exercises. Results were presented to the Board of Directors.

@@ -2,9 +2,7 @@
 title: Calstar 2022
 date: '2022-09-24'
 description: The 24th Calstar Party at Lake San Antonio.
-filters:
-   - lightbox
-lightbox: auto
+lightbox: true
 ---
 
 [CalStar 2022](https://calstar.observers.org) this year was the 24th year of the star party, where astronomers congregate to watch the night skies together. It's held at the Lake San Antonio 'field of dreams'. This was my first attempt at CalStar, and I was in for a treat.

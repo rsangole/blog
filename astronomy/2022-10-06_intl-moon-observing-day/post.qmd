@@ -2,9 +2,7 @@
 title: Int'l Observe the Moon Night
 date: '2022-10-06'
 description: Global Observe the Moon Night hosted by NASA 
-filters:
-   - lightbox
-lightbox: auto
+lightbox: true
 image: "IOTMN-logo-full-text.png"
 ---
 

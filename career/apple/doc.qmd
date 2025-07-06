@@ -1,0 +1,12 @@
+---
+title: "Apple"
+date: '2025-01-01'
+description: All things time-series ⌚️
+image: talk.png
+# categories:
+#     - Arrow
+# editor_options: 
+#   chunk_output_type: console
+---
+
+![](talk.png)

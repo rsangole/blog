@@ -11,16 +11,20 @@ website:
       - href: index.qmd
         text: ~/
       - href: blog.qmd
-        text: ~/blog
+        text: ~/data-science
       - href: talks.qmd
         text: ~/talks
       # - href: career.qmd
       #   text: ~/career
       - href: astronomy.qmd
         text: ~/astronomy
+      - href: mechatronics.qmd
+        text: ~/mechatronics
   page-footer:
     center: "2025 rahul-s"
   google-analytics: "UA-106573867-1"
 format:
   html:
     theme: simplex
+filters: 
+  - rsangole/mplink

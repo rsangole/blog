@@ -1,7 +1,7 @@
 ---
 title: "Society of Automotive Engineers"
-date: '2019-1-1'
-description: My work on the board of SAE's Indiana chapter 
+date: '2018-01-01'
+description: Work on the SAE Indiana's Board 
 image: talk.png
 # categories:
 #     - Arrow
@@ -10,3 +10,8 @@ image: talk.png
 ---
 
 ![](talk.png)
+
+
+Society of Automotive Engineers (SAE) Indiana Chapter
+ Secretary and Communication Manager, Jan 2012 –Present
+ Math and Science Committee, Jan 2011 – Jan 2012

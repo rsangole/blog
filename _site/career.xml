@@ -10,35 +10,91 @@
 <atom:link href="https://www.rsangole.com/career.xml" rel="self" type="application/rss+xml"/>
 <description>rahul&#39;s blog on data science</description>
 <generator>quarto-1.6.42</generator>
-<lastBuildDate>Tue, 01 Jan 2019 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 01 Jan 2025 00:00:00 GMT</lastBuildDate>
 <item>
-  <title>Society of Automotive Engineers</title>
-  <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/career/sae/doc.html</link>
+  <title>Apple</title>
+  <link>https://www.rsangole.com/career/apple/doc.html</link>
   <description><![CDATA[ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<!-- MiniPreview stuff here -->
+<link href="../../css/jquery.minipreview.css" rel="stylesheet">
+<script src="../../js/jquery.minipreview.js"></script>
+<script>
+    $(function() {
+        $('#p1 a').miniPreview({ prefetch: 'pageload' });
+        $('#p2 a').miniPreview({ prefetch: 'parenthover' });
+        $('#p3 a').miniPreview({ prefetch: 'none' });
+    });
+</script>
 
 
 
 
-<p><img src="https://www.rsangole.com/career/sae/talk.png" class="img-fluid"></p>
+<p><img src="https://www.rsangole.com/career/apple/talk.png" class="img-fluid"></p>
 
 
 
  ]]></description>
-  <guid>https://www.rsangole.com/career/sae/doc.html</guid>
+  <guid>https://www.rsangole.com/career/apple/doc.html</guid>
+  <pubDate>Wed, 01 Jan 2025 00:00:00 GMT</pubDate>
+  <media:content url="https://www.rsangole.com/career/apple/talk.png" medium="image" type="image/png" height="81" width="144"/>
+</item>
+<item>
+  <title>Cummins</title>
+  <link>https://www.rsangole.com/career/cummins/doc.html</link>
+  <description><![CDATA[ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<!-- MiniPreview stuff here -->
+<link href="../../css/jquery.minipreview.css" rel="stylesheet">
+<script src="../../js/jquery.minipreview.js"></script>
+<script>
+    $(function() {
+        $('#p1 a').miniPreview({ prefetch: 'pageload' });
+        $('#p2 a').miniPreview({ prefetch: 'parenthover' });
+        $('#p3 a').miniPreview({ prefetch: 'none' });
+    });
+</script>
+
+
+
+
+<p><img src="https://www.rsangole.com/career/cummins/talk.png" class="img-fluid"></p>
+<p>Stress Group, Midrange Engineering, Cummins Inc Senior Structural Analyst</p>
+<p>Mar ’10 - Present  Responsible for lubrication &amp; cooling components, and cylinder block validation for 2013 B and L engine families, and current product support for all B, C and L engine families  Analytical Work o Performed FE analyses using ANSYS Classic &amp; Workbench 12.1; modal analyses, structural analyses subject to non-linear material properties, contacts, large displacements, and gaskets o Developed calibrated FE models to predict / understand on-engine failures, and formulate solutions using analysis-led-design methods o Developed 1-D hot bolted joints tool to predict load loss of exhaust manifold capscrews at elevated temperatures o Guided analysts in off-shore location (Cummins Research and Technology India)  Experimental Work o Performed on-engine strain &amp; acceleration based validation of engine components (Frequently used tools: Waterfall plots, FFTs, Overall Levels, digital filters, Modified Goodman Plots, Reliability calculations etc.). Used FE results to decide strain gage and accelerometer locations. o Conducted ultrasonic bolted load testing, using MicroControl MC900 transient recorder, MC911 software to quantify cold relaxations, thermal relaxations, assembly loads etc. o Quantified gasket sealing pressure distributions using pressure sensitive paper (Prescale Fujifilm paper) o Determined fatigue properties using resonant dwell and staircase fatigue methods on shakers o Measured friction coefficients and strengths for bolts using Torque-Tension &amp; MTS machines  Capability Development o Developed Functional Excellence Processes for analytical &amp; experimental validation of turbocharger oil drain tubes o Developed processes for standardization of analysis and documentation of oil &amp; coolant lines, to drive efficiency, consistency and quality o Responsible for identification of opportunities for process and capability improvement, and execution of projects to drive continuous improvement o Led turbocharger stud capability; which resulted in quantification of cold joint measurement error across facilities, and determination of high temperature material properties Midrange Customer Engineering, Cummins Inc Current Product Validation Engineer</p>
+<p>Jan ’08 – Mar ’10  Managed multiple engineering projects each dealing with reducing high warranty costs on Customer Engineering component/subsystem  Lead geographically diverse teams of designers, analysts, service &amp; quality engineers, personnel at distribution centers &amp; manufacturing plants, as well as external suppliers &amp; contractors, to solve major product problems  Utilized Fault Tree Analysis method to identify potential root causes of component failure, carried out numerical analysis (FE analysis, Dimensional Variational Analysis), design of experiments, reviewed metallurgical reports, metrological reports, supplier capability reports, conducted in-field testing etc to narrow down and identify key root causes to product failure  Chaired meetings with Korean &amp; Japanese counterparts; Was responsible for Hyundai Heavy Industries’ engineering account for warrantable failures</p>
+<p>University of Michigan Recruiting Team  Represented Cummins at career fairs and information sessions  Conducted on-campus interviews for internships and full time positions</p>
+
+
+
+ ]]></description>
+  <guid>https://www.rsangole.com/career/cummins/doc.html</guid>
   <pubDate>Tue, 01 Jan 2019 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/career/sae/talk.png" medium="image" type="image/png" height="42" width="144"/>
+  <media:content url="https://www.rsangole.com/career/cummins/talk.png" medium="image" type="image/png" height="81" width="144"/>
 </item>
 <item>
   <title>SAE International</title>
-  <dc:creator>Rahul </dc:creator>
   <link>https://www.rsangole.com/career/sae_board/doc.html</link>
   <description><![CDATA[ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<!-- MiniPreview stuff here -->
+<link href="../../css/jquery.minipreview.css" rel="stylesheet">
+<script src="../../js/jquery.minipreview.js"></script>
+<script>
+    $(function() {
+        $('#p1 a').miniPreview({ prefetch: 'pageload' });
+        $('#p2 a').miniPreview({ prefetch: 'parenthover' });
+        $('#p3 a').miniPreview({ prefetch: 'none' });
+    });
+</script>
 
 
 
 
 <p><img src="https://www.rsangole.com/career/sae_board/talk.png" class="img-fluid"></p>
+<p>Growth of SAE International in Emerging Markets  Lead the Executive Team at SAE International, Warrandale, PA in a project to define the business model for growth of SAE Int’l in India  Identified Indian market requirements via Process Mapping, Voice of Business, KJ, and Voice of Customer exercises. Results were presented to the Board of Directors.</p>
 
 
 
@@ -48,22 +104,300 @@
   <media:content url="https://www.rsangole.com/career/sae_board/talk.png" medium="image" type="image/png" height="42" width="144"/>
 </item>
 <item>
-  <title>Cummins Chairmans Award</title>
-  <dc:creator>Rahul </dc:creator>
-  <link>https://www.rsangole.com/career/cummins_chairmans/doc.html</link>
+  <title>Society of Automotive Engineers</title>
+  <link>https://www.rsangole.com/career/sae/doc.html</link>
   <description><![CDATA[ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<!-- MiniPreview stuff here -->
+<link href="../../css/jquery.minipreview.css" rel="stylesheet">
+<script src="../../js/jquery.minipreview.js"></script>
+<script>
+    $(function() {
+        $('#p1 a').miniPreview({ prefetch: 'pageload' });
+        $('#p2 a').miniPreview({ prefetch: 'parenthover' });
+        $('#p3 a').miniPreview({ prefetch: 'none' });
+    });
+</script>
 
 
 
 
-<p><img src="https://www.rsangole.com/career/cummins_chairmans/talk.png" class="img-fluid"></p>
+<p><img src="https://www.rsangole.com/career/sae/talk.png" class="img-fluid"></p>
+<p>Society of Automotive Engineers (SAE) Indiana Chapter  Secretary and Communication Manager, Jan 2012 –Present  Math and Science Committee, Jan 2011 – Jan 2012</p>
 
 
 
  ]]></description>
-  <guid>https://www.rsangole.com/career/cummins_chairmans/doc.html</guid>
-  <pubDate>Tue, 01 Jan 2019 00:00:00 GMT</pubDate>
-  <media:content url="https://www.rsangole.com/career/cummins_chairmans/talk.png" medium="image" type="image/png" height="81" width="144"/>
+  <guid>https://www.rsangole.com/career/sae/doc.html</guid>
+  <pubDate>Mon, 01 Jan 2018 00:00:00 GMT</pubDate>
+  <media:content url="https://www.rsangole.com/career/sae/talk.png" medium="image" type="image/png" height="42" width="144"/>
+</item>
+<item>
+  <title>Compliant Systems &amp; Networks</title>
+  <link>https://www.rsangole.com/career/michigan/doc.html</link>
+  <description><![CDATA[ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<!-- MiniPreview stuff here -->
+<link href="../../css/jquery.minipreview.css" rel="stylesheet">
+<script src="../../js/jquery.minipreview.js"></script>
+<script>
+    $(function() {
+        $('#p1 a').miniPreview({ prefetch: 'pageload' });
+        $('#p2 a').miniPreview({ prefetch: 'parenthover' });
+        $('#p3 a').miniPreview({ prefetch: 'none' });
+    });
+</script>
+
+
+
+
+<p><img src="https://www.rsangole.com/career/michigan/iris.jpg" class="img-fluid"></p>
+<p>Compliant Systems Design Lab Research Assistant</p>
+<p>University of Michigan Fall ’06 – Fall ’07</p>
+<p> Designed and modeled non-linear compact torsional springs using compliant members  Developed algorithms to optimize geometry and material parameters using Matlab, ANSYS Classic &amp; Optimus to obtain any desired non-linear force – deflection behavior  Generated a library of behavioral curves thru optimization &amp; DOE for further research and development Engineering Research Center, National Institute of Science &amp; Technology Intern</p>
+<p>Univ of Michigan Summer ’07  Developed a semiconductor factory network simulator to investigate IEEE 1588 time synchronization techniques in distributed systems in industrial Ethernet  Implemented modules handling data requests &amp; reports in XML, JAXB complying with SEMI standards. Achieved weekly goals in conjunction with a team in NIST, Maryland</p>
+<p>Optimization of kinematic linkages of Caterpillar backhoe vehicle Winter ’07  Generated mathematical model of kinematic behavior of digging mechanism &amp; hydraulic actuator system  Performed multi-variable design optimization of power consumption by actuator sizing &amp; selection of actuator pin locations resulting in lower power consumption Mechatronic Gauge for Piano Regulation (Patent in progress) Client: Piano Technology Department, U of M School of Music</p>
+<p>Winter ’07  Designed &amp; implemented a feedback control algorithm for constant velocity arm deflection and reaction force calculation in C++, LabVIEW using optical encoders &amp; OOPIC microcontrollers  Surpassed expectations of client – 80% reduction in measurement time, 0.01 gm least count achieved</p>
+<p>Page | 3 PAPERS  ‘Precise Time Synchronization in Semiconductor Manufacturing’, Proceedings of the IEEE 1588</p>
+<p>Conference, October 2007  ‘Time synchronization for diagnostics and control in Ethernet-based applications’, Proceedings of the American Controls Conference, June 2008</p>
+
+
+
+ ]]></description>
+  <guid>https://www.rsangole.com/career/michigan/doc.html</guid>
+  <pubDate>Mon, 01 Jan 2007 00:00:00 GMT</pubDate>
+  <media:content url="https://www.rsangole.com/career/michigan/umich.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>KVPY 2004 &amp; IIT Bombay Aerospace</title>
+  <link>https://www.rsangole.com/career/iitb/doc.html</link>
+  <description><![CDATA[ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<!-- MiniPreview stuff here -->
+<link href="../../css/jquery.minipreview.css" rel="stylesheet">
+<script src="../../js/jquery.minipreview.js"></script>
+<script>
+    $(function() {
+        $('#p1 a').miniPreview({ prefetch: 'pageload' });
+        $('#p2 a').miniPreview({ prefetch: 'parenthover' });
+        $('#p3 a').miniPreview({ prefetch: 'none' });
+    });
+</script>
+
+
+
+
+<p>At 19, I received a letter that felt like a launchpad: I’d been selected for the <span id="p2"><a href="https://www.indiascienceandtechnology.gov.in/programme-schemes/human-resource-and-development/kishore-vaigyanik-protsahan-yojana-kvpy">Kishore Vaigyanik Protsahan Yojana (KVPY)</a></span> scholarship, a prestigious program to nurture India’s young scientific talent. It was my ticket to IIT Bombay’s Aerospace Engineering Department, where I joined <span id="p2"><a href="https://www.aero.iitb.ac.in/~rkpant/">Prof.&nbsp;R. K. Pant’s team</a></span> to build remotely operated airships—innovative, lighter-than-air vehicles with the potential to transform transport and surveillance, all crafted indigenously in India.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><a href="kvpy11.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.rsangole.com/career/iitb/kvpy11.jpg" class="img-fluid"></a></p>
+</div></div><p>In the summer of 2004, I dove into the Lighter-Than-Air (LTA) Systems Laboratory as part of the <span id="p2"><a href="https://www.aero.iitb.ac.in/~airships/WEBPAGES/team.html">Program on Airship Design &amp; Development (PADD)</a></span> team. My role? Designing and fabricating the envelope for a small indoor airship, a delicate yet critical component that had to balance lightweight materials with helium containment. But the real magic—and challenge—came in optimizing the hull’s aerodynamics. I spent countless late nights fueled by coffee, huddled over computers with teammates like Rohit and Kshitija. We were learning to set up meshes, define boundary conditions, and run computational fluid dynamics (CFD) simulations to calculate drag coefficients. Each simulation felt like a puzzle: one wrong setting, and the results were nonsense. But when we finally nailed it, watching the drag numbers align with our predictions was pure exhilaration.</p>
+<p>Prof.&nbsp;Pant was our guiding star. He saw us for what we were—young, inexperienced, but brimming with potential. His patience was remarkable; he never rushed us, instead offering gentle nudges to keep us on track while encouraging us to explore. “An airship flies on ideas as much as helium,” he’d say, sparking our creativity. His mentorship taught me that innovation isn’t just about technical skill—it’s about curiosity, resilience, and trust in a team’s potential. I’ll never forget the moment our airship lifted off, hovering smoothly at 10 meters. It was a small victory, but to us, it felt like we’d conquered the sky.</p>
+<div class="grid" data-masonry="{ &quot;itemSelector&quot;: &quot;.grid-item&quot;, &quot;gutter&quot;: 1 }">
+<div class="grid-item">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="blue-1.jpg" class="lightbox" data-gallery="sketches" title="example-caption-01"><img src="https://www.rsangole.com/career/iitb/blue-1.jpg" class="img-fluid figure-img" alt="example-caption-01"></a></p>
+<figcaption>example-caption-01</figcaption>
+</figure>
+</div>
+</div>
+<div class="grid-item">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="blue-airship.jpg" class="lightbox" data-gallery="sketches" title="example-caption-02"><img src="https://www.rsangole.com/career/iitb/blue-airship.jpg" class="img-fluid figure-img" alt="example-caption-02"></a></p>
+<figcaption>example-caption-02</figcaption>
+</figure>
+</div>
+</div>
+<div class="grid-item">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="kvpy01.jpg" class="lightbox" data-gallery="sketches" title="example-caption-03"><img src="https://www.rsangole.com/career/iitb/kvpy01.jpg" class="img-fluid figure-img" alt="example-caption-03"></a></p>
+<figcaption>example-caption-03</figcaption>
+</figure>
+</div>
+</div>
+<div class="grid-item">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="kvpy02.jpg" class="lightbox" data-gallery="sketches" title="example-caption-04"><img src="https://www.rsangole.com/career/iitb/kvpy02.jpg" class="img-fluid figure-img" alt="example-caption-04"></a></p>
+<figcaption>example-caption-04</figcaption>
+</figure>
+</div>
+</div>
+<div class="grid-item">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="kvpy03.jpg" class="lightbox" data-gallery="sketches" title="example-caption-05"><img src="https://www.rsangole.com/career/iitb/kvpy03.jpg" class="img-fluid figure-img" alt="example-caption-05"></a></p>
+<figcaption>example-caption-05</figcaption>
+</figure>
+</div>
+</div>
+<div class="grid-item">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="kvpy04.jpg" class="lightbox" data-gallery="sketches" title="example-caption-06"><img src="https://www.rsangole.com/career/iitb/kvpy04.jpg" class="img-fluid figure-img" alt="example-caption-06"></a></p>
+<figcaption>example-caption-06</figcaption>
+</figure>
+</div>
+</div>
+<div class="grid-item">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="kvpy05.jpg" class="lightbox" data-gallery="sketches" title="example-caption-07"><img src="https://www.rsangole.com/career/iitb/kvpy05.jpg" class="img-fluid figure-img" alt="example-caption-07"></a></p>
+<figcaption>example-caption-07</figcaption>
+</figure>
+</div>
+</div>
+<div class="grid-item">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="kvpy06.jpg" class="lightbox" data-gallery="sketches" title="example-caption-08"><img src="https://www.rsangole.com/career/iitb/kvpy06.jpg" class="img-fluid figure-img" alt="example-caption-08"></a></p>
+<figcaption>example-caption-08</figcaption>
+</figure>
+</div>
+</div>
+<div class="grid-item">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="kvpy08.jpg" class="lightbox" data-gallery="sketches" title="example-caption-09"><img src="https://www.rsangole.com/career/iitb/kvpy08.jpg" class="img-fluid figure-img" alt="example-caption-09"></a></p>
+<figcaption>example-caption-09</figcaption>
+</figure>
+</div>
+</div>
+<div class="grid-item">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="kvpy09.jpg" class="lightbox" data-gallery="sketches" title="example-caption-010"><img src="https://www.rsangole.com/career/iitb/kvpy09.jpg" class="img-fluid figure-img" alt="example-caption-010"></a></p>
+<figcaption>example-caption-010</figcaption>
+</figure>
+</div>
+</div>
+<div class="grid-item">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="kvpy10.jpg" class="lightbox" data-gallery="sketches" title="example-caption-011"><img src="https://www.rsangole.com/career/iitb/kvpy10.jpg" class="img-fluid figure-img" alt="example-caption-011"></a></p>
+<figcaption>example-caption-011</figcaption>
+</figure>
+</div>
+</div>
+<div class="grid-item">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="kvpy11.jpg" class="lightbox" data-gallery="sketches" title="example-caption-012"><img src="https://www.rsangole.com/career/iitb/kvpy11.jpg" class="img-fluid figure-img" alt="example-caption-012"></a></p>
+<figcaption>example-caption-012</figcaption>
+</figure>
+</div>
+</div>
+<div class="grid-item">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="kvpy12.jpg" class="lightbox" data-gallery="sketches" title="example-caption-013"><img src="https://www.rsangole.com/career/iitb/kvpy12.jpg" class="img-fluid figure-img" alt="example-caption-013"></a></p>
+<figcaption>example-caption-013</figcaption>
+</figure>
+</div>
+</div>
+<div class="grid-item">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="kvpy13.jpg" class="lightbox" data-gallery="sketches" title="example-caption-014"><img src="https://www.rsangole.com/career/iitb/kvpy13.jpg" class="img-fluid figure-img" alt="example-caption-014"></a></p>
+<figcaption>example-caption-014</figcaption>
+</figure>
+</div>
+</div>
+<div class="grid-item">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="kvpy14.jpg" class="lightbox" data-gallery="sketches" title="example-caption-015"><img src="https://www.rsangole.com/career/iitb/kvpy14.jpg" class="img-fluid figure-img" alt="example-caption-015"></a></p>
+<figcaption>example-caption-015</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<!-- 
+
+
+::: {.cell}
+
+```{.r .cell-code}
+img_files <- fs::dir_ls(here::here("career/iitb"), glob="*.jpg")
+img_captions <- paste0("example-caption-0", seq_along(img_files))
+cat(glue::glue("
+  :::{{.grid-item}}
+  ![{img_captions}]({img_files}){{group='sketches'}}
+  :::"),
+  sep = "\n"
+)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+:::{.grid-item}
+![example-caption-01](/workspaces/blog/career/iitb/blue-1.jpg){group='sketches'}
+:::
+:::{.grid-item}
+![example-caption-02](/workspaces/blog/career/iitb/blue-airship.jpg){group='sketches'}
+:::
+:::{.grid-item}
+![example-caption-03](/workspaces/blog/career/iitb/kvpy01.jpg){group='sketches'}
+:::
+:::{.grid-item}
+![example-caption-04](/workspaces/blog/career/iitb/kvpy02.jpg){group='sketches'}
+:::
+:::{.grid-item}
+![example-caption-05](/workspaces/blog/career/iitb/kvpy03.jpg){group='sketches'}
+:::
+:::{.grid-item}
+![example-caption-06](/workspaces/blog/career/iitb/kvpy04.jpg){group='sketches'}
+:::
+:::{.grid-item}
+![example-caption-07](/workspaces/blog/career/iitb/kvpy05.jpg){group='sketches'}
+:::
+:::{.grid-item}
+![example-caption-08](/workspaces/blog/career/iitb/kvpy06.jpg){group='sketches'}
+:::
+:::{.grid-item}
+![example-caption-09](/workspaces/blog/career/iitb/kvpy08.jpg){group='sketches'}
+:::
+:::{.grid-item}
+![example-caption-010](/workspaces/blog/career/iitb/kvpy09.jpg){group='sketches'}
+:::
+:::{.grid-item}
+![example-caption-011](/workspaces/blog/career/iitb/kvpy10.jpg){group='sketches'}
+:::
+:::{.grid-item}
+![example-caption-012](/workspaces/blog/career/iitb/kvpy11.jpg){group='sketches'}
+:::
+:::{.grid-item}
+![example-caption-013](/workspaces/blog/career/iitb/kvpy12.jpg){group='sketches'}
+:::
+:::{.grid-item}
+![example-caption-014](/workspaces/blog/career/iitb/kvpy13.jpg){group='sketches'}
+:::
+:::{.grid-item}
+![example-caption-015](/workspaces/blog/career/iitb/kvpy14.jpg){group='sketches'}
+:::
+```
+
+
+:::
+:::
+
+
+-->
+<p>That KVPY summer wasn’t just about building airships. It was about building confidence, grit, and a passion for solving complex problems. Those late nights and Prof.&nbsp;Pant’s wisdom laid the foundation for my journey across industries, where I still chase the thrill of turning ideas into reality.</p>
+
+
+
+ ]]></description>
+  <guid>https://www.rsangole.com/career/iitb/doc.html</guid>
+  <pubDate>Thu, 01 Jan 2004 00:00:00 GMT</pubDate>
+  <media:content url="https://www.rsangole.com/career/iitb/blue-1.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>

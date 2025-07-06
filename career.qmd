@@ -3,14 +3,14 @@ title: ""
 listing:
   contents: career
   sort: "date desc"
-  type: default
+  type: table
   categories: false
   feed: true
   fields: 
-    - date
+    # - date
     - title
-    - reading-time
-    - categories
+    # - reading-time
+    # - categories
     - description
     - image
 page-layout: full
